@@ -96,6 +96,12 @@ class FakeTransport:
 
     def _put(self, addr: int, b: np.ndarray) -> None:
         """Logical bytes at any address into the two channels (64-byte beats alternate)."""
+        if addr % 128 == 0 and len(b) % 128 == 0:
+            beats = b.reshape(-1, 2, 64)
+            off, size = addr // 2, len(b) // 2
+            for channel in (0, 1):
+                self.ch[channel][off:off + size] = beats[:, channel, :].reshape(-1)
+            return
         i = 0
         while i < len(b):
             x = addr + i

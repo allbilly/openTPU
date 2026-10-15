@@ -138,7 +138,7 @@ class IsaCard(FakeTransport):
         m.run()
         new = m.slices[0].dram
         la, ln = self.late
-        t0 = self.t_run = time.perf_counter()           # the run starts now
+        t0 = 0.0                                      # event offsets until setup is complete
         new_late = new[la:la + ln].copy()
         new[la:la + ln] = dram[la:la + ln]                # the logits come later
         for c, off, part in split(0, new):
@@ -162,6 +162,12 @@ class IsaCard(FakeTransport):
             for j, (c, off, part) in enumerate(split(la + o, buf)):
                 # channel 0's beats a little before channel 1's
                 ev.append((t + 0.002 * j, c, off, part[:len(part)]))
+        # Preparing channel images and event payloads can take longer than run_s on a
+        # loaded host. Start the modeled run after that work, so the driver still gets
+        # the full interval to observe the fill and the pieces arriving during a run.
+        t0 = self.t_run = time.perf_counter()
+        self.t_fill = None if self.t_fill is None else self.t_fill + t0
+        ev = [(t + t0, c, off, b) for t, c, off, b in ev]
         if fills and self.anchor is not None and self.anchor(self.runs):
             self.t_run, self.ahead = float("inf"), (t0, ev)      # HALTED waits too
         else:

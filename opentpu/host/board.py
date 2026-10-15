@@ -372,10 +372,13 @@ class XdmaTransport:
         # exact: the condition was seen by back-to-back reads that saw it false just before
         # (not at the first read, nor after a sleep): its time is known to a read
         self.poll_exact = False
+        self.poll_false_at = None
         while True:
+            read_at = time.perf_counter()
             r = self.reg_read(off)
             if r & mask == val:
                 return r
+            self.poll_false_at = read_at
             self.poll_exact = True
             el = time.perf_counter() - t0
             if el > timeout:
@@ -601,6 +604,9 @@ class Board:
                      ddr_mts=(mts or None) if cp & R.CAP_DDR else None)
             if cp & R.CAP_ACT:
                 d["act_rows"] = self.t.reg_read(R.R_ACT_ROWS)
+        sensor = getattr(self.t, "read_die_temperature", None)
+        if sensor is not None:
+            d["temp_c"] = sensor()
         self._info = d
         return d
 
@@ -697,6 +703,10 @@ class Board:
             return False
         if not force and self.t.reg_read(R.R_SCRATCH) == R.DRAM_INIT:
             return False
+        if hasattr(self.t, "scrub"):
+            self.t.scrub()
+            self.t.reg_write(R.R_SCRATCH, R.DRAM_INIT)
+            return True
         z = placed(64 << 20, 0)             # zeros, placed: no bounce copies
         for c in (0, 1):
             for off in range(0, CH_BYTES, len(z)):
@@ -796,16 +806,25 @@ class Board:
         t.reg_write(R_CTRL, CTRL_RUN)
         self._t_run = time.perf_counter()
 
-    def wait(self, timeout: float = 600.0, expect: float = 0.0) -> dict:
+    def wait(self, timeout: float = 600.0, expect: float = 0.0, *,
+             halted: tuple[int, float] | None = None) -> dict:
         """Wait for the started program to halt; returns the counters (run's second half).
-        expect counts from the start (the host's work in between is taken off)."""
+        expect counts from the start (the host's work in between is taken off).
+        halted is a status word and post-read timestamp already observed by the caller."""
         t = self.t
-        if expect:
+        if expect and halted is None:
             expect = max(expect - (time.perf_counter() - self._t_run), 1e-9)
         traced = self._trace is not None
         depth, keep_first = self._trace or (0, True)
-        st0 = t.poll(R_STATUS, ST_HALTED, ST_HALTED, timeout, expect)
-        self.t_seen = time.perf_counter()           # HALTED seen (BoardBackend's run time)
+        if halted is None:
+            st0 = t.poll(R_STATUS, ST_HALTED, ST_HALTED, timeout, expect)
+            self.t_seen = time.perf_counter()       # HALTED seen (BoardBackend's run time)
+            self.t_not_halted = getattr(t, "poll_false_at", None)
+        else:
+            st0, seen = halted
+            if not st0 & ST_HALTED:
+                raise ValueError("the supplied status observation must contain HALTED")
+            self.t_seen, self.t_not_halted = seen, None
         # HALTED rises once the last store has left the core, not when the DRAM has it
         # (WR_IDLE: the memory adapter's writes all answered); the host reads the results
         # next, and a read may pass writes in flight: wait for WR_IDLE (bounded; the board
@@ -814,7 +833,7 @@ class Board:
                 time.perf_counter() - self.t_seen < WR_SETTLE:
             st0 = t.reg_read(R_STATUS)
         self.in_run = False
-        self.seen_exact = getattr(t, "poll_exact", False)   # else an upper bound
+        self.seen_exact = halted is None and getattr(t, "poll_exact", False)  # else upper bound
         if traced:                      # the last cycles' events still drain into the buffer
             t.poll(R.R_TRACE_CTRL, R.TR_BUSY, 0, timeout)
         offs = self.RUN_OFFS + ([R.R_TRACE_COUNT, R.R_TRACE_DROP] if traced else [])
@@ -1162,12 +1181,14 @@ class BoardBackend:
         the region, uint32 words), most of them while the run goes on."""
         programs = self._running              # (running until it halts: run_clock, polled
         try:                                    # by the host hook during _serve)
+            halted = None
             if self._stream is not None:
-                self._stream_logits(feed)
+                halted = self._stream_logits(feed)
             elif self.host is not None:
-                self._serve()
-            # halted already (seen by the streamed wait): read the counters, no sleep
-            st = self.board.wait(expect=0.0 if self._seen else self._expect)
+                halted = self._serve()
+            # Reuse a completed HALT observation; still drain writes and read the counters.
+            st = self.board.wait(halted=halted) if halted is not None else \
+                self.board.wait(expect=self._expect)
             if self._stream is not None:
                 self._stream_tail(feed)
         except BaseException:
@@ -1185,17 +1206,18 @@ class BoardBackend:
             self.status.token(st["cycles"], khz, dram=self._layout(True))
         return st
 
-    def _serve(self) -> None:
+    def _serve(self) -> tuple[int, float] | None:
         """Serve the host hook until the run halts (not on the board model, which runs a
         script: no host during a run)."""
         t = self.board.t
         if getattr(t, "batched", False):
             return
         idle = getattr(t, "host_idle", HOST_IDLE)
-        while not t.reg_read(R_STATUS) & ST_HALTED:
+        while not (status := t.reg_read(R_STATUS)) & ST_HALTED:
             if not self.host() and idle:
                 time.sleep(idle)
         self._seen = time.perf_counter()
+        return status, self._seen
 
     def _next_expect(self, dev: float) -> float:
         """The next run's expected wall time: this run's device time (CYCLES / CORE_KHZ) times
@@ -1207,19 +1229,27 @@ class BoardBackend:
         t_run = getattr(self.board, "_t_run", None)
         if dev > 0 and seen is not None and t_run is not None:
             r = (seen - t_run) / dev
-            # halted at the first read after a sleep (or by the streamed wait's probes): the
-            # run ended some time before, so the ratio may only come down to it; halted by
-            # back-to-back reads that saw it running: within a read of the end
+            # A HALT seen after a sleep (or streaming probes) gives an upper bound.
+            # Back-to-back reads that saw it running locate the end within a read.
             upper = streamed is not None or not getattr(self.board, "seen_exact", False)
-            if 0.9 < r < 1.1 and (r < self._ratio or not upper):
-                self._ratio = 0.5 * self._ratio + 0.5 * r
+            learn = r < self._ratio or not upper
+            if upper and not learn:
+                # A false read after the estimate proves the run is longer, even if
+                # HALTED was then seen after an oversleep. Use that lower bound.
+                lower = getattr(self.board, "t_not_halted", None)
+                if lower is not None:
+                    r = (lower - t_run) / dev
+                    learn = r > self._ratio
+            if 0.9 < r < 1.1 and learn:
+                self._ratio = r if upper and r > self._ratio else \
+                    0.5 * self._ratio + 0.5 * r
         return dev * self._ratio
 
     def _pieces(self):
         addr, n, piece = self._stream[:3]
         return [(o, min(piece, n - o)) for o in range(0, n, piece)]
 
-    def _stream_logits(self, feed) -> None:
+    def _stream_logits(self, feed) -> tuple[int, float] | None:
         """Hand over the pieces before the last one while the run goes on: probe a piece's
         last beat from STREAM_EARLY before its completion time of the last token (or every
         STREAM_PROBE), read it once the beat is written, check every word, mark it again.
@@ -1233,22 +1263,27 @@ class BoardBackend:
         pieces, due = self._pieces(), {}
         t0, i, probes, tries = b._t_run, 0, 0, 0
         halted = False
-        # from POLL_EARLY (+ 3%) before the expected end on, the slices are short, so a run
-        # that ends while a piece is awaited is seen within ~POLL_MIN_SLEEP (1 ms slices: Qwen3,
-        # whose next-to-last piece comes near the end, saw HALTED 0.7-0.8 ms late on the card)
+        # Check without sleeping near the expected end, as the ordinary poll does.
+        # Beyond that bounded window use short slices; earlier slices can be 1 ms.
         near = self._expect - POLL_EARLY - 0.03 * self._expect if self._expect else float("inf")
+        spin_end = self._expect + POLL_SPIN
         while i < len(pieces) - 1:
             d = self._due.get(i)
             # a piece's time of the last token may be past this run's end (a token delayed
             # by the host): HALTED is checked after every slice, not only at the piece's time
             while d is not None and (now := time.perf_counter() - t0) < d - STREAM_EARLY:
-                cap = 1e-3 if now < near else POLL_MIN_SLEEP
-                time.sleep(min(d - STREAM_EARLY - now, cap))    # slices: sleeps overshoot
-                if t.reg_read(R_STATUS) & ST_HALTED:
+                if now < near or now > spin_end:
+                    cap = min(1e-3, near - now) if now < near else POLL_MIN_SLEEP
+                    time.sleep(min(d - STREAM_EARLY - now, cap))    # sleeps overshoot
+                status = t.reg_read(R_STATUS)
+                if status & ST_HALTED:
                     halted = True
                     break
-            if halted or t.reg_read(R_STATUS) & ST_HALTED:
+            if not halted:
+                status = t.reg_read(R_STATUS)
+            if halted or status & ST_HALTED:
                 self._seen = time.perf_counter()
+                halted = True
                 break
             if gate is not None:
                 if t.reg_read(R_ICOUNT) < gate:        # the fill has not landed yet
@@ -1268,21 +1303,26 @@ class BoardBackend:
             if w is None:
                 # near the expected end the retry is short too: the run may end while this
                 # piece is awaited (a 0.1 ms retry left HALTED seen 0.15 ms late on the card)
-                late_run = time.perf_counter() - t0 >= near
-                time.sleep(POLL_MIN_SLEEP if late_run else
-                           STREAM_RETRY if d is not None else STREAM_PROBE)
+                now = time.perf_counter() - t0
+                if now < near or now > spin_end:
+                    delay = POLL_MIN_SLEEP if now >= near else \
+                        STREAM_RETRY if d is not None else STREAM_PROBE
+                    time.sleep(min(delay, near - now) if now < near else delay)
                 continue
+            # A slow consumer must not push the next token's completion hint later.
+            complete_at = time.perf_counter() - t0
             feed(o, w)
             # complete at the first probe: it may have been for a while, so probe earlier
             # next token; else it came between the last two probes
             due[i] = d - STREAM_EARLY if tries == 1 and d is not None else \
-                time.perf_counter() - t0
+                complete_at
             # its SENTINEL marks go back after the run (with the tail's): a write here
             # kept the host busy when the run ended (HALTED seen up to 0.15 ms late), and
             # more than RUN_H2C a call must not meet the run
             i, tries = i + 1, 0
         self._due.update(due)
         self.last_stream = {"during": i, "pieces": len(pieces), "probes": probes}
+        return (status, self._seen) if halted else None
 
     def _stream_tail(self, feed) -> None:
         """After HALTED: the pieces not handed over yet, in one read and one feed."""

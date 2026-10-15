@@ -1,0 +1,5 @@
+# Scoped runtime-PM experiment for the DLC10 before and after firmware loading.
+# Install as root, reload udev rules, then reconnect the adapter.
+# This prevents device autosuspend; it does not repair failed USB enumeration.
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="03fd", ATTR{idProduct}=="0013", TEST=="power/control", ATTR{power/control}="on"
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="03fd", ATTR{idProduct}=="0008", TEST=="power/control", ATTR{power/control}="on"

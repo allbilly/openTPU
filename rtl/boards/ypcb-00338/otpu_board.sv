@@ -30,6 +30,7 @@ module otpu_board #(
   parameter int TRACE_QD    = 32,      // trace capture queue (cycles with events)
   parameter int PQ_WIN      = 1024,    // cycles per P/Q counter window
   parameter bit HAS_I2C     = 1'b1,    // the I2C pins are wired (CAPS bit2)
+  parameter bit HAS_TEMP    = 1'b1,    // fabric temperature input (CAPS bit1)
   parameter bit CHASH       = 1'b1,    // hashed channel interleave (otpu_native_dram; CAPS bit7)
   parameter bit DSTEP       = 1'b1,    // the DMA's DSTEP datapath (CAPS bit6; 0 leaves it out)
   parameter bit HOSTCAL     = 1'b0     // the host calibrates the DDR3 controllers (CAPS bit27: LiteDRAM)
@@ -96,7 +97,7 @@ module otpu_board #(
     if (rst) begin
       temp_q <= '0;
       temp_v <= 1'b0;
-    end else if (tmp_s2 == tmp_s3 && cal_s2[0] && tmp_s3 != '0) begin
+    end else if (HAS_TEMP && tmp_s2 == tmp_s3 && cal_s2[0] && tmp_s3 != '0) begin
       temp_q <= tmp_s3;
       temp_v <= 1'b1;
     end
@@ -127,7 +128,7 @@ module otpu_board #(
   logic [63:0] tr_rdata;
 
   otpu_ctrl #(.D(D), .MCOLS(MCOLS), .ACT_ROWS(ACT_ROWS), .LANES(LANES), .CORE_KHZ(CORE_KHZ), .BUILD_ID(BUILD_ID),
-              .DDR_MTS(DDR_MTS), .TRACE_DEPTH(TRACE_DEPTH), .PQ_WIN(PQ_WIN), .HAS_TEMP(1'b1),
+              .DDR_MTS(DDR_MTS), .TRACE_DEPTH(TRACE_DEPTH), .PQ_WIN(PQ_WIN), .HAS_TEMP(HAS_TEMP),
               .HAS_I2C(HAS_I2C), .CHASH(CHASH), .DSTEP(DSTEP), .HOSTCAL(HOSTCAL)) u_ctrl (
     .clk, .rst,
     .s_awaddr(s_ctl_awaddr), .s_awvalid(s_ctl_awvalid), .s_awready(s_ctl_awready),

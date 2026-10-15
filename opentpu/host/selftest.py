@@ -116,7 +116,7 @@ class Runner:
 
 
 @busy_exits
-def main(argv=None) -> int:
+def main(argv=None, open_transport=None) -> int:
     ap = argparse.ArgumentParser(prog="otpu-selftest", description=__doc__.split("\n")[0])
     ap.add_argument("--sim", action="store_true", help="the Verilator board model")
     ap.add_argument("--dev", default="/dev/xdma0")
@@ -135,7 +135,7 @@ def main(argv=None) -> int:
         t = SimTransport(ch_bytes=ch_bytes)
     else:
         ch_bytes = CH_BYTES
-        t = XdmaTransport(a.dev)
+        t = open_transport(a.dev) if open_transport else XdmaTransport(a.dev)
     cfg = None                                            # from the bitstream (stage config)
     print(f"openTPU self-test on {'the board model' if a.sim else a.dev}")
     r = Runner()
@@ -221,6 +221,8 @@ def main(argv=None) -> int:
     def bw():
         if a.sim:
             return True, "skipped on the model"
+        if not getattr(t, "bandwidth_test", True):
+            return True, "skipped: serial JTAG transport; PCIe bandwidth is not measured"
         w, rd, wb = bandwidth(t, a.bw_mib << 20)
         ok = w > 0.5 and rd > 0.5
         return ok, (f"host->card {w:.2f} GB/s, card->host {rd:.2f} GB/s (placed buffers; "

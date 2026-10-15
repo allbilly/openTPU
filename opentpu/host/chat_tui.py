@@ -313,7 +313,6 @@ class ChatApp(App):
         self._t_submit = 0.0
         self._turn: Turn | None = None   # the turn running (or the last one)
         self._reply: Reply | None = None
-        self._stream = None             # the reply's MarkdownStream while it runs
         self._marker: Static | None = None
         self._lock = threading.Lock()
         self._pending: tuple[list[str], Turn] | None = None   # tokens not yet shown
@@ -554,18 +553,12 @@ class ChatApp(App):
                 self._reply = Reply()
                 await self._add(self._reply)          # before the first write reaches it
             if (k := self._reply.split(delta)) is not None:   # the next part
-                if self._stream is not None:
-                    await self._stream.write(delta[:k])
-                    await self._stream.stop()
-                    self._stream = None
-                else:
-                    await self._reply.md.append(delta[:k])
+                await self._reply.md.append(delta[:k])
                 self._reply.trim()              # its blocks are all mounted now
                 await self._reply.new_part()
                 delta = delta[k:]
-            if self._stream is None:        # appends, re-parsing only the last block
-                self._stream = Markdown.get_stream(self._reply.md)
-            await self._stream.write(delta)
+            # _drain already batches tokens; mount their blocks before sizing the reply.
+            await self._reply.md.append(delta)
             self._reply.text += delta
             self._reply.trim()
             self.query_one("#log", VerticalScroll).scroll_end(animate=False)
@@ -573,9 +566,6 @@ class ChatApp(App):
 
     async def _done(self, turn: Turn | None) -> None:
         await self._drain()
-        if self._stream is not None:
-            await self._stream.stop()
-            self._stream = None
         if self._reply is not None:
             self._reply.trim(end=True)
         self._busy = ""

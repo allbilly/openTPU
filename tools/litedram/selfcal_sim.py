@@ -17,6 +17,7 @@ LiteX (the SoC's Verilog), Verilator and a C++ compiler; ddrcal from this tree.
 import argparse
 import ctypes
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -209,6 +210,8 @@ class Sim:
     def __init__(self, lib, core, csr):
         """csr: the model (ddrcal's w / r on names) behind the CPU's window."""
         from opentpu.host import ddrcal as C
+        import fw
+        self.sys_hz = int(fw.config(core)[1].phy["sys_hz"])
         self.lib = ctypes.CDLL(str(lib))
         for f in (self.lib.sim_cycles, self.lib.sim_model_ops, self.lib.sim_fetches, self.lib.sim_stat):
             f.restype = ctypes.c_uint64
@@ -268,13 +271,22 @@ class Sim:
     def ready(self):
         return self.lib.sim_ready()
 
-    def profile(self, elf, nm="riscv64-elf-nm"):
+    def profile(self, elf, nm=None):
         """Cycles per firmware function since the last call (the last fetched word's)."""
+        nm = nm or os.environ.get("RV_NM") or next(
+            (path for name in ("riscv64-elf-nm", "llvm-nm", "nm")
+             if (path := shutil.which(name))), None)
+        if nm is None:
+            raise FileNotFoundError("No firmware symbol reader found; set RV_NM")
         buf = (ctypes.c_uint64 * 4096)()
         self.lib.sim_prof(buf)
         syms = []
-        for line in subprocess.run([nm, "-n", str(elf)], capture_output=True, text=True).stdout.splitlines():
-            a, k, name = line.split()[:3]
+        for line in subprocess.run([nm, "-n", str(elf)], capture_output=True,
+                                   text=True, check=True).stdout.splitlines():
+            fields = line.split()
+            if len(fields) < 3:
+                continue
+            a, k, name = fields[:3]
             if k.lower() == "t":
                 syms.append((int(a, 16), name))
         out = {}
@@ -292,7 +304,7 @@ def run_until_done(sim, limit, chunk=2_000_000, log=print):
         sim.run(chunk)
         st = sim.r("selfcal_state")
         if st & 0x80:
-            log(f"  done at {sim.cycles() / 133.333e6:.3f} s simulated ({sim.cycles()} cycles, "
+            log(f"  done at {sim.cycles() / sim.sys_hz:.3f} s simulated ({sim.cycles()} cycles, "
                 f"{time.time() - t0:.0f} s wall), state {st:#x}")
             return st
     raise TimeoutError(f"not done after {limit} cycles (state {sim.r('selfcal_state'):#x})")
@@ -342,7 +354,7 @@ def main():
         sim.w("selfcal_config", 3 | a.stride << 8)
         sim.w("selfcal_hold", 0)
     print(f"status {sim.r('selfcal_status'):#x} (magic {S.MAGIC:#x}), config {sim.r('selfcal_config'):#x}")
-    run_until_done(sim, 60 * 133_333_000)
+    run_until_done(sim, 60 * sim.sys_hz)
     prof = sim.profile(a.core / "selfcal_fw" / "selfcal.elf")
     tot = sum(prof.values())
     print("profile: " + ", ".join(f"{k} {v / tot:.0%}" for k, v in list(prof.items())[:8])
@@ -396,7 +408,7 @@ def upload_test(sim, core, out, t, first, dec, S, fw_id=0xB0B0CAFE):
           f"({sim.cycles()} cycles)")
     n0 = len(t.log)
     S.release(sim)
-    run_until_done(sim, sim.cycles() + 60 * 133_333_000)
+    run_until_done(sim, sim.cycles() + 60 * sim.sys_hz)
     again = t.log[n0:]
     mb = S.mailbox(sim)
     p = fw.config(core)[1].phy
@@ -429,7 +441,7 @@ def hold_test(sim, t, S):
     print(f"released: {n - n0} writes in 3M cycles, c0_ready {sim.ready() & 1}; held mid-scan: "
           f"{held}, {len(t.log) - n1} writes in the 2M cycles after")
     sim.w("selfcal_hold", 0)
-    run_until_done(sim, sim.cycles() + 60 * 133_333_000)
+    run_until_done(sim, sim.cycles() + 60 * sim.sys_hz)
     ok &= sim.ready() == 3
     print(f"after release: c0/c1_ready {sim.ready():#x}")
     return ok

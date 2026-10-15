@@ -2,6 +2,7 @@ build/
 __pycache__/
 *.pyc
 .pytest_cache/
+opentpu.egg-info/
 obj_dir/
 models/
 .claude/

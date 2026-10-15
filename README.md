@@ -179,6 +179,23 @@ otpu-chat --model lfm2 --backend isa    # chat on the simulator
 With a card, build the bitstream (`make bit` in [`boards/ypcb-00338`](boards/ypcb-00338)), load
 it over JTAG, then run `sudo otpu-setup` and `otpu-chat --backend board`.
 [docs/board.md](docs/board.md) walks through the bring-up.
+The upstream FPGA build uses full Vivado. For Linux dependencies and portable
+commands, see [Linux setup](docs/linux_setup.md). For this workspace's
+openXC7 port and JTAG-only first connection, see
+[hardware bring-up notes](docs/fedora_bringup.md); its implementation and
+hardware validation status are tracked separately from the results above.
+For the tested standalone JTAG image, follow the
+[Vivado bitstream guide](docs/vivado_bitstream_guide.md). Exact file locations,
+the JTAG/PCIe build differences and current verification status are in the
+[bitstream index](docs/bitstreams.md); the
+[permanent PCIe guide](docs/permanent_pcie_ch1.md) records the completed flash
+write and pending PCIe host test. The
+[OpenXC7 bitstream plan](docs/openxc7_bitstream_plan.md) records the preserved
+placement, live routing measurements, upstream fixes and remaining checks.
+The current status and elapsed times are in [progress.md](progress.md).
+The canonical local checkout is `~/openTPU`; shared tools and the other
+projects are under `~/ypcb`. See the [workspace layout](docs/workspace_layout.md)
+for compatibility paths, repository boundaries and transfer artifacts.
 
 | Command | What it does |
 |:--|:--|

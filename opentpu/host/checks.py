@@ -530,7 +530,8 @@ def model_check(t, cfg, model: str, tokens: int, sim: bool, wformat: str = "int8
                  **fmt)
     ref = Engine(spec, W, cap=cap, cfg=rcfg, **fmt)
     t0 = time.time()
-    got = dev.generate(ids, max_new=tokens)
+    token_hook = getattr(t, "record_model_token", None) if not sim else None
+    got = dev.generate(ids, max_new=tokens, **({"on_token": token_hook} if token_hook else {}))
     dt = time.time() - t0
     want = ref.generate(ids, max_new=tokens)
     text = tok.decode(got, skip_special_tokens=True)
@@ -538,7 +539,13 @@ def model_check(t, cfg, model: str, tokens: int, sim: bool, wformat: str = "int8
     pre_cyc = sum(s["cycles"] for s in pre) / max(1, sum(s["rows"] for s in pre))
     one = [s["cycles"] for s in dev.stats if "rows" not in s]
     ok = got == want
-    return ok, (f"{text!r}; prompt of {len(ids)} tokens in {len(pre)} runs of up to "
+    record = getattr(t, "record_model_check", None)
+    if record is not None and not sim:
+        record(dict(model=str(path), prompt_token_ids=ids, actual_token_ids=got,
+                    expected_token_ids=want, text=text, max_new_tokens=tokens,
+                    cap=cap, wformat=wformat, head_format=head_format,
+                    exact_match=ok, seconds=dt))
+    return ok, (f"{text!r}; tokens={got}; ISA={want}; prompt of {len(ids)} tokens in {len(pre)} runs of up to "
                 f"{dev.rows}, {pre_cyc / 1e6:.2f} Mcycles/token; {len(one)} one-token runs, "
                 f"{np.mean(one) / 1e6:.2f} Mcycles/token; {dt:.1f} s wall" +
                 ("" if ok else f"; ISA simulator says {tok.decode(want)!r}"))

@@ -1,6 +1,7 @@
 # openTPU on the Inspur YPCB-00338.
 #   make lint       offline: Tcl syntax, XDC ports vs the top, Verilator lint of the build
 #                   (otpu_fpga_top_ld; lint-ld is the same)
+#   make sim-jtag   offline: USER2 mailbox, AXI bridge, and combined serial-to-DDR path benches
 #   make bit        Vivado batch build (MCOLS=2|4, VPU_CL=2|4, LANES=8|16, CORE_MHZ=133.33|100, FAST=1) -> build/vivado/otpu.bit (VIVADO_DOCKER=image for Docker)
 #                   the LiteDRAM core (DDR3-1066, host calibration), MCOLS=4, the systolic MXU
 #   make impl       rerun implementation only on the existing project (constraint changes)
@@ -44,13 +45,27 @@ LINT := verilator --lint-only -Wno-fatal -Wno-WIDTHEXPAND -Wno-WIDTHTRUNC -Wno-U
   -Wno-UNUSEDPARAM -DSYNTHESIS -GMCOLS=$(MCOLS) -GACT_ROWS=$(ACT_ROWS) -GVPU_CL=$(VPU_CL) -GLANES=$(LANES) \
   -GMXU_IMPL=$(MXU_IMPL) sim/unisim_dsp48e1_stub.sv
 
-.PHONY: lint lint-ld bit impl program program-vivado flash
+.PHONY: lint lint-ld sim-jtag bit impl program program-vivado flash
 lint:
 	python3 scripts/check_offline.py
 	$(LINT) --top-module otpu_fpga_top_ld $(RTL) \
 	  sim/otpu_bd_ld_wrapper_stub.sv sim/otpu_litedram_stub.sv $(ROOT)/rtl/boards/ypcb-00338/otpu_fpga_top_ld.sv
 
 lint-ld: lint
+
+sim-jtag:
+	@set -eu; out="$$(mktemp -d "$${TMPDIR:-/tmp}/otpu-jtag-sim.XXXXXX")"; \
+	  trap 'rm -rf "$$out"' EXIT; \
+	  nice -n 19 iverilog -g2012 -s tb_openxc7_jtag -o "$$out/axi.vvp" \
+	    sim/tb_openxc7_jtag.sv $(ROOT)/rtl/boards/ypcb-00338/otpu_jtag_axi.sv; \
+	  nice -n 19 vvp "$$out/axi.vvp"; \
+	  nice -n 19 iverilog -g2012 -s tb_openxc7_mailbox -o "$$out/mailbox.vvp" \
+	    sim/tb_openxc7_mailbox.sv $(ROOT)/rtl/boards/ypcb-00338/otpu_jtag_mailbox.sv; \
+	  nice -n 19 vvp "$$out/mailbox.vvp"; \
+	  nice -n 19 iverilog -g2012 -s tb_openxc7_jtag_path -o "$$out/path.vvp" \
+	    sim/tb_openxc7_jtag_path.sv $(ROOT)/rtl/boards/ypcb-00338/otpu_jtag_mailbox.sv \
+	    $(ROOT)/rtl/boards/ypcb-00338/otpu_jtag_axi.sv; \
+	  nice -n 19 vvp "$$out/path.vvp"
 
 bit:
 	MCOLS=$(MCOLS) ACT_ROWS=$(ACT_ROWS) VPU_CL=$(VPU_CL) LANES=$(LANES) CORE_MHZ=$(CORE_MHZ) $(if $(BUILD_ID),BUILD_ID=$(BUILD_ID)) ./run_vivado.sh $(DDR)

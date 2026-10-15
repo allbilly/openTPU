@@ -1,0 +1,55 @@
+{
+  "status": "OBSERVED_ROUTING_HISTORY_AND_CONDITIONAL_RATE_PROJECTIONS",
+  "native_pid": 400903,
+  "native_start_ticks": 21826315,
+  "connection_identity_sha256": "0b0efe1064442c5d0cc97791894f9c5ca9c67fda4264220983296f593f2cbe6f",
+  "total_connections": 1693833,
+  "router_iteration": 1,
+  "successful_samples": 55,
+  "first_observed_utc": "2026-10-13T10:40:43.139142+00:00",
+  "latest_observed_utc": "2026-10-13T15:06:37.600940+00:00",
+  "latest_remaining": 396801,
+  "recorded_hours": 4.431794943888889,
+  "all_history_connections_per_hour": 7895.6721696366685,
+  "all_history_hours_to_zero_if_rate_constant": 50.255505987941675,
+  "scenarios": [
+    {
+      "label": "Last 2 hours",
+      "window_hours": 2,
+      "connections_per_hour": 5691.3037381938775,
+      "hours_to_zero_if_rate_constant": 69.72058042467505,
+      "projected_zero_hkt": "2026-10-16T20:49:51.690469+08:00",
+      "color": "#19855d"
+    },
+    {
+      "label": "Last 1 hour",
+      "window_hours": 1,
+      "connections_per_hour": 6777.875449366926,
+      "hours_to_zero_if_rate_constant": 58.543566190355776,
+      "projected_zero_hkt": "2026-10-16T09:39:14.439225+08:00",
+      "color": "#2463b6"
+    },
+    {
+      "label": "Last 30 minutes",
+      "window_hours": 0.5,
+      "connections_per_hour": 10696.683929561521,
+      "hours_to_zero_if_rate_constant": 37.095702052427164,
+      "projected_zero_hkt": "2026-10-15T12:12:22.128329+08:00",
+      "color": "#c27518"
+    }
+  ],
+  "skipped_samples": [
+    {
+      "path": "./build/fedora-openxc7/routing-five-minute-observer-20261013T104000Z/sample-20261013T103731Z/manifest.json",
+      "reason": "not a successful metrics sample"
+    }
+  ],
+  "method": "Endpoint decrease divided by window hours; linearly interpolate the starting count between adjacent snapshots.",
+  "limitations": [
+    "Remaining means unique driven net/sink-wire pairs without a routed flag, not unresolved legal-congestion proof.",
+    "Rates can change across routing phases and individual searches.",
+    "First iteration is incomplete; cross-partition routing and later congestion/retry work remain.",
+    "Scenarios are not confidence intervals, convergence guarantees or bitstream completion times.",
+    "Full numeric timing and full image qualification remain after native routing."
+  ]
+}
