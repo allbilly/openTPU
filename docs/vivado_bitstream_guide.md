@@ -186,13 +186,19 @@ python3 tools/fedora_qualify_ch1_image.py \
   --build "$OTPU_EXPERIMENT/pcie" \
   --generation "$OTPU_EXPERIMENT/memory" \
   --ecc-preparation "$OTPU_EXPERIMENT/memory" \
-  --expect-serializer-reset-stage --out "$OTPU_EXPERIMENT/qualification"
+  --expect-serializer-reset-stage --review-oob-clocks \
+  --out "$OTPU_EXPERIMENT/qualification"
 ```
 
 This checks the actual implemented reset registers as well as source hashes,
-the full ECC comparison, packet/CRC, pins, routing and numerical timing. Its
-success status still leaves fresh CDC and bus-skew review pending; the checked
-in release's final review cannot be reused for a different implemented design.
+the full ECC comparison, packet/CRC, pins, routing and numerical timing.
+`--review-oob-clocks` adds analysis clocks covering both divide-by-2/divide-by-4
+modes for both PCIe master frequencies on all eight lanes. It checks internal
+clock coverage, pulse clocks and all 39 bus-skew constraints without modifying
+the netlist or routing. Raw and modeled reports are saved separately.
+Its success status still leaves fresh CDC and interface-constraint review
+pending; the checked in release's final review cannot qualify a different
+implemented design.
 
 ### Load a completed image from macOS
 

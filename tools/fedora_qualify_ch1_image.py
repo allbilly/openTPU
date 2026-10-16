@@ -88,6 +88,7 @@ foreach v [get_drc_violations -quiet] {
         error "Unresolved DRC: $v"
     }
 }
+if {[lindex $argv 3] eq "1"} {source $out/review_oob_clocks.tcl}
 close_design
 exit
 '''
@@ -110,6 +111,47 @@ def pin_settings(text):
     return settings
 
 
+def oob_review(out):
+    """Check fresh reports after modeling both OOB modes for each PCIe lane."""
+    text = (out/'oob-timing.rpt').read_text()
+    timing = timing_summary(text)
+    require(all(timing[k] >= 0 for k in ('WNS', 'WHS', 'WPWS')) and
+            all(timing[k] == 0 for k in ('setup_failing', 'hold_failing', 'pulse_failing')),
+            'OOB clock-model timing failed')
+    route = route_summary((out/'oob-route.rpt').read_text())
+    require(route['routable'] == route['fully_routed'] > 0 and route['routing_errors'] == 0,
+            'OOB clock-model routing is incomplete')
+    coverage = {name: int(value) for name, value in
+                re.findall(r'^\d+\. checking (\w+) \((\d+)\)$', text, re.M)}
+    for name in ('no_clock', 'constant_clock', 'pulse_width_clock',
+                 'unconstrained_internal_endpoints', 'multiple_clock', 'generated_clocks',
+                 'loops', 'partial_input_delay', 'partial_output_delay', 'latch_loops'):
+        require(coverage.get(name) == 0, 'OOB timing coverage incomplete: '+name)
+    pulse = re.findall(r'^\d+\. checking pulse_width_clock \((\d+)\)$',
+                       (out/'oob-pulse-clock-pins.rpt').read_text(), re.M)
+    require(pulse and set(pulse) == {'0'}, 'OOB pulse-clock coverage incomplete')
+    skew = re.findall(r'^Slack \((MET|VIOLATED)\)\s*:\s*([-+0-9.]+)ns',
+                      (out/'oob-bus-skew.rpt').read_text(), re.M)
+    require(len(skew) == 39 and all(k == 'MET' and float(v) >= 0 for k, v in skew),
+            'Not all 39 PCIe bus-skew constraints are met')
+    clocks = [line.split('\t') for line in (out/'oob-clocks.tsv').read_text().splitlines()]
+    require(len(clocks) == 32 and all(len(row) == 6 for row in clocks) and
+            len({row[0] for row in clocks}) == 8 and len({row[4] for row in clocks}) == 32,
+            'OOB model does not cover eight lanes and both master/divider modes')
+    for row in clocks:
+        require(float(row[2]) in (4.0, 8.0) and int(row[3]) in (2, 4) and
+                abs(float(row[5]) - float(row[2]) * int(row[3])) < 0.0001,
+                'OOB clock period differs')
+    for reg in {row[0] for row in clocks}:
+        modes = [(float(row[2]), int(row[3])) for row in clocks if row[0] == reg]
+        require(len(modes) == 4 and set(modes) == {(4.0, 2), (4.0, 4), (8.0, 2), (8.0, 4)},
+                'OOB lane does not cover every master/divider mode: '+reg)
+    return dict(timing=timing, route=route, coverage=coverage,
+                generated_clocks=32, bus_skew_constraints=39,
+                minimum_bus_skew_slack_ns=min(float(v) for _, v in skew),
+                netlist_placement_routing_modified=False, cdc_review='PENDING')
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--build', type=Path, required=True)
@@ -119,6 +161,8 @@ def main():
     ap.add_argument('--wait-unit', help='Wait for this exact build service; never restart it')
     ap.add_argument('--expect-serializer-reset-stage', action='store_true',
                     help='Require the isolated upstream serializer-reset registers after implementation')
+    ap.add_argument('--review-oob-clocks', action='store_true',
+                    help='Model both PCIe Gen2 OOB divider modes and check timing coverage/bus skew')
     a = ap.parse_args()
     build = a.build.resolve(); out = a.out.resolve(); ecc = a.ecc_preparation.resolve()
     require(not out.exists(), 'Choose a fresh qualification directory')
@@ -199,8 +243,12 @@ def main():
         (out/'crc.json').write_text(json.dumps(crc,indent=2)+'\n')
         r.update(status='ROUTED_CHECKPOINT_AUDIT_RUNNING',bitstream=describe(bit),crc=crc);save()
         (out/'audit.tcl').write_text(TCL)
+        if a.review_oob_clocks:
+            script = ROOT/'boards/ypcb-00338/vivado/review_oob_clocks.tcl'
+            (out/'review_oob_clocks.tcl').write_bytes(script.read_bytes())
+            r['oob_review_script'] = describe(out/'review_oob_clocks.tcl')
         command=[str(VIVADO),'-mode','batch','-nojournal','-nolog','-source',str(out/'audit.tcl'),'-tclargs',str(dcp),str(out),
-                 '1' if a.expect_serializer_reset_stage else '0']
+                 '1' if a.expect_serializer_reset_stage else '0', '1' if a.review_oob_clocks else '0']
         (out/'audit.command.json').write_text(json.dumps(command,indent=2)+'\n')
         with (out/'audit.log').open('w') as log:
             result=subprocess.run(command,cwd=out,stdout=log,stderr=subprocess.STDOUT,timeout=1200)
@@ -230,6 +278,9 @@ def main():
         timing=timing_summary((out/'timing.rpt').read_text()); route=route_summary((out/'route.rpt').read_text())
         require(all(timing[k] >= 0 for k in ('WNS','WHS','WPWS')) and all(timing[k] == 0 for k in ('setup_failing','hold_failing','pulse_failing')), 'Numerical timing failed')
         require(route['routable'] == route['fully_routed'] > 0 and route['routing_errors'] == 0,'Route is incomplete')
+        if a.review_oob_clocks:
+            r['oob_clock_review'] = oob_review(out)
+            r['oob_reports'] = [describe(p) for p in sorted(out.glob('oob-*')) if p.is_file()]
         r.update(status='CH1_PCIE_IMAGE_PACKET_CRC_PINS_ROUTE_TIMING_PASS_CDC_REVIEW_PENDING',
                  timing=timing,route=route,pins_checked=len(ports),gt_sites=gt,
                  cdc_scope='Fresh cdc.rpt and bus-skew.rpt require review before programming',
