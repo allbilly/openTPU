@@ -1,0 +1,48 @@
+WRITE_TRACE n=0 data=0000000000000000
+WRITE_TRACE n=1 data=0000000800000008
+WRITE_TRACE n=2 data=0000001000000010
+WRITE_TRACE n=3 data=0000001800000018
+WRITE_TRACE n=4 data=0000002000000020
+WRITE_TRACE n=5 data=0000002800000028
+WRITE_TRACE n=6 data=0000003000000030
+WRITE_TRACE n=7 data=0000003800000038
+READ_TRACE n=0 addr=00000200 expected=00000000 mode=3
+READ_TRACE n=1 addr=00000208 expected=00000000 mode=3
+READ_TRACE n=2 addr=00000210 expected=00000000 mode=3
+READ_TRACE n=3 addr=00000218 expected=00000000 mode=3
+READ_TRACE n=4 addr=00000220 expected=00000000 mode=3
+READ_TRACE n=5 addr=00000228 expected=00000000 mode=3
+READ_TRACE n=6 addr=00000230 expected=00000000 mode=3
+READ_TRACE n=7 addr=00000238 expected=00000000 mode=3
+READ_TRACE n=8 addr=00000240 expected=00000000 mode=3
+READ_TRACE n=9 addr=00000248 expected=00000000 mode=3
+READ_TRACE n=10 addr=00000250 expected=00000000 mode=3
+READ_TRACE n=11 addr=00000258 expected=00000000 mode=3
+READ_TRACE n=12 addr=00000260 expected=00000000 mode=3
+READ_TRACE n=13 addr=00000268 expected=00000000 mode=3
+READ_TRACE n=14 addr=00000270 expected=00000000 mode=3
+READ_TRACE n=15 addr=00000278 expected=00000000 mode=3
+READ_TRACE n=16 addr=00000280 expected=00000000 mode=3
+READ_TRACE n=17 addr=00000288 expected=00000000 mode=3
+READ_TRACE n=18 addr=00000290 expected=00000000 mode=3
+READ_TRACE n=19 addr=00000298 expected=00000000 mode=3
+READ_TRACE n=20 addr=000002a0 expected=00000000 mode=3
+READ_TRACE n=21 addr=000002a8 expected=00000000 mode=3
+READ_TRACE n=22 addr=000002b0 expected=00000000 mode=3
+READ_TRACE n=23 addr=000002b8 expected=00000000 mode=3
+READ_TRACE n=24 addr=000002c0 expected=00000000 mode=3
+READ_TRACE n=25 addr=000002c8 expected=00000000 mode=3
+READ_TRACE n=26 addr=000002d0 expected=00000000 mode=3
+READ_TRACE n=27 addr=000002d8 expected=00000000 mode=3
+READ_TRACE n=28 addr=000002e0 expected=00000000 mode=3
+READ_TRACE n=29 addr=000002e8 expected=00000000 mode=3
+READ_TRACE n=30 addr=000002f0 expected=00000000 mode=3
+READ_TRACE n=31 addr=000002f8 expected=00000000 mode=3
+TRAFFIC_PROGRESS cycles=5000 writes=1 reads=0 gaps=0/281 commands=281 returned=273 compared=273
+TRAFFIC_PROGRESS cycles=10000 writes=1 reads=0 gaps=0/1984 commands=2587 returned=2579 compared=2579
+TRAFFIC_PROGRESS cycles=15000 writes=1 reads=1 gaps=0/1984 commands=4955 returned=4946 compared=4946
+PASS_VENDOR_TRAFFIC_STALLS_FULL_RANGE mode=2 writes=1 reads=2 compared=6076
+- build/fedora-vivado/ram-only-address-model-v5-20261016/tb_vendor_traffic.sv:135: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.048 2026-04-26
+- Verilator: $finish at 174us; walltime 1.947 s; speed 90.025 us/s
+- Verilator: cpu 1.933 s on 1 threads; allocated 9 MB

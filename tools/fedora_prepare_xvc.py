@@ -17,6 +17,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import shlex
 import subprocess
 import sys
 
@@ -98,6 +99,8 @@ def main():
     ap.add_argument('--usb-altsetting-patch',type=Path,
                     help='apply a reviewed FX2 descriptor-aware alternate-setting patch to the isolated copy')
     ap.add_argument('--jobs',type=int,default=os.cpu_count() or 1)
+    ap.add_argument('--cxx', default=os.environ.get('CXX', 'c++'))
+    ap.add_argument('--pkg-config', default=shutil.which('pkg-config') or 'pkg-config')
     ap.add_argument('--no-select',action='store_true',
                     help='preserve xvc-ready.json; qualify this binary separately before selecting it')
     args = ap.parse_args()
@@ -132,24 +135,32 @@ def main():
         manifest['extension_sha256'] = digest(out/'xpcu-xvc.patch')
         mp.write_text(json.dumps(manifest,indent=2)+'\n')
         run(['cmake','-S',str(src),'-B',str(out/'binary'),'-DCMAKE_BUILD_TYPE=Release',
-             '-DPKG_CONFIG_EXECUTABLE=/usr/bin/pkg-config',
+             '-DPKG_CONFIG_EXECUTABLE='+args.pkg_config,
              '-DENABLE_CABLE_ALL=OFF','-DENABLE_VENDORS_ALL=OFF',
              '-DENABLE_FTDI_BASED_CABLE=ON','-DENABLE_XILINX_PLATFORM_CABLE_USB=ON',
              '-DENABLE_XILINX_VIRTUAL_CABLE_SERVER=ON','-DENABLE_XILINX_SUPPORT=ON',
              '-DENABLE_UDEV=OFF'],out,'configure')
         run(['cmake','--build',str(out/'binary'),'--parallel',str(args.jobs)],out,'build')
-        run(['/usr/bin/g++','-std=c++17','-Wall','-Wextra','-Werror','-O0','-g',
-             '-DISE_DIR=""','-DVIVADO_DIR=""','-I/usr/include/libusb-1.0','-I'+str(src/'src'),
+        usb_cflags = shlex.split(subprocess.check_output(
+            [args.pkg_config, '--cflags', 'libusb-1.0'], text=True))
+        # The local Fedora donor adds an optional verbose constructor argument;
+        # a Mac donor may retain upstream's original FX2 constructor instead.
+        fx2_flags = (['-DXPCU_FX2_HAS_VERBOSE'] if 'int8_t verbose' in
+                     (src/'src/fx2_ll.hpp').read_text() else [])
+        run([args.cxx,'-std=c++17','-Wall','-Wextra','-Werror','-O0','-g',
+             '-DISE_DIR=""','-DVIVADO_DIR=""',*usb_cflags,*fx2_flags,'-I'+str(src/'src'),
              str(ROOT/'tests/tb_xpcu_xvc.cpp'),str(src/'src/xilinxPlatformCableUSB.cpp'),
              str(src/'src/display.cpp'),'-o',str(out/'xpcu-protocol-test')],out,'protocol-compile')
         run([str(out/'xpcu-protocol-test')],out,'protocol-test')
         if args.usb_altsetting_patch:
-            run(['/usr/bin/g++','-std=c++17','-Wall','-Wextra','-Werror','-O0','-g',
-                 '-I/usr/include/libusb-1.0','-I'+str(src/'src'),
+            usb_libs = shlex.split(subprocess.check_output(
+                [args.pkg_config, '--libs', 'libusb-1.0'], text=True))
+            run([args.cxx,'-std=c++17','-Wall','-Wextra','-Werror','-O0','-g',
+                 *usb_cflags,'-I'+str(src/'src'),
                  str(ROOT/'tests/tb_fx2_altsetting.cpp'),str(src/'src/fx2_ll.cpp'),
                  str(src/'src/ihexParser.cpp'),str(src/'src/configBitstreamParser.cpp'),
                  str(src/'src/progressBar.cpp'),str(src/'src/display.cpp'),
-                 '-lusb-1.0','-o',str(out/'fx2-altsetting-test')],out,'usb-test-compile')
+                 *usb_libs,'-o',str(out/'fx2-altsetting-test')],out,'usb-test-compile')
             run([str(out/'fx2-altsetting-test')],out,'usb-test')
             manifest['usb_altsetting_test_sha256'] = digest(ROOT/'tests/tb_fx2_altsetting.cpp')
         binary = out/'binary/openFPGALoader'

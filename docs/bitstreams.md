@@ -45,6 +45,16 @@ Both logical memory channels use physical CH1, for 2 GiB total. This release
 does not repair CH0. Model checkpoints and Python environments are separate.
 The experimental PHY reset patch is not part of this release.
 
+## Experimental RAM-only DDR800 diagnostic
+
+[`bitstreams/ramtest-mig-ddr800-address/`](../bitstreams/ramtest-mig-ddr800-address/)
+contains the dedicated MIG address-pattern image, BUILD_ID `c0161001`, its
+checksums and offline review. It tests 2 GiB per physical channel with ECC and
+USER2 status, and contains no accelerator or PCIe endpoint. The build, complete
+route, timing, board-reference pins and independent packet/CRC checks passed.
+Physical DDR results and Mac programming/readback remain pending. See its
+README and the [build/debug plan](ddr_ram_only_debug.md).
+
 ## The two current designs
 
 The standalone JTAG image and the permanent PCIe image are **separate Vivado

@@ -12,11 +12,16 @@ The source branch is `ypcb/ch1-bringup-local`; `origin` is
 `https://github.com/allbilly/openTPU.git`, and `upstream` is FeSens/openTPU.
 The [build guide](vivado_bitstream_guide.md#rebuild-the-current-ch1-pcie-release-on-fedora)
 includes the complete Fedora build and Mac loading procedure. A separate
-full PCIe candidate is being built at
+full PCIe candidate finished building at
 `build/fedora-vivado/ch0-reset-pcie-20261016`, with BUILD_ID `c0160001`.
 It adds the upstream serializer-reset register, keeps the CH1 fallback mapping
-and retains raw physical CH0 diagnostics. Build completion, independent image
-qualification and Mac tests are separate gates; no CH0 repair is established.
+and retains raw physical CH0 diagnostics. Its independent packet/CRC, pin,
+resource, route, timing and bus-skew checks passed; CDC review and Mac tests
+remain pending. No CH0 repair is established.
+
+The first physical DDR experiment is now a
+[dedicated RAM-only MIG baseline](ddr_ram_only_debug.md), followed by a matched
+LiteDRAM comparison. The previous MIG image still includes the accelerator.
 
 ### Historical upstream comparison on October 15
 
@@ -221,13 +226,16 @@ DDR failure reports. No public fix for our exact CH0 lane-6 symptom was found.
 | [AMD UG586: common hardware issues](https://docs.amd.com/r/en-US/ug586_7Series_MIS/Debugging-Common-Hardware-Issues) | Use the MIG example design and require both calibration completion and no data-compare errors | General 7-series procedure, not a model-specific repair |
 | [AMD UG586: isolate data errors](https://docs.amd.com/r/en-US/ug586_7Series_MIS/Isolating-the-Data-Error) | Compare actual/expected data, affected DQ/DQS groups, addresses, patterns, temperature and reset reproducibility | Pattern dependence can arise from timing or electrical faults; it does not establish one cause |
 
-The next discriminating experiment is a matched warm, full-capacity/pattern
-test on CH0 using the existing Vivado MIG reference, with expected/actual data
-and lane information saved. A clean MIG result would point toward the LiteDRAM
-implementation/calibration; the same lane failure with both controllers would
-strengthen the case for pin/electrical/card-level investigation. Neither outcome
-alone proves the precise fault. Keep the working CH1 image as the inference
-fallback while this is resolved.
+The next discriminating experiment is a dedicated RAM-only MIG baseline, then
+a matched RAM-only LiteDRAM test at DDR3-800. The historical MIG reference
+contains the accelerator and does not establish the RAM-only baseline. Test
+all 2 GiB per physical channel, retain first-error/lane/ECC evidence, and repeat
+cold and warm. The [RAM-only debug plan and build procedure](ddr_ram_only_debug.md)
+describes the images, full-address coverage counters and Mac JTAG access gate.
+A clean matched MIG result would point toward the LiteDRAM implementation or
+calibration; the same lane failure with both controllers would strengthen the
+case for pin/electrical/card investigation. Neither outcome alone proves the
+precise fault. Keep the working CH1 image as the inference fallback.
 
 ## Remaining gates
 

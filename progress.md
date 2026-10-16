@@ -8,6 +8,21 @@ build receipts retain their original paths.
 
 ## Current priority: CH0 diagnosis and Mac handoff (October 16)
 
+The next physical experiment is a **RAM-only MIG baseline**, followed by a
+matched RAM-only LiteDRAM comparison. The old MIG image includes the accelerator.
+The first [RAM-only MIG DDR800 address image](bitstreams/ramtest-mig-ddr800-address/)
+finished building at 17:26 HKT, BUILD_ID `c0161001`. Independent packet/CRC,
+242 board-reference pin/standard checks, complete routing and timing passed:
+setup +0.905 ns, hold +0.049 ns, pulse +0.143 ns. All four held-payload skew
+constraints passed. Residual vendor CDC findings and their review are retained.
+Ten focused tests, stalled address traffic and deliberate lane-6 corruption
+model checks passed; these are not physical RAM results. The vendor first-error
+address/data record is misaligned and explicitly unverified. Sticky lane/ECC
+and failed-compare counters provide the initial error evidence.
+See the [RAM-only plan, build and Mac commands](docs/ddr_ram_only_debug.md).
+The optional Mac inventory was declined. Mac SRAM loading, USER2 readback and
+physical CH0/CH1 results remain pending. Superseded build logs are preserved.
+
 The card is now connected to the Mac. The user will run the prepared physical
 tests there and return results; Vivado builds and implementation review run
 on Fedora. The working PCIe/2 GiB release, its matched DDR800 core and checksums
@@ -18,12 +33,13 @@ are included. Runtime on the Mac does not require Vivado or the Fedora `~/ypcb`
 tree. The existing Mac `transport.py` and `run_lfm2.py` have been requested;
 their exact files are not present in this checkout and are not committed.
 
-A full PCIe candidate with BUILD_ID `c0160001` is running in
+A full PCIe candidate with BUILD_ID `c0160001` finished building in
 `build/fedora-vivado/ch0-reset-pcie-20261016`. It uses the exercised CH1 recovery
 source snapshot and adds one sys-clock serializer-reset register to each
 physical DDR PHY. Both registers survived synthesis as FDSE flip-flops.
-Synthesis, placement and pre-route physical optimization passed; routing,
-final image qualification and physical tests remain pending.
+Synthesis, placement, routing and bitstream generation passed. The independent
+packet/CRC, pin, full-compute resource, route, timing, modeled PCIe OOB clock and
+39 bus-skew checks passed. CDC review and physical tests remain pending.
 The calibration firmware, runtime initialization data, CSR rows and XDC match
 the previous image, apart from generated CSV comments. The working release is
 preserved. This candidate does not establish a CH0 repair.

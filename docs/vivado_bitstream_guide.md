@@ -28,6 +28,10 @@ Run commands from the checkout root and set external tool locations as described
 in [portable workspace paths](workspace_layout.md#portable-paths-and-external-tools).
 The FPGA is an **XC7K480T-2, FFG1156**, on a YPCB-00338-1P1 card.
 
+For the current CH0 investigation, start with the separate
+[RAM-only MIG build and Mac test procedure](ddr_ram_only_debug.md). That image
+isolates memory from the accelerator and PCIe; it is not an inference image.
+
 ## Rebuild the current CH1 PCIe release on Fedora
 
 The built release lives in [`bitstreams/ch1-pcie-2gb/`](../bitstreams/ch1-pcie-2gb/).

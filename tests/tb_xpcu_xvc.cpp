@@ -16,7 +16,11 @@ bool answer(uint32_t bit) { return ((bit * 17 + bit / 7 + 3) % 13) < 6; }
 bool bit(const std::vector<uint8_t> &v, uint32_t i) { return (v[i >> 3] >> (i & 7)) & 1; }
 }
 
-FX2_ll::FX2_ll(uint16_t, uint16_t, uint16_t, uint16_t, const std::string &, int8_t) {}
+FX2_ll::FX2_ll(uint16_t, uint16_t, uint16_t, uint16_t, const std::string &
+#ifdef XPCU_FX2_HAS_VERBOSE
+    , int8_t
+#endif
+) {}
 FX2_ll::~FX2_ll() {}
 bool FX2_ll::set_interface_alt_setting(int, int) { return true; }
 int FX2_ll::write_ctrl(uint8_t req, uint16_t value, uint8_t *, uint16_t, uint16_t index)

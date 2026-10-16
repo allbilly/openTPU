@@ -1,0 +1,116 @@
+{
+  "status": "RAM_ONLY_BITSTREAM_BUILT_PHYSICAL_TESTS_PENDING",
+  "started_utc": "2026-10-16T09:10:34.041468+00:00",
+  "physical_tests_performed": false,
+  "purpose": "RAM-only vendor MIG reference",
+  "ddr_mts": 800,
+  "channels": 3,
+  "pattern": "address",
+  "build_id": "c0161001",
+  "bytes_per_channel": 2147483648,
+  "native_address_last": "0x0ffffff8",
+  "sources": {
+    "boards/ypcb-00338/ramtest/ramtest_channel.sv": "f96ea8f382ea40c8bf3a007d740ef08a47f1ac610c987e1599070b3bbe8a970b",
+    "boards/ypcb-00338/ramtest/ramtest_jtag.sv": "0a3c8051a9e281d4c885d07daf200b3707e49a074bd7d59eaee8479c5ff5395c",
+    "boards/ypcb-00338/ramtest/ramtest.xdc": "ae1c4b0084363bca4633664fa61c025e25737343ae1797df2c00c07d5a5127ea",
+    "boards/ypcb-00338/ramtest/ramtest_cdc.tcl": "d15f7edfac072d1a1cde2b270de5d4a7c382f86becf2ecf4d5bbec76d14881db",
+    "boards/ypcb-00338/ramtest/build.tcl": "b727cb5c6b4c4ebcc3a390d0f91d7a4513200b497d8e19d69a26793e0c0568e7",
+    "boards/ypcb-00338/ramtest/mig-ddr3-1066.prj": "77ef790fe7f3d5994c3028a5ab1c6660d6a3e95100e855851aa60d47a72ab873",
+    "tools/openxc7_bitstream_crc.cc": "b0885b3447018ef71d3acfc98389e64c484e55c8aeb7783854e7bd15d8ebd5be",
+    "rtl/boards/ypcb-00338/otpu_jtag_mailbox.sv": "46f4a1148419279262fd274726eba0ab1f35285b91bf58138bc1997e692aeec9",
+    "tools/fedora_build_ramtest_mig.py": "2b6ead6ce3045e2f821868bda8dfa557eeb4aa4b2c933d7b39341614eefce0e0"
+  },
+  "vendor_example_sha256": "6134399bd63ff6b421f8083e2a14feddf6f29a8ef2c73e8dafc10873c446d674",
+  "traffic_bounds_original_sha256": "44c0075f86e535cc89ea5529b978d09a5c90e6f731eb0f7623f00fa5b454efdc",
+  "traffic_bounds_patched_sha256": "c5bebf290c3326817551ffeb2d7b9e078fa271e96f76b3aea835aa58fbfe56bd",
+  "generated_top_sha256": "cfe1b98090c37d358e45ff322ebc7e760e9bf5281c01795c048821a50bf0857a",
+  "generated_prj_sha256": "5bce45c000cbe1ce1854bf383587a95fdfae497fd898082c98939a5aadf39b58",
+  "snapshot_source_sha256": {
+    "build.tcl": "b727cb5c6b4c4ebcc3a390d0f91d7a4513200b497d8e19d69a26793e0c0568e7",
+    "fedora_build_ramtest_mig.py": "2b6ead6ce3045e2f821868bda8dfa557eeb4aa4b2c933d7b39341614eefce0e0",
+    "mig-ddr3-1066.prj": "77ef790fe7f3d5994c3028a5ab1c6660d6a3e95100e855851aa60d47a72ab873",
+    "openxc7_bitstream_crc.cc": "b0885b3447018ef71d3acfc98389e64c484e55c8aeb7783854e7bd15d8ebd5be",
+    "otpu_jtag_mailbox.sv": "46f4a1148419279262fd274726eba0ab1f35285b91bf58138bc1997e692aeec9",
+    "ramtest.xdc": "ae1c4b0084363bca4633664fa61c025e25737343ae1797df2c00c07d5a5127ea",
+    "ramtest_cdc.tcl": "d15f7edfac072d1a1cde2b270de5d4a7c382f86becf2ecf4d5bbec76d14881db",
+    "ramtest_channel.sv": "f96ea8f382ea40c8bf3a007d740ef08a47f1ac610c987e1599070b3bbe8a970b",
+    "ramtest_jtag.sv": "0a3c8051a9e281d4c885d07daf200b3707e49a074bd7d59eaee8479c5ff5395c",
+    "traffic_gen/mig_7series_v4_2_afifo.v": "185be3f2b2e373e83a48ece0590e2d47b1f2118ca09601e651b5c560acd63eb1",
+    "traffic_gen/mig_7series_v4_2_cmd_gen.v": "c5bebf290c3326817551ffeb2d7b9e078fa271e96f76b3aea835aa58fbfe56bd",
+    "traffic_gen/mig_7series_v4_2_cmd_prbs_gen.v": "d5fd5dfead4e4649dfe7a2fef9656b9595f1e70e4bddc29ee1cf7587b7fed4b5",
+    "traffic_gen/mig_7series_v4_2_data_prbs_gen.v": "da1a88e84bf0768858f109cf969a8881246063580fd76d098df27ecfd385772b",
+    "traffic_gen/mig_7series_v4_2_init_mem_pattern_ctr.v": "54203364cbfc4511dd3e7887f35a9569f1d5f90ea66c7197f4db41e2bcd565df",
+    "traffic_gen/mig_7series_v4_2_memc_flow_vcontrol.v": "f635c33184f55789541495ec6a29c7d85e06c5c75ba919a67bc104dec4902a8f",
+    "traffic_gen/mig_7series_v4_2_memc_traffic_gen.v": "a556910283c001933c35d51e600c9bd6a3b2e8903ca567099e98db641b4b1b58",
+    "traffic_gen/mig_7series_v4_2_rd_data_gen.v": "0d745b08b90335c5b8bc132fe7f9d146da220a445e4e60f3c65cda3e732055d7",
+    "traffic_gen/mig_7series_v4_2_read_data_path.v": "99ec0cace6bdac30b66cfb535ac01a06185d6dfc088edca593854d72d623751f",
+    "traffic_gen/mig_7series_v4_2_read_posted_fifo.v": "3c0ce8b4e86b5188b00c83c285b817689d191141d401b69f4128536646583c79",
+    "traffic_gen/mig_7series_v4_2_s7ven_data_gen.v": "5ea315ac5413df4d600decee35d71f7a579e71365f555178fc60e7aa47274ffe",
+    "traffic_gen/mig_7series_v4_2_tg_prbs_gen.v": "6642879937d9dd856da05eec3297a6cf62049741acdaedeb7e26136e8ba7d880",
+    "traffic_gen/mig_7series_v4_2_tg_status.v": "d2e55b8bf0692351e8de448277f4577871d039a9f7a5e0aa1314ac037e5c844e",
+    "traffic_gen/mig_7series_v4_2_traffic_gen_top.v": "f63664fa285f110c235b714780ea0e81bad31f00f2a39ef72eb3fb36bdf07bf7",
+    "traffic_gen/mig_7series_v4_2_vio_init_pattern_bram.v": "f60c0179044eae5de76abb52587bbb2790ea906f9e2177990c24a276b59154ea",
+    "traffic_gen/mig_7series_v4_2_wr_data_gen.v": "37333e5664306e1af385e6f2bf0bc3ae1fb8fd92cd6840722cf884eb7a51d68b",
+    "traffic_gen/mig_7series_v4_2_write_data_path.v": "89a9ae0a5787b09cb1c4b84c0ee237dfdb8cbb344812713d6a93ef55e6a6b918",
+    "ypcb_ramtest_mig.sv": "cfe1b98090c37d358e45ff322ebc7e760e9bf5281c01795c048821a50bf0857a"
+  },
+  "bitstream_sha256": "812322919ed3c6a592abe2b13acdf066e77625c3698bf524b3bbf36dfb621f58",
+  "packet_check": {
+    "header": {
+      "a": "ypcb_ramtest_mig;UserID=0XFFFFFFFF;COMPRESS=FALSE;Version=2026.1;SW_CRC=afb70cfe;SW_HDR_SHA256=f3cff446a33b0a5b63e1646ebeee5079e3c7712f2cf8485ff746f4241224e57d",
+      "b": "7k480tffg1156",
+      "c": "2026/10/16",
+      "d": "17:26:09"
+    },
+    "target_part": "xc7k480tffg1156-2",
+    "package_device_match": true,
+    "speed_grade_evidence": "NOT_ENCODED_IN_BIT_HEADER",
+    "payload_offset": 224,
+    "payload_bytes": 18735004,
+    "sync_offset": 48,
+    "idcode": "0x3751093",
+    "fdri_words": 4683168,
+    "packet_count": 544,
+    "commands": [
+      18,
+      0,
+      7,
+      9,
+      1,
+      10,
+      3,
+      5,
+      13
+    ]
+  },
+  "crc": {
+    "status": "ALL_PRESENT_CRC_CHECKPOINTS_MATCH",
+    "crc_checkpoints": 2,
+    "fdri_words": 4683168,
+    "register_data_words": 4683194,
+    "known_answer_vectors": 4,
+    "resets": [
+      {
+        "header_file_offset": 328,
+        "value_file_offset": 332,
+        "computed_crc_before_reset": 2448563865,
+        "fdri_words_since_reset": 0
+      }
+    ],
+    "checkpoints": [
+      {
+        "value_file_offset": 18733156,
+        "crc": 784045736
+      },
+      {
+        "value_file_offset": 18733628,
+        "crc": 3819798181
+      }
+    ]
+  },
+  "bus_skew": {
+    "constraints": 4,
+    "minimum_slack_ns": 15.889
+  },
+  "updated_utc": "2026-10-16T09:26:23.264972+00:00"
+}
