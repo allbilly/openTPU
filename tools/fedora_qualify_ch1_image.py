@@ -66,6 +66,10 @@ foreach c [get_cells -hier -filter {REF_NAME == PCIE_2_1}] {
 foreach c [get_cells -hier -filter {REF_NAME == BSCANE2}] {
     puts $f "BSCAN\t$c\t[get_property JTAG_CHAIN $c]"
 }
+foreach ref {DSP48E1 RAMB36E1 RAMB18E1 ISERDESE2 OSERDESE2 IDELAYE2} {
+    set cells [get_cells -hier -filter "REF_NAME == $ref"]
+    puts $f "RESOURCE\t$ref\t[llength $cells]"
+}
 if {[lindex $argv 2] eq "1"} {
     foreach ch {0 1} {
         set regs [get_cells -quiet -hier -filter "NAME =~ *wl7ddrphy${ch}_sys_rst_reg*"]
@@ -270,6 +274,12 @@ def main():
         gt=[x[2] for x in lines if x[0]=='GT']
         require(len(gt) == 8 and set(gt) == {f'GTXE2_CHANNEL_X0Y{i}' for i in range(16,24)},'Eight PCIe GTX sites differ')
         require([x[2] for x in lines if x[0]=='PCIE'] == ['PCIE_X0Y0'] and not any(x[0]=='BSCAN' for x in lines),'PCIe primitive or top differs')
+        inventory={x[1]:int(x[2]) for x in lines if x[0]=='RESOURCE'}
+        for name, count in dict(DSP48E1=716, ISERDESE2=144, OSERDESE2=214, IDELAYE2=144).items():
+            require(inventory.get(name) == count, 'Full compute/DDR primitive count differs: '+name)
+        require(inventory.get('RAMB36E1',0) >= 562 and inventory.get('RAMB18E1',0) >= 34,
+                'Full accelerator memory primitive count is absent')
+        r['implemented_primitives'] = inventory
         if a.expect_serializer_reset_stage:
             resets=[x for x in lines if x[0]=='PHY_RESET']
             require({x[1] for x in resets} == {'0','1'} and all(x[3] in ('FDRE','FDSE') for x in resets),
