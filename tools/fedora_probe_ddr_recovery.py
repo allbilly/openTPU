@@ -24,6 +24,7 @@ sys.path[:0] = [str(ROOT), str(ROOT / 'tools')]
 from fedora_run_vivado_native_jtag import NativeLink, TCL, VIVADO
 from opentpu.host import jtag, memcal, ddrcal, selfcal, regs as R
 from opentpu.host.board import Board
+from tools.litedram.selfcal_fw import fw as firmware_config
 
 CORE = ROOT / 'build/fedora-vivado/ch1-core-writable-20261014T082631Z/core'
 BASE = ROOT / 'build/fedora-vivado'
@@ -68,6 +69,25 @@ def open_adapter(factory, core):
             transport.close()
         raise
     return transport
+
+
+def checked_firmware(manifest, core):
+    """Validate firmware bytes and the actual calibration ABI before uploading."""
+    manifest = Path(manifest).expanduser().resolve()
+    fw = json.loads(manifest.read_text())
+    if 'firmware_relative' in fw:
+        image = manifest.parent / fw['firmware_relative']
+    else:
+        image = Path(fw['firmware'])
+    data = image.read_bytes()
+    if hashlib.sha256(data).hexdigest() != fw['sha256']:
+        raise ValueError('Experimental firmware hash mismatch')
+    if 'core_config_sha256' in fw:
+        if firmware_config.configuration_sha256(core) != fw['core_config_sha256']:
+            raise ValueError('Experimental firmware calibration configuration mismatch')
+    elif fw['core'] != str(Path(core).resolve()):
+        raise ValueError('Legacy experimental firmware core path mismatch; rebuild for portable configuration checks')
+    return fw, data
 
 
 def stop(proc):
@@ -291,15 +311,11 @@ def probe(args, out, r, t, board, csr, c0, c1, save, require):
         return 0
     require(selfcal.present(csr), 'On-board calibration CPU absent')
     if args.firmware:
-        fw = json.loads(args.firmware.read_text())
-        image = Path(fw['firmware'])
-        require(fw['core'] == str(CORE), 'Experimental firmware core mismatch')
-        require(hashlib.sha256(image.read_bytes()).hexdigest() == fw['sha256'],
-                'Experimental firmware hash mismatch')
+        fw, data = checked_firmware(args.firmware, CORE)
         r['experimental_firmware'] = fw
         r['status'] = 'EXPERIMENTAL_FIRMWARE_UPLOAD_AND_READBACK'
         save()
-        selfcal.load(csr, image.read_bytes(), verify=True)
+        selfcal.load(csr, data, verify=True)
         r['firmware_upload_readback_pass'] = True
     selfcal.hold(csr)
     csr.w('selfcal_config', 1 | (1 << 8))

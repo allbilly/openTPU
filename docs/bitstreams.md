@@ -9,6 +9,11 @@ images into Git. Exact byte sizes and SHA256 hashes of the original outputs are 
 
 ## Tracked PCIe 2 GiB release
 
+The separate [CH0 diagnostic CPU firmware](../bitstreams/ch0-diagnostics/)
+is documented in [the DDR handoff](ddr_calibration_review.md#portable-calibration-firmware-follow-ups).
+Those `.bin` files load through calibration CSRs inside the existing design;
+they are not FPGA programming images.
+
 The current CH1-only PCIe release is included in
 [`bitstreams/ch1-pcie-2gb/`](../bitstreams/ch1-pcie-2gb/). A clone of this branch
 contains the built images and matching DDR800 runtime data:

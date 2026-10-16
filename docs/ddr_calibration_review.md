@@ -120,6 +120,62 @@ card; the historical receipts below remain unchanged. A passing raw CH0 test
 still needs warm repetition and a full dual-channel host/compute test before
 claiming CH0 is repaired.
 
+### Portable calibration-firmware follow-ups
+
+[`bitstreams/ch0-diagnostics/`](../bitstreams/ch0-diagnostics/) includes the two
+previously exercised diagnostic CPU programs, rebuilt byte-for-byte from the
+same C experiments. These `.bin` files run inside the existing FPGA image's
+calibration CPU; they are not FPGA bitstreams and are not JTAG flasher inputs.
+Mac use requires neither Vivado nor a RISC-V compiler. Their previous physical
+results remain failures to recover CH0, rather than evidence of a repair.
+
+| Directory | Firmware ID | Purpose |
+| --- | --- | --- |
+| `strict-calibration` | `0xd0150001` | Check a second PRBS seed at every scan phase and all 2 GiB with PRBS/address patterns before setting CH0 ready |
+| `lane6-traffic-scan` | `0xd0150002` | Sweep 1,024 common lane-6 write/read framing and read-tap combinations at CK phase 45; always leave CH0 unready |
+
+Verify these files after transfer with
+`(cd bitstreams/ch0-diagnostics && shasum -a 256 -c SHA256SUMS)`.
+For the stricter follow-up, run:
+
+```sh
+build/chestnut-lfm/venv/bin/python tools/fedora_probe_ddr_recovery.py \
+  --adapter build/chestnut-lfm/transport.py \
+  --core bitstreams/ch1-pcie-2gb/core \
+  --firmware bitstreams/ch0-diagnostics/strict-calibration/manifest.json \
+  --soak-seconds 300 --out build/chestnut-ch0-strict
+```
+
+The loader checks the firmware hash and a fingerprint of the complete generated
+firmware configuration, including CSR addresses, PHY constants, init commands
+and test patterns. It supports a different checkout path on the Mac. It uploads
+and reads back the CPU memory before release, selects physical CH0 alone and
+checks CH1 readiness. If training fails, it saves the failure and skips the
+subsequent soak. The override stays in CPU memory until FPGA reconfiguration;
+it does not update NOR. Use a configuration reload to restore the embedded
+default firmware before comparing a later baseline.
+
+The traffic-only follow-up uses the same command with
+`--firmware bitstreams/ch0-diagnostics/lane6-traffic-scan/manifest.json`, a fresh
+`--out`, and without `--soak-seconds`. Its receipt contains
+`lane6_traffic_diagnostic`; finding the best failing combination is not a pass.
+It does not test every per-bit framing choice or identify an electrical fault.
+
+Rebuild either diagnostic on Fedora with the RV32I/ILP32 toolchain described
+in the [build guide](vivado_bitstream_guide.md#regenerate-the-ch1-ddr-core-when-changing-the-phy):
+
+```bash
+python3 tools/fedora_prepare_ddr_recovery_firmware.py \
+  --core bitstreams/ch1-pcie-2gb/core \
+  --rv-cc /path/to/toolchain/bin/riscv64-unknown-elf-gcc \
+  --out build/ch0-strict-firmware
+```
+
+Add `--traffic-scan` and select a fresh `--out` to build the other program.
+The output manifest and `firmware/selfcal.bin` can be transferred together;
+`firmware_relative` resolves the binary beside that manifest. No FPGA rebuild
+is required for these CPU-firmware experiments.
+
 The [fresh CH0 probe](../build/fedora-vivado/ddr-recovery-initial-20261014T171217Z/manifest.json)
 reported calibration OK in 8.21 seconds at 53.5–53.7 C, with only a 6-step /
 134 ps common phase window. The subsequent full 2 GiB PRBS read failed on

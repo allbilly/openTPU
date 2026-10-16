@@ -12,6 +12,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 import shutil
+import os
 
 ROOT = Path(__file__).resolve().parents[1]
 CORE = ROOT / 'build/fedora-vivado/ch1-core-writable-20261014T082631Z/core'
@@ -22,9 +23,17 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--traffic-scan', action='store_true',
                     help='Diagnostic only: sweep lane 6 write/read bitslip and read taps at CK phase 45')
+    ap.add_argument('--core', type=Path, default=CORE, help='Matching generated CH1 DDR800 core')
+    ap.add_argument('--out', type=Path, help='Fresh output directory')
+    ap.add_argument('--rv-cc', type=Path,
+                    default=Path(os.environ.get('RV_CC', str(ROOT / 'build/fedora-openxc7/litedram-environment/toolchain/riscv64-elf-gcc'))),
+                    help='RV32I/ILP32 GCC with matching objcopy/objdump beside it')
     args = ap.parse_args()
+    core = args.core.expanduser().resolve()
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
-    out = ROOT / ('build/fedora-openxc7/ddr-recovery-firmware-' + stamp)
+    out = (args.out or ROOT / ('build/fedora-openxc7/ddr-recovery-firmware-' + stamp)).expanduser().resolve()
+    if out.exists():
+        ap.error('Choose a fresh output directory')
     src = out / 'source'
     src.mkdir(parents=True)
     original = ROOT / 'tools/litedram/selfcal_fw'
@@ -129,14 +138,18 @@ static int traffic_diagnostic(void)
     fw = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(fw)
     fw.HERE = src
-    compiler = ROOT / 'build/fedora-openxc7/litedram-environment/toolchain/riscv64-elf-gcc'
-    data = fw.target(CORE, out / 'firmware', fw_id=fw_id, cc=str(compiler))
+    compiler = args.rv_cc.expanduser().absolute()
+    data = fw.target(core, out / 'firmware', fw_id=fw_id, cc=str(compiler))
     header = (out / 'firmware/selfcal_cfg.h').read_bytes()
-    assert header == (CORE / 'selfcal_fw/selfcal_cfg.h').read_bytes()
+    reference = core / 'selfcal_fw/selfcal_cfg.h'
+    if reference.exists():
+        assert header.split(b'\n', 1)[1] == reference.read_bytes().split(b'\n', 1)[1]
     manifest = dict(status='EXPERIMENTAL_FIRMWARE_BUILT_HARDWARE_NOT_RUN', fw_id=fw_id,
                     traffic_diagnostic=args.traffic_scan,
-                    firmware=str(out / 'firmware/selfcal.bin'), bytes=len(data),
-                    sha256=hashlib.sha256(data).hexdigest(), core=str(CORE),
+                    firmware=str(out / 'firmware/selfcal.bin'),
+                    firmware_relative='firmware/selfcal.bin', bytes=len(data),
+                    sha256=hashlib.sha256(data).hexdigest(), core=str(core),
+                    core_config_sha256=fw.configuration_sha256(core),
                     header_sha256=hashlib.sha256(header).hexdigest(),
                     scan_mib=64, extra_scan_seed='0x9e3779b97f4a7c15',
                     final_mib=2048, final_modes=[0, 1, 2, 3],
@@ -145,8 +158,10 @@ static int traffic_diagnostic(void)
                     source_hashes={p.name: hashlib.sha256(p.read_bytes()).hexdigest()
                                    for p in src.iterdir() if p.is_file()})
     (out / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
-    (ROOT / 'build/fedora-vivado/ddr-recovery-firmware-current.json').write_text(
-        json.dumps(dict(out=str(out), **manifest), indent=2) + '\n')
+    if not args.out:
+        pointer = ROOT / 'build/fedora-vivado/ddr-recovery-firmware-current.json'
+        pointer.parent.mkdir(parents=True, exist_ok=True)
+        pointer.write_text(json.dumps(dict(out=str(out), **manifest), indent=2) + '\n')
     print(json.dumps(manifest), flush=True)
 
 

@@ -1,0 +1,34 @@
+{
+  "status": "EXPERIMENTAL_FIRMWARE_BUILT_HARDWARE_NOT_RUN",
+  "fw_id": 3491037186,
+  "traffic_diagnostic": true,
+  "firmware": "/home/fedora/openTPU/build/fedora-vivado/ch0-reset-pcie-20261016/portable-traffic-firmware/firmware/selfcal.bin",
+  "firmware_relative": "firmware/selfcal.bin",
+  "bytes": 11536,
+  "sha256": "b8fd98378d630ad4b9dc8bb2bb54276e80593d46044c2277ce765013cfabc2c8",
+  "core": "/home/fedora/openTPU/bitstreams/ch1-pcie-2gb/core",
+  "core_config_sha256": "f0f39eb7976199c724503b2990d998397c2420a905c38c96b578d665372187d5",
+  "header_sha256": "5524ac162a96033fe43870be8aadef55dff9573b9b25b1680ec69777a9a7b29b",
+  "scan_mib": 64,
+  "extra_scan_seed": "0x9e3779b97f4a7c15",
+  "final_mib": 2048,
+  "final_modes": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "production_source_changed": false,
+  "bitstream_changed": false,
+  "flash_written": false,
+  "source_hashes": {
+    "cal.c": "959bba11214bca1f6b454dcd6ae7a6294cf8725d08f8684a785897ea3925927b",
+    "cal.h": "5b33911451cfc0b316adffd72ef90d11e7c9d721143e33713aef7462c8db0b4e",
+    "crt0.S": "ebcbcb876af5b0a1e85826b689c281a04e402ea2bebae8f8245fe50958fea026",
+    "fw.py": "c1ac534ba83a150240b4232527df8bd1cb75f01cafc4d41414d2347411c72209",
+    "host.c": "3137a4142a229044330fa826a30ed72decba0c18b8018d9cacc17a3fa6f76c93",
+    "hw.h": "e458d8c22623c2f10278b19d8f05e199059c1ecdea4ffc0bf296ac6e8bc7c770",
+    "link.ld": "bb897e8fab88f1b852c92e383469ffc62ffcab2dfa77cd5c20a4505667e651ee",
+    "main.c": "316cea08b6c1232f2150dae609291e825766d18818a4ff467488a322917ca33e"
+  }
+}

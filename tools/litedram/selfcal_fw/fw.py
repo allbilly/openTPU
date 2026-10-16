@@ -16,6 +16,7 @@ fixed place (SELFCAL_BASE: calcpu.py pins the block at CSR location 16), so the 
 the firmware against the existing test images' maps.
 """
 import argparse
+import hashlib
 import importlib.util
 import math
 import os
@@ -149,6 +150,13 @@ def header(build):
 
 def write_header(build, out):
     Path(out).write_text(header(build))
+
+
+def configuration_sha256(build):
+    """Fingerprint every generated firmware setting, independent of the core directory name."""
+    # Only the first provenance comment contains the directory's basename.
+    canonical = header(build).split('\n', 1)[1].encode('utf-8')
+    return hashlib.sha256(canonical).hexdigest()
 
 
 def _run(cmd, **kw):

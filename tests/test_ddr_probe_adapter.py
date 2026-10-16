@@ -1,6 +1,8 @@
 """The portable snapshot must avoid calibration/BIST and close its transport."""
 import json
+import hashlib
 from pathlib import Path
+import shutil
 import sys
 from types import SimpleNamespace
 
@@ -129,3 +131,48 @@ def test_soak_stops_and_saves_first_failing_read(monkeypatch, tmp_path):
     assert len(calls) == 2
     assert saved[-1]['bist'][-1]['lanes'][6] == 1
     assert result['bist_trials'] == []
+
+
+def firmware_manifest(tmp_path):
+    data = bytes(range(64))
+    image = tmp_path/'firmware/selfcal.bin'
+    image.parent.mkdir()
+    image.write_bytes(data)
+    metadata = dict(firmware='/old/fedora/checkout/selfcal.bin',
+                    firmware_relative='firmware/selfcal.bin', sha256=hashlib.sha256(data).hexdigest(),
+                    core='/old/fedora/checkout/core',
+                    core_config_sha256=probe.firmware_config.configuration_sha256(CORE))
+    manifest = tmp_path/'manifest.json'
+    manifest.write_text(json.dumps(metadata))
+    return manifest, image, data
+
+
+def test_firmware_configuration_survives_transfer_to_another_host(tmp_path):
+    manifest, image, data = firmware_manifest(tmp_path)
+    moved_core = tmp_path/'different-core-directory-name'
+    moved_core.mkdir()
+    for name in ('csr.csv', 'sdram_init.py'):
+        shutil.copy2(CORE/name, moved_core/name)
+    fw, actual = probe.checked_firmware(manifest, moved_core)
+    assert actual == data
+    assert fw['core'] != str(moved_core)
+
+
+def test_firmware_rejects_changed_bytes(tmp_path):
+    manifest, image, data = firmware_manifest(tmp_path)
+    image.write_bytes(data+b'x')
+    with pytest.raises(ValueError, match='hash mismatch'):
+        probe.checked_firmware(manifest, CORE)
+
+
+def test_firmware_rejects_a_changed_calibration_register(tmp_path):
+    manifest, image, data = firmware_manifest(tmp_path)
+    moved_core = tmp_path/'wrong-core'
+    moved_core.mkdir()
+    shutil.copy2(CORE/'sdram_init.py', moved_core/'sdram_init.py')
+    csv = (CORE/'csr.csv').read_text()
+    old = 'csr_register,cal_ready,0x00001000,1,rw'
+    assert csv.count(old) == 1
+    (moved_core/'csr.csv').write_text(csv.replace(old, 'csr_register,cal_ready,0x00001004,1,rw'))
+    with pytest.raises(ValueError, match='configuration mismatch'):
+        probe.checked_firmware(manifest, moved_core)
