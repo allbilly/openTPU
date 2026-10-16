@@ -48,7 +48,8 @@ def main():
             cmd=Path('/proc')/str(e.get('child_pid',0))/'cmdline'
             ecc_live=props['ActiveState']=='active' and props['MainPID']!='0' and cmd.exists() and \
                      str(ecc/'generator/ecc_ports_check.py').encode() in cmd.read_bytes()
-        ready=m['status']=='CH1_RECOVERY_CORE_GENERATED_ABI_PASS_FOUR_PORT_ECC_GATE_PENDING' and gf.exists() and (ecc_complete or ecc_live)
+        ready=m['status'] in ('CH1_RECOVERY_CORE_GENERATED_ABI_PASS_FOUR_PORT_ECC_GATE_PENDING',
+                              'CH1_RECOVERY_CORE_AND_FOUR_PORT_ECC_PASS_IMPLEMENTATION_PENDING') and gf.exists() and (ecc_complete or ecc_live)
         wait.write_text(json.dumps(dict(status='READY' if ready else 'WAITING_FOR_CORE_AND_FOUR_PORT_ECC',
                         observed_utc=datetime.now(timezone.utc).isoformat(),generation=str(generation),
                         ecc_preparation=str(ecc),hardware_accessed=False,flash_written=False),indent=2)+'\n')
@@ -65,34 +66,13 @@ def main():
     # The ECC test and module used by the generated core must be exactly those tested.
     for name in ['ecc_ports.py','ecc_ports_check.py']:
         expected=hashlib.sha256((ecc/'generator'/name).read_bytes()).hexdigest()
-        item=next(x for x in m['source_witness'] if Path(x['path']).name==name)
+        witness=m.get('source_witness',m.get('generator_sources',[]))
+        item=next(x for x in witness if Path(x['path']).name==name)
         assert item['sha256']==expected and hashlib.sha256(Path(item['path']).read_bytes()).hexdigest()==expected
     if ecc_complete:
         assert (ecc/'four-port-ecc.log').read_text().splitlines()[-1]=='PASS'
-    template=ROOT/'tools/fedora_build_vivado_pcie_ddr800.py'
-    text=template.read_text()
-    old='ROOT = Path(__file__).resolve().parents[1]'
-    assert text.count(old)==1
-    text=text.replace(old,'ROOT = Path('+repr(str(ROOT))+')')
-    old='from fedora_vivado_ddr800_qualify import CORE, PROFILE, describe'
-    assert text.count(old)==1
-    text=text.replace(old,'from fedora_vivado_ddr800_qualify import PROFILE, describe\nCORE=Path('+repr(str(core))+')')
-    marker='    create = board/\'vivado/create_project.tcl\''
-    assert text.count(marker)==1
-    adaptation='''    ctrl = src/'rtl/boards/ypcb-00338/otpu_ctrl.sv'
-    ctl = ctrl.read_text()
-    marker = "      10'h016: r_d <= 32'(ACT_ROWS);"
-    if ctl.count(marker) != 1:
-        raise ValueError('Unexpected control-register capacity marker')
-    ctrl.write_text(ctl.replace(marker, marker+"\\n      10'h017: r_d <= 32'h08000102; // CH1 recovery, ABI1, 2048 MiB"))
-'''
-    text=text.replace(marker,adaptation+marker)
-    text=text.replace("record = dict(status='PREPARED',", "record = dict(physical_user_channels=[1], usable_logical_bytes=1<<31, virtual_channel_bytes=1<<30, memory_profile_register='0x5c: 0x08000102', user_address_mapping='physical CH1 beat = (virtual beat << 1) | virtual channel', calibration_mask=2, status='PREPARED',")
-    text=text.replace("record = dict(physical_user_channels=", "record = dict(ecc_gate_exit_file="+repr(str(ef))+", ecc_gate_complete_before_build="+repr(ecc_complete)+", physical_user_channels=")
-    text=text.replace('FULL_NATIVE_VIVADO_PCIE_DDR800_BUILD_PASS_IMAGE_AND_HARDWARE_REVIEW_PENDING',
-                      'FULL_NATIVE_VIVADO_PCIE_CH1_RECOVERY_BUILD_PASS_IMAGE_AND_HARDWARE_REVIEW_PENDING')
-    driver=out.with_suffix('.py');driver.write_text(text)
-    command=[sys.executable,str(driver),'--out',str(out)]
+    builder=ROOT/'tools/fedora_build_vivado_pcie_ddr800.py'
+    command=[sys.executable,str(builder),'--core',str(core),'--out',str(out)]
     out.with_suffix('.command.json').write_text(json.dumps(command,indent=2)+'\n')
     return subprocess.run(command,cwd=ROOT).returncode
 

@@ -86,6 +86,10 @@ def describe(path):
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--out',required=True,type=Path)
+    ap.add_argument('--python',type=Path,default=ENV/'venv/bin/python',
+                    help='Python in the pinned Migen/LiteX/LiteDRAM environment')
+    ap.add_argument('--rv-cc',type=Path,default=ENV/'toolchain/riscv64-elf-gcc',
+                    help='RV32I/ILP32-capable GCC; its objcopy and objdump must be beside it')
     args=ap.parse_args()
     out=args.out.resolve()
     if out.exists():
@@ -96,10 +100,18 @@ def main():
                     ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
     gen=src/'gen_core.py'
     text=gen.read_text()
-    text=text.replace('from migen import ','from migen import Cat, Constant, ',1)
     start=text.index('            # the user ports (the even banks\'')
     end=text.index('\n        # CSRs:',start)
     gen.write_text(text[:start]+PORT_BLOCK+text[end:])
+    # The firmware helper resolves ddrcal relative to the repository in its
+    # normal location. An isolated generator must carry that exact parser.
+    firmware=src/'selfcal_fw/fw.py'
+    text=firmware.read_text()
+    original='HERE.parents[2] / "opentpu" / "host" / "ddrcal.py"'
+    if text.count(original)!=1:
+        raise ValueError('Unexpected firmware parser import')
+    firmware.write_text(text.replace(original,'HERE / "ddrcal.py"'))
+    shutil.copy2(ROOT/'opentpu/host/ddrcal.py',src/'selfcal_fw/ddrcal.py')
     cpu=src/'calcpu.py'
     text=cpu.read_text()
     old='CSRField("channels", size=2, reset=0b11,'
@@ -134,10 +146,10 @@ def main():
         if code:
             raise RuntimeError(name+' failed; see '+str(out/(name+'.log')))
     try:
-        python=str(ENV/'venv/bin/python')
+        python=str(args.python.resolve())
         run('four-port-ecc',[python,str(test),'--cycles','1500','--seed','1'])
         core=out/'core'
-        env=dict(os.environ,RV_CC=str(ENV/'toolchain/riscv64-elf-gcc'),PYTHONHASHSEED='0')
+        env=dict(os.environ,RV_CC=str(args.rv_cc.resolve()),PYTHONHASHSEED='0')
         run('generate',[python,str(gen),'--sys-mhz','100','--phy','wl','--selfcal',
                         '--fw-id','c1010800','--out',str(core)],env)
         qualify(core)

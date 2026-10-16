@@ -1,10 +1,44 @@
 # Bitstream locations and build differences
 
 Snapshot: October 15, 2026. Repository: `${OTPU_ROOT}`.
-All paths below are relative to this repository. The inventory contains all
-22 `.bit`/`.mcs` files found here, including older experiments and bundled
-loader helpers. Exact byte sizes and SHA256 hashes are in
+All paths below are relative to this repository. The original build-output
+inventory contains 22 `.bit`/`.mcs` files, including older experiments and
+bundled loader helpers. The tracked release below copies the current PCIe
+images into Git. Exact byte sizes and SHA256 hashes of the original outputs are in
 [bitstreams.tsv](bitstreams.tsv).
+
+## Tracked PCIe 2 GiB release
+
+The current CH1-only PCIe release is included in
+[`bitstreams/ch1-pcie-2gb/`](../bitstreams/ch1-pcie-2gb/). A clone of this branch
+contains the built images and matching DDR800 runtime data:
+
+- [`otpu.bit`](../bitstreams/ch1-pcie-2gb/otpu.bit): load the FPGA's volatile SRAM over JTAG.
+- [`otpu.mcs`](../bitstreams/ch1-pcie-2gb/otpu.mcs): the same design in BPI x16 NOR programming format.
+- [`core/`](../bitstreams/ch1-pcie-2gb/core/): matched calibration tables and the files checked by `openxc7-profile.json`.
+- [`manifest.json`](../bitstreams/ch1-pcie-2gb/manifest.json): target, memory mapping, file hashes and measured qualification scope.
+- [`evidence/`](../bitstreams/ch1-pcie-2gb/evidence/): preserved offline review and flash-programming receipts.
+
+Verify the release on macOS before selecting an image:
+
+```sh
+cd bitstreams/ch1-pcie-2gb
+shasum -a 256 -c SHA256SUMS
+```
+
+These images were built with Vivado on Fedora. Loading an existing `.bit` on
+macOS needs a working JTAG programmer with DLC10/XC7K480T support, rather than
+a local Vivado installation. Confirm the expected IDCODE `0x23751093` and
+successful configuration completion. A BPI NOR write additionally requires
+support for the actual board flash and its x16 interface; successful `.bit`
+SRAM loading alone does not establish that support. The Chestnut PCIe DMA
+transport is the runtime connection, not a JTAG programmer.
+
+Select the release's `core/` as the transport's `calibration_data`; the
+repository's default tables are DDR1066 and differ from this DDR800 image.
+Both logical memory channels use physical CH1, for 2 GiB total. This release
+does not repair CH0. Model checkpoints and Python environments are separate.
+The experimental PHY reset patch is not part of this release.
 
 ## The two current designs
 
@@ -56,8 +90,8 @@ must be uploaded again after power loss.
 | Artifact | Bytes | SHA256 |
 | --- | ---: | --- |
 | [Standalone JTAG .bit](../build/fedora-vivado/ch1-jtag-resume-20261014T105300Z/otpu-ch1-jtag.bit) | 12,484,177 | `0fc10bf2a6459ca5273b0dc6616e43974209ff0176fa2b95e017626e03f93d21` |
-| [PCIe .bit](../build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/project/otpu.bit) | 12,472,031 | `c7d3891b58d65ba72a3fc67c27c63c8dca3246db55d6504f7a63b636c876d1cf` |
-| [PCIe .mcs](../build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/project/otpu.mcs) | 34,300,540 | `101178a32024ba416f90813afe7672b80e26fb154982d7fec85209bbab2e5f77` |
+| [PCIe .bit](../bitstreams/ch1-pcie-2gb/otpu.bit) | 12,472,031 | `c7d3891b58d65ba72a3fc67c27c63c8dca3246db55d6504f7a63b636c876d1cf` |
+| [PCIe .mcs](../bitstreams/ch1-pcie-2gb/otpu.mcs) | 34,300,540 | `101178a32024ba416f90813afe7672b80e26fb154982d7fec85209bbab2e5f77` |
 
 - [Physical JTAG LFM2 receipt](../build/fedora-vivado/ch1-lfm2-physical-pass-current.json).
 - [PCIe image review](../build/fedora-vivado/ch1-pcie-program-review-current.json).

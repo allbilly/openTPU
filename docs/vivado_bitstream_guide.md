@@ -22,11 +22,161 @@ are historical references and still touch CH0, even for a small model.
 This guide records the frozen inputs and batch stages that produced the earlier
 Vivado reference images, plus their checking and loading commands.
 
-Updated: October 15, 2026; the frozen reference procedures date from October 13.
+Updated: October 16, 2026; the frozen reference procedures date from October 13.
 Repository: `${OTPU_ROOT}`.
 Run commands from the checkout root and set external tool locations as described
 in [portable workspace paths](workspace_layout.md#portable-paths-and-external-tools).
 The FPGA is an **XC7K480T-2, FFG1156**, on a YPCB-00338-1P1 card.
+
+## Rebuild the current CH1 PCIe release on Fedora
+
+The built release lives in [`bitstreams/ch1-pcie-2gb/`](../bitstreams/ch1-pcie-2gb/).
+Its `.bit`, matching BPI x16 `.mcs`, DDR800 core, calibration tables and
+qualification receipts are included in Git. The source used for this release
+is on `ypcb/ch1-bringup-local`; upstream `main` is a different design revision.
+
+This is the complete accelerator: MCOLS4, ACT_ROWS4, LANES8, VPU_CL2,
+MXU_IMPL2, 100 MHz core, DDR800 and XDMA Gen2 x8. Both logical channels use
+physical CH1, with 1 GiB each and 2 GiB total. Physical CH0's PHY and diagnostic
+CSRs remain present, but it carries no normal model traffic. This configuration
+bypasses the unresolved CH0 lane-6 problem.
+
+### Build from the shipped DDR800 core
+
+Use Linux with full Vivado 2026.1 and device/license support for
+`xc7k480tffg1156-2`, Git and Python 3.11 or newer. Vivado Lab alone cannot
+synthesize or implement the design. This path uses the exact generated core
+shipped with the release; Migen, LiteX, LiteDRAM, the RISC-V compiler, model
+weights and the optional `~/ypcb` tooling tree are not build dependencies here.
+
+Run from a clone of this branch on the Fedora build machine:
+
+```bash
+export VIVADO_ROOT="$HOME/vivado/2026.1/Vivado" # adjust for your installation
+source "$VIVADO_ROOT/settings64.sh"
+vivado -version
+
+python3 tools/fedora_build_vivado_pcie_ddr800.py \
+  --core bitstreams/ch1-pcie-2gb/core \
+  --out build/vivado/ch1-pcie-rebuild
+```
+
+Choose a fresh `--out` directory for each attempt. The helper checks the core's
+hashes, complete port/CPU ABI, DDR800 parameters, CH1 address mapping and
+capacity. It snapshots the full RTL and constraints, adds the CH1 recovery
+marker `0x08000102` at register `0x5c`, creates the XDMA project, and runs full
+synthesis and implementation with eight workers. It neither connects to the
+card nor programs SRAM or NOR. The release's old source BUILD_ID value is kept
+by default; `--build-id` selects a distinct hexadecimal value for experiments.
+
+For a source preparation check before a long build, use `--prepare-only` with
+a different fresh output directory. This creates the snapshot and manifest;
+it does not run implementation. The actual historical PCIe build took about
+2 hours 23 minutes including project/IP preparation. Runtime varies with the
+machine and implementation result.
+
+Expected outputs:
+
+```text
+build/vivado/ch1-pcie-rebuild/
+  manifest.json                  status, source hashes and actual stage exits
+  source/                        frozen RTL, generated DDR core and constraints
+  create.command.json / create.log / create.exit
+  build.command.json / build.log / build.exit
+  project/otpu.bit               FPGA SRAM configuration
+  project/otpu.mcs               matching BPI x16 NOR programming image
+  project/final-routed.dcp       implemented design checkpoint
+  project/pre-bit-gates.json     numerical timing and routing checks
+  project/reports/               timing, route, DRC, CDC and other reports
+```
+
+A completed build requires zero `create.exit` and `build.exit`, manifest status
+`FULL_NATIVE_VIVADO_PCIE_CH1_RECOVERY_BUILD_PASS_IMAGE_AND_HARDWARE_REVIEW_PENDING`,
+all routable nets fully routed, zero routing errors, nonnegative setup/hold/pulse
+slack and no failing endpoints. The Tcl gate rejects Error/Critical Warning
+DRCs before bitstream generation. Fresh pin, packet/CRC, CDC and bus-skew
+reviews are still required for the new output, followed by hardware tests.
+The preserved release's receipts describe its original files; they do not
+qualify a rebuild. A rebuild may produce different bytes and hashes.
+
+### Regenerate the CH1 DDR core when changing the PHY
+
+Only PHY/controller experiments need this step. Use the versions pinned by
+[`boards/ypcb-00338/litedram/core.json`](../boards/ypcb-00338/litedram/core.json):
+
+```bash
+python3.11 -m venv build/litedram-env
+build/litedram-env/bin/python -m pip install \
+  'git+https://github.com/m-labs/migen@e19524c963a8342952840983047557707fbe0b6a' \
+  'git+https://github.com/enjoy-digital/litex@fad9b3759f24a877a71925b7fcfc8b6748c97d62' \
+  'git+https://github.com/enjoy-digital/litedram@7b28f53b1f4c1732b4b503a844a4d5a0cc56416b' \
+  pythondata-cpu-vexriscv==1.0.1.post407 \
+  pythondata-software-compiler-rt==0.0.post6206 \
+  pythondata-software-picolibc==1.7.9.post181 PyYAML==6.0.3 pyserial==3.5
+```
+
+Supply an installed GCC toolchain supporting `-march=rv32i -mabi=ilp32`,
+including the matching libgcc, objcopy and objdump. The three executables must
+share a prefix and directory. A toolchain without RV32I/ILP32 runtime support
+cannot link this calibration CPU's firmware. If using a container-backed
+compiler, mount the selected output directory writable in that container.
+
+```bash
+python3 tools/fedora_prepare_ch1_recovery.py \
+  --python "$PWD/build/litedram-env/bin/python" \
+  --rv-cc /path/to/toolchain/bin/riscv64-unknown-elf-gcc \
+  --out build/vivado/ch1-new-core
+
+python3 tools/fedora_build_vivado_pcie_ddr800.py \
+  --core build/vivado/ch1-new-core/core \
+  --out build/vivado/ch1-new-core-pcie
+```
+
+The preparation command copies the generator, includes its matching host CSR
+parser, tests the four-port ECC adapter, builds the real calibration firmware,
+and checks the generated CSR/port ABI and firmware capacity. Its manifest must
+report `CH1_RECOVERY_CORE_AND_FOUR_PORT_ECC_PASS_IMPLEMENTATION_PENDING` before
+starting the board build. It preserves the reference embedded CPU when the
+packaged CPU data differs while the complete CPU port ABI matches.
+
+### Isolated serializer-reset experiment for CH0
+
+The current release already contains static read clocks, per-bit read framing
+and a serializer reset register per pad. Upstream commit
+[`f2d1023d`](https://github.com/FeSens/openTPU/commit/f2d1023ddded0a4d70b8810a715e173ea989efd7)
+adds a sys-clock register before those reset paths. The
+[isolated patch](../boards/ypcb-00338/experiments/ch0-serializer-reset.patch)
+changes that one PHY input stage. It is a timing candidate, not a proven CH0
+repair. It does not appear in the current release images.
+
+For a new experiment, make an isolated source checkout of this documented
+revision, apply that patch there, regenerate the CH1 DDR800 core as above, then
+build the complete PCIe image using the new core and `--build-id c0160001`.
+Preserve the known working release as a fallback. Before testing on the Mac,
+qualify the experiment's own implementation, image integrity and constraints.
+The retained physical CH0 calibration/BIST CSRs allow raw CH0 tests even though
+normal logical channel 0 transfers go to physical CH1 in this recovery design.
+
+### Load a completed image from macOS
+
+Copy or pull the release directory, then verify it with macOS's built-in tool:
+
+```sh
+cd bitstreams/ch1-pcie-2gb
+shasum -a 256 -c SHA256SUMS
+```
+
+Use `otpu.bit` with the already working Mac JTAG/SRAM programmer. It must
+support the cable and XC7K480T, detect raw IDCODE `0x23751093`, and verify
+configuration completion. Vivado is needed on Fedora to build a changed
+design; it is not needed on macOS to send an existing bitstream through a
+working programmer. The `.mcs` targets the board's parallel BPI x16 NOR;
+permanent programming requires additional flash-device and verification
+support in the Mac tool. The Chestnut PCIe runtime transport is separate.
+
+Set the inference transport's `calibration_data` to the matching release's
+`core/`. After power loss, upload model weights again into volatile DDR.
+Use a new experiment's own `core/` when testing that image.
 
 ## 1. Choose the correct image
 

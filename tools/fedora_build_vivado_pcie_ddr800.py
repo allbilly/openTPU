@@ -16,6 +16,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -32,13 +33,30 @@ VIVADO = Path(expand_paths('@VIVADO_BIN@/vivado'))
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--out', required=True, type=Path)
+    ap.add_argument('--core', type=Path, default=CORE,
+                    help='Checked DDR800 core; use bitstreams/ch1-pcie-2gb/core for the release')
+    ap.add_argument('--build-id', default='5b1e646c',
+                    help='One to eight hexadecimal digits exposed in the BUILD_ID register')
+    ap.add_argument('--prepare-only', action='store_true',
+                    help='Write and check the source snapshot without running Vivado')
     args = ap.parse_args()
+    if not re.fullmatch(r'[0-9a-fA-F]{1,8}', args.build_id):
+        ap.error('--build-id must contain one to eight hexadecimal digits')
+    core = args.core.resolve()
     out = args.out.resolve()
     if out.exists():
         ap.error('Choose a fresh build directory')
-    checked = profile(CORE)
+    checked = profile(core)
     if checked['parameters'] != dict(CORE_KHZ=100000, DDR_MTS=800):
         raise ValueError('Wrong checked full DDR800 core')
+    memory = json.loads((core/'openxc7-profile.json').read_text())
+    ch1 = memory.get('physical_user_channels') == [1]
+    if ch1 and any(memory.get(key) != value for key, value in {
+            'usable_logical_bytes': 1 << 31, 'virtual_channel_bytes': 1 << 30,
+            'calibration_mask': 2,
+            'user_address_mapping': 'physical CH1 beat = (virtual beat << 1) | virtual channel'
+    }.items()):
+        raise ValueError('CH1 recovery core has inconsistent capacity, calibration or mapping')
     out.mkdir(parents=True)
     src = out/'source'
     shutil.copytree(ROOT/'rtl', src/'rtl')
@@ -47,8 +65,16 @@ def main():
     shutil.copytree(ROOT/'boards/ypcb-00338/constraints', board/'constraints')
     (board/'litedram').mkdir()
     for name in FILES.values():
-        shutil.copy2(CORE/name, board/'litedram'/name)
-    shutil.copy2(CORE/'openxc7-profile.json', board/'litedram/openxc7-profile.json')
+        shutil.copy2(core/name, board/'litedram'/name)
+    shutil.copy2(core/'openxc7-profile.json', board/'litedram/openxc7-profile.json')
+    if ch1:
+        ctrl = src/'rtl/boards/ypcb-00338/otpu_ctrl.sv'
+        text = ctrl.read_text()
+        marker = "      10'h016: r_d <= 32'(ACT_ROWS);"
+        if text.count(marker) != 1 or "10'h017:" in text:
+            raise ValueError('Unexpected control-register recovery marker layout')
+        ctrl.write_text(text.replace(marker, marker +
+                        "\n      10'h017: r_d <= 32'h08000102; // CH1 recovery, ABI1, 2048 MiB"))
     create = board/'vivado/create_project.tcl'
     original = create.read_text()
     old = 'if {$DDR_SPEED != 1066} { error "DDR3-$DDR_SPEED: the LiteDRAM core is generated for DDR3-1066" }'
@@ -91,6 +117,10 @@ exec python3 $::env(OTPU_PRE_BIT_GATE) $out/reports/timing_summary.rpt $out/repo
     record = dict(status='PREPARED', started_utc=datetime.now(timezone.utc).isoformat(),
                   profile=PROFILE, pcie='XDMA Gen2 x8', top='otpu_fpga_top_ld',
                   hardware_accessed=False, flash_written=False, hardware_ready=False,
+                  build_id=args.build_id, core=str(core),
+                  physical_user_channels=[1] if ch1 else [0, 1],
+                  usable_logical_bytes=(1 << 31) if ch1 else (1 << 32),
+                  memory_profile_register='0x5c: 0x08000102' if ch1 else None,
                   threads_requested=8, repository_revision=subprocess.check_output(
                       ['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
                   reference_calibration_profile=describe(checked['manifest']),
@@ -105,6 +135,10 @@ exec python3 $::env(OTPU_PRE_BIT_GATE) $out/reports/timing_summary.rpt $out/repo
         tmp.write_text(json.dumps(record,indent=2)+'\n')
         tmp.replace(out/'manifest.json')
     save()
+    if args.prepare_only:
+        record['status'] = 'PREPARED_ONLY_IMPLEMENTATION_NOT_RUN'
+        save()
+        return 0
     env_data=subprocess.check_output(['/bin/bash','-c','source "$1"\nenv -0',
                                      'vivado-env',str(SETTINGS)])
     env=dict(item.decode().split('=',1) for item in env_data.split(b'\0') if item)
@@ -114,7 +148,7 @@ exec python3 $::env(OTPU_PRE_BIT_GATE) $out/reports/timing_summary.rpt $out/repo
     try:
         stages=[
             ('create',[str(VIVADO),'-mode','batch','-nojournal','-nolog','-source',str(create),
-                       '-tclargs','800',str(project),'4','100','5b1e646c','2','8','4','1','systolic']),
+                       '-tclargs','800',str(project),'4','100',args.build_id,'2','8','4','1','systolic']),
             ('build',[str(VIVADO),'-mode','batch','-nojournal','-nolog','-source',str(build),
                       '-tclargs',str(project),'8','full',''])]
         for name, command in stages:
@@ -134,7 +168,9 @@ exec python3 $::env(OTPU_PRE_BIT_GATE) $out/reports/timing_summary.rpt $out/repo
         gates=json.loads((project/'pre-bit-gates.json').read_text())
         if gates['status']!='FULL_NATIVE_PCIE_ROUTE_AND_NUMERICAL_TIMING_PASS_HARDWARE_PENDING':
             raise ValueError('Full pre-bit gates absent')
-        record.update(status='FULL_NATIVE_VIVADO_PCIE_DDR800_BUILD_PASS_IMAGE_AND_HARDWARE_REVIEW_PENDING',
+        status = ('FULL_NATIVE_VIVADO_PCIE_CH1_RECOVERY_BUILD_PASS_IMAGE_AND_HARDWARE_REVIEW_PENDING'
+                  if ch1 else 'FULL_NATIVE_VIVADO_PCIE_DDR800_BUILD_PASS_IMAGE_AND_HARDWARE_REVIEW_PENDING')
+        record.update(status=status,
                       gates=gates, outputs={name:describe(project/name) for name in
                                           ['otpu.bit','otpu.mcs','final-routed.dcp']})
         return 0
