@@ -189,7 +189,9 @@ For the tested standalone JTAG image, follow the
 the JTAG/PCIe build differences and current verification status are in the
 [bitstream index](docs/bitstreams.md); the
 [permanent PCIe guide](docs/permanent_pcie_ch1.md) records the completed flash
-write and pending PCIe host test. The
+write and pending PCIe host test. The current built PCIe/2 GiB release and its
+matched DDR800 data are included in [bitstreams/ch1-pcie-2gb](bitstreams/ch1-pcie-2gb/),
+with [Fedora rebuild and macOS loading instructions](docs/vivado_bitstream_guide.md#rebuild-the-current-ch1-pcie-release-on-fedora). The
 [OpenXC7 bitstream plan](docs/openxc7_bitstream_plan.md) records the preserved
 placement, live routing measurements, upstream fixes and remaining checks.
 The current status and elapsed times are in [progress.md](progress.md).

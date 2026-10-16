@@ -6,7 +6,33 @@ records the compatibility aliases and the separation of source from generated
 bitstreams/model archives. Current source/docs paths were updated; hashed
 build receipts retain their original paths.
 
-## Current priority: permanent CH1 PCIe boot (October 15)
+## Current priority: CH0 diagnosis and Mac handoff (October 16)
+
+The card is now connected to the Mac. The user will run the prepared physical
+tests there and return results; Vivado builds and implementation review run
+on Fedora. The working PCIe/2 GiB release, its matched DDR800 core and checksums
+are tracked in [bitstreams/ch1-pcie-2gb](bitstreams/ch1-pcie-2gb/).
+[Rebuild and loading commands](docs/vivado_bitstream_guide.md#rebuild-the-current-ch1-pcie-release-on-fedora)
+and [Mac CH0 diagnostics](docs/ddr_calibration_review.md#continue-diagnosis-through-chestnut-on-macos)
+are included. Runtime on the Mac does not require Vivado or the Fedora `~/ypcb`
+tree. The existing Mac `transport.py` and `run_lfm2.py` have been requested;
+their exact files are not present in this checkout and are not committed.
+
+A full PCIe candidate with BUILD_ID `c0160001` is running in
+`build/fedora-vivado/ch0-reset-pcie-20261016`. It uses the exercised CH1 recovery
+source snapshot and adds one sys-clock serializer-reset register to each
+physical DDR PHY. Both registers survived synthesis as FDSE flip-flops;
+placement and routing, image qualification and physical tests remain pending.
+The calibration firmware, runtime initialization data, CSR rows and XDC match
+the previous image, apart from generated CSV comments. The working release is
+preserved. This candidate does not establish a CH0 repair.
+
+Local commits `88b5c05f` and `a1848cfc` package the release/build instructions
+and add the portable diagnostic transport path. Publishing is pending:
+the tool session has no GitHub push credentials. The user can publish these
+commits with `git push origin ypcb/ch1-bringup-local`.
+
+## Previous priority: permanent CH1 PCIe boot (October 15)
 
 **Permanent CH1 PCIe flash programming, separate readback verification and
 JTAG-requested boot from flash have passed.** The run began at 07:44 HKT on

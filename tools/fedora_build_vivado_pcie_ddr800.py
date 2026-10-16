@@ -120,6 +120,9 @@ exec python3 $::env(OTPU_PRE_BIT_GATE) $out/reports/timing_summary.rpt $out/repo
                   build_id=args.build_id, core=str(core),
                   physical_user_channels=[1] if ch1 else [0, 1],
                   usable_logical_bytes=(1 << 31) if ch1 else (1 << 32),
+                  virtual_channel_bytes=(1 << 30) if ch1 else (1 << 31),
+                  calibration_mask=2 if ch1 else 3,
+                  user_address_mapping=memory.get('user_address_mapping'),
                   memory_profile_register='0x5c: 0x08000102' if ch1 else None,
                   threads_requested=8, repository_revision=subprocess.check_output(
                       ['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),

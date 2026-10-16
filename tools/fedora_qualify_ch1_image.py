@@ -23,7 +23,7 @@ from fedora_check_native_image import timing_summary, route_summary
 COMPLETE = 'FULL_NATIVE_VIVADO_PCIE_CH1_RECOVERY_BUILD_PASS_IMAGE_AND_HARDWARE_REVIEW_PENDING'
 FULL = dict(MCOLS=4, ACT_ROWS=4, LANES=8, VPU_CL=2, MXU_IMPL=2, CORE_KHZ=100000, DDR_MTS=800)
 VIVADO = Path(expand_paths('@VIVADO_BIN@/vivado'))
-PACKETS = ROOT.parent/'bonetto-soc/scripts/fedora-check-vivado-bitstream.py'
+PACKETS = ROOT/'tools/check_vivado_bitstream.py'
 CRC = ROOT/'build/fedora-openxc7/bitstream-crc-qualification-20261013T152000Z/check-crc'
 CRC_SHA = '047b5e0dc5c29193e2a1311eef1d09d44d8b08d37844fb6a771b1f9b76057802'
 
@@ -66,6 +66,16 @@ foreach c [get_cells -hier -filter {REF_NAME == PCIE_2_1}] {
 foreach c [get_cells -hier -filter {REF_NAME == BSCANE2}] {
     puts $f "BSCAN\t$c\t[get_property JTAG_CHAIN $c]"
 }
+if {[lindex $argv 2] eq "1"} {
+    foreach ch {0 1} {
+        set regs [get_cells -quiet -hier -filter "NAME =~ *wl7ddrphy${ch}_sys_rst_reg*"]
+        if {![llength $regs]} {error "Serializer reset stage absent on channel $ch"}
+        foreach c $regs {
+            if {[get_property REF_NAME $c] ni {FDRE FDSE}} {error "Unexpected PHY reset register: $c"}
+            puts $f "PHY_RESET\t$ch\t$c\t[get_property REF_NAME $c]"
+        }
+    }
+}
 close $f
 report_route_status -file $out/route.rpt
 report_timing_summary -report_unconstrained -file $out/timing.rpt
@@ -107,6 +117,8 @@ def main():
     ap.add_argument('--ecc-preparation', type=Path, required=True)
     ap.add_argument('--out', type=Path, required=True)
     ap.add_argument('--wait-unit', help='Wait for this exact build service; never restart it')
+    ap.add_argument('--expect-serializer-reset-stage', action='store_true',
+                    help='Require the isolated upstream serializer-reset registers after implementation')
     a = ap.parse_args()
     build = a.build.resolve(); out = a.out.resolve(); ecc = a.ecc_preparation.resolve()
     require(not out.exists(), 'Choose a fresh qualification directory')
@@ -152,7 +164,8 @@ def main():
             unchanged(item)
         gm=json.loads((a.generation/'manifest.json').read_text())
         for name in ('ecc_ports.py','ecc_ports_check.py'):
-            witness=next(x for x in gm['source_witness'] if Path(x['path']).name == name)
+            witnesses=gm.get('source_witness',gm.get('generator_sources',[]))
+            witness=next(x for x in witnesses if Path(x['path']).name == name)
             unchanged(witness)
             require(describe(ecc/'generator'/name)['sha256'] == witness['sha256'], 'ECC tested source differs')
         require((ecc/'four-port-ecc.exit').read_text().strip() == '0', 'Four-port ECC failed')
@@ -167,14 +180,27 @@ def main():
         packet=module.check(bit,m['outputs']['otpu.bit']['sha256'])
         require(packet['status'] == 'PASS' and packet['structure']['header']['a'].split(';',1)[0] == 'otpu_fpga_top_ld', 'Bitstream packet check failed')
         (out/'packets.json').write_text(json.dumps(packet,indent=2)+'\n')
-        require(describe(CRC)['sha256'] == CRC_SHA, 'CRC checker changed')
-        result=subprocess.run([str(CRC),str(bit)],capture_output=True,text=True,timeout=60)
+        checker = CRC
+        if checker.is_file():
+            require(describe(checker)['sha256'] == CRC_SHA, 'CRC checker changed')
+        else:
+            checker = out/'check-crc'
+            source = ROOT/'tools/openxc7_bitstream_crc.cc'
+            command = ['g++', '-std=c++17', '-O2', str(source), '-o', str(checker)]
+            (out/'crc-build.command.json').write_text(json.dumps(command,indent=2)+'\n')
+            with (out/'crc-build.log').open('w') as log:
+                compiled = subprocess.run(command,stdout=log,stderr=subprocess.STDOUT,timeout=120)
+            require(compiled.returncode == 0, 'CRC checker compilation failed')
+            r['crc_checker_source'] = describe(source)
+        r['crc_checker'] = describe(checker)
+        result=subprocess.run([str(checker),str(bit)],capture_output=True,text=True,timeout=60)
         crc=json.loads(result.stdout)
         require(result.returncode == 0 and crc['status'] == 'ALL_PRESENT_CRC_CHECKPOINTS_MATCH' and crc['crc_checkpoints'] == 2,'Configuration CRC failed')
         (out/'crc.json').write_text(json.dumps(crc,indent=2)+'\n')
         r.update(status='ROUTED_CHECKPOINT_AUDIT_RUNNING',bitstream=describe(bit),crc=crc);save()
         (out/'audit.tcl').write_text(TCL)
-        command=[str(VIVADO),'-mode','batch','-nojournal','-nolog','-source',str(out/'audit.tcl'),'-tclargs',str(dcp),str(out)]
+        command=[str(VIVADO),'-mode','batch','-nojournal','-nolog','-source',str(out/'audit.tcl'),'-tclargs',str(dcp),str(out),
+                 '1' if a.expect_serializer_reset_stage else '0']
         (out/'audit.command.json').write_text(json.dumps(command,indent=2)+'\n')
         with (out/'audit.log').open('w') as log:
             result=subprocess.run(command,cwd=out,stdout=log,stderr=subprocess.STDOUT,timeout=1200)
@@ -196,6 +222,11 @@ def main():
         gt=[x[2] for x in lines if x[0]=='GT']
         require(len(gt) == 8 and set(gt) == {f'GTXE2_CHANNEL_X0Y{i}' for i in range(16,24)},'Eight PCIe GTX sites differ')
         require([x[2] for x in lines if x[0]=='PCIE'] == ['PCIE_X0Y0'] and not any(x[0]=='BSCAN' for x in lines),'PCIe primitive or top differs')
+        if a.expect_serializer_reset_stage:
+            resets=[x for x in lines if x[0]=='PHY_RESET']
+            require({x[1] for x in resets} == {'0','1'} and all(x[3] in ('FDRE','FDSE') for x in resets),
+                    'Implemented serializer reset stages differ')
+            r['serializer_reset_registers'] = resets
         timing=timing_summary((out/'timing.rpt').read_text()); route=route_summary((out/'route.rpt').read_text())
         require(all(timing[k] >= 0 for k in ('WNS','WHS','WPWS')) and all(timing[k] == 0 for k in ('setup_failing','hold_failing','pulse_failing')), 'Numerical timing failed')
         require(route['routable'] == route['fully_routed'] > 0 and route['routing_errors'] == 0,'Route is incomplete')

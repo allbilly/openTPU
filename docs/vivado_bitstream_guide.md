@@ -152,10 +152,47 @@ repair. It does not appear in the current release images.
 For a new experiment, make an isolated source checkout of this documented
 revision, apply that patch there, regenerate the CH1 DDR800 core as above, then
 build the complete PCIe image using the new core and `--build-id c0160001`.
+With the pinned environment and an RV32I/ILP32 compiler installed:
+
+```bash
+export OTPU_CHECKOUT="$PWD"
+export OTPU_EXPERIMENT="$PWD/build/ch0-reset-experiment"
+export OTPU_RV_CC="/path/to/toolchain/bin/riscv64-unknown-elf-gcc"
+mkdir "$OTPU_EXPERIMENT"
+git worktree add --detach "$OTPU_EXPERIMENT/source" HEAD
+git -C "$OTPU_EXPERIMENT/source" apply \
+  "$OTPU_CHECKOUT/boards/ypcb-00338/experiments/ch0-serializer-reset.patch"
+
+python3 "$OTPU_EXPERIMENT/source/tools/fedora_prepare_ch1_recovery.py" \
+  --python "$OTPU_CHECKOUT/build/litedram-env/bin/python" \
+  --rv-cc "$OTPU_RV_CC" --out "$OTPU_EXPERIMENT/memory"
+
+python3 "$OTPU_EXPERIMENT/source/tools/fedora_build_vivado_pcie_ddr800.py" \
+  --core "$OTPU_EXPERIMENT/memory/core" \
+  --build-id c0160001 --out "$OTPU_EXPERIMENT/pcie"
+```
+
 Preserve the known working release as a fallback. Before testing on the Mac,
 qualify the experiment's own implementation, image integrity and constraints.
 The retained physical CH0 calibration/BIST CSRs allow raw CH0 tests even though
 normal logical channel 0 transfers go to physical CH1 in this recovery design.
+
+The independent image checker uses the packet parser and CRC source included
+in `tools/`. A GNU C++ compiler is needed if the local CRC executable is not
+already available. For a freshly generated experiment:
+
+```bash
+python3 tools/fedora_qualify_ch1_image.py \
+  --build "$OTPU_EXPERIMENT/pcie" \
+  --generation "$OTPU_EXPERIMENT/memory" \
+  --ecc-preparation "$OTPU_EXPERIMENT/memory" \
+  --expect-serializer-reset-stage --out "$OTPU_EXPERIMENT/qualification"
+```
+
+This checks the actual implemented reset registers as well as source hashes,
+the full ECC comparison, packet/CRC, pins, routing and numerical timing. Its
+success status still leaves fresh CDC and bus-skew review pending; the checked
+in release's final review cannot be reused for a different implemented design.
 
 ### Load a completed image from macOS
 

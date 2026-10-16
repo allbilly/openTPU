@@ -1,7 +1,27 @@
-# DDR calibration review, October 15, 2026
+# DDR calibration review, updated October 16, 2026
 
-The working Fedora checkout uses `origin` = `https://github.com/FeSens/openTPU`
-for both fetch and push. HEAD remains `5b1e646cdec9de449ba416952ec854b0b2d973d7`.
+## Current handoff
+
+The card is connected to the Mac. Fedora builds the images; the user runs the
+commands below on the Mac and returns the saved results. The working PCIe
+image and matched DDR800 data are tracked in
+[`bitstreams/ch1-pcie-2gb/`](../bitstreams/ch1-pcie-2gb/). This image bypasses
+physical CH0 and provides 2 GiB through physical CH1.
+
+The source branch is `ypcb/ch1-bringup-local`; `origin` is
+`https://github.com/allbilly/openTPU.git`, and `upstream` is FeSens/openTPU.
+The [build guide](vivado_bitstream_guide.md#rebuild-the-current-ch1-pcie-release-on-fedora)
+includes the complete Fedora build and Mac loading procedure. A separate
+full PCIe candidate is being built at
+`build/fedora-vivado/ch0-reset-pcie-20261016`, with BUILD_ID `c0160001`.
+It adds the upstream serializer-reset register, keeps the CH1 fallback mapping
+and retains raw physical CH0 diagnostics. Build completion, independent image
+qualification and Mac tests are separate gates; no CH0 repair is established.
+
+### Historical upstream comparison on October 15
+
+At the time of this comparison, `origin` was `https://github.com/FeSens/openTPU`
+and HEAD was `5b1e646cdec9de449ba416952ec854b0b2d973d7`.
 A read-only upstream comparison fetched main at
 `7e42a626f714edd07867702c38c954082d51f587` (520 reachable commits ahead of HEAD).
 No merge, stash, reset or update to the modified working files was performed.
@@ -32,8 +52,10 @@ and `e15b4a44`, `ddrcal.py` adds a phase-shift timeout; it does not repair data
 errors. From `e15b4a44` to freshly fetched main, those PHY/firmware/host
 calibration files are unchanged. The new LiteDRAM note explains that the
 optional read-register latency is handled inside the bitstream; changing a host
-latency constant is not a recovery method. There is no newly fetched DDR
-calibration fix to apply blindly.
+latency constant is not a recovery method. That comparison found no new
+calibration-firmware fix. The later
+[`f2d1023d` serializer-reset change](https://github.com/FeSens/openTPU/commit/f2d1023ddded0a4d70b8810a715e173ea989efd7)
+is isolated in the new candidate; its effect on our lane-6 failure is untested.
 
 ## Measurements on this card
 
@@ -147,7 +169,9 @@ fallback while this is resolved.
 
 Recover a phase/training choice that passes multiple patterns over all 2 GiB;
 repeat while warm and inspect margins. Then validate both physical channels
-and normal host/compute traffic using a full dual-channel image. Permanent
-PCIe programming also requires the PCIe image's remaining reset review,
-actual flash identification, a verified factory backup, flash verification,
-and cold-boot/PCIe tests on the other Linux PC. No flash write has occurred.
+and normal host/compute traffic using a full dual-channel image. The existing
+CH1 PCIe release subsequently passed NOR programming, separate verification
+and a JTAG-requested flash boot on October 15, as recorded in the
+[PCIe guide](permanent_pcie_ch1.md). Cold power-on boot and full PCIe inference
+still need saved results. The new reset candidate has not been loaded or
+tested on the card; its physical results must be recorded separately.
