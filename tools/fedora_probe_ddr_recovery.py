@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Recalibrate physical CH0 through the current CH1 image's retained PHY/CSRs.
 
-Preserves FPGA SRAM and flash. Only CH0 calibration/BIST is requested. This
-image has no normal CH0 user traffic, so a pass is a PHY/BIST result, not a
-dual-channel host or compute pass.
+Never reconfigures the FPGA or writes flash. An optional firmware override
+replaces the calibration CPU's volatile memory. Only CH0 calibration/BIST is
+requested. This image has no normal CH0 user traffic, so a pass is a PHY/BIST
+result, not a dual-channel host or compute pass.
 """
 from datetime import datetime, timezone
 import argparse

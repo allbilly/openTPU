@@ -21,11 +21,23 @@ their exact files are not present in this checkout and are not committed.
 A full PCIe candidate with BUILD_ID `c0160001` is running in
 `build/fedora-vivado/ch0-reset-pcie-20261016`. It uses the exercised CH1 recovery
 source snapshot and adds one sys-clock serializer-reset register to each
-physical DDR PHY. Both registers survived synthesis as FDSE flip-flops;
-placement and routing, image qualification and physical tests remain pending.
+physical DDR PHY. Both registers survived synthesis as FDSE flip-flops.
+Synthesis, placement and pre-route physical optimization passed; routing,
+final image qualification and physical tests remain pending.
 The calibration firmware, runtime initialization data, CSR rows and XDC match
 the previous image, apart from generated CSV comments. The working release is
 preserved. This candidate does not establish a CH0 repair.
+
+Both diagnostic firmware programs are now tracked in
+[bitstreams/ch0-diagnostics](bitstreams/ch0-diagnostics/). Rebuilds match the
+historical binaries exactly; portable manifests validate the generated
+calibration configuration rather than a Fedora absolute path. Thirty selected
+host tests and release checksum/configuration checks from a clean checkout
+passed. These are software and packaging checks, not new card measurements.
+The full dual-channel reset core has also passed generation, real-firmware
+and interface checks. Its prepared board source uses physical channels 0/1,
+2 GiB each, calibration mask 3 and full compute; it has not been implemented.
+[Follow-up build procedure](docs/vivado_bitstream_guide.md#prepare-the-full-dual-channel-follow-up).
 
 Local commits `88b5c05f` and `a1848cfc` package the release/build instructions
 and add the portable diagnostic transport path. Publishing is pending:

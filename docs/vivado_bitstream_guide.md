@@ -200,6 +200,33 @@ Its success status still leaves fresh CDC and interface-constraint review
 pending; the checked in release's final review cannot qualify a different
 implemented design.
 
+### Prepare the full dual-channel follow-up
+
+The recovery image's normal model traffic uses physical CH1. A raw CH0 BIST
+pass therefore needs a subsequent image that uses both physical channels for
+normal host/compute traffic. From the same isolated patched source checkout,
+prepare that core with the pinned environment and compiler from above:
+
+```bash
+python3 "$OTPU_EXPERIMENT/source/tools/fedora_prepare_litedram.py" \
+  --python "$OTPU_CHECKOUT/build/litedram-env/bin/python" \
+  --rv-cc "$OTPU_RV_CC" --out "$OTPU_EXPERIMENT/dual-memory"
+
+python3 "$OTPU_EXPERIMENT/source/tools/fedora_build_vivado_pcie_ddr800.py" \
+  --core "$OTPU_EXPERIMENT/dual-memory/core" \
+  --build-id c0160002 --prepare-only --out "$OTPU_EXPERIMENT/dual-prepare"
+```
+
+This prepares two physical 72-bit channels with ECC, 2 GiB per channel and
+4 GiB total, while keeping the full accelerator and 100 MHz / DDR800 profile.
+The calibration mask is 3, each normal channel has its own physical ready
+flag, and the CH1 recovery marker is absent. Inspect those fields in the
+preparation manifest. The command does not implement or program an image.
+After CH0 passes raw cold/warm testing, select another fresh output directory
+and omit `--prepare-only` to launch the full PCIe build. Its 4 GiB image review,
+memory/compute tests and inference results must be saved separately; the
+CH1-only qualification cannot establish dual-channel operation.
+
 ### Load a completed image from macOS
 
 Copy or pull the release directory, then verify it with macOS's built-in tool:
