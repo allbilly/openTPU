@@ -41,6 +41,55 @@ The CH1-only JTAG image passed physical LFM2 with exact ISA tokens and clean
 ECC. Its retained CH0 PHY, controller and BIST allow diagnosis, but CH0 has no
 normal host/compute traffic in this image.
 
+### Continue diagnosis through Chestnut on macOS
+
+The current PCIe CH1 recovery image retains physical CH0's calibration/BIST
+registers in BAR0. Use the Mac's existing Chestnut adapter to access them;
+normal logical channel 0 DMA addresses access physical CH1 in this image.
+The portable probe accepts the existing adapter file and its transport class,
+so these diagnostics do not need Vivado on macOS.
+
+After the inference process has exited, first collect a snapshot using the
+working Mac Python environment:
+
+```sh
+build/chestnut-lfm/venv/bin/python tools/fedora_probe_ddr_recovery.py \
+  --adapter build/chestnut-lfm/transport.py \
+  --core bitstreams/ch1-pcie-2gb/core \
+  --snapshot-only --out build/chestnut-ch0-snapshot
+```
+
+The tool detects a unique adapter class with `reg_read` and `reg_write`.
+If several exist, select the actual transport with `--factory ClassName`.
+The snapshot checks OpenTPU identity, DDR800 profile and the CH1 recovery
+marker, rejects active compute/loading, and records both physical channels'
+calibration flags, BIST/ECC counters and available temperature. It does not
+start calibration or BIST, reset the FPGA, clear counters or program flash.
+Reading the calibration mailbox selects its read address.
+
+To repeat the saved physical CH0 calibration and full-capacity test sequence:
+
+```sh
+build/chestnut-lfm/venv/bin/python tools/fedora_probe_ddr_recovery.py \
+  --adapter build/chestnut-lfm/transport.py \
+  --core bitstreams/ch1-pcie-2gb/core \
+  --out build/chestnut-ch0-baseline
+```
+
+This second command changes physical CH0's training and overwrites its test
+memory. It selects CH0 alone for the calibration CPU, checks that CH1 remains
+ready, and only runs the four full 2 GiB PRBS/address BIST stages after
+calibration reports success. It stops on the first error and preserves the
+result. It does not access CH1 through the normal model ports or load another
+FPGA image. Calibration success alone is not a pass.
+
+Use fresh result directories for cold and warm trials. Return each
+`manifest.json`, especially `status`, `identity_before`, `calibration`, `bist`
+and `ch1_ready_before`/`ch1_ready_after`. These are new measurements on this
+card; the historical receipts below remain unchanged. A passing raw CH0 test
+still needs warm repetition and a full dual-channel host/compute test before
+claiming CH0 is repaired.
+
 The [fresh CH0 probe](../build/fedora-vivado/ddr-recovery-initial-20261014T171217Z/manifest.json)
 reported calibration OK in 8.21 seconds at 53.5–53.7 C, with only a 6-step /
 134 ps common phase window. The subsequent full 2 GiB PRBS read failed on

@@ -146,10 +146,12 @@ def main():
         if code:
             raise RuntimeError(name+' failed; see '+str(out/(name+'.log')))
     try:
-        python=str(args.python.resolve())
+        # Resolving a venv's Python symlink selects the system interpreter and
+        # loses its pinned packages. Preserve both executable paths as supplied.
+        python=str(args.python.expanduser().absolute())
         run('four-port-ecc',[python,str(test),'--cycles','1500','--seed','1'])
         core=out/'core'
-        env=dict(os.environ,RV_CC=str(args.rv_cc.resolve()),PYTHONHASHSEED='0')
+        env=dict(os.environ,RV_CC=str(args.rv_cc.expanduser().absolute()),PYTHONHASHSEED='0')
         run('generate',[python,str(gen),'--sys-mhz','100','--phy','wl','--selfcal',
                         '--fw-id','c1010800','--out',str(core)],env)
         qualify(core)
