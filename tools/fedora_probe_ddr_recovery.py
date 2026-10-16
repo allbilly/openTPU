@@ -92,6 +92,8 @@ def main():
     ap.add_argument('--factory', help='Adapter class or factory name; auto-detected when unique')
     ap.add_argument('--snapshot-only', action='store_true',
                     help='Read identity, calibration and counters; do not calibrate or start BIST')
+    ap.add_argument('--soak-seconds', type=float, default=0,
+                    help='After successful CH0 calibration, repeat full-capacity tests for this duration')
     ap.add_argument('--alias', action='store_true', help='Keep current training; diagnose CH0 address aliasing')
     ap.add_argument('--firmware', type=Path, help='Load and verify an isolated experimental firmware manifest')
     args = ap.parse_args()
@@ -100,8 +102,12 @@ def main():
         args.adapter = args.adapter.expanduser().resolve()
     if args.factory and not args.adapter:
         ap.error('--factory requires --adapter')
-    if args.snapshot_only and (args.alias or args.firmware):
-        ap.error('--snapshot-only cannot be combined with --alias or --firmware')
+    if not 0 <= args.soak_seconds < float('inf'):
+        ap.error('--soak-seconds must be finite and nonnegative')
+    if args.snapshot_only and (args.alias or args.firmware or args.soak_seconds):
+        ap.error('--snapshot-only cannot be combined with --alias, --firmware or --soak-seconds')
+    if args.alias and args.soak_seconds:
+        ap.error('--alias cannot be combined with --soak-seconds')
     require_modes = not (args.alias and args.firmware)
     if not require_modes:
         ap.error('--alias and --firmware are mutually exclusive')
@@ -330,15 +336,32 @@ def probe(args, out, r, t, board, csr, c0, c1, save, require):
         r['status'] = 'PHYSICAL_CH0_CALIBRATION_FAILED_DIAGNOSTIC_SAVED'
         print(json.dumps(r, indent=2), flush=True)
         return 2
-    r['bist'] = []
-    for mode in (0, 1, 2, 3):
-        result = ddrcal.bist(c0, 1 << 25, mode, 0x9e3779b97f4a7c15,
-                             100000000, timeout=120)
-        r['bist'].append(dict(mode=mode, **result))
+    r.update(bist=[], bist_trials=[], soak_seconds_requested=args.soak_seconds,
+             status='PHYSICAL_CH0_FULL_CAPACITY_BIST_RUNNING')
+    started = time.monotonic()
+    trial = 0
+    while True:
+        seed = (0x9e3779b97f4a7c15 ^ (trial * 0xd1b54a32d192ed03)) & ((1 << 64) - 1)
+        for mode in (0, 1, 2, 3):
+            result = ddrcal.bist(c0, 1 << 25, mode, seed, 100000000, timeout=120)
+            r['bist'].append(dict(trial=trial, seed=hex(seed), mode=mode, **result))
+            save()
+            require(result['beats'] == 1 << 25 and not result.get('errors', 0)
+                    and not any(result.get('lanes', [])) and not result.get('bits', 0),
+                    'CH0 full-capacity BIST failed')
+        r['ch1_ready_after'] = c1.r('cal_ready')
+        require(r['ch1_ready_after'] == 1, 'CH1 readiness changed during CH0 BIST')
+        sample = dict(trial=trial, seed=hex(seed), elapsed_seconds=time.monotonic()-started,
+                      identity=board.info(), ch1_ready=r['ch1_ready_after'])
+        r['bist_trials'].append(sample)
         save()
-        require(result['beats'] == 1 << 25 and not result.get('errors', 0)
-                and not any(result.get('lanes', [])), 'CH0 full-capacity BIST failed')
-    r['status'] = 'PASS_PHYSICAL_CH0_CALIBRATION_AND_RAW_BIST_WARM_NORMAL_PORT_PENDING'
+        if args.soak_seconds:
+            print(json.dumps(sample), flush=True)
+        if sample['elapsed_seconds'] >= args.soak_seconds:
+            break
+        trial += 1
+    r['status'] = ('PASS_PHYSICAL_CH0_RAW_BIST_SOAK_NORMAL_PORT_PENDING' if args.soak_seconds else
+                   'PASS_PHYSICAL_CH0_CALIBRATION_AND_RAW_BIST_WARM_NORMAL_PORT_PENDING')
     print(json.dumps(r, indent=2), flush=True)
     return 0
 

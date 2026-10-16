@@ -105,6 +105,14 @@ calibration reports success. It stops on the first error and preserves the
 result. It does not access CH1 through the normal model ports or load another
 FPGA image. Calibration success alone is not a pass.
 
+If that baseline passes, repeat with `--soak-seconds 300` and a fresh `--out`
+directory. The probe then repeats all four full-capacity modes with changing
+PRBS seeds for at least five minutes, saves the available FPGA temperature
+and CH1 readiness after each complete trial, and stops on the first failure.
+It performs no mid-soak retraining. FPGA temperature is not a direct DRAM-chip
+temperature measurement. This still tests the raw CH0 BIST port; dual-channel
+normal host/compute traffic is a separate qualification.
+
 Use fresh result directories for cold and warm trials. Return each
 `manifest.json`, especially `status`, `identity_before`, `calibration`, `bist`
 and `ch1_ready_before`/`ch1_ready_after`. These are new measurements on this
