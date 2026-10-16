@@ -114,6 +114,62 @@ token on omarchy (0.45 to 1.3 ms on opentpu).
 Qwen3.5 runs the same way for decode; its prefill still compiles each chunk's program on the host,
 ahead of the card.
 
+### CH1 through Chestnut
+
+The CH1-only image was measured separately on October 16, 2026, at a
+100 MHz compute/core clock, with DDR3-800 RAM (400 MHz, 800 MT/s),
+2 GiB usable memory and a Chestnut USB3 connection. The workload
+is 512 prefill tokens and 64 decode steps, with host argmax and a 1024-token KV cache.
+
+All throughput rates below are **tok/s**. CPU columns use Apple M1 native inference
+timings with Q8_0 weights; FPGA columns use device cycles. The same CPU result is
+repeated for each FPGA weight profile. RAM BW shows GB/s and percentage of peak.
+
+| Model | FPGA weights | CPU prefill | FPGA prefill | CPU decode | CPU RAM BW | FPGA decode | FPGA RAM BW |
+|:--|:--|--:|--:|--:|--:|--:|--:|
+| LFM2.5-230M | INT8 | 1021.21 | 132.22 | 93.31 | 26.22 GB/s (38.4%) | 24.87 | 6.10 GB/s (95.3%) |
+| LFM2.5-230M | FP4, INT8 head | 1021.21 | 236.13 | 93.31 | 26.22 GB/s (38.4%) | 37.12 | 6.09 GB/s (95.1%) |
+| Qwen3-0.6B | INT8 | 189.57 | 43.47 | 25.24 | 20.01 GB/s (29.3%) | 9.16 | 6.10 GB/s (95.2%) |
+| Qwen3.5-0.8B | INT8 | 150.74 | 35.08 | 23.68 | 22.69 GB/s (33.2%) | 7.38 | 6.08 GB/s (95.0%) |
+| Qwen3.5-2B | INT8 | 95.20 | 15.23 | 16.40 | 35.72 GB/s (52.3%) | 3.07 | 6.10 GB/s (95.4%) |
+| LFM2-2.6B | FP4, INT8 head | 69.04 | 9.33 | 11.81 | 35.34 GB/s (51.8%) | 4.22 | 6.10 GB/s (95.3%) |
+| SmolLM3-3B | FP4, INT8 head | 51.98 | 15.61 | 6.60 | 26.03 GB/s (38.1%) | 3.39 | 6.10 GB/s (95.3%) |
+
+FPGA RAM BW is decode read/write traffic divided by accumulated device RUNNING
+time, as a percentage of **one physical CH1's 6.4 GB/s peak**. It excludes host
+idle time; both logical memory regions share CH1. CPU RAM BW uses the M1's measured
+PCPU/ECPU DCS byte counters during the same decode pass, relative to its nominal
+[68.25 GB/s peak](https://research-information.bris.ac.uk/files/314256436/paper.pdf).
+CPU bandwidth includes background CPU processes and excludes GPU/I/O clients.
+
+Completed runs passed exact ISA token checks and had zero ECC errors. The current
+USB control path reads full logits after each decode step, so end-to-end throughput
+is lower than the FPGA device rates shown. [CH1 benchmark details and model coverage](docs/chestnut_ch1_benchmarks.md)
+include the reproducible scripts and per-model test status.
+
+A separate LFM2.5-230M int8 diagnostic measured the FPGA die during active inference:
+54.38–56.85 °C during prefill and 54.38–56.11 °C during decode. The free-running
+UPTIME counter measured approximately 100 MHz through both phases, with zero ECC errors.
+[Temperature and clock samples](docs/data/chestnut_ch1_thermal_20261016.json) are recorded
+separately; the diagnostic's extra sensor reads are excluded from the throughput table.
+
+#### Native CPU comparison
+
+The same six models were measured on an Apple M1 MacBook Air with 8 GiB RAM,
+using llama.cpp 0.5.0, eight CPU threads and no GPU backend. These are wall-clock
+rates for the same 512 prompt token IDs and 64 decode steps, with a 1024-token
+context, after warmup. Each row is one timed pass; conversion and model loading
+are excluded. CPU GGUF Q8_0 weights differ from the FPGA INT8/FP4 formats.
+CPU timings were remeasured alongside the DRAM counters; the latest counter-enabled
+passes are shown, with paired counter-off/on checks for the two small Qwen models
+retained in the CPU data.
+
+[CPU receipts and conversion audits](docs/data/chestnut_cpu_20261016.json) record
+timings, checkpoint revisions, token IDs and runtime hashes.
+[Benchmark details and reproduction](docs/chestnut_ch1_benchmarks.md#native-cpu-comparison)
+describe the different quantization and timing conditions; host background
+activity and CPU frequency were not controlled.
+
 ## How it works
 
 ```

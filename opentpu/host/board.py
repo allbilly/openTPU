@@ -568,11 +568,11 @@ class Board:
                     raise
 
     def close(self) -> None:
-        """Release the device lock (for every Board on this transport)."""
+        """Release the shared lock unless the transport owns it through teardown."""
         if self._pool is not None:
             self._pool.shutdown()
             self._pool = None
-        if self.lock is not None:
+        if self.lock is not None and not getattr(self.t, "owns_device_lock", False):
             self.lock.release()
             self.t._otpu_lock = None
         self.lock = None
