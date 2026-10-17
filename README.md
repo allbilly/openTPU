@@ -170,6 +170,50 @@ timings, checkpoint revisions, token IDs and runtime hashes.
 describe the different quantization and timing conditions; host background
 activity and CPU frequency were not controlled.
 
+### 4 GiB spare-lane image through Chestnut
+
+On October 17, 2026, build `c0172080` ran Qwen3.5-2B INT8 on both physical
+2 GiB channels at 100 MHz core / DDR3-800. CH0 uses the lane-8 spare without
+ECC; CH1 retains ECC. Chestnut negotiated USB 3.2 Gen2 at 10 Gb/s. This is an
+experimental image, separate from the production and CH1-only results above.
+
+The workload was 512 Austen prompt tokens followed by 32 greedy decode steps,
+with resident decode, host argmax and a 4096-token KV capacity. This is one
+timed pass; checkpoint conversion, upload and correctness checks are excluded.
+The 3.77 GiB image includes weights, embedding/lookup tables, I/O and cache/state;
+with program space, it occupies 94.2% of the FPGA's 4 GiB.
+
+| Model | Weights | Prefill, device | Prefill, wall | Decode, device | Decode, wall | DRAM while decoding |
+|:--|:--|--:|--:|--:|--:|--:|
+| Qwen3.5-2B | INT8 | 2.28 tok/s | 2.05 tok/s | 0.45 tok/s | 0.26 tok/s | 0.89 GB/s (6.9% of 12.8 GB/s peak) |
+
+Before inference, zero initialization and readback covered the full 4 GiB address
+range across both channels. All eight chat tokens matched the ISA simulator
+exactly ("The capital of France is Paris."). Physical matmul and four upload
+readback samples passed, CH1 ECC
+errors stayed at zero, and temporary PCIe settings were restored. Full memory
+payload coverage and cold/warm repeatability remain unqualified. The image upload,
+using 4 MiB host chunks, took 82.4 s (49.1 MB/s); it is outside the timings above.
+
+The slowdown is consistent with the packaged CH0 adapter's serialized read path:
+[`NativePortsNoECC`](bitstreams/ramtest-litedram-ddr800-spare8/evidence/generation-source/tools/litedram/spare_native.py)
+accepts one request, waits for its data, returns it, then accepts the next. Each
+128-byte operand chunk needs a 64-byte half from each channel, so this CH0 path
+limits the paired stream. Decode moves almost the same bytes per token as the
+CH1 run (1.990 vs 1.989 GB), but bandwidth falls from 6.10 to 0.89 GB/s and device
+decode is 6.9x slower. Full-logit USB readback and host work add another 1.55 s per
+token, similar to CH1's 1.57 s. The two runs use different cache capacities and
+resident settings; a pipelined CH0 image has not yet been tested.
+[Counters, configuration, source hashes and correctness receipts](docs/data/spare_pcie_benchmark_20261017.json)
+record this run and the comparison.
+
+- [ ] **Automatic CH0 startup calibration:** bundle boot firmware that handles
+  CH0's eight byte lanes and CH1's nine. Current startup firmware calibrates only
+  CH1; CH0 requires the host helper after each power cycle or FPGA reload.
+  Verify both channels become ready without the helper, then repeat memory
+  initialization and exact matmul/model checks. This is separate from pipelining
+  CH0 reads for bandwidth.
+
 ## How it works
 
 ```
