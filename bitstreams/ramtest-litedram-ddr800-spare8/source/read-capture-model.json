@@ -1,0 +1,76 @@
+{
+  "status": "PASS_VENDOR_TRAFFIC_MODEL_ALL_PATTERNS_STALLS_AND_ERROR_DETECTION",
+  "physical_hardware_test": false,
+  "simulation_window_bytes": 131072,
+  "simulator": "iverilog",
+  "independent_stalls": true,
+  "litedram_command_bridge": true,
+  "capture_first_read": true,
+  "sources": {
+    "build/ramtest-pattern-settle-capture-suite-20261017/tb_vendor_traffic.sv": "2287f78c6d4e4041b0afce724be2ad91e5674cac12aebef835f18f830926bb62",
+    "build/ramtest-pattern-settle-capture-suite-20261017/ramtest_channel.sv": "f96ea8f382ea40c8bf3a007d740ef08a47f1ac610c987e1599070b3bbe8a970b",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_afifo.v": "185be3f2b2e373e83a48ece0590e2d47b1f2118ca09601e651b5c560acd63eb1",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_cmd_gen.v": "c5bebf290c3326817551ffeb2d7b9e078fa271e96f76b3aea835aa58fbfe56bd",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_cmd_prbs_gen.v": "d5fd5dfead4e4649dfe7a2fef9656b9595f1e70e4bddc29ee1cf7587b7fed4b5",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_data_prbs_gen.v": "da1a88e84bf0768858f109cf969a8881246063580fd76d098df27ecfd385772b",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_init_mem_pattern_ctr.v": "8c5822457c017387c959b06c7b14178104b9085eacae6511051cb6fa0abec90f",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_memc_flow_vcontrol.v": "f635c33184f55789541495ec6a29c7d85e06c5c75ba919a67bc104dec4902a8f",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_memc_traffic_gen.v": "a556910283c001933c35d51e600c9bd6a3b2e8903ca567099e98db641b4b1b58",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_rd_data_gen.v": "01b0a4ed79e942ed6c6aab1d28ed4c4fa7ff3ecadf600e0771f773edd2944aed",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_read_data_path.v": "99ec0cace6bdac30b66cfb535ac01a06185d6dfc088edca593854d72d623751f",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_read_posted_fifo.v": "3c0ce8b4e86b5188b00c83c285b817689d191141d401b69f4128536646583c79",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_s7ven_data_gen.v": "c398f0a393024b4eab163cc11146aeb82ca6a3513339ec646d2695bf7e791dea",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_tg_prbs_gen.v": "6642879937d9dd856da05eec3297a6cf62049741acdaedeb7e26136e8ba7d880",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_tg_status.v": "d2e55b8bf0692351e8de448277f4577871d039a9f7a5e0aa1314ac037e5c844e",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_traffic_gen_top.v": "f63664fa285f110c235b714780ea0e81bad31f00f2a39ef72eb3fb36bdf07bf7",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_vio_init_pattern_bram.v": "c53e2d4083e60c3d1e7578a5f8c909ce144049ccb8c5ca2564391417e7094e20",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_wr_data_gen.v": "044d9739866676471c7f06351060aa015d268d3abe144f105ccd3478f8bb0fdd",
+    "build/ramtest-pattern-settle-capture-suite-20261017/traffic_gen/mig_7series_v4_2_write_data_path.v": "89a9ae0a5787b09cb1c4b84c0ee237dfdb8cbb344812713d6a93ef55e6a6b918",
+    "build/ramtest-pattern-settle-capture-suite-20261017/litedram_command_bridge.sv": "7fead9bf904bee302a1dff3efaf31ad21c7208dd7f2955e41a676561aae5dec3",
+    "build/ramtest-pattern-settle-capture-suite-20261017/read_capture.sv": "8d68c55b5dd8e34026c5d8ea40cfb34ee79d88a35cf12d78e6ee67974ed3c895"
+  },
+  "trials": [
+    {
+      "pattern": "address",
+      "returncode": 0,
+      "pass_marker": true,
+      "fatal_diagnostic": false
+    },
+    {
+      "pattern": "prbs",
+      "returncode": 0,
+      "pass_marker": true,
+      "fatal_diagnostic": false
+    },
+    {
+      "pattern": "walking1",
+      "returncode": 0,
+      "pass_marker": true,
+      "fatal_diagnostic": false
+    },
+    {
+      "pattern": "walking0",
+      "returncode": 0,
+      "pass_marker": true,
+      "fatal_diagnostic": false
+    },
+    {
+      "pattern": "zeros",
+      "returncode": 0,
+      "pass_marker": true,
+      "fatal_diagnostic": false
+    },
+    {
+      "pattern": "ones",
+      "returncode": 0,
+      "pass_marker": true,
+      "fatal_diagnostic": false
+    },
+    {
+      "pattern": "injected-error",
+      "returncode": 0,
+      "pass_marker": true,
+      "fatal_diagnostic": false
+    }
+  ]
+}

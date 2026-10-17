@@ -1,0 +1,29 @@
+{
+  "status": "SPARE_CH0_FIRMWARE_BUILT_MODEL_REVIEW_PENDING",
+  "hardware_accessed": false,
+  "package_bitstream_sha256": "171d2c94edd75d2041ebeeada6dd8896c9771423c27fe103f044dd35e1cdca2b",
+  "package_manifest_sha256": "d1def4ba36cfa85bd74018388270cbaae783c4d325ae45728c882ded33a51f8e",
+  "firmware_id": "c0172068",
+  "channel_mask": 1,
+  "modules": 8,
+  "databits": 64,
+  "dfi_words": 4,
+  "bist_words_per_phase": 1,
+  "csr_sha256": "1d2d600f7596ff7677c7a2521afd91664d637a9e05edf60743578364abca167c",
+  "config_sha256": "889ccf54e8bad7a04c212cdabb6e895a8d16f8fa9ebae1a64e76b25eff948833",
+  "binary_sha256": "fe4fc9caba63e8b97ac1ce978dd0b67d9c532ce154f57a3582fb6228c4686e8e",
+  "binary_bytes": 9156,
+  "sources": {
+    "source/opentpu/host/ddrcal.py": "75a6d8ba03d31baf86bb11092dccc5e2eac54ce3b7994b5c4690c5924a94062f",
+    "source/tools/litedram/selfcal_fw/cal.c": "afc0e27011799f15afcde8ed86a7bf69fa13df64654670bf851fa91f2908ae2d",
+    "source/tools/litedram/selfcal_fw/cal.h": "5b33911451cfc0b316adffd72ef90d11e7c9d721143e33713aef7462c8db0b4e",
+    "source/tools/litedram/selfcal_fw/crt0.S": "ebcbcb876af5b0a1e85826b689c281a04e402ea2bebae8f8245fe50958fea026",
+    "source/tools/litedram/selfcal_fw/fw.py": "311d73a6f3cded0437f10878de9ef3c4741bc9303d2aba4a9a697f62c9e5de96",
+    "source/tools/litedram/selfcal_fw/host.c": "3137a4142a229044330fa826a30ed72decba0c18b8018d9cacc17a3fa6f76c93",
+    "source/tools/litedram/selfcal_fw/hw.h": "e458d8c22623c2f10278b19d8f05e199059c1ecdea4ffc0bf296ac6e8bc7c770",
+    "source/tools/litedram/selfcal_fw/link.ld": "bb897e8fab88f1b852c92e383469ffc62ffcab2dfa77cd5c20a4505667e651ee",
+    "source/tools/litedram/selfcal_fw/main.c": "e49dcc49481186eeb8f934245cd092928d73abc2762c2c73cf4f33074d9630e7"
+  },
+  "builder_sha256": "069793f1e636a288a11bc4e57197be429761fcde6e932992dba2444152981806",
+  "limitation": "CH0 only; a one-word phase check is not memory qualification"
+}

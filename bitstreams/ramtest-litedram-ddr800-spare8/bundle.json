@@ -1,0 +1,19 @@
+{
+  "status": "EXPERIMENTAL_RAM_DIAGNOSTIC_OFFLINE_REVIEW_PASS_PHYSICAL_PENDING",
+  "variant": "spare8",
+  "build_id": "c0172060",
+  "controller_mhz": 100,
+  "ddr_mts": 800,
+  "capacity_bytes_per_channel": 2147483648,
+  "ecc_channels": [
+    1
+  ],
+  "bitstream_sha256": "171d2c94edd75d2041ebeeada6dd8896c9771423c27fe103f044dd35e1cdca2b",
+  "packaged_utc": "2026-10-17T01:02:17.835411+00:00",
+  "physical_qualification": false,
+  "base_review": "evidence/base-review.json",
+  "phase_review": "evidence/phase-review.json",
+  "extension_review": "evidence/extension-review.json",
+  "flash_written": false,
+  "published": false
+}

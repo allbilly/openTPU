@@ -207,24 +207,30 @@ class ChestnutTransport:
                 if ident >> 16 == 0x1fc0:
                     self.dma_bar = base
             self.user_bar = self.bars[0][0]
-            if self.reg_read(R.R_ID) != R.ID_OTPU or self.reg_read(0x5c) != 0x08000102:
-                raise RuntimeError('Expected live CH1 recovery image')
+            self._check_image()
             if self.dma_bar is None:
                 raise RuntimeError('XDMA engine BAR not found')
             for base in (0, 0x1000):
                 if self.read32(self.dma_bar + base + 0x40) & 1:
                     raise RuntimeError('An XDMA channel is already busy')
-            # Recovery preserves the committed CSR ABI. No calibration is rerun and
-            # no DDR1066 timing table is applied to the live DDR800 controller.
-            self.csr = ddrcal.WordCsr(ddrcal.csr_map(ROOT/'opentpu/host/litedram/csr.csv'),
-                                     self.reg_read, self.reg_write, base=R.R_MEMCAL)
-            if self.csr.r('selfcal_status') >> 16 != 0x5ca1:
-                raise RuntimeError('Calibration CSR ABI identity mismatch')
-            self.ch = ddrcal.Chan(self.csr, 1)
-            self.guard()
+            self._initialize_memory()
         except BaseException:
             self.close()
             raise
+
+    def _check_image(self):
+        if self.reg_read(R.R_ID) != R.ID_OTPU or self.reg_read(0x5c) != 0x08000102:
+            raise RuntimeError('Expected live CH1 recovery image')
+
+    def _initialize_memory(self):
+        # Recovery preserves the committed CSR ABI. No calibration is rerun and
+        # no DDR1066 timing table is applied to the live DDR800 controller.
+        self.csr = ddrcal.WordCsr(ddrcal.csr_map(ROOT/'opentpu/host/litedram/csr.csv'),
+                                 self.reg_read, self.reg_write, base=R.R_MEMCAL)
+        if self.csr.r('selfcal_status') >> 16 != 0x5ca1:
+            raise RuntimeError('Calibration CSR ABI identity mismatch')
+        self.ch = ddrcal.Chan(self.csr, 1)
+        self.guard()
 
     def cfg(self, bus, off, value=None, size=4):
         return self.c.pcie_cfg_req(off, bus=bus, value=value, size=size)

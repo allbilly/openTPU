@@ -1,0 +1,72 @@
+{
+  "status": "PASS_FULL_FINE_PHASE_INTERNAL_TIMING",
+  "hardware_accessed": false,
+  "rerouted": false,
+  "input_build": "/home/fedora/openTPU/build/fedora-vivado/ramtest-spare8-phase-20261017/implementation",
+  "bitstream_modified": false,
+  "build_manifest_sha256": "d1def4ba36cfa85bd74018388270cbaae783c4d325ae45728c882ded33a51f8e",
+  "routed_checkpoint_sha256": "32bec22bf0876216bbbc283bec9a6a8cdb4b03273d691f615098ca7cef7d951e",
+  "bitstream_sha256": "171d2c94edd75d2041ebeeada6dd8896c9771423c27fe103f044dd35e1cdca2b",
+  "phy_config_sha256": "f2a5791a48df4a37fa59e04efe34c7c1e8c8f689482ad601e38a31878e3c3629",
+  "phase_period_steps": 112,
+  "phase_min_step": -56,
+  "phase_max_step": 55,
+  "phase_step_ns": 0.022321428571428572,
+  "uncertainty_ns": 1.25,
+  "reviewer_sha256": "e13854513144f6761296a9f4d9f52da6f321288952e6494f3671a6df6992965d",
+  "reused_analysis_manifest_sha256": "28ffad15519adfef25902f8c0310624495f9819674e691ad0c9347ee07be8e3b",
+  "reused_analysis_directory": "/home/fedora/openTPU/build/checks/phase-envelope-background-v2-20261017/ramtest-spare8",
+  "timing": {
+    "WNS": 0.247,
+    "TNS": 0.0,
+    "setup_failing": 0.0,
+    "setup_total": 103133.0,
+    "WHS": 0.056,
+    "THS": 0.0,
+    "hold_failing": 0.0,
+    "hold_total": 102954.0,
+    "WPWS": 0.264,
+    "TPWS": 0.0,
+    "pulse_failing": 0.0,
+    "pulse_total": 44250.0
+  },
+  "uncertainty_commands": [
+    "set_clock_uncertainty -setup -from [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKIN1]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKOUT0]] 1.250",
+    "set_clock_uncertainty -setup -from [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKOUT0]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKIN1]] 1.250",
+    "set_clock_uncertainty -hold -from [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKIN1]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKOUT0]] 1.250",
+    "set_clock_uncertainty -hold -from [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKOUT0]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKIN1]] 1.250",
+    "set_clock_uncertainty -setup -from [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKIN1]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKOUT0]] 1.250",
+    "set_clock_uncertainty -setup -from [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKOUT0]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKIN1]] 1.250",
+    "set_clock_uncertainty -hold -from [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKIN1]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKOUT0]] 1.250",
+    "set_clock_uncertainty -hold -from [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKOUT0]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKIN1]] 1.250"
+  ],
+  "preserved_original_uncertainty_commands": [
+    "set_clock_uncertainty -setup -from [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKIN1]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKOUT0]] 1.000",
+    "set_clock_uncertainty -setup -from [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKOUT0]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKIN1]] 1.000",
+    "set_clock_uncertainty -hold -from [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKIN1]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKOUT0]] 1.000",
+    "set_clock_uncertainty -hold -from [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKOUT0]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm0/CLKIN1]] 1.000",
+    "set_clock_uncertainty -setup -from [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKIN1]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKOUT0]] 1.000",
+    "set_clock_uncertainty -setup -from [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKOUT0]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKIN1]] 1.000",
+    "set_clock_uncertainty -hold -from [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKIN1]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKOUT0]] 1.000",
+    "set_clock_uncertainty -hold -from [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKOUT0]] -to [get_clocks -of_objects [get_pins u_ld/ldmmcm1/CLKIN1]] 1.000"
+  ],
+  "analyzed_checkpoint_sha256": "cb73add106baf4a5ed6870a05ab1870c27e0b594be452a907ec87fedbfbb8d37",
+  "limitations": [
+    "No external DDR pad timing signoff or physical repair claim",
+    "Static DRP group offsets must retain the reviewed configuration",
+    "Input routed checkpoint retains original constraints; this separate analysis is required"
+  ],
+  "utc": "2026-10-17T00:53:52.504031+00:00",
+  "reports_sha256": {
+    "ch0-max-to-shifted.rpt": "98b65edd41ba06ac6aa946929a098e94dba4a4ee904b3b6e49507aede4a13345",
+    "ch0-max-from-shifted.rpt": "eaefbf51957c8cd0404fb08b7acecf8b1f7e4a77fbe6cd63e25cd5a6d7081458",
+    "ch0-min-to-shifted.rpt": "464d8928013e17cca35d2e73c814ee95848eb532e7aea4c13bc93f80af3fe0fb",
+    "ch0-min-from-shifted.rpt": "778a8f22bed2f08748f500ed285afab13cb64bcfcdb1aa301f061f3c6d725693",
+    "ch1-max-to-shifted.rpt": "156c335c0a3100e24eec25edefa8fb6a81de360e2d6f14f9326dfd3d9f96638d",
+    "ch1-max-from-shifted.rpt": "a8bbb3abdc8a03df8b81da649f9aed99442e2baf7068cd3d6e982f586c9b67db",
+    "ch1-min-to-shifted.rpt": "286e17c949ff03a15bac5ec08c4f8640477dd4bc93cdd422321267e87efe1ad4",
+    "ch1-min-from-shifted.rpt": "a1b872be824ec621a5f0124116b4612670763925fc6df2bc0d958e77d33cf717",
+    "timing.rpt": "d037b941b709c4417026862ed019c18d30d02d1441b2eacd1787f48675797397",
+    "clocks.rpt": "1464ec4c196f0a213dec71a51c19d2237aa09ffaa16703b5810cb1e9e7b8f995"
+  }
+}

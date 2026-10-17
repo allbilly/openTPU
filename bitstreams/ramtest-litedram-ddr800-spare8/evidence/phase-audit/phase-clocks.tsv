@@ -1,0 +1,8 @@
+0	setup	crg_s7mmcm_clkout	writeclocks0_outs0	1.250000000
+0	setup	writeclocks0_outs0	crg_s7mmcm_clkout	1.250000000
+0	hold	crg_s7mmcm_clkout	writeclocks0_outs0	1.250000000
+0	hold	writeclocks0_outs0	crg_s7mmcm_clkout	1.250000000
+1	setup	crg_s7mmcm_clkout	writeclocks1_outs0	1.250000000
+1	setup	writeclocks1_outs0	crg_s7mmcm_clkout	1.250000000
+1	hold	crg_s7mmcm_clkout	writeclocks1_outs0	1.250000000
+1	hold	writeclocks1_outs0	crg_s7mmcm_clkout	1.250000000
