@@ -1,7 +1,41 @@
 # Repository instructions
 
+## Mandatory interfaces in every bitstream
+
+- Every new OpenTPU bitstream must include **both JTAG and PCIe runtime memory
+  and control interfaces**, including baseline repairs, clock candidates,
+  startup-firmware variants and experimental images.
+- JTAG configuration/programming or INIT/DONE/IDCODE access does not satisfy
+  this requirement. JTAG must reach DDR memory, accelerator control and the
+  calibration/status registers so weights and programs can be uploaded and
+  inference can run on the local JTAG-only host.
+- Retain the full requested PCIe memory/control path alongside JTAG. JTAG
+  runtime must work with PCIe physically absent, using the independent host
+  clock and reviewed reset/abort behavior.
+- Verify both interfaces in the frozen source and exact routed image. An
+  image missing either interface is ineligible for packaging, programming or
+  the active hardware-test plan. Do not omit an interface to simplify a repair,
+  shorten a build or isolate a regression. An exception requires the user's
+  explicit instruction for that exact image.
+- A selected JTAG-only or Mac/Chestnut test host changes which physical tests
+  can run there; it does not change the required interfaces in the image or
+  introduce a local PCIe runtime gate before an authorized Mac workflow.
+
 ## Prioritize the requested hardware milestone
 
+- Advance already authorized work without waiting for another user reminder.
+  Before ending a work turn, take the next executable step for a ready task;
+  a status table, recorded intention or queued design note is not execution.
+- When artifact/CDC evidence collection finishes, start the exact image's final
+  disposition immediately. Do not leave it marked "manual review pending"
+  while working on unrelated preparation. Keep final review and packaging as
+  explicit scheduled tasks with their own receipts and current owner.
+- If final review finds a real defect, record the exact image, routed/source
+  evidence and rejection. Continue with the prepared correction under its own
+  build ID; do not leave the original indefinitely pending or waive the gate.
+- Distinguish a requested design, source preparation, an admitted build job,
+  a running implementation and a ready image. Never call a request record a
+  queued Vivado build. State the missing prerequisite and work on it.
 - Follow the user's current priority across builds, review, packaging and board
   work. Starting a background build does not complete the requested handoff.
 - As soon as the priority image finishes implementation, start its required
@@ -10,12 +44,26 @@
   and review readiness separately.
 - Prepare the matching host tools and programming commands during the build.
   Once the required review passes, continue through already authorized SRAM
-  testing and programming without asking for the same permission again.
+  testing and temporary programming without asking for permission again.
 - Fix a blocking reviewer or packaging problem before preparing unrelated
   variants. Report the actual blocker and next action promptly.
 
 ## Honor the selected test host and programming scope
 
+- Complete preparation autonomously: source changes, tool/firmware preparation,
+  builds, evidence collection, final review, packaging, runtime instructions and
+  programming commands must not wait for another user approval. Finish all
+  applicable preparation before presenting a permanent-flash approval request.
+- Temporary SRAM configuration and the requested SRAM hardware checks are
+  authorized by the ongoing FPGA task and require no separate approval. Acquire
+  exclusive hardware ownership, preserve the permanent image, and satisfy the
+  exact image's technical review gates before loading. A missing cable or
+  technical blocker is not "pending user approval."
+- Writing permanent configuration flash requires explicit user approval for
+  the exact image and operation. Present its build ID, checksum, review/SRAM
+  results and prepared command. An approval for one image does not authorize
+  a different successor. Honor an existing approval for the same image without
+  asking again; do not treat SRAM permission as permanent-flash permission.
 - When the user authorizes an experimental image to be permanently flashed
   here and tested on the Mac with Chestnut, carry out that workflow. Do not
   invent a prerequisite for local PCIe DMA, matmul or LLM validation on a host
@@ -35,6 +83,10 @@
 - Stop temporary sibling-project hardware work and release JTAG promptly when
   the selected OpenTPU image is ready or the user requests the switch. Keep
   sibling-project results in that project's folder.
+- When the user requests all Vortex work to stop at priority-build completion,
+  coordinate with the other Codex session, stop its Vortex workers and release
+  the shared FPGA promptly. Let any atomic programming operation finish before
+  changing hardware ownership. Keep its evidence in the Vortex repository.
 
 ## Make review tools understand real Vivado output
 
@@ -128,3 +180,16 @@
 - Inspect the proposed commit's file list and sizes before committing. Preserve
   unrelated staged work. Distinguish local files, a local commit and a published
   remote commit; a Mac `git pull` cannot retrieve unpublished local work.
+
+## Honor deferred pause requests
+
+- If the user requests a pause after the next context compaction, save the exact
+  request and a concrete resume handoff before compaction. Keep the condition
+  attached to the current thread rather than applying it to unrelated work.
+- On the first continuation after that compaction, finish saving the compacted
+  handoff, call `update_goal(status="paused")`, report the returned state and
+  stop goal work. Do not resume automatically because an older goal was active.
+- Record background job handles and whether they were left running. Pausing
+  agent work does not authorize killing another session's jobs or abandoning
+  a programming operation halfway through; finish any active atomic hardware
+  operation and leave the board in a documented state.

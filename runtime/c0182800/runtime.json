@@ -1,0 +1,140 @@
+{
+  "kind": "C0182800_REVIEWED_IMAGE_RUNTIME_FILES",
+  "build_id": "c0182800",
+  "bitstream_sha256": "df2521d80de1d69ea4ca758821dc67a814b95d67ac851b78727c9154a3104bf2",
+  "original_image_manifest_sha256": "1c936f343bda648b4120e65bf1507999129c8b9bed67e8bab1e457828e161c3d",
+  "configuration": {
+    "variant": "spare8-pipelined-shared-bus",
+    "parameters": {
+      "CORE_KHZ": 100000,
+      "DDR_MTS": 800
+    },
+    "physical_databits": [
+      64,
+      72
+    ],
+    "ecc_channels": [
+      1
+    ],
+    "ch0_physical_lanes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      7
+    ],
+    "automatic_calibration_channels": [
+      1
+    ],
+    "host_calibration_channels": [
+      0
+    ],
+    "native_read_depth_per_port": 32,
+    "native_raw_ports_used": 2,
+    "masked_writes_globally_exclusive": true,
+    "shared_read_response_bus": true,
+    "single_read_response_per_cycle": true
+  },
+  "reviews": {
+    "adapter-model": {
+      "status": "PASS_SHARED_PIPELINED_NATIVE_CREDITS_ORDERING_AND_EXCLUSIVE_RMW",
+      "source_sha256": "6a94841f32bd16c1952a19fd795c30a0b133f109516002eefee8067f4e0434cd",
+      "report_count": 8
+    },
+    "bridge-model": {
+      "status": "PASS_ORIGINAL_BRIDGE_DEFECT_REPRODUCED_SHARED_PIPELINE_CORRECTION_VERIFIED",
+      "source_sha256": "03b4c6c992fdf9cdc74b98b76c7f1c3c1ba49149caa199635497612dc4116b33",
+      "report_count": 10
+    },
+    "controller-model": {
+      "status": "PASS_SHARED_PIPELINE_REAL_LITEDRAM_CONTROLLER_BRIDGE_REGRESSION",
+      "source_sha256": "7cdd8d9291a61f464f983dba2c2f65fa07063c8691ab88aa2108ca5633931d99",
+      "report_count": 8
+    },
+    "dual-host-model": {
+      "status": "PASS_DUAL_HOST_RESET_AND_JTAG_AXI_ABORT_PROTOCOL",
+      "source_sha256": "3e0b46cbdacabb313cec9381e57463905006cf64785c6e3e276af94366832e0c",
+      "report_count": 2
+    },
+    "cdc-review": {
+      "status": "SPARE_DUAL_HOST_CDC_REVIEW_PASS_EXTERNAL_DDR_TIMING_AND_PHYSICAL_PENDING",
+      "source_sha256": "b3cbc0ab2bddfef7d977a5808ae1d00a4cdf78d79a918d30b88f7a6a9b0f7909"
+    },
+    "csr-gray-review": {
+      "status": "PASS_ROUTED_CSR_GRAY_SKEW_AND_SYNCHRONIZERS_PHYSICAL_PENDING",
+      "source_sha256": "f125e7d945f9767a954593826d82040bd8b5986b2f2f6c2a9731783a4c93e4ab"
+    },
+    "offline-image-review": {
+      "status": "SPARE_DUAL_HOST_ARTIFACT_CHECKS_PASS_CDC_AND_RUNTIME_PENDING",
+      "source_sha256": "30b4797f493c6411a9e21d255530cd9efeb8140fa9409278411c8a2b608d47ca"
+    }
+  },
+  "host": {
+    "interfaces": [
+      "pcie",
+      "jtag"
+    ],
+    "jtag_chain": 2,
+    "jtag_max_hz": 6000000,
+    "host_dma_hz": 250000000
+  },
+  "programming": {
+    "status": "NOT_PERFORMED_BY_RUNTIME_EXPORT",
+    "flash_written": false
+  },
+  "limitations": [
+    "Checks small files and live identity, not omitted bitstream/netlist or current flash contents.",
+    "Does not attest program IMEM contents, physical DDR or inference reliability.",
+    "Use only after the exact image has been separately reviewed and programmed."
+  ],
+  "files": [
+    {
+      "name": "core/csr.csv",
+      "bytes": 9578,
+      "sha256": "b22850a26d00fad288232c29494c29ee81621d79bbe3712f1ec64516bb3ed0d0"
+    },
+    {
+      "name": "core/sdram_init.py",
+      "bytes": 1520,
+      "sha256": "f2a5791a48df4a37fa59e04efe34c7c1e8c8f689482ad601e38a31878e3c3629"
+    },
+    {
+      "name": "core/sdram_init_ch0.py",
+      "bytes": 1515,
+      "sha256": "889ccf54e8bad7a04c212cdabb6e895a8d16f8fa9ebae1a64e76b25eff948833"
+    },
+    {
+      "name": "core/otpu_litedram_mem.init",
+      "bytes": 51,
+      "sha256": "3539495b12fca557dbbe9fb3252bbb64acfe31c06f69ef5a810ac76b70da5cc5"
+    },
+    {
+      "name": "calibration/selfcal.bin",
+      "bytes": 9156,
+      "sha256": "fe4fc9caba63e8b97ac1ce978dd0b67d9c532ce154f57a3582fb6228c4686e8e"
+    },
+    {
+      "name": "calibration/pipeline-binding.json",
+      "bytes": 1559,
+      "sha256": "55fd0dc1359040204bb2cc1ccf2ef0b8d6fbe018b7c33fe80fa15d759508476f"
+    },
+    {
+      "name": "calibration/bundle.json",
+      "bytes": 459,
+      "sha256": "89beccb507b5743cb429c78e88a6268e9c37b8f35041f16395f037840adb1a19"
+    },
+    {
+      "name": "calibration/host-model-review.json",
+      "bytes": 1457,
+      "sha256": "92df8258b2f19ad64eb09eafc97eb8be674ec249b9f9d47c27c3d0cf2d792895"
+    },
+    {
+      "name": "reviewed-image.json",
+      "bytes": 35606,
+      "sha256": "1c936f343bda648b4120e65bf1507999129c8b9bed67e8bab1e457828e161c3d"
+    }
+  ]
+}
