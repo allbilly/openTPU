@@ -118,7 +118,8 @@ def main(argv=None):
         result['sources'] = {str(p.relative_to(ROOT)): digest(p) for p in
             (Path(__file__), ROOT/'opentpu/host/dual_pcie.py', ROOT/'opentpu/host/spare_c0182800.py',
              ROOT/'tools/spare_runtime_c0182800.py', ROOT/'tools/spare_range_program.py', ROOT/'opentpu/host/chestnut.py',
-             ROOT/'tools/fedora_matmul_check.py', ROOT/'opentpu/host/program_verify.py')}
+             ROOT/'tools/fedora_matmul_check.py', ROOT/'opentpu/host/program_verify.py',
+             ROOT/'opentpu/host/board.py', ROOT/'opentpu/host/checks.py')}
         if args.stage in ('lfm', 'inference'):
             from importlib.metadata import version
             from opentpu.llm import model_dir
@@ -227,7 +228,8 @@ def main(argv=None):
                 result['status'] = 'SPARE_PHYSICAL_LFM2_RUNNING'
                 save()
                 ok, message = model_check(transport, device_config(result['identity'], DRAM_BYTES=LOGICAL_BYTES),
-                                          args.model, 8, False, wformat='int8')
+                                          args.model, 8, False, wformat='int8',
+                                          program_receipts=out/'model-programs')
                 result['model_message'] = message
                 save()
                 require(ok and result['model_checks'] and all(r['exact_match'] and r['actual_token_ids'] and

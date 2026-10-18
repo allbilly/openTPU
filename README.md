@@ -172,40 +172,49 @@ activity and CPU frequency were not controlled.
 
 ### 4 GiB spare-lane image through Chestnut
 
-On October 17, 2026, build `c0172080` ran Qwen3.5-2B INT8 on both physical
-2 GiB channels at 100 MHz core / DDR3-800. CH0 uses the lane-8 spare without
-ECC; CH1 retains ECC. Chestnut negotiated USB 3.2 Gen2 at 10 Gb/s. This is an
-experimental image, separate from the production and CH1-only results above.
+On October 18, 2026, build `c0182800` ran Qwen3.5-2B INT8 through Chestnut
+on both physical 2 GiB channels at 100 MHz core / DDR3-800. It repairs CH0's
+shared read-response bus, pipelines two native ports, and registers the host
+reset source. Both JTAG USER2 and PCIe provide runtime memory/control access,
+with a 250 MHz host clock independent of PCIe. CH0 uses physical lanes
+`0,1,2,3,4,5,8,7` without ECC; CH1 retains ECC. This experimental image is
+separate from the production and CH1-only results above.
 
-The workload was 512 Austen prompt tokens followed by 32 greedy decode steps,
-with resident decode, host argmax and a 4096-token KV capacity. This is one
-timed pass; checkpoint conversion, upload and correctness checks are excluded.
+Both rows below used 512 Austen prompt tokens followed by 32 greedy decode
+steps, resident decode, host argmax and a 4096-token KV capacity. Each is one
+timed pass; checkpoint conversion, model upload, initialization and the separate
+ISA correctness check are excluded. Wall rates include program compilation,
+transfers, polling, full-logit USB readback and host argmax. The new run also
+includes exact program readback before each instruction-memory load.
 The 3.77 GiB image includes weights, embedding/lookup tables, I/O and cache/state;
 with program space, it occupies 94.2% of the FPGA's 4 GiB.
 
-| Model | Weights | Prefill, device | Prefill, wall | Decode, device | Decode, wall | DRAM while decoding |
+| Build | What changed | Prefill, device | Prefill, wall | Decode, device | Decode, wall | DRAM while decoding |
 |:--|:--|--:|--:|--:|--:|--:|
-| Qwen3.5-2B | INT8 | 2.28 tok/s | 2.05 tok/s | 0.45 tok/s | 0.26 tok/s | 0.89 GB/s (6.9% of 12.8 GB/s peak) |
+| `c0172080` (Oct 17, historical) | Serialized CH0 reads; PCIe runtime | 2.28 tok/s | 2.05 tok/s | 0.45 tok/s | 0.26 tok/s | 0.89 GB/s (6.9% of 12.8 GB/s peak) |
+| **`c0182800` (Oct 18)** | **Shared-bus read repair, pipelined CH0, registered host reset, JTAG + PCIe runtime** | **23.38 tok/s** | **8.90 tok/s** | **5.78 tok/s** | **0.62 tok/s** | **11.51 GB/s (89.9% of 12.8 GB/s peak)** |
 
-Before inference, zero initialization and readback covered the full 4 GiB address
-range across both channels. All eight chat tokens matched the ISA simulator
-exactly ("The capital of France is Paris."). Physical matmul and four upload
-readback samples passed, CH1 ECC
-errors stayed at zero, and temporary PCIe settings were restored. Full memory
-payload coverage and cold/warm repeatability remain unqualified. The image upload,
-using 4 MiB host chunks, took 82.4 s (49.1 MB/s); it is outside the timings above.
+The new Qwen decode bandwidth is **1.89x** the earlier single-CH1 result
+(11.51 vs 6.10 GB/s); device decode improves **1.88x** (5.78 vs 3.07 tok/s).
+End-to-end decode improves **1.17x** (0.616 vs 0.527 tok/s), with host/USB
+overhead still dominant. Traffic per token is almost unchanged: 1.990 vs
+1.989 GB. The CH1 baseline used a 1024-token cache, nonresident decode and
+64 decode steps; these are separate measured runs, not a controlled A/B.
 
-The slowdown is consistent with the packaged CH0 adapter's serialized read path:
-[`NativePortsNoECC`](bitstreams/ramtest-litedram-ddr800-spare8/evidence/generation-source/tools/litedram/spare_native.py)
-accepts one request, waits for its data, returns it, then accepts the next. Each
-128-byte operand chunk needs a 64-byte half from each channel, so this CH0 path
-limits the paired stream. Decode moves almost the same bytes per token as the
-CH1 run (1.990 vs 1.989 GB), but bandwidth falls from 6.10 to 0.89 GB/s and device
-decode is 6.9x slower. Full-logit USB readback and host work add another 1.55 s per
-token, similar to CH1's 1.57 s. The two runs use different cache capacities and
-resident settings; a pipelined CH0 image has not yet been tested.
-[Counters, configuration, source hashes and correctness receipts](docs/data/spare_pcie_benchmark_20261017.json)
-record this run and the comparison.
+Before the new run, zero initialization and readback covered the full 4 GiB.
+All eight chat tokens matched fresh ISA exactly ("The capital of France is
+Paris."); the 32 benchmark tokens also matched the earlier CH1 run's prefix.
+Physical matmul, four image boundary samples and all **137 program readbacks**
+passed. Calibration stayed unchanged, CH1 ECC counters stayed at zero, and
+temporary PCIe settings were restored. Full memory payload coverage and
+cold/warm repeatability remain unqualified. Uploading the image in 4 MiB host
+chunks took 53.7 s (75.3 MB/s), outside the throughput timings above.
+
+[Counters, image/checkpoint hashes, correctness and comparison data](docs/data/spare_pcie_benchmark_20261018.json)
+record the new run; [Mac instructions](docs/mac_c0182800.md#qwen35-2b-near-capacity-benchmark)
+provide the reusable benchmark command. The
+[October 17 record](docs/data/spare_pcie_benchmark_20261017.json) preserves the
+older serialized-CH0 result and its diagnosis.
 
 - [ ] **Automatic CH0 startup calibration:** bundle boot firmware that handles
   CH0's eight byte lanes and CH1's nine. Current startup firmware calibrates only

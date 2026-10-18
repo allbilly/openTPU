@@ -502,7 +502,7 @@ def bandwidth(transport, nbytes: int) -> tuple[float, float, float]:
 
 
 def model_check(t, cfg, model: str, tokens: int, sim: bool, wformat: str = "int8",
-                head_format: str | None = None) -> tuple[bool, str]:
+                head_format: str | None = None, program_receipts=None) -> tuple[bool, str]:
     """Greedy decoding of "What is the capital of France?" on the card (transport t, its
     configuration cfg) against the ISA simulator, token for token; the prompt runs in chunks
     (Engine.prefill_chunks) on both. sim: t is a small board
@@ -526,7 +526,8 @@ def model_check(t, cfg, model: str, tokens: int, sim: bool, wformat: str = "int8
     rcfg = sim_config(spec, cap, cfg, **fmt)              # same layout, DRAM sized to the model
     tq = SimTransport(ch_bytes=rcfg.DRAM_BYTES // 2) if sim else t
     dev = Engine(spec, W, cap=cap, cfg=rcfg if sim else cfg,
-                 backend=lambda c, imgs: BoardBackend(c, imgs, transport=tq, model=path.name),
+                 backend=lambda c, imgs: BoardBackend(c, imgs, transport=tq, model=path.name,
+                                                      program_receipts=program_receipts),
                  **fmt)
     ref = Engine(spec, W, cap=cap, cfg=rcfg, **fmt)
     t0 = time.time()

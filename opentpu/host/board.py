@@ -985,16 +985,22 @@ class BoardBackend:
     attach(engine) lets the status file follow the engine's KV cache; `trace` (None, or run()'s
     trace options) records the following runs in the trace buffer; `last` is (programs, stats)
     of the latest run. With a device transport it holds the device lock and publishes
-    /tmp/otpu/<dev>.json (runstate.RunnerStatus) until close() or exit."""
+    /tmp/otpu/<dev>.json (runstate.RunnerStatus) until close() or exit.
+    program_receipts enables exact program readback before each IMEM load and
+    retains comparison receipts in that directory."""
 
     def __init__(self, cfg, images: list, transport=None, model: str | None = None,
-                 status: bool = True):
+                 status: bool = True, program_receipts=None):
         from opentpu import isa as I
         self.I = I
         if cfg.S != 1:
             raise ValueError("the board has one slice: use opentpu.isasim.board_config()")
         self.cfg = cfg
-        self.board = Board(transport)
+        if program_receipts is None:
+            self.board = Board(transport)
+        else:
+            from .program_verify import ProgramReadbackBoard
+            self.board = ProgramReadbackBoard(transport, program_receipts=program_receipts)
         self.board.scrub()
         info = self.info = self.board.info()
         if (info["D"], info["MCOLS"], info["LANES"], info.get("act_rows") or info["MCOLS"]) != \
