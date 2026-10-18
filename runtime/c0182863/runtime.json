@@ -1,0 +1,179 @@
+{
+  "kind": "C0182863_REVIEWED_IMAGE_RUNTIME_FILES",
+  "build_id": "c0182863",
+  "bitstream_sha256": "03b513a44544009afff9dfb82515bf84c5df84ac6a63673a0882308ce8a323ae",
+  "original_image_manifest_sha256": "143554ed99423f024344a916e5b6c7ee1e53d210a78bfa5d9b534762bd1dbdfb",
+  "configuration": {
+    "variant": "spare8-pipelined-shared-ddr1066",
+    "parameters": {
+      "CORE_KHZ": 133333,
+      "DDR_MTS": 1066
+    },
+    "physical_databits": [
+      64,
+      72
+    ],
+    "ecc_channels": [
+      1
+    ],
+    "ch0_physical_lanes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      7
+    ],
+    "automatic_calibration_channels": [
+      1
+    ],
+    "host_calibration_channels": [
+      0
+    ],
+    "native_read_depth_per_port": 32,
+    "native_raw_ports_used": 2,
+    "masked_writes_globally_exclusive": true,
+    "shared_read_response_bus": true,
+    "single_read_response_per_cycle": true,
+    "adapter_model_sha256": "6a94841f32bd16c1952a19fd795c30a0b133f109516002eefee8067f4e0434cd",
+    "sys_hz": 133333333.33333333,
+    "actual_ddr_mts": 1066.6666666666665
+  },
+  "compute": {
+    "MCOLS": 4,
+    "ACT_ROWS": 4,
+    "LANES": 8,
+    "VPU_CL": 2,
+    "MXU_IMPL": 2,
+    "CORE_KHZ": 148837,
+    "DDR_MTS": 1066
+  },
+  "memory": {
+    "physical_user_channels": [
+      0,
+      1
+    ],
+    "logical_capacity_bytes": 4294967296,
+    "virtual_channel_bytes": 2147483648,
+    "calibration_mask": 3,
+    "ddr_mts": 1066,
+    "ecc_channels": [
+      1
+    ],
+    "ch0_physical_lanes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      7
+    ],
+    "automatic_calibration_channels": [
+      1
+    ],
+    "host_calibration_channels": [
+      0
+    ]
+  },
+  "reviews": {
+    "adapter-model": {
+      "status": "PASS_SHARED_PIPELINED_NATIVE_CREDITS_ORDERING_AND_EXCLUSIVE_RMW",
+      "source_sha256": "6a94841f32bd16c1952a19fd795c30a0b133f109516002eefee8067f4e0434cd",
+      "report_count": 8
+    },
+    "bridge-model": {
+      "status": "PASS_ORIGINAL_BRIDGE_DEFECT_REPRODUCED_SHARED_PIPELINE_CORRECTION_VERIFIED",
+      "source_sha256": "03b4c6c992fdf9cdc74b98b76c7f1c3c1ba49149caa199635497612dc4116b33",
+      "report_count": 10
+    },
+    "controller-model": {
+      "status": "PASS_SHARED_PIPELINE_REAL_LITEDRAM_CONTROLLER_BRIDGE_REGRESSION",
+      "source_sha256": "7cdd8d9291a61f464f983dba2c2f65fa07063c8691ab88aa2108ca5633931d99",
+      "report_count": 8
+    },
+    "dual-host-model": {
+      "status": "PASS_DUAL_HOST_RESET_AND_JTAG_AXI_ABORT_PROTOCOL",
+      "source_sha256": "200fbeb16429d3dfe7685e9808fbb94436942d4cbe3b5e25f7b3e0ff241d193a",
+      "report_count": 2
+    },
+    "cdc-review": {
+      "status": "SPARE_DUAL_HOST_CDC_REVIEW_PASS_EXTERNAL_DDR_TIMING_AND_PHYSICAL_PENDING",
+      "source_sha256": "6e84e35f862f5fb76dbbccddf885be4b0ffd9aabcb019cac014b5d7737778ff4"
+    },
+    "csr-gray-review": {
+      "status": "PASS_ROUTED_CSR_GRAY_SKEW_AND_SYNCHRONIZERS_PHYSICAL_PENDING",
+      "source_sha256": "381b046d61cf99be1f766c8765bae4bdaf5f8cf21f36971b8a4afeded8c6311d"
+    },
+    "offline-image-review": {
+      "status": "SPARE_DUAL_HOST_ARTIFACT_CHECKS_PASS_CDC_AND_RUNTIME_PENDING",
+      "source_sha256": "71be001071754bdb713de274008334dcf3e66cb40a2fb4cf9193e36713e941ab"
+    },
+    "firmware-host-model": {
+      "status": "PASS_SPARE_CH0_FIRMWARE_HOST_EQUIVALENCE",
+      "source_sha256": "94856a07319e60db065c51242b459d051453090408ccf3ce3a36c49beeaa12c2",
+      "fields": {
+        "status": "PASS_SPARE_CH0_FIRMWARE_HOST_EQUIVALENCE",
+        "binary_sha256": "0ade05b57f78c3a62a171ef179d0af46a519900067fc5378ed647376c127775a",
+        "core_config_sha256": "e6a6955ac24ce0af7ee797d9172b727878eece9cd69743c8104de0f841007797"
+      }
+    }
+  },
+  "host": {
+    "interfaces": [
+      "pcie",
+      "jtag"
+    ],
+    "jtag_chain": 2,
+    "jtag_max_hz": 6000000,
+    "host_dma_hz": 250000000
+  },
+  "files": [
+    {
+      "name": "core/csr.csv",
+      "bytes": 9578,
+      "sha256": "8dfc3d309199470d435e51c5553c34090f634aaaf424ef47fb6619cbc0260349"
+    },
+    {
+      "name": "core/sdram_init.py",
+      "bytes": 1534,
+      "sha256": "02b588d2cac8f5f31feab7a305784d519fc268d5c588178bfb07f6e29b75177c"
+    },
+    {
+      "name": "core/sdram_init_ch0.py",
+      "bytes": 1529,
+      "sha256": "e6a6955ac24ce0af7ee797d9172b727878eece9cd69743c8104de0f841007797"
+    },
+    {
+      "name": "core/otpu_litedram_mem.init",
+      "bytes": 51,
+      "sha256": "3539495b12fca557dbbe9fb3252bbb64acfe31c06f69ef5a810ac76b70da5cc5"
+    },
+    {
+      "name": "calibration/selfcal.bin",
+      "bytes": 9152,
+      "sha256": "0ade05b57f78c3a62a171ef179d0af46a519900067fc5378ed647376c127775a"
+    },
+    {
+      "name": "calibration/bundle.json",
+      "bytes": 1304,
+      "sha256": "bb15126874c37134c2ada113a89b78fdc2947a00255b0dc334612df0387f1b91"
+    },
+    {
+      "name": "reviewed-image.json",
+      "bytes": 34840,
+      "sha256": "143554ed99423f024344a916e5b6c7ee1e53d210a78bfa5d9b534762bd1dbdfb"
+    }
+  ],
+  "programming": {
+    "status": "NOT_PERFORMED_BY_RUNTIME_EXPORT",
+    "flash_written": false
+  },
+  "limitations": [
+    "Checks small runtime files and live identity; omitted build artifacts remain recorded hash bindings.",
+    "Exact image programming and physical inference/PCIe results remain separate."
+  ]
+}

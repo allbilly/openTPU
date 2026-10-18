@@ -1,0 +1,46 @@
+{
+  "build_id": "c0182863",
+  "device": "xc7k480tffg1156-2",
+  "core_mhz": 148.8372093023256,
+  "ddr_mts": 1066.6666666666667,
+  "capacity_bytes": 4294967296,
+  "interfaces": [
+    "jtag",
+    "pcie"
+  ],
+  "ch0_physical_lanes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    7
+  ],
+  "ecc_channels": [
+    1
+  ],
+  "configuration_interface": "BPI16",
+  "configuration_memory": "mt28gu512aax1e-bpi-x16",
+  "artifacts": [
+    {
+      "format": "bit",
+      "path": "bitstreams/spare-dual-host-4gb-c0182863/otpu.bit",
+      "bytes": 13163043,
+      "sha256": "03b513a44544009afff9dfb82515bf84c5df84ac6a63673a0882308ce8a323ae"
+    },
+    {
+      "format": "mcs",
+      "path": "build/hardware/flash-preparation-c0182863-20261018-v1/otpu.mcs",
+      "bytes": 36200992,
+      "sha256": "ce318208e248992fd3ae37d3682f44096937db13c989e2376f21ce0228aef0d4"
+    }
+  ],
+  "artifacts_in_git": false,
+  "offline_review": "PASS",
+  "local_sram_and_tinystories": "PASS",
+  "mac_runtime_qualification": "PENDING_FOR_THIS_IMAGE",
+  "mac_programmer_qualification": "Not exercised by the recorded local Vivado programming workflow; use a compatible BPI16 programmer.",
+  "runtime_guide": "docs/mac_c0182863.md"
+}
