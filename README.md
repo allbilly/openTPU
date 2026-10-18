@@ -172,47 +172,63 @@ activity and CPU frequency were not controlled.
 
 ### 4 GiB spare-lane image through Chestnut
 
-On October 18, 2026, build `c0182800` ran Qwen3.5-2B INT8 through Chestnut
-on both physical 2 GiB channels at 100 MHz core / DDR3-800. It repairs CH0's
-shared read-response bus, pipelines two native ports, and registers the host
-reset source. Both JTAG USER2 and PCIe provide runtime memory/control access,
-with a 250 MHz host clock independent of PCIe. CH0 uses physical lanes
+On October 18, 2026, build `c0182863` ran Qwen3.5-2B INT8 through Chestnut
+on both physical 2 GiB channels at 148.837 MHz core / DDR3-1066.667, following
+the `c0182800` result at 100 MHz / DDR3-800. The new image adds a quantizer
+predicate timing correction and retains the repaired shared CH0 response bus,
+two pipelined native ports and registered host reset. Both JTAG USER2 and PCIe
+provide runtime memory/control access, with a 250 MHz host clock independent
+of PCIe. CH0 uses physical lanes
 `0,1,2,3,4,5,8,7` without ECC; CH1 retains ECC. This experimental image is
 separate from the production and CH1-only results above.
 
-Both rows below used 512 Austen prompt tokens followed by 32 greedy decode
+All rows below used 512 Austen prompt tokens followed by 32 greedy decode
 steps, resident decode, host argmax and a 4096-token KV capacity. Each is one
 timed pass; checkpoint conversion, model upload, initialization and the separate
 ISA correctness check are excluded. Wall rates include program compilation,
-transfers, polling, full-logit USB readback and host argmax. The new run also
-includes exact program readback before each instruction-memory load.
+transfers, polling, full-logit USB readback and host argmax. Both c018 images
+include exact program readback before each instruction-memory load.
 The 3.77 GiB image includes weights, embedding/lookup tables, I/O and cache/state;
 with program space, it occupies 94.2% of the FPGA's 4 GiB.
 
 | Build | What changed | Prefill, device | Prefill, wall | Decode, device | Decode, wall | DRAM while decoding |
 |:--|:--|--:|--:|--:|--:|--:|
 | `c0172080` (Oct 17, historical) | Serialized CH0 reads; PCIe runtime | 2.28 tok/s | 2.05 tok/s | 0.45 tok/s | 0.26 tok/s | 0.89 GB/s (6.9% of 12.8 GB/s peak) |
-| **`c0182800` (Oct 18)** | **Shared-bus read repair, pipelined CH0, registered host reset, JTAG + PCIe runtime** | **23.38 tok/s** | **8.90 tok/s** | **5.78 tok/s** | **0.62 tok/s** | **11.51 GB/s (89.9% of 12.8 GB/s peak)** |
+| `c0182800` (Oct 18, previous) | Shared-bus read repair, pipelined CH0, registered host reset; 100 MHz / DDR800; JTAG + PCIe runtime | 23.38 tok/s | 8.90 tok/s | 5.78 tok/s | 0.62 tok/s | 11.51 GB/s (89.9% of 12.8 GB/s peak) |
+| **`c0182863` (Oct 18)** | **148.837 MHz / DDR1066, quantizer predicate timing correction; retained JTAG + PCIe runtime** | **31.36 tok/s** | **9.58 tok/s** | **7.73 tok/s** | **0.57 tok/s** | **15.38 GB/s (90.1% of 17.07 GB/s peak)** |
 
-The new Qwen decode bandwidth is **1.89x** the earlier single-CH1 result
+Compared with `c0182800`, the new image improves device prefill **34.1%**,
+device decode **33.7%** and decode memory bandwidth **33.7%**. Wall prefill
+improves **7.6%**, while wall decode is **8.0% slower** in this pass
+(0.567 vs 0.616 tok/s). Host/USB overhead dominates wall time; the regression
+has not been isolated to a particular component. The checkpoint, configuration,
+memory allocation and all 32 benchmark token IDs match between these images.
+Each result is one pass at a separate time, with uncontrolled host conditions;
+the core clock, DDR rate and timing correction changed together.
+
+At DDR800, `c0182800` achieved **1.89x** the earlier single-CH1 bandwidth
 (11.51 vs 6.10 GB/s); device decode improves **1.88x** (5.78 vs 3.07 tok/s).
 End-to-end decode improves **1.17x** (0.616 vs 0.527 tok/s), with host/USB
 overhead still dominant. Traffic per token is almost unchanged: 1.990 vs
 1.989 GB. The CH1 baseline used a 1024-token cache, nonresident decode and
 64 decode steps; these are separate measured runs, not a controlled A/B.
 
-Before the new run, zero initialization and readback covered the full 4 GiB.
+The latest benchmark reused the completed same-boot initialization after
+checking its exact-image binding, live marker and calibration. Zero write and
+readback had covered the full 4 GiB during the preceding LFM test.
 All eight chat tokens matched fresh ISA exactly ("The capital of France is
 Paris."); the 32 benchmark tokens also matched the earlier CH1 run's prefix.
 Physical matmul, four image boundary samples and all **137 program readbacks**
 passed. Calibration stayed unchanged, CH1 ECC counters stayed at zero, and
 temporary PCIe settings were restored. Full memory payload coverage and
 cold/warm repeatability remain unqualified. Uploading the image in 4 MiB host
-chunks took 53.7 s (75.3 MB/s), outside the throughput timings above.
+chunks took 56.9 s (71.1 MB/s), outside the throughput timings above.
 
-[Counters, image/checkpoint hashes, correctness and comparison data](docs/data/spare_pcie_benchmark_20261018.json)
-record the new run; [Mac instructions](docs/mac_c0182800.md#qwen35-2b-near-capacity-benchmark)
+[Current counters, image/checkpoint hashes, correctness and comparison data](docs/data/spare_pcie_benchmark_c0182863_20261018.json)
+record the new run; [Mac instructions](docs/mac_c0182863.md#compare-the-same-qwen35-2b-workload)
 provide the reusable benchmark command. The
+[c0182800 record](docs/data/spare_pcie_benchmark_20261018.json) preserves the
+previous pipelined result. The
 [October 17 record](docs/data/spare_pcie_benchmark_20261017.json) preserves the
 older serialized-CH0 result and its diagnosis.
 
