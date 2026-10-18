@@ -23,6 +23,9 @@
   ],
   "configuration_interface": "BPI16",
   "configuration_memory": "mt28gu512aax1e-bpi-x16",
+  "programming_access": "External JTAG to a compatible configuration-memory programmer; Chestnut PCIe alone cannot flash these fixed images.",
+  "qualified_programming_host_path": "Vivado Hardware Manager on the JTAG host; native macOS programming is not qualified.",
+  "vivado_mcs_direct_openfpgaloader_input_qualified": false,
   "artifacts": [
     {
       "format": "bit",
