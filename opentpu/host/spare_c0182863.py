@@ -187,6 +187,9 @@ class _SpareMemory(_DualMemory):
         require(not status&(R.ST_RUN|R.ST_LOADING) and status&R.ST_WR_IDLE,'Accelerator must be idle before scrub')
         self.reg_write(R.R_SCRATCH,0)
         self.scrub_log=[]
+        started=time.monotonic()
+        progress=getattr(self,'scrub_progress',None)
+        total_chunks=2*len(self.channels)*(CH_BYTES//(4<<20))
         with self._dma:
             for mode in (0,1):
                 for ch,c in self.channels.items():
@@ -209,6 +212,10 @@ class _SpareMemory(_DualMemory):
                                 f'Incomplete zero initialization: {result}')
                         require(not result.get('errors') and not result.get('bits') and not any(result.get('lanes',[])),
                                 f'Zero initialization failed: {result}')
+                        if progress is not None:
+                            progress(dict(completed_chunks=len(self.scrub_log),total_chunks=total_chunks,
+                                          elapsed_seconds=time.monotonic()-started,
+                                          pause_seconds_per_chunk=.2,chunk=dict(result)))
                         time.sleep(.2)
         self.guard()
 

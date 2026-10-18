@@ -69,6 +69,49 @@ def dma_alias_checks(transport):
     return records
 
 
+def zero_initialize(board, transport, out, result, save):
+    """Persist validated chunk progress without changing BIST pacing or checks."""
+    require(getattr(transport, 'scrub_progress', None) is None,
+            'Initialization progress already has an owner')
+    path = out/'zero-initialization-chunks.jsonl'
+    result['zero_initialization_progress'] = dict(completed_chunks=0, total_chunks=2048,
+        elapsed_seconds=0, pause_seconds_per_chunk=.2, all_chunks_validated=False,
+        initialization_complete=False)
+    save()
+    started = time.monotonic()
+    with path.open('x', buffering=1) as stream:
+        def record(progress):
+            progress = dict(progress)
+            row = progress.pop('chunk')
+            stream.write(json.dumps(dict(progress=progress, chunk=row))+'\n')
+            result['zero_initialization_progress'].update(progress)
+            done, total = progress['completed_chunks'], progress['total_chunks']
+            if done == 1 or done % 16 == 0 or done == total:
+                save()
+            if done == 1 or done % 128 == 0 or done == total:
+                print(f"Zero initialization: {done}/{total} chunks validated "
+                      f"({100*done/total:.1f}%), {progress['elapsed_seconds']:.1f} s; "
+                      f"CH{row['channel']} {'verify' if row['mode'] else 'write'}", flush=True)
+        transport.scrub_progress = record
+        try:
+            board.scrub(force=True)
+            progress = result['zero_initialization_progress']
+            require(progress['completed_chunks'] == progress['total_chunks'] == 2048 and
+                    transport.reg_read(R.R_SCRATCH) == R.DRAM_INIT,
+                    'Initialization returned without complete coverage and marker')
+            result['zero_initialization_progress'].update(
+                all_chunks_validated=True, initialization_complete=True)
+        finally:
+            del transport.scrub_progress
+            # Failed/interrupting chunks stay in the manifest even though only
+            # successfully validated chunks advance the progress journal.
+            result['zero_initialization_chunks'] = list(getattr(transport, 'scrub_log', []))
+            result['zero_initialization_progress']['elapsed_seconds'] = time.monotonic()-started
+            result['zero_initialization_chunks_file'] = path.name
+            result['zero_initialization_chunks_sha256'] = digest(path)
+            save()
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--package', type=Path, required=True)
@@ -169,8 +212,7 @@ def main(argv=None):
             save()
             # Raw address patterns are not native ECC codewords. Fully initialize
             # both channels before any native instruction/program load.
-            board.scrub(force=True)
-            result['zero_initialization_chunks'] = transport.scrub_log
+            zero_initialize(board, transport, out, result, save)
             observe('after-zero-initialization')
             if args.stage != 'lfm':
                 result['status'] = 'SPARE_NATIVE_READ_SWEEP_RUNNING'
