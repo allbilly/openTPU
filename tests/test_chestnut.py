@@ -39,8 +39,10 @@ def test_posted_memory_write_never_reads_a_stale_completion():
 def test_unsuccessful_pcie_completion_cannot_become_model_data(reply):
     usb = C._ChestnutUsb.__new__(C._ChestnutUsb)
     usb.control = lambda direction, *args, **kwargs: reply if direction == 0xc0 else b''
-    with pytest.raises(OSError, match='PCIe completion'):
+    with pytest.raises(C.PcieCompletionError, match='PCIe completion') as caught:
         usb.pcie_request(0, 0x10000000)
+    assert isinstance(caught.value,OSError)
+    assert (caught.value.address,caught.value.status,caught.value.completion)==(0x10000000,reply[7],reply[4]>>5)
 
 
 def test_xdata_wrap_is_rejected_before_usb_io():

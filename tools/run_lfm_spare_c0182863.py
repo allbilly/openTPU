@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime, timezone
+from functools import partial
 import hashlib
 import json
 from pathlib import Path
@@ -26,7 +27,8 @@ from opentpu.host import ddrcal, selfcal, regs as R
 from opentpu.host.board import device_config
 from opentpu.host.program_verify import ProgramReadbackBoard as Board
 from opentpu.host.dual_pcie import CH_BYTES, LOGICAL_BYTES, require, digest
-from opentpu.host.spare_c0182863 import SparePcieProfile, SpareChestnutTransport, SpareXdmaTransport, SpareJtagTransport
+from opentpu.host.spare_c0182863 import (SparePcieProfile, SpareChestnutTransport,
+    SpareXdmaTransport, SpareJtagTransport, initialization_pause)
 from spare_runtime_c0182863 import calibration_snapshot, check_calibration_receipt, raw_range
 from fedora_matmul_check import matmul_check
 
@@ -69,13 +71,18 @@ def dma_alias_checks(transport):
     return records
 
 
-def zero_initialize(board, transport, out, result, save):
-    """Persist validated chunk progress without changing BIST pacing or checks."""
+def zero_initialize(board, transport, out, result, save, *, experimental_pause_seconds=None):
+    """Persist complete verification with default or explicitly selected pacing."""
+    pause = initialization_pause(experimental_pause_seconds)
     require(getattr(transport, 'scrub_progress', None) is None,
             'Initialization progress already has an owner')
+    result['zero_initialization_policy'] = dict(chunk_bytes=4 << 20,
+        pause_seconds_per_chunk=pause, planned_pause_seconds=2048*pause,
+        experimental=experimental_pause_seconds is not None,
+        faster_pacing_physically_qualified=False, full_write_and_read_verification_required=True)
     path = out/'zero-initialization-chunks.jsonl'
     result['zero_initialization_progress'] = dict(completed_chunks=0, total_chunks=2048,
-        elapsed_seconds=0, pause_seconds_per_chunk=.2, all_chunks_validated=False,
+        elapsed_seconds=0, pause_seconds_per_chunk=pause, all_chunks_validated=False,
         initialization_complete=False)
     save()
     started = time.monotonic()
@@ -93,6 +100,10 @@ def zero_initialize(board, transport, out, result, save):
                       f"({100*done/total:.1f}%), {progress['elapsed_seconds']:.1f} s; "
                       f"CH{row['channel']} {'verify' if row['mode'] else 'write'}", flush=True)
         transport.scrub_progress = record
+        missing = object()
+        original_scrub = vars(transport).get('scrub', missing)
+        if experimental_pause_seconds is not None:
+            transport.scrub = partial(transport.scrub, experimental_pause_seconds=experimental_pause_seconds)
         try:
             board.scrub(force=True)
             progress = result['zero_initialization_progress']
@@ -102,6 +113,11 @@ def zero_initialize(board, transport, out, result, save):
             result['zero_initialization_progress'].update(
                 all_chunks_validated=True, initialization_complete=True)
         finally:
+            if experimental_pause_seconds is not None:
+                if original_scrub is missing:
+                    del transport.scrub
+                else:
+                    transport.scrub = original_scrub
             del transport.scrub_progress
             # Failed/interrupting chunks stay in the manifest even though only
             # successfully validated chunks advance the progress journal.
@@ -120,10 +136,14 @@ def main(argv=None):
     ap.add_argument('--transport', choices=('xdma', 'chestnut', 'jtag'), default='xdma')
     ap.add_argument('--dev', default='/dev/xdma0')
     ap.add_argument('--stage', choices=('identity', 'lfm', 'memory', 'inference'), default='identity')
+    ap.add_argument('--experimental-init-pause-ms', type=int, choices=(0, 5, 20, 50, 200),
+                    help='Explicit LFM-only pacing experiment; default remains 200 ms per verified 4 MiB operation')
     ap.add_argument('--calibration-receipt', type=Path)
     ap.add_argument('--model', default='lfm2')
     ap.add_argument('--out', type=Path, required=True)
     args = ap.parse_args(argv)
+    if args.experimental_init_pause_ms is not None and args.stage != 'lfm':
+        ap.error('--experimental-init-pause-ms requires --stage lfm')
     if args.stage != 'identity' and args.calibration_receipt is None:
         ap.error('--calibration-receipt is required for lfm/memory/inference')
     out = args.out.expanduser().resolve()
@@ -212,7 +232,9 @@ def main(argv=None):
             save()
             # Raw address patterns are not native ECC codewords. Fully initialize
             # both channels before any native instruction/program load.
-            zero_initialize(board, transport, out, result, save)
+            zero_initialize(board, transport, out, result, save,
+                experimental_pause_seconds=(None if args.experimental_init_pause_ms is None
+                                            else args.experimental_init_pause_ms/1000))
             observe('after-zero-initialization')
             if args.stage != 'lfm':
                 result['status'] = 'SPARE_NATIVE_READ_SWEEP_RUNNING'

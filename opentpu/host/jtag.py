@@ -18,6 +18,13 @@ FRAME_BITS = 640
 CH_BYTES = 1 << 31
 
 
+class JtagCommandError(IOError):
+    """A fresh matching mailbox response completed with an explicit status."""
+    def __init__(self,opcode,address,status):
+        self.opcode,self.address,self.status=int(opcode),int(address),int(status)
+        super().__init__(f"JTAG command {opcode} at {address:#x}: status {status}")
+
+
 class Xvc:
     def __init__(self, host="localhost", port=3721, timeout=5.0):
         self.sock = socket.create_connection((host, port), timeout)
@@ -134,7 +141,7 @@ class JtagTransport:
                     if (r >> 520) & 0xffff == seq:
                         status = (r >> 512) & 0xff
                         if status:
-                            raise IOError(f"JTAG command {opcode} at {addr:#x}: status {status}")
+                            raise JtagCommandError(opcode,addr,status)
                         return r & ((1 << 512)-1)
                     if time.monotonic() >= deadline:
                         raise TimeoutError(f"JTAG command {opcode} at {addr:#x} did not complete")

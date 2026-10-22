@@ -32,6 +32,25 @@ from chestnut_benchmark import image_choice, phase_metrics, release_engine
 from fedora_matmul_check import matmul_check
 from spare_runtime_c0182863 import calibration_snapshot, check_calibration_receipt
 from chestnut_checkpoints import verify, wanted
+from host_benchmark_profile import HostProfiler
+
+
+def profile_board(profiler, board):
+    if profiler is not None:
+        profiler.attach(board, ('write', 'read', 'load_program', 'set_args',
+                               'start', 'wait', 'snapshot'), 'board')
+
+
+def profile_backend(profiler, backend):
+    if profiler is not None:
+        profile_board(profiler, backend.board)
+        profiler.attach(backend, ('prepare', 'write', 'read', 'start', 'wait'), 'backend')
+
+
+def profile_engine(profiler, engine):
+    if profiler is not None:
+        profiler.attach(engine, ('_compile', '_compile_decode', '_take', '_layer_run',
+                                 'step', 'prefill', '_drain'), 'engine')
 
 
 class ObservedTransport(SpareChestnutTransport):
@@ -86,6 +105,8 @@ def main(argv=None):
     parser.add_argument('--calibration-receipt', type=Path, required=True)
     parser.add_argument('--initialization-receipt', type=Path, required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--profile-host', action='store_true',
+                        help='Record per-phase host/USB/program/compiler elapsed time; adds instrumentation overhead')
     args = parser.parse_args(argv)
     out = args.out.expanduser().resolve()
     out.mkdir(parents=True, exist_ok=False)
@@ -106,12 +127,17 @@ def main(argv=None):
                   full_memory_qualification=False,
                   repository_revision=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip())
     t = board = engine = reference = None
+    profiler = HostProfiler() if args.profile_host else None
     code = 1
 
     def save(status=None):
         if status:
+            if profiler is not None and not profiler.closed:
+                profiler.set_phase(status)
             result['status'] = status
             print(status, flush=True)
+        if profiler is not None:
+            result['host_profile'] = profiler.snapshot()
         result['updated_utc'] = datetime.now(timezone.utc).isoformat()
         temp = out / 'manifest.json.tmp'
         temp.write_text(json.dumps(result, indent=2) + '\n')
@@ -128,7 +154,7 @@ def main(argv=None):
                               ROOT/'opentpu/llm/qwen3.py', ROOT/'opentpu/host/board.py',
                               ROOT/'opentpu/host/program_verify.py', ROOT/'tools/spare_runtime_c0182863.py',
                               ROOT/'tools/chestnut_benchmark.py', ROOT/'tools/chestnut_checkpoints.py',
-                              ROOT/'tools/fedora_matmul_check.py')}
+                              ROOT/'tools/fedora_matmul_check.py', ROOT/'tools/host_benchmark_profile.py')}
         path = model_dir(args.model)
         metadata = json.loads((path / 'download-metadata.json').read_text())
         require(metadata.get('repository') == 'Qwen/Qwen3.5-2B',
@@ -142,6 +168,9 @@ def main(argv=None):
         spec = load_spec(path)
         tokenizer = AutoTokenizer.from_pretrained(path, local_files_only=True)
         t = ObservedTransport(profile)
+        if profiler is not None:
+            profiler.attach(t, ('reg_read', 'reg_write', 'reg_read_many',
+                                'mem_read', 'mem_write', 'poll'), 'transport')
         result['calibration_binding'] = check_calibration_receipt(cal, profile, t)
         previous = json.loads(init.read_text())
         validate_initialization(previous, profile, t)
@@ -150,6 +179,7 @@ def main(argv=None):
         result['calibration_before'] = calibration_snapshot(t)
         result['ecc_before'] = t.guard()
         board = ProgramReadbackBoard(t, calibrate=False, program_receipts=out/'programs')
+        profile_board(profiler, board)
         result['identity'] = board.info()
         cfg = device_config(result['identity'], DRAM_BYTES=LOGICAL_BYTES)
         result['config'] = asdict(cfg)
@@ -199,6 +229,7 @@ def main(argv=None):
             finally:
                 Board.write = original_write
             try:
+                profile_backend(profiler, b)
                 require(b.image_bytes == image.nbytes, 'Actual image differs from capacity plan')
                 result['upload'] = dict(bytes=b.image_bytes, seconds=time.perf_counter()-begin)
                 checks = result['upload_readback'] = []
@@ -221,6 +252,7 @@ def main(argv=None):
         save('PACKING_MODEL_IMAGE')
         engine = Q.Engine(spec, weights, cap=4096, cfg=cfg, backend=backend,
                           resident=True, wformat='int8', pipeline='thread')
+        profile_engine(profiler, engine)
         require(engine.resident and engine.device_inputs, 'Resident device-input configuration not active')
         chat = [{'role': 'user', 'content': 'What is the capital of France? Answer in one sentence.'}]
         prompt = tokenizer.apply_chat_template(chat, add_generation_prompt=True,
@@ -311,6 +343,12 @@ def main(argv=None):
                     result['temporary_pci_configuration_restored'] = True
             except BaseException as error:
                 errors.append(dict(resource=name, error=repr(error)))
+        if profiler is not None:
+            try:
+                profiler.close()
+                result['host_profile'] = profiler.snapshot()
+            except BaseException as error:
+                errors.append(dict(resource='host_profile', error=repr(error)))
         if t:
             result['channel_io'] = t.channel_io
         if errors:

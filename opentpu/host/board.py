@@ -991,17 +991,31 @@ class BoardBackend:
 
     def __init__(self, cfg, images: list, transport=None, model: str | None = None,
                  status: bool = True, program_receipts=None):
+        self._initialize(cfg, images, transport, model, status,
+                         program_receipts=program_receipts)
+
+    def _initialize(self, cfg, images, transport, model, status, *,
+                    board=None, image_prepared=False, program_receipts=None):
+        """Shared state setup; runtime subclasses validate residency before attachment.
+
+        The public constructor always performs normal scrub/upload. An internal
+        caller supplying image_prepared must have verified the image independently
+        and restore the memory-init marker after a managed core reset.
+        """
         from opentpu import isa as I
         self.I = I
         if cfg.S != 1:
             raise ValueError("the board has one slice: use opentpu.isasim.board_config()")
         self.cfg = cfg
-        if program_receipts is None:
+        if board is not None:
+            self.board = board
+        elif program_receipts is None:
             self.board = Board(transport)
         else:
             from .program_verify import ProgramReadbackBoard
             self.board = ProgramReadbackBoard(transport, program_receipts=program_receipts)
-        self.board.scrub()
+        if not image_prepared:
+            self.board.scrub()
         info = self.info = self.board.info()
         if (info["D"], info["MCOLS"], info["LANES"], info.get("act_rows") or info["MCOLS"]) != \
                 (cfg.D, cfg.MCOLS, cfg.LANES, cfg.act_rows):
@@ -1049,7 +1063,8 @@ class BoardBackend:
                                    model=model,
                                    core_khz=info["core_khz"], dram=self._layout()) \
             if status and self.board.lock is not None else None
-        self.board.write(0, img)
+        if not image_prepared:
+            self.board.write(0, img)
 
     def _layout(self, next_token: bool = False) -> dict:
         e = self.engine

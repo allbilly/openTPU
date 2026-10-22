@@ -20,6 +20,13 @@ from .runstate import DeviceLock
 ROOT = Path(__file__).resolve().parents[2]
 
 
+class PcieCompletionError(OSError):
+    """Structured Chestnut reply; bridge status is separate from TLP status."""
+    def __init__(self,address,status,completion):
+        self.address,self.status,self.completion=int(address),int(status),int(completion)
+        super().__init__(f'PCIe completion at {address:#x}: status={status}, completion={completion}')
+
+
 class _ChestnutUsb:
     """The control and bulk subset used by the verified Chestnut firmware."""
     def __init__(self):
@@ -109,7 +116,7 @@ class _ChestnutUsb:
         reply = self.control(0xc0, 0xf0, 0, 0, size=8)
         status, completion = reply[7], (reply[4] >> 5) & 7
         if status or completion:
-            raise OSError(f'PCIe completion at {address:#x}: status={status}, completion={completion}')
+            raise PcieCompletionError(address,status,completion)
         return (struct.unpack_from('<I', reply)[0] >> shift) & ((1 << (8*size))-1)
 
     def pcie_cfg_req(self, off, bus=0, value=None, size=4):
@@ -202,7 +209,7 @@ class ChestnutTransport:
                 self.change(bus, 4, self.cfg(bus, 4, size=2) | 6, size=2)
             self.change(2, 4, self.cfg(2, 4, size=2) | 6, size=2)
             for index, (base, size) in self.bars.items():
-                ident = self.read32(base)
+                ident = self.read32(self._bar_identity_address(index, base))
                 print(f'BAR{index}: base={base:#x}, bytes={size:#x}, ID={ident:#010x}', flush=True)
                 if ident >> 16 == 0x1fc0:
                     self.dma_bar = base
@@ -217,6 +224,10 @@ class ChestnutTransport:
         except BaseException:
             self.close()
             raise
+
+    def _bar_identity_address(self, index, base):
+        """Fixed images expose their identity at the start of each BAR."""
+        return base
 
     def _check_image(self):
         if self.reg_read(R.R_ID) != R.ID_OTPU or self.reg_read(0x5c) != 0x08000102:

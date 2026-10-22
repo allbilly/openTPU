@@ -1,5 +1,9 @@
 """Initialization progress must preserve coverage, pacing and failed evidence."""
 import json
+import os
+from pathlib import Path
+import subprocess
+import sys
 import threading
 from types import SimpleNamespace
 
@@ -70,12 +74,12 @@ class Memory(S._SpareMemory):
         self.marker = value
 
 
-def initialize(tmp_path, monkeypatch, fault=None):
+def initialize(tmp_path, monkeypatch, fault=None, experimental_pause_seconds=None):
     clock = SimpleNamespace(now=0., sleeps=[])
 
     def sleep(seconds):
         clock.sleeps.append(seconds)
-        clock.now += 5 if seconds == .005 else seconds
+        clock.now += seconds
 
     timer = SimpleNamespace(monotonic=lambda: clock.now, sleep=sleep)
     monkeypatch.setattr(S, 'time', timer)
@@ -90,7 +94,8 @@ def initialize(tmp_path, monkeypatch, fault=None):
         saved.append(dict(result['zero_initialization_progress']))
 
     def run():
-        runner.zero_initialize(board, transport, tmp_path, result, save)
+        runner.zero_initialize(board, transport, tmp_path, result, save,
+                               experimental_pause_seconds=experimental_pause_seconds)
 
     return transport, result, saved, clock, run
 
@@ -153,3 +158,94 @@ def test_progress_journal_failure_blocks_initialization_marker(tmp_path, monkeyp
         run()
     assert len(transport.operations) == 1 and transport.marker == 0
     assert not saved[-1]['initialization_complete']
+
+
+@pytest.mark.parametrize('pause', [0, .005, .02, .05, .2])
+def test_explicit_pacing_keeps_full_coverage_and_restores_transport(tmp_path, monkeypatch, pause):
+    transport, result, _, clock, run = initialize(tmp_path, monkeypatch, experimental_pause_seconds=pause)
+    run()
+    assert len(transport.operations) == 2048 and transport.marker == R.DRAM_INIT
+    rows = [json.loads(line) for line in (tmp_path/'zero-initialization-chunks.jsonl').read_text().splitlines()]
+    assert [(row['chunk']['mode'], row['chunk']['channel'], row['chunk']['base']) for row in rows] == [
+        (mode, ch, base) for mode in (0, 1) for ch in (0, 1)
+        for base in range(0, 1 << 31, 4 << 20)]
+    assert all(row['progress']['pause_seconds_per_chunk'] == pause for row in rows)
+    assert clock.sleeps == ([pause]*2048 if pause else [])
+    assert clock.now == pytest.approx(2048*pause)
+    policy = result['zero_initialization_policy']
+    assert policy['experimental'] and not policy['faster_pacing_physically_qualified']
+    assert policy['full_write_and_read_verification_required']
+    assert policy['planned_pause_seconds'] == pytest.approx(2048*pause)
+    assert 'scrub' not in vars(transport) and not hasattr(transport, 'scrub_progress')
+
+
+@pytest.mark.parametrize('fault', ['lane', 'returns', 'epoch', 'ticks', 'timeout', 'interrupt', 'final-guard'])
+def test_fast_experiment_retains_error_guards_and_restores_callback(tmp_path, monkeypatch, fault):
+    transport, result, saved, _, run = initialize(tmp_path, monkeypatch, fault, experimental_pause_seconds=0)
+    expected = KeyboardInterrupt if fault == 'interrupt' else TimeoutError if fault == 'timeout' else ValueError
+    with pytest.raises(expected):
+        run()
+    assert transport.marker == 0 and not saved[-1]['initialization_complete']
+    assert not saved[-1]['all_chunks_validated']
+    assert 'scrub' not in vars(transport) and not hasattr(transport, 'scrub_progress')
+
+
+@pytest.mark.parametrize('pause', [True, False, -.001, .001, .201, float('nan'), float('inf'), '0', object()])
+def test_invalid_pacing_rejected_before_any_hardware_write(tmp_path, monkeypatch, pause):
+    transport, _, _, _, run = initialize(tmp_path, monkeypatch, experimental_pause_seconds=pause)
+    with pytest.raises(ValueError, match='Experimental initialization pause'):
+        run()
+    assert not transport.operations and transport.marker == R.DRAM_INIT
+    assert not list(tmp_path.iterdir())
+    with pytest.raises(ValueError, match='Experimental initialization pause'):
+        transport.scrub(experimental_pause_seconds=pause)
+    assert not transport.operations and transport.marker == R.DRAM_INIT
+
+
+@pytest.mark.parametrize('stage', ['identity', 'memory', 'inference'])
+def test_experiment_only_accepted_for_lfm_before_opening_hardware(tmp_path, monkeypatch, stage):
+    def unexpected_open(*args, **kwargs):
+        pytest.fail('Invalid experiment attempted to open hardware')
+    monkeypatch.setattr(runner, 'SparePcieProfile', unexpected_open)
+    out = tmp_path/'not-created'
+    with pytest.raises(SystemExit) as error:
+        runner.main(['--package', 'unused', '--out', str(out), '--stage', stage,
+                     '--experimental-init-pause-ms', '0'])
+    assert error.value.code == 2 and not out.exists()
+
+
+@pytest.mark.parametrize('pause', [None, '0', '20', '200'])
+def test_mac_launcher_passes_pacing_only_to_the_lfm_stage(tmp_path, pause):
+    calls = tmp_path/'calls.jsonl'
+    python = tmp_path/'record-python'
+    python.write_text(f'#!{sys.executable}\nimport json,os,sys\n'
+                      "with open(os.environ['CAPTURE_CALLS'], 'a') as stream:\n"
+                      "    stream.write(json.dumps(sys.argv[1:])+'\\n')\n")
+    python.chmod(0o700)
+    env = {k: v for k, v in os.environ.items() if k != 'SPARE_EXPERIMENTAL_INIT_PAUSE_MS'}
+    env.update(SPARE_PYTHON=str(python), CAPTURE_CALLS=str(calls), SPARE_OUT=str(tmp_path/'out'))
+    if pause is not None:
+        env['SPARE_EXPERIMENTAL_INIT_PAUSE_MS'] = pause
+    subprocess.run(['bash', str(Path(runner.ROOT)/'tools/mac_spare_c0182863.sh'), 'lfm'],
+                   env=env, check=True, capture_output=True, text=True)
+    recorded = [json.loads(line) for line in calls.read_text().splitlines()]
+    assert len(recorded) == 4
+    for argv in recorded:
+        is_lfm = '--stage' in argv and argv[argv.index('--stage')+1] == 'lfm'
+        assert ('--experimental-init-pause-ms' in argv) == (is_lfm and pause is not None)
+        if is_lfm and pause is not None:
+            assert argv[argv.index('--experimental-init-pause-ms')+1] == pause
+
+
+@pytest.mark.parametrize('stage,pause', [('lfm', ''), ('lfm', '-1'), ('lfm', '1'),
+                                         ('lfm', 'NaN'), ('quick', '0'), ('preflight', '20')])
+def test_mac_launcher_rejects_invalid_experiment_before_python(tmp_path, stage, pause):
+    capture = tmp_path/'python-started'
+    python = tmp_path/'record-python'
+    python.write_text('#!/usr/bin/env bash\ntouch "$CAPTURE_CALLS"\n')
+    python.chmod(0o700)
+    env = dict(os.environ, SPARE_PYTHON=str(python), CAPTURE_CALLS=str(capture),
+               SPARE_EXPERIMENTAL_INIT_PAUSE_MS=pause, SPARE_OUT=str(tmp_path/'out'))
+    result = subprocess.run(['bash', str(Path(runner.ROOT)/'tools/mac_spare_c0182863.sh'), stage],
+                            env=env, capture_output=True, text=True)
+    assert result.returncode == 2 and not capture.exists()

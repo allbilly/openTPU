@@ -26,6 +26,17 @@ BUILD_ID_HEX='c0182863'
 REVIEWED_MANIFEST_SHA256='143554ed99423f024344a916e5b6c7ee1e53d210a78bfa5d9b534762bd1dbdfb'
 RUNTIME_MANIFEST_SHA256='d1c66d9b07061093c001de6bc570e6cf081ae3b7514d1038d4972d032c0796b0'
 
+
+def initialization_pause(experimental_pause_seconds=None):
+    """Keep the qualified default; accept only explicit bounded experiments."""
+    if experimental_pause_seconds is None:
+        return .2
+    require(type(experimental_pause_seconds) in (int, float) and
+            experimental_pause_seconds in (0, .005, .02, .05, .2),
+            'Experimental initialization pause must be 0, 5, 20, 50 or 200 ms')
+    return float(experimental_pause_seconds)
+
+
 class SparePcieProfile:
     def __init__(self,package):
         self.package=Path(package).expanduser().resolve();manifest=self.package/'manifest.json'
@@ -177,12 +188,13 @@ class _SpareMemory(_DualMemory):
                 'Calibration incomplete or raw BIST active')
         return ecc
 
-    def scrub(self):
+    def scrub(self, *, experimental_pause_seconds=None):
         """Destructive whole-range zero initialization, serialized in 4 MiB chunks.
 
         Includes CH1 parity bytes; raw verification does not qualify native ECC.
         Preserve failed counters and never mark memory initialized on failure.
         """
+        pause = initialization_pause(experimental_pause_seconds)
         self.guard();status=self.reg_read(R.R_STATUS)
         require(not status&(R.ST_RUN|R.ST_LOADING) and status&R.ST_WR_IDLE,'Accelerator must be idle before scrub')
         self.reg_write(R.R_SCRATCH,0)
@@ -215,8 +227,9 @@ class _SpareMemory(_DualMemory):
                         if progress is not None:
                             progress(dict(completed_chunks=len(self.scrub_log),total_chunks=total_chunks,
                                           elapsed_seconds=time.monotonic()-started,
-                                          pause_seconds_per_chunk=.2,chunk=dict(result)))
-                        time.sleep(.2)
+                                          pause_seconds_per_chunk=pause,chunk=dict(result)))
+                        if pause:
+                            time.sleep(pause)
         self.guard()
 
 

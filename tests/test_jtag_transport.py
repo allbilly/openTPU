@@ -2,7 +2,7 @@
 import numpy as np
 import pytest
 
-from opentpu.host.jtag import JtagTransport, MAGIC, IDCODE
+from opentpu.host.jtag import JtagCommandError, JtagTransport, MAGIC, IDCODE
 
 
 class Mailbox:
@@ -88,7 +88,10 @@ def test_out_buffer_and_invalid_ranges_submit_no_commands():
 def test_error_or_stale_sequence_poison_connection(error,stale):
     m=Mailbox(); t=JtagTransport(link=m,timeout=0)
     m.error=error; m.stale=stale
-    with pytest.raises((IOError,TimeoutError)): t.reg_read(0)
+    with pytest.raises((IOError,TimeoutError)) as caught: t.reg_read(0)
+    if error:
+        assert isinstance(caught.value,JtagCommandError)
+        assert (caught.value.opcode,caught.value.address,caught.value.status)==(1,0,error)
     n=len(m.commands)
     with pytest.raises(IOError): t.reg_write(0,1)
     assert len(m.commands)==n
