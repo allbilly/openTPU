@@ -1,13 +1,27 @@
 # Prepare and run an openTPU Vivado bitstream on Linux
 
+**Historical reference procedures.** Current disposition is in
+[HANDOFF.md](../HANDOFF.md): c0182800/c0182863 fixed-clock artifacts are retained
+and the c01848 runtime-clock effort was abandoned. The old PCIe-only/RAM-only
+implementation entrypoints described here now reject new builds because they
+lack both required runtime interfaces. Their `--prepare-only` modes remain
+historical preparation, explicitly ineligible for implementation; MIG
+preparation can still generate vendor IP when invoked. Existing offline review
+helpers remain usable on preserved artifacts. None of the loading or rebuild
+examples below schedules hardware work or overrides the
+[current interface requirement](../AGENTS.md#mandatory-interfaces-in-every-bitstream).
+Links under `build/` identify retained local evidence and are not supplied by
+a Git clone. Historical dependency paths do not promise a runnable release.
+
 An [independent CRC audit](openxc7_bitstream_crc.md) now verifies both CRC
 checkpoints in each existing Vivado reference image, including the compressed
 MIG image. The original files and frozen build receipts are preserved.
 
 For exact locations and build differences, use the [bitstream index](bitstreams.md).
-The separate [CH1 PCIe image](permanent_pcie_ch1.md) has now been written to
-NOR, verified and booted through a JTAG boot request. Cold power-on boot and
-PCIe inference remain to be tested with a physical PCIe connection.
+The separate [CH1 PCIe image](permanent_pcie_ch1.md) was written to
+NOR, verified and booted through a JTAG boot request. Subsequent
+[October 16 Mac receipts](chestnut_ch1_benchmarks.md) record PCIe inference;
+that evidence remains separate from the earlier flash/boot receipt.
 
 For the successful LFM2 run, follow [CH1-only recovery](ch1_recovery.md):
 the user selected a standalone JTAG image that bypasses physical CH0's errors.
@@ -28,11 +42,14 @@ Run commands from the checkout root and set external tool locations as described
 in [portable workspace paths](workspace_layout.md#portable-paths-and-external-tools).
 The FPGA is an **XC7K480T-2, FFG1156**, on a YPCB-00338-1P1 card.
 
-For the current CH0 investigation, start with the separate
+For the historical CH0 investigation, see the separate
 [RAM-only MIG build and Mac test procedure](ddr_ram_only_debug.md). That image
 isolates memory from the accelerator and PCIe; it is not an inference image.
 
 ## Rebuild the current CH1 PCIe release on Fedora
+
+This heading is retained for existing links. The procedure is historical and
+its implementation command is retired; it is not the current release path.
 
 The built release lives in [`bitstreams/ch1-pcie-2gb/`](../bitstreams/ch1-pcie-2gb/).
 Its `.bit`, matching BPI x16 `.mcs`, DDR800 core, calibration tables and
@@ -102,6 +119,9 @@ DRCs before bitstream generation. Fresh pin, packet/CRC, CDC and bus-skew
 reviews are still required for the new output, followed by hardware tests.
 The preserved release's receipts describe its original files; they do not
 qualify a rebuild. A rebuild may produce different bytes and hashes.
+
+For the separate approximately 150 MHz compute experiment, keeping the
+DDR800 controller at 100 MHz, see [the compute clock build and review guide](ch1_compute_clock.md).
 
 ### Regenerate the CH1 DDR core when changing the PHY
 

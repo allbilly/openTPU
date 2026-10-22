@@ -1,6 +1,12 @@
 # 4 GiB spare-lane OpenTPU: Mac and Chestnut handoff
 
-The primary integration target is build `c0172080`, 100 MHz compute and DDR800,
+This is the historical c0172080 procedure. Current disposition is in
+[HANDOFF.md](../HANDOFF.md); the retained fixed-clock runtime guides are
+[c0182800](mac_c0182800.md) and [c0182863](mac_c0182863.md). The c01848
+runtime-clock effort was abandoned. This page does not establish the card's
+current identity or schedule another hardware test.
+
+The October 17 integration target was build `c0172080`, 100 MHz compute and DDR800,
 with 2 GiB per channel. CH0 uses physical lanes `0,1,2,3,4,5,8,7` without ECC;
 CH1 retains ECC. This bypasses physical lane 6. The CH1-only 148.84 MHz image
 is a different candidate and is not used here.
@@ -9,16 +15,26 @@ The permanent-flash operation is recorded under
 `build/hardware-test/spare-flash-no-backup-20261017/` on the programming host.
 Programming, independent verification and JTAG-requested boot from flash
 passed on October 17 at 07:11 UTC (15:11 HKT); the programmer has released
-JTAG. The card can be powered down and moved to the Mac. Actual cold power-on,
-runtime register identity and inference still need the Mac tests. The user
+JTAG. Runtime identity and inference subsequently passed on the Mac as recorded
+below; repeated cold/warm qualification remains open. The user
 explicitly requested skipping a new backup;
 the previous CH1-only bitstream/MCS are preserved separately.
+
+The pulled [Mac receipt](data/spare_pcie_benchmark_20261017.json) demonstrates
+working c0172080 with 4 GiB and Qwen3.5-2B: full-range zero initialization and
+readback, exact matmul output, and eight tokens matching the ISA reference.
+Both physical channels were used and the image occupied 94.16% of capacity.
+The local evidence review (local-only `docs/data/spare_pcie_mac_evidence_review_20261017.json`)
+matches its package/bitstream hashes and checks counter arithmetic. Distinct
+full-range native payload patterns and repeated-start qualification below
+remain separate work.
 
 ## Before starting
 
 Use a compatible 12 V supply with matching connector/polarity. Record the source
 and any input-voltage observations at idle and initial activity. The original
-sole 12 V / 2 A adapter has not been electrically qualified. Stop escalation
+sole 12 V / 2 A adapter has not been electrically qualified. The user now
+reports a 12 V / 5 A supply; its input voltage/current remain unmeasured. Stop escalation
 if voltage is unstable or the card resets. A full investigation of the old
 lane-6 fault is not required before the bounded integration test.
 
@@ -31,8 +47,12 @@ needed for these runtime tests. A compatible Python environment with NumPy and
 working libusb/Chestnut is required. Reuse the existing inference environment
 for the later PyTorch/Transformers/safetensors stage.
 
-When using Git instead of the supplied archive, commit and publish both package
-directories above and the complete runtime changes before pulling on the Mac:
+The historical runner depended on the local package directories above and the
+following runtime files. Some helper/evidence dependencies remain unpublished;
+a Git pull alone does not reconstruct that local package. Do not commit the
+generated packages or use an archive as a handoff. The newer fixed-clock guides
+linked above use tracked host scripts, small calibration/configuration files
+and image metadata for an already programmed card.
 
 - `opentpu/host/spare_pcie.py`, `opentpu/host/dual_pcie.py`, and the
   `opentpu/host/chestnut.py` changes.
@@ -156,7 +176,9 @@ The immediate Mac action can be the single `lfm` command. Complete memory
 qualification still requires clean `quick`, `full` and inference results on
 the baseline image. Repeated cold/warm starts, retention, concurrent compute and
 memory traffic, sustained operation and power observations remain qualification
-work. Original lane-6/ECC restoration and clock increases are deferred.
+work in this historical scope. The subsequent pipelined c0172300 failed on CH0;
+the c0182800/c0182863 successors have their own passing receipts. Refer to
+HANDOFF.md for final disposition instead of reviving this earlier priority order.
 
 Return every stage's `manifest.json` and retain the corresponding logs and
 `operations.jsonl`. A failure should be reported before power-cycling or

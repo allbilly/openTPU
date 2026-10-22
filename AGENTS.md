@@ -1,5 +1,19 @@
 # Repository instructions
 
+## Current session handoff
+
+- Read the final disposition at the top of [HANDOFF.md](HANDOFF.md) before
+  continuing this bring-up. On October 22 the user abandoned the c01848
+  runtime-clock effort. Do not resume its builds, qualification, packaging or
+  hardware work without a new explicit instruction. Earlier plans below that
+  disposition are historical.
+- The c0172300 CH0/LFM regression was subsequently corrected in the combined
+  JTAG/PCIe fixed-clock images c0182800 and c0182863; their recorded Mac tests
+  passed. Preserve those fallback artifacts and all failed-image evidence.
+  c0182301 is retired and c0172462 was rejected; neither is an active test
+  candidate. The final handoff did not recheck physical card state or ownership.
+  Code review and fixes do not resume hardware work or change programming scope.
+
 ## Mandatory interfaces in every bitstream
 
 - Every new OpenTPU bitstream must include **both JTAG and PCIe runtime memory

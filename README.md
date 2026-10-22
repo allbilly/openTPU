@@ -232,12 +232,14 @@ previous pipelined result. The
 [October 17 record](docs/data/spare_pcie_benchmark_20261017.json) preserves the
 older serialized-CH0 result and its diagnosis.
 
-- [ ] **Automatic CH0 startup calibration:** bundle boot firmware that handles
-  CH0's eight byte lanes and CH1's nine. Current startup firmware calibrates only
-  CH1; CH0 requires the host helper after each power cycle or FPGA reload.
-  Verify both channels become ready without the helper, then repeat memory
-  initialization and exact matmul/model checks. This is separate from pipelining
-  CH0 reads for bandwidth.
+**Automatic CH0 startup calibration has passed local tests** in
+[c0182600](docs/mac_c0182600.md) and [c0182663](docs/mac_c0182663.md): both-channel
+startup, memory initialization, exact matmul and TinyStories completed. Their
+Mac PCIe/LFM/Qwen acceptance, cold/warm repeatability and publication of the local
+runtime handoffs remain pending. The Mac-tested c0182800/c0182863 images still
+calibrate only CH1 automatically and require the matching CH0 host helper after
+power-up or FPGA reload. Automatic calibration does not remove the memory
+initializer's fixed host pauses.
 
 ## How it works
 
@@ -314,10 +316,27 @@ For the tested standalone JTAG image, follow the
 the JTAG/PCIe build differences and current verification status are in the
 [bitstream index](docs/bitstreams.md); the
 [permanent PCIe guide](docs/permanent_pcie_ch1.md) records the completed flash
-write and pending PCIe host test. The current built PCIe/2 GiB release and its
+write; the [October 16 Chestnut measurements](docs/chestnut_ch1_benchmarks.md)
+record the subsequent Mac PCIe model tests. The historical PCIe/2 GiB release and its
 matched DDR800 data are included in [bitstreams/ch1-pcie-2gb](bitstreams/ch1-pcie-2gb/),
-with [Fedora rebuild and macOS loading instructions](docs/vivado_bitstream_guide.md#rebuild-the-current-ch1-pcie-release-on-fedora). The
-[OpenXC7 bitstream plan](docs/openxc7_bitstream_plan.md) records the preserved
+with [historical build and loading records](docs/vivado_bitstream_guide.md#rebuild-the-current-ch1-pcie-release-on-fedora).
+The retained 4 GiB fixed-clock images [c0182800](docs/mac_c0182800.md) and
+[c0182863](docs/mac_c0182863.md) provide both JTAG and PCIe runtime access and
+have passing Mac LFM/Qwen receipts. The
+[tested-build and outstanding-test table](docs/bitstreams.md#tested-builds-and-outstanding-tests)
+also includes the locally tested automatic-startup builds c0182600/c0182663 and
+optional c0182461 comparison, whose Mac acceptance remains pending. It separates
+build/review, SRAM workloads, permanent programming and Mac results, with exact
+hashes and remaining qualification limits. The automatic-startup guides describe
+local preparation; their matching host/runtime files require separate review and
+publication before Mac use. The c01848 runtime-clock effort was
+abandoned on October 22; [HANDOFF.md](HANDOFF.md) records that final disposition.
+The [CH1 compute experiment](docs/ch1_compute_clock.md),
+[RAM-only investigation](docs/ddr_ram_only_debug.md) and
+[serializer-reset metadata](bitstreams/ch1-pcie-2gb-ch0-reset/) are historical
+references. Their local artifacts and retired rebuild paths are described in
+the [bitstream index](docs/bitstreams.md#historical-inventory-and-local-artifacts).
+The [OpenXC7 bitstream plan](docs/openxc7_bitstream_plan.md) records the preserved
 placement, live routing measurements, upstream fixes and remaining checks.
 The current status and elapsed times are in [progress.md](progress.md).
 The canonical local checkout is `~/openTPU`; shared tools and the other

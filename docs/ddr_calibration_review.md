@@ -1,9 +1,23 @@
-# DDR calibration review, updated October 16, 2026
+# DDR calibration review, updated October 17, 2026
 
-## Current handoff
+## Historical October 17 handoff
 
-The card is connected to the Mac. Fedora builds the images; the user runs the
-commands below on the Mac and returns the saved results. The working PCIe
+Current disposition is in [HANDOFF.md](../HANDOFF.md). The fixed-clock
+c0182800/c0182863 artifacts are retained, and the c01848 runtime-clock effort
+was abandoned on October 22. The hardware location, experiment order and
+readiness statements below describe the October 17 observation, not live state
+or authorization for another test. Some linked evidence remains local only.
+
+The revised lane-6 plan (local-only `docs/ddr_lane6_debug_plan.md`) recorded the experiment
+order then. Exact neighbor-data substitution had been captured, but its location
+in the write/storage/read path remains unresolved. Historical hypotheses below
+must be read together with the subsequent full-tag row-control failures.
+
+The card is now connected to Fedora through a DLC10 USB/JTAG programmer.
+Volatile SRAM loading and USER2 readback work; Fedora has no live FPGA PCIe
+endpoint. Current RAM-only results and the revised experiment order are in
+the [RAM debug plan](ddr_ram_only_debug.md#measured-evidence-october-16).
+Mac PCIe inference was previously measured separately. The working PCIe
 image and matched DDR800 data are tracked in
 [`bitstreams/ch1-pcie-2gb/`](../bitstreams/ch1-pcie-2gb/). This image bypasses
 physical CH0 and provides 2 GiB through physical CH1.
@@ -16,12 +30,72 @@ full PCIe candidate finished building at
 `build/fedora-vivado/ch0-reset-pcie-20261016`, with BUILD_ID `c0160001`.
 It adds the upstream serializer-reset register, keeps the CH1 fallback mapping
 and retains raw physical CH0 diagnostics. Its independent packet/CRC, pin,
-resource, route, timing and bus-skew checks passed; CDC review and Mac tests
-remain pending. No CH0 repair is established.
+resource, route, timing and bus-skew checks passed. Critical CDC review is now
+complete for the documented startup and normal-operation scope. The image,
+matched core and evidence are packaged at
+[`bitstreams/ch1-pcie-2gb-ch0-reset/`](../bitstreams/ch1-pcie-2gb-ch0-reset/).
+Mac loading and physical tests remain pending. No CH0 repair is established.
 
-The first physical DDR experiment is now a
-[dedicated RAM-only MIG baseline](ddr_ram_only_debug.md), followed by a matched
-LiteDRAM comparison. The previous MIG image still includes the accelerator.
+The [dedicated RAM-only MIG baseline](ddr_ram_only_debug.md) reproduced CH0
+corrected errors. Separate-image isolated traffic passes do not establish a
+concurrency cause. Same-image switching and matched LiteDRAM comparisons are
+now complete; both retain CH0 failures. The latest raw pattern tests expose
+lane-6 coupling between two addresses differing only in DDR column A8.
+Writing the upper address changes the lower address's lane-6 readback;
+reversing writes reverses that coupling, including during grouped reads.
+The effect also occurs near the bottom of RAM, inside calibration's tested
+range. The earlier repeated-address pattern gives this pair identical lane-6
+bytes and therefore misses this failure. See the
+[bound observations and limits](ddr_ram_only_debug.md#distinct-address-pairs-expose-lane-6-coupling).
+The same row-A8 control subsequently retained distinct tags at both locations
+for 64 final reads each. This weakens a generally stuck/disconnected A8-pin
+explanation and focuses attention on column-command timing or internal column
+addressing. The independent focused MIG image now passed its first bounded
+comparison at the same physical locations, with zero ECC/payload errors in
+2,048 reads per channel. A second fresh SRAM load also passed. Die temperature
+was lower (43.31–45.89°C first, 41.96–45.77°C second), and data tags and the ECC path also differ. This
+strengthens the case for a LiteDRAM-specific timing/initialization investigation
+without excluding intermittent hardware. No repair is established. The older full-system
+MIG image includes the accelerator.
+
+The subsequent fresh LiteDRAM comparison used the same physical pairs and
+CH0 zero/one payload tags as focused MIG, with native generators held reset.
+It failed 688 of 2,048 raw reads on lane 6, including the full-tag row-A8
+control; CH1 passed all 2,048 reads. Raw check bits, access timing and die
+temperatures differ from MIG. The previous narrow-tag row pass therefore
+does not establish column-only behavior. A read-only lane-6 input-delay
+comparison on the retained raw contents found no clean setting at taps 18–26;
+same-tap replay did not recover it. Bitslip and command/write timing were
+unchanged. See the
+reviewed raw result (local-only `docs/data/ddr_litedram_fresh_address_pairs_20261017.json`).
+
+The subsequent retained-data framing scan also found no clean setting among
+all eight uniform lane-6 bitslips. Nearby delay and uniform framing changes
+therefore have not recovered the failure. The new passive raw-capture image
+`c0172032` is built, independently reviewed and packaged at
+[`bitstreams/ramtest-litedram-ddr800-raw-capture/`](../bitstreams/ramtest-litedram-ddr800-raw-capture/).
+Its physical observation (local-only `docs/data/ddr_litedram_raw_capture_20261017.json`) reproduced
+the symptom: 69/512 CH0 reads failed and CH1 passed 512/512. Every failing
+capture has lane 6 returning `00` instead of `ff` in all eight raw DDR transfers;
+all other raw bits match. Die temperature was 48.11–49.09°C, and calibration
+records stayed unchanged. This does not yet separate write corruption,
+read capture/selection, or an electrical fault. The two-location raw test
+does not qualify native ECC or full capacity.
+
+The retained-high-word neighbor-tag comparison (local-only `docs/data/ddr_litedram_raw_neighbor_tags_20261017.json`)
+then changed only the lower word in the same load/calibration. High-word
+errors were 96/128 with a zero neighbor, 102/128 with A5 data, 0/128 with
+identical ones and 32/128 after returning the neighbor to zero. Every bad
+lane-6 vector matched the neighbor's data; other lanes and CH1 controls were
+clean. This is data-dependent lane interference, not a permanently stuck-zero
+lane. Equal tags conceal the failure. Stored-data corruption, read-path
+selection/capture and intermittent hardware remain alternatives.
+
+The [latest upstream branch review](ddr_upstream_branch_review.md) checks all
+190 live heads against `~/upstream_openTPU`. Static read clocks and per-bit
+framing are already present; the shipped DDR800 core still has `rd_reg` off
+and predates the later serializer-reset stage. The updated plan includes
+controlled warm rescans, mixed traffic and ECC snapshots after each stage.
 
 ### Historical upstream comparison on October 15
 
