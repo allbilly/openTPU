@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Build a RAM-only YPCB MIG example with full-range coverage and USER2 status.
+"""Prepare historical RAM-only YPCB MIG sources for offline analysis.
 
 Requires Vivado with Kintex-7 support on Linux. Generates vendor RTL locally;
 no accelerator, PCIe, host DMA or firmware is part of this diagnostic image.
+Implementation is retired because new images require both runtime interfaces.
 """
 from __future__ import annotations
 
@@ -17,6 +18,11 @@ import shutil
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
+
+try:
+    from .workspace_paths import vivado_bin
+except ImportError:
+    from workspace_paths import vivado_bin
 
 ROOT = Path(__file__).resolve().parents[1]
 BOARD = ROOT / 'boards/ypcb-00338/ramtest'
@@ -108,6 +114,41 @@ def patch_constant_ready(directory):
     patched = original.replace(old, '|| data_mode_i == 1 || data_mode_i == 2 || data_mode_i == 3)')
     path.write_text(patched)
     return ''.join(difflib.unified_diff(original.splitlines(True), patched.splitlines(True),
+                                      fromfile='a/'+path.name, tofile='b/'+path.name))
+
+
+def patch_runtime_pattern_reset(directory):
+    """Delay traffic initialization until runtime controls settle after reset.
+
+    The legacy generator can see calibration-ready throughout its own reset.
+    Its initialization pulse then precedes the synchronized runtime controls,
+    leaving the first burst length/stride inconsistent with the chosen pattern.
+    Keep the controller/calibration signal untouched; delay only the example's
+    local initialization state machine for 32 clocks after generator reset.
+    """
+    path = directory / 'mig_7series_v4_2_init_mem_pattern_ctr.v'
+    original = text = path.read_text()
+    changes = {
+        'reg       memc_init_done_reg;':
+            'reg       memc_init_done_reg;\nreg [5:0] runtime_settle_count;',
+        '      memc_init_done_reg <= memc_init_done_i;':
+            '''      // Diagnostic startup only: memory stays calibrated and refreshed.
+      if (rst_i || !memc_init_done_i) begin
+          runtime_settle_count <= 0;
+          memc_init_done_reg <= 0;
+      end else if (!runtime_settle_count[5]) begin
+          runtime_settle_count <= runtime_settle_count + 1'b1;
+          memc_init_done_reg <= 0;
+      end else begin
+          memc_init_done_reg <= 1;
+      end''',
+    }
+    for old, new in changes.items():
+        if text.count(old) != 1:
+            raise ValueError('Generated runtime reset differs from reviewed source: '+path.name)
+        text = text.replace(old, new)
+    path.write_text(text)
+    return ''.join(difflib.unified_diff(original.splitlines(True), text.splitlines(True),
                                       fromfile='a/'+path.name, tofile='b/'+path.name))
 
 
@@ -207,20 +248,27 @@ def run(command, out, name):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', required=True, type=Path)
-    parser.add_argument('--vivado', default='/home/fedora/vivado/2026.1/Vivado/bin/vivado')
+    parser.add_argument('--vivado', default=str(vivado_bin() / 'vivado'))
     parser.add_argument('--cxx', default='g++', help='compiler for the independent packet CRC audit')
     parser.add_argument('--ddr-mts', type=int, choices=(800, 1066), default=800)
     parser.add_argument('--channels', choices=('0', '1', 'both'), default='both')
     parser.add_argument('--pattern', choices=PATTERNS, default='address')
     parser.add_argument('--build-id', type=lambda s: int(s, 16), default=0xc0161001)
-    parser.add_argument('--prepare-only', action='store_true', help='generate IP/source without implementation')
+    parser.add_argument('--prepare-only', action='store_true',
+                        help='generate historical IP/source only; ineligible for new-image implementation')
     args = parser.parse_args()
+    if not args.prepare_only:
+        parser.error('RAM-only implementation is retired: every new image requires '
+                     'both JTAG and PCIe runtime memory/control interfaces. '
+                     'Use --prepare-only only for historical source analysis.')
     if not 0 <= args.build_id <= 0xffffffff:
         parser.error('--build-id must fit in 32 bits')
     out = args.out.resolve()
     out.mkdir(parents=True, exist_ok=False)
     mask = {'0': 1, '1': 2, 'both': 3}[args.channels]
     manifest = dict(status='GENERATING_MIG_IP', started_utc=datetime.now(timezone.utc).isoformat(),
+                    implementation_admitted=False, mandatory_runtime_interfaces_satisfied=False,
+                    admission_reason='Historical RAM-only source lacks PCIe and accelerator runtime control',
                     physical_tests_performed=False, purpose='RAM-only vendor MIG reference',
                     ddr_mts=args.ddr_mts, channels=mask, pattern=args.pattern,
                     build_id=f'{args.build_id:08x}', bytes_per_channel=1 << 31,

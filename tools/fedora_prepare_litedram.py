@@ -157,6 +157,7 @@ def qualify(directory):
     (directory/FILES['rom']).write_bytes(rom.read_bytes())
     info = dict(status=PROFILE_STATUS, part='xc7k480tffg1156-2',
                 parameters=dict(CORE_KHZ=100000, DDR_MTS=800),
+                phy=phy,
                 physical_hardware='NOT_RUN', timing='NOT_QUALIFIED', calibration_cpu=cpu,
                 files={k: dict(name=n, sha256=sha(directory/n), bytes=(directory/n).stat().st_size)
                        for k, n in FILES.items()},
@@ -170,8 +171,12 @@ def main():
     ap.add_argument('--python', type=Path, default=ENV/'venv/bin/python')
     ap.add_argument('--rv-cc', type=Path, default=ENV/'toolchain/riscv64-elf-gcc')
     ap.add_argument('--out', type=Path)
+    ap.add_argument('--rd-reg', action='store_true',
+                    help='Register the PHY read bitslip output and generate matching latency/firmware')
     ap.add_argument('--qualify-existing', type=Path, help='recheck a completed generated core without repeating generation')
     args = ap.parse_args()
+    if args.rd_reg and args.qualify_existing:
+        ap.error('--rd-reg selects new generation; existing output is checked as generated')
     stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     out = (args.out or ROOT/'build/fedora-openxc7'/f'ddr800-prepare-{stamp}').resolve()
     out.mkdir(parents=True, exist_ok=False)
@@ -213,6 +218,9 @@ def main():
         info['compiler_wrapper_sha256'] = sha(args.rv_cc)
         cmd = [str(args.python), str(ROOT/'tools/litedram/gen_core.py'), '--sys-mhz', '100',
                '--phy', 'wl', '--selfcal', '--fw-id', '4461c052', '--out', str(out/'core')]
+        if args.rd_reg:
+            cmd.append('--rd-reg')
+        info['registered_read_requested'] = args.rd_reg
         (out/'generate.command.json').write_text(json.dumps(cmd, indent=2)+'\n')
         env = dict(os.environ, RV_CC=str(args.rv_cc.resolve()), PYTHONHASHSEED='0')
         (out/'generate.environment.json').write_text(json.dumps({k:env[k] for k in ('RV_CC','PYTHONHASHSEED')}, indent=2)+'\n')

@@ -28,6 +28,10 @@ def main():
                         help='isolate backpressure effects; this cannot qualify the stalled-port suite')
     parser.add_argument('--fix-prbs-handshake', action='store_true',
                         help='check the accepted-transfer PRBS correction used by PRBS image builds')
+    parser.add_argument('--litedram-command-bridge', action='store_true',
+                        help='Exercise the elastic command buffer and runtime pattern controls with valid-dependent native ready')
+    parser.add_argument('--capture-first-read', action='store_true',
+                        help='Check aligned first-mismatch address/expected/actual capture after ECC')
     args = parser.parse_args()
     patterns = args.pattern or [*PATTERNS, 'injected-error']
     vendor = sorted(args.ip.glob('*.v'))
@@ -55,9 +59,19 @@ def main():
     for name in ('tb_vendor_traffic.sv', 'ramtest_channel.sv'):
         shutil.copy2(BOARD / name, args.out / name)
     sources = [args.out / 'tb_vendor_traffic.sv', args.out / 'ramtest_channel.sv'] + vendor
+    if args.litedram_command_bridge:
+        bridge=args.out/'litedram_command_bridge.sv'
+        shutil.copy2(BOARD/'litedram_command_bridge.sv',bridge)
+        sources.append(bridge)
+    if args.capture_first_read:
+        capture=args.out/'read_capture.sv'
+        shutil.copy2(BOARD/'read_capture.sv',capture)
+        sources.append(capture)
     result = dict(status='RUNNING', physical_hardware_test=False, simulation_window_bytes=128 << 10,
                   simulator=args.simulator,
                   independent_stalls=not args.diagnostic_no_stalls,
+                  litedram_command_bridge=args.litedram_command_bridge,
+                  capture_first_read=args.capture_first_read,
                   sources={str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}, trials=[])
     try:
         for name in patterns:
@@ -68,6 +82,8 @@ def main():
                        '-P', f'tb_vendor_traffic.FIXED_DATA={fixed}',
                        '-P', f'tb_vendor_traffic.INJECT_ERROR={int(name == "injected-error")}',
                        '-P', f'tb_vendor_traffic.STALLS={int(not args.diagnostic_no_stalls)}',
+                       '-P', f'tb_vendor_traffic.COMMAND_BRIDGE={int(args.litedram_command_bridge)}',
+                       '-P', f'tb_vendor_traffic.CAPTURE_READS={int(args.capture_first_read)}',
                        '-o', str(binary), *map(str, sources)]
             if args.simulator == 'verilator':
                 object_dir = (args.out / (name+'-obj')).resolve()
@@ -75,7 +91,9 @@ def main():
                            '--top-module', 'tb_vendor_traffic', '--Mdir', str(object_dir),
                            f'-GMODE={mode}', f'-GFIXED_DATA={fixed}',
                            f'-GINJECT_ERROR={int(name == "injected-error")}',
-                           f'-GSTALLS={int(not args.diagnostic_no_stalls)}', *map(str, sources)]
+                           f'-GSTALLS={int(not args.diagnostic_no_stalls)}',
+                           f'-GCOMMAND_BRIDGE={int(args.litedram_command_bridge)}',
+                           f'-GCAPTURE_READS={int(args.capture_first_read)}', *map(str, sources)]
                 binary = object_dir / 'Vtb_vendor_traffic'
             with (args.out / f'{name}-compile.log').open('w') as log:
                 subprocess.run(command, check=True, stdout=log, stderr=subprocess.STDOUT)
@@ -93,6 +111,8 @@ def main():
             print(json.dumps(trial), flush=True)
             if run.returncode or not trial['pass_marker'] or trial['fatal_diagnostic']:
                 raise RuntimeError(f'{name} failed; see {args.out}/{name}.log')
+            if args.capture_first_read and name == 'injected-error' and 'PASS_FIRST_READ_CAPTURE_ALIGNED' not in output:
+                raise RuntimeError('Aligned first-error capture witness is missing')
         result['status'] = ('DIAGNOSTIC_NO_STALLS_PASS' if args.diagnostic_no_stalls else
             'PASS_VENDOR_TRAFFIC_MODEL_ALL_PATTERNS_STALLS_AND_ERROR_DETECTION'
             if set(patterns) == {*PATTERNS, 'injected-error'} else 'PASS_SELECTED_VENDOR_TRAFFIC_MODEL_TRIALS')

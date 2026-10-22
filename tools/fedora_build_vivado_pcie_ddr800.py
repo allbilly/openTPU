@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Build an isolated full native-RTL Vivado DDR800/XDMA PCIe image.
+"""Prepare historical full native-RTL DDR800/XDMA PCIe sources.
 
-Creates bit/MCS files only after route and timing gates. Never opens hardware
-or programs flash; the user's flash authorization remains conditional.
+The PCIe-only implementation path is retired: every new image must also have
+JTAG runtime memory/control access. Source-only preparation remains available.
 """
 
 try:
@@ -14,6 +14,7 @@ import ast
 from datetime import datetime, timezone
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -30,6 +31,22 @@ SETTINGS = Path(expand_paths('@VIVADO_ROOT@/settings64.sh'))
 VIVADO = Path(expand_paths('@VIVADO_BIN@/vivado'))
 
 
+def compute_clock(requested_mhz):
+    """Mirror the board Tcl's 800 MHz VCO and 1/8 output-divider steps."""
+    if not math.isfinite(requested_mhz) or requested_mhz <= 0:
+        raise ValueError('--core-mhz must be a finite positive frequency')
+    if not 800.0 / 128 <= requested_mhz <= 800.0:
+        raise ValueError('--core-mhz is outside the MMCM output-divider range')
+    divide = math.floor(800.0 / requested_mhz * 8 + 0.5) / 8
+    if not 1 <= divide <= 128:
+        raise ValueError('--core-mhz is outside the MMCM output-divider range')
+    actual_mhz = 800.0 / divide
+    return dict(requested_mhz=requested_mhz, actual_mhz=actual_mhz,
+                actual_hz=math.floor(actual_mhz * 1e6),
+                core_khz=math.floor(actual_mhz * 1000 + 0.5),
+                vco_mhz=800, output_divide=divide)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--out', required=True, type=Path)
@@ -37,11 +54,26 @@ def main():
                     help='Checked DDR800 core; use bitstreams/ch1-pcie-2gb/core for the release')
     ap.add_argument('--build-id', default='5b1e646c',
                     help='One to eight hexadecimal digits exposed in the BUILD_ID register')
+    ap.add_argument('--core-mhz', type=float, default=100.0,
+                    help='Compute clock request; RAM stays DDR800 at a separate 100 MHz user clock')
+    ap.add_argument('--threads', type=int, default=8,
+                    help='Vivado worker/job limit, 1 to 8; lower this for concurrent builds')
     ap.add_argument('--prepare-only', action='store_true',
-                    help='Write and check the source snapshot without running Vivado')
+                    help='Write/check historical source without Vivado; ineligible for new-image implementation')
     args = ap.parse_args()
+    if not args.prepare_only:
+        ap.error('PCIe-only implementation is retired: every new image requires '
+                 'both JTAG and PCIe runtime memory/control interfaces. '
+                 'Use --prepare-only only for historical source analysis.')
+    if not 1 <= args.threads <= 8:
+        ap.error('--threads must be between 1 and 8')
     if not re.fullmatch(r'[0-9a-fA-F]{1,8}', args.build_id):
         ap.error('--build-id must contain one to eight hexadecimal digits')
+    try:
+        clock = compute_clock(args.core_mhz)
+    except ValueError as error:
+        ap.error(str(error))
+    compute_profile = dict(PROFILE, CORE_KHZ=clock['core_khz'])
     core = args.core.resolve()
     out = args.out.resolve()
     if out.exists():
@@ -58,6 +90,7 @@ def main():
     }.items()):
         raise ValueError('CH1 recovery core has inconsistent capacity, calibration or mapping')
     out.mkdir(parents=True)
+    shutil.copy2(Path(__file__), out/'builder-at-launch.py')
     src = out/'source'
     shutil.copytree(ROOT/'rtl', src/'rtl')
     board = src/'boards/ypcb-00338'
@@ -80,7 +113,7 @@ def main():
     old = 'if {$DDR_SPEED != 1066} { error "DDR3-$DDR_SPEED: the LiteDRAM core is generated for DDR3-1066" }'
     if original.count(old) != 1:
         raise ValueError('Unexpected project speed guard')
-    create.write_text('set_param general.maxThreads 8\n'+original.replace(old,
+    create.write_text(f'set_param general.maxThreads {args.threads}\n'+original.replace(old,
                       'if {$DDR_SPEED != 800} {error "Requires the pinned DDR800 core"}'))
     # Reuse the established timing/route parsers in a standalone frozen gate.
     parser = ROOT/'tools/openxc7_mapped_route_review.py'
@@ -113,9 +146,13 @@ foreach item [get_drc_violations -quiet] {
 if {[llength $failures]} {error "DRC errors/critical warnings: $failures"}
 exec python3 $::env(OTPU_PRE_BIT_GATE) $out/reports/timing_summary.rpt $out/reports/route-status.rpt $out/pre-bit-gates.json
 '''
-    build.write_text('set_param general.maxThreads 8\n'+text.replace(marker,strict+'\n'+marker))
+    build.write_text(f'set_param general.maxThreads {args.threads}\n'+text.replace(marker,strict+'\n'+marker))
     record = dict(status='PREPARED', started_utc=datetime.now(timezone.utc).isoformat(),
-                  profile=PROFILE, pcie='XDMA Gen2 x8', top='otpu_fpga_top_ld',
+                  implementation_admitted=False, mandatory_runtime_interfaces_satisfied=False,
+                  admission_reason='Historical PCIe-only source lacks JTAG runtime memory/control access',
+                  profile=compute_profile, compute_clock=clock,
+                  memory_clock=dict(sys_hz=100000000, ddr_clock_hz=400000000, ddr_mts=800),
+                  pcie='XDMA Gen2 x8', top='otpu_fpga_top_ld',
                   hardware_accessed=False, flash_written=False, hardware_ready=False,
                   build_id=args.build_id, core=str(core),
                   physical_user_channels=[1] if ch1 else [0, 1],
@@ -124,15 +161,21 @@ exec python3 $::env(OTPU_PRE_BIT_GATE) $out/reports/timing_summary.rpt $out/repo
                   calibration_mask=2 if ch1 else 3,
                   user_address_mapping=memory.get('user_address_mapping'),
                   memory_profile_register='0x5c: 0x08000102' if ch1 else None,
-                  threads_requested=8, repository_revision=subprocess.check_output(
+                  threads_requested=args.threads, repository_revision=subprocess.check_output(
                       ['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
                   reference_calibration_profile=describe(checked['manifest']),
                   adaptations=['Pinned generated DDR800 core replaces the default DDR1066 core',
-                               'Snapshot project guard selects DDR800, core remains 100 MHz',
-                               'Eight native workers and strict setup/hold/pulse/route/DRC pre-bit gates'],
+                               'Snapshot project guard selects DDR800; compute clock is independently selected',
+                               f'{args.threads} native workers and strict setup/hold/pulse/route/DRC pre-bit gates'],
                   mcs_scope='Prospective 64 MiB BPI x16 file; physical chip and boot verification still required',
                   sources=[describe(p) for p in sorted(src.rglob('*')) if p.is_file()],
-                  gate=describe(gate), parser_source=describe(parser), tool=describe(VIVADO))
+                  gate=describe(gate), parser_source=describe(parser), tool=describe(VIVADO),
+                  builder_source=describe(Path(__file__)),
+                  frozen_builder=describe(out/'builder-at-launch.py'),
+                  repository_diff=subprocess.check_output(
+                      ['git','diff','HEAD','--','tools/fedora_build_vivado_pcie_ddr800.py',
+                       'rtl','boards/ypcb-00338/vivado','boards/ypcb-00338/constraints'],
+                      cwd=ROOT,text=True))
     def save():
         tmp=out/'manifest.json.tmp'
         tmp.write_text(json.dumps(record,indent=2)+'\n')
@@ -151,9 +194,9 @@ exec python3 $::env(OTPU_PRE_BIT_GATE) $out/reports/timing_summary.rpt $out/repo
     try:
         stages=[
             ('create',[str(VIVADO),'-mode','batch','-nojournal','-nolog','-source',str(create),
-                       '-tclargs','800',str(project),'4','100',args.build_id,'2','8','4','1','systolic']),
+                       '-tclargs','800',str(project),'4',str(args.core_mhz),args.build_id,'2','8','4','1','systolic']),
             ('build',[str(VIVADO),'-mode','batch','-nojournal','-nolog','-source',str(build),
-                      '-tclargs',str(project),'8','full',''])]
+                      '-tclargs',str(project),str(args.threads),'full',''])]
         for name, command in stages:
             record['status']=name.upper()+'_RUNNING'
             (out/(name+'.command.json')).write_text(json.dumps(command,indent=2)+'\n')

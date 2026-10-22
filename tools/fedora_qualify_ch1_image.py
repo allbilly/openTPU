@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the completed full Vivado CH1 PCIe image without accessing hardware."""
+"""Check a completed full Vivado PCIe image without accessing hardware."""
 
 try:
     from .workspace_paths import expand_paths
@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 import hashlib
 import importlib.util
 import json
+import math
 from pathlib import Path
 import re
 import subprocess
@@ -21,7 +22,10 @@ sys.path.insert(0, str(ROOT/'tools'))
 from fedora_check_native_image import timing_summary, route_summary
 
 COMPLETE = 'FULL_NATIVE_VIVADO_PCIE_CH1_RECOVERY_BUILD_PASS_IMAGE_AND_HARDWARE_REVIEW_PENDING'
+DUAL_COMPLETE = 'FULL_NATIVE_VIVADO_PCIE_DDR800_BUILD_PASS_IMAGE_AND_HARDWARE_REVIEW_PENDING'
 FULL = dict(MCOLS=4, ACT_ROWS=4, LANES=8, VPU_CL=2, MXU_IMPL=2, CORE_KHZ=100000, DDR_MTS=800)
+CORE_FILENAMES = frozenset(('otpu_litedram.v', 'otpu_litedram.xdc',
+                            'otpu_litedram_mem.init', 'csr.csv', 'sdram_init.py'))
 VIVADO = Path(expand_paths('@VIVADO_BIN@/vivado'))
 PACKETS = ROOT/'tools/check_vivado_bitstream.py'
 CRC = ROOT/'build/fedora-openxc7/bitstream-crc-qualification-20261013T152000Z/check-crc'
@@ -41,7 +45,154 @@ def describe(path):
 
 
 def unchanged(item):
-    require(describe(item['path']) == item, 'Recorded file changed: '+item['path'])
+    actual = describe(item['path'])
+    require(all(actual[k] == item[k] for k in ('bytes', 'sha256')),
+            'Recorded file changed: '+item['path'])
+
+
+def file_inventory(items, label):
+    """Keep each canonical relative filename tied to exactly one digest."""
+    inventory = {}
+    for item in items:
+        name = item['name']
+        require(isinstance(name, str) and name and
+                not Path(name).is_absolute() and '..' not in Path(name).parts and
+                Path(name).as_posix() == name, 'Invalid '+label+' path: '+str(name))
+        require(name not in inventory, 'Duplicate '+label+' file: '+name)
+        inventory[name] = item
+    return inventory
+
+
+def compute_period_ns(manifest, core_khz):
+    """Use the physical MMCM ratio; CORE_KHZ is only its rounded CSR value."""
+    require(type(core_khz) is int and core_khz > 0 and
+            manifest['profile']['CORE_KHZ'] == core_khz,
+            'Compute clock profile differs')
+    clock = manifest.get('compute_clock')
+    if clock is None:
+        # Before selectable clocks, this builder only requested exactly 100 MHz.
+        require(core_khz == 100000, 'Exact compute clock metadata is missing')
+        return 10.0
+    keys = ('requested_mhz', 'actual_mhz', 'actual_hz', 'core_khz',
+            'vco_mhz', 'output_divide')
+    require(isinstance(clock, dict) and all(
+        type(clock.get(key)) in (int, float) and math.isfinite(clock[key])
+        for key in keys), 'Invalid exact compute clock metadata')
+    requested, divide = clock['requested_mhz'], clock['output_divide']
+    require(clock['vco_mhz'] == 800 and 800/128 <= requested <= 800 and
+            1 <= divide <= 128 and divide*8 == math.floor(divide*8) and
+            divide == math.floor(800/requested*8 + .5)/8,
+            'Compute MMCM ratio differs from requested clock')
+    actual = 800/divide
+    require(math.isclose(clock['actual_mhz'], actual, rel_tol=0, abs_tol=1e-12) and
+            clock['actual_hz'] == math.floor(actual*1e6) and
+            clock['core_khz'] == core_khz == math.floor(actual*1000 + .5),
+            'Exact compute clock and rounded register metadata disagree')
+    return 1000*divide/800
+
+
+def check_clock_periods(clocks, manifest, core_khz):
+    expected = {'core_clk_otpu_bd_clk_wiz_0_0': compute_period_ns(manifest, core_khz),
+                'crg_s7mmcm_clkout': 10.0}
+    for name, period in expected.items():
+        require(name in clocks and math.isfinite(clocks[name]) and
+                abs(clocks[name] - period) < 0.001,
+                'Implemented clock period differs: '+name)
+
+
+def matched_dual_generation(generation, ecc, build):
+    """Bind the dual core to its generator and the existing four-port ECC test.
+
+    The original generator's ECC test has two ports. The historical witness
+    expands only its port arrays, loops and read selector to four ports; verify
+    that exact expansion before reusing the comparison log.
+    """
+    gm = json.loads((generation/'manifest.json').read_text())
+    require(gm['status'] == 'GENERATED_PROFILE_PASS_IMPLEMENTATION_NOT_RUN',
+            'Dual core generation did not pass')
+    sources = gm['source']
+    for path, expected in sources.items():
+        require(describe(path)['sha256'] == expected, 'Generator source changed: '+path)
+    core = generation/'core'
+    profile = json.loads((core/'openxc7-profile.json').read_text())
+    require(profile['parameters'] == dict(CORE_KHZ=100000, DDR_MTS=800) and
+            profile.get('physical_user_channels', [0, 1]) == [0, 1],
+            'Generation is not the dual-channel DDR800 core')
+    inventory = file_inventory(profile['files'].values(), 'generated core')
+    require(set(inventory) == CORE_FILENAMES, 'Incomplete generated core witness')
+    matched = []
+    for item in inventory.values():
+        actual = describe(core/item['name'])
+        require(all(actual[k] == item[k] for k in ('bytes', 'sha256')),
+                'Generated core changed: '+item['name'])
+        frozen = build/'source/boards/ypcb-00338/litedram'/item['name']
+        require(describe(frozen)['sha256'] == actual['sha256'],
+                'Implemented core differs from generation: '+item['name'])
+        matched.append(actual)
+    pinned = {}
+    for name in ('ecc_ports.py', 'ecc_ports_check.py'):
+        paths = [Path(p) for p in sources if Path(p).name == name]
+        require(len(paths) == 1, 'Ambiguous ECC source: '+name)
+        pinned[name] = paths[0]
+    require(describe(ecc/'generator/ecc_ports.py')['sha256'] ==
+            describe(pinned['ecc_ports.py'])['sha256'], 'ECC implementation differs')
+    expected_test = pinned['ecc_ports_check.py'].read_text()
+    require(expected_test.count('range(2)') == 7 and
+            expected_test.count('pend = [[], []]') == 1 and
+            expected_test.count('rnd.choice([None, None, 0, 1])') == 1,
+            'Unexpected two-port test; review expansion explicitly')
+    expected_test = expected_test.replace('range(2)', 'range(4)').replace(
+        'pend = [[], []]', 'pend = [[], [], [], []]').replace(
+        'rnd.choice([None, None, 0, 1])', 'rnd.choice([None, None, 0, 1, 2, 3])')
+    require((ecc/'generator/ecc_ports_check.py').read_text() == expected_test,
+            'Historical four-port test has additional changes')
+    return dict(generation=describe(generation/'manifest.json'), matched_core_files=matched,
+                implementation=describe(pinned['ecc_ports.py']),
+                test=describe(ecc/'generator/ecc_ports_check.py'),
+                adaptation='Exactly expand two ports to four; no other test changes',
+                scope='ECC logic model only; does not qualify PHY, routing or physical DDR')
+
+
+def matched_release_memory(directory, build, manifest):
+    """Reuse historical ECC evidence only for the identical packaged memory core."""
+    directory = directory.resolve()
+    release = json.loads((directory/'manifest.json').read_text())
+    inventory = file_inventory(release['files'], 'release')
+    core_names = {'core/'+name for name in CORE_FILENAMES} | {'core/openxc7-profile.json'}
+    require({name for name in inventory if name.startswith('core/')} == core_names,
+            'Incomplete packaged memory-core witness')
+    require({'otpu.bit', 'evidence/offline-image-review.json'} <= inventory.keys(),
+            'Reference bitstream and ECC review must be hashed in the release inventory')
+    for item in inventory.values():
+        path = (directory/item['name']).resolve()
+        require(path.is_relative_to(directory), 'Release path escapes its directory')
+        actual = describe(path)
+        require(all(actual[k] == item[k] for k in ('bytes', 'sha256')),
+                'Packaged reference changed: '+item['name'])
+    expected = dict(release['compute'], CORE_KHZ=manifest['profile']['CORE_KHZ'])
+    require(manifest['profile'] == expected and
+            release['memory']['physical_user_channels'] == [1] and
+            release['memory']['logical_capacity_bytes'] == 1 << 31 and
+            release['memory']['virtual_channel_bytes'] == 1 << 30 and
+            release['memory']['ddr_mts'] == 800 and release['memory']['ecc'] is True,
+            'Reference release is not the full CH1 DDR800 profile')
+    pinned = []
+    for name in sorted(core_names):
+        item = inventory[name]
+        source = build/'source/boards/ypcb-00338/litedram'/Path(item['name']).name
+        require(describe(source)['sha256'] == item['sha256'],
+                'Reused memory core differs: '+item['name'])
+        pinned.append(item)
+    evidence = directory/'evidence/offline-image-review.json'
+    historical = json.loads(evidence.read_text())
+    require(historical['status'] == 'CH1_PCIE_IMAGE_PACKET_CRC_PINS_ROUTE_TIMING_PASS_CDC_REVIEW_PENDING'
+            and historical['ecc']['scope'] == 'Full four-port stock comparison' and
+            historical['bitstream']['sha256'] == describe(directory/'otpu.bit')['sha256'],
+            'Reference ECC evidence is missing or belongs to another image')
+    return dict(scope='Historical four-port ECC comparison reused for the identical packaged core; not rerun',
+                reference_manifest=describe(directory/'manifest.json'),
+                reference_review=describe(evidence), matched_core_files=pinned,
+                historical_ecc=historical['ecc'])
 
 
 TCL = r'''
@@ -69,6 +220,9 @@ foreach c [get_cells -hier -filter {REF_NAME == BSCANE2}] {
 foreach ref {DSP48E1 RAMB36E1 RAMB18E1 ISERDESE2 OSERDESE2 IDELAYE2} {
     set cells [get_cells -hier -filter "REF_NAME == $ref"]
     puts $f "RESOURCE\t$ref\t[llength $cells]"
+}
+foreach c [lsort [get_clocks]] {
+    puts $f "CLOCK\t$c\t[get_property PERIOD $c]"
 }
 if {[lindex $argv 2] eq "1"} {
     foreach ch {0 1} {
@@ -159,8 +313,14 @@ def oob_review(out):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--build', type=Path, required=True)
-    ap.add_argument('--generation', type=Path, required=True)
-    ap.add_argument('--ecc-preparation', type=Path, required=True)
+    ap.add_argument('--memory-profile', choices=('ch1', 'dual'), default='ch1',
+                    help='Require either the CH1 2 GiB recovery mapping or both physical channels/4 GiB')
+    ap.add_argument('--generation', type=Path)
+    ap.add_argument('--ecc-preparation', type=Path)
+    ap.add_argument('--reference-release', type=Path,
+                    help='Reuse the historical ECC evidence for an identical packaged memory core')
+    ap.add_argument('--core-khz', type=int, default=100000,
+                    help='Expected compute CORE_KHZ; the DDR800 user clock stays 100000 kHz')
     ap.add_argument('--out', type=Path, required=True)
     ap.add_argument('--wait-unit', help='Wait for this exact build service; never restart it')
     ap.add_argument('--expect-serializer-reset-stage', action='store_true',
@@ -168,7 +328,20 @@ def main():
     ap.add_argument('--review-oob-clocks', action='store_true',
                     help='Model both PCIe Gen2 OOB divider modes and check timing coverage/bus skew')
     a = ap.parse_args()
-    build = a.build.resolve(); out = a.out.resolve(); ecc = a.ecc_preparation.resolve()
+    dual = a.memory_profile == 'dual'
+    complete = DUAL_COMPLETE if dual else COMPLETE
+    if dual and a.reference_release:
+        ap.error('Dual-channel review requires generation and ECC preparation, not a CH1 reference release')
+    if a.core_khz <= 0:
+        ap.error('--core-khz must be positive')
+    if a.reference_release:
+        if a.generation or a.ecc_preparation:
+            ap.error('--reference-release cannot be combined with generation or ECC preparation')
+    elif not (a.generation and a.ecc_preparation):
+        ap.error('Supply --reference-release or both --generation and --ecc-preparation')
+    build = a.build.resolve(); out = a.out.resolve()
+    ecc = a.ecc_preparation.resolve() if a.ecc_preparation else None
+    expected_profile = dict(FULL, CORE_KHZ=a.core_khz)
     require(not out.exists(), 'Choose a fresh qualification directory')
     out.mkdir(parents=True)
     r = dict(status='STARTING',hardware_accessed=False,physical_model_verified=False,
@@ -181,7 +354,7 @@ def main():
         while True:
             m = json.loads((build/'manifest.json').read_text())
             require(m['status'] != 'FAIL', 'Vivado build failed: '+str(m.get('error')))
-            if m['status'] == COMPLETE and (ecc/'four-port-ecc.exit').exists():
+            if m['status'] == complete and (a.reference_release or (ecc/'four-port-ecc.exit').exists()):
                 break
             require(a.wait_unit is not None, 'Build and full ECC comparison must finish')
             props = subprocess.check_output(['systemctl','--user','show',a.wait_unit,
@@ -192,7 +365,7 @@ def main():
                 invocation = props['InvocationID']
             require(invocation == props['InvocationID'], 'Build service invocation changed')
             require(props['ExecMainStatus'] == '0' and props['Result'] == 'success', 'Build service failed')
-            if m['status'] != COMPLETE:
+            if m['status'] != complete:
                 pid=props['MainPID']; cmd=Path('/proc')/pid/'cmdline'
                 require(pid != '0' and cmd.exists() and str(build).encode() in cmd.read_bytes(),
                         'Expected build process is no longer live')
@@ -203,24 +376,32 @@ def main():
                         'Expected ECC test is no longer live')
             r.update(status='WAITING_FOR_BUILD_AND_FULL_ECC',build_service=props,
                      observed_utc=datetime.now(timezone.utc).isoformat());save();time.sleep(5)
-        require(m['profile'] == FULL and m['top'] == 'otpu_fpga_top_ld' and
-                m['physical_user_channels'] == [1] and m['usable_logical_bytes'] == 1 << 31 and
-                m['virtual_channel_bytes'] == 1 << 30 and m['calibration_mask'] == 2,
-                'Wrong recovery image profile')
+        require(m['profile'] == expected_profile and m['top'] == 'otpu_fpga_top_ld' and
+                m['physical_user_channels'] == ([0, 1] if dual else [1]) and
+                m['usable_logical_bytes'] == 1 << (32 if dual else 31) and
+                m['virtual_channel_bytes'] == 1 << (31 if dual else 30) and
+                m['calibration_mask'] == (3 if dual else 2), 'Wrong image memory/compute profile')
+        r['memory_profile'] = a.memory_profile
         require(m['build_exit'] == m['create_exit'] == 0, 'Build commands did not pass')
         for item in m['sources'] + list(m['outputs'].values()):
             unchanged(item)
-        gm=json.loads((a.generation/'manifest.json').read_text())
-        for name in ('ecc_ports.py','ecc_ports_check.py'):
-            witnesses=gm.get('source_witness',gm.get('generator_sources',[]))
-            witness=next(x for x in witnesses if Path(x['path']).name == name)
-            unchanged(witness)
-            require(describe(ecc/'generator'/name)['sha256'] == witness['sha256'], 'ECC tested source differs')
-        require((ecc/'four-port-ecc.exit').read_text().strip() == '0', 'Four-port ECC failed')
-        elog=(ecc/'four-port-ecc.log').read_text()
-        require(elog.splitlines()[-1] == 'PASS' and re.search(r'^1500 cycles,',elog,re.M),
-                'Full 1500-cycle ECC comparison did not pass')
-        r['ecc'] = dict(log=describe(ecc/'four-port-ecc.log'),exit=describe(ecc/'four-port-ecc.exit'),scope='Full four-port stock comparison')
+        if a.reference_release:
+            r['ecc'] = matched_release_memory(a.reference_release, build, m)
+        else:
+            gm=json.loads((a.generation/'manifest.json').read_text())
+            if dual:
+                r['dual_generation'] = matched_dual_generation(a.generation.resolve(), ecc, build)
+            else:
+                for name in ('ecc_ports.py','ecc_ports_check.py'):
+                    witnesses=gm.get('source_witness',gm.get('generator_sources',[]))
+                    witness=next(x for x in witnesses if Path(x['path']).name == name)
+                    unchanged(witness)
+                    require(describe(ecc/'generator'/name)['sha256'] == witness['sha256'], 'ECC tested source differs')
+            require((ecc/'four-port-ecc.exit').read_text().strip() == '0', 'Four-port ECC failed')
+            elog=(ecc/'four-port-ecc.log').read_text()
+            require(elog.splitlines()[-1] == 'PASS' and re.search(r'^1500 cycles,',elog,re.M),
+                    'Full 1500-cycle ECC comparison did not pass')
+            r['ecc'] = dict(log=describe(ecc/'four-port-ecc.log'),exit=describe(ecc/'four-port-ecc.exit'),scope='Full four-port stock comparison')
         bit=Path(m['outputs']['otpu.bit']['path']); dcp=Path(m['outputs']['final-routed.dcp']['path'])
         require(bit == build/'project/otpu.bit' and dcp == build/'project/final-routed.dcp', 'Artifact paths differ')
         spec=importlib.util.spec_from_file_location('ypcb_packets',PACKETS)
@@ -275,6 +456,10 @@ def main():
         require(len(gt) == 8 and set(gt) == {f'GTXE2_CHANNEL_X0Y{i}' for i in range(16,24)},'Eight PCIe GTX sites differ')
         require([x[2] for x in lines if x[0]=='PCIE'] == ['PCIE_X0Y0'] and not any(x[0]=='BSCAN' for x in lines),'PCIe primitive or top differs')
         inventory={x[1]:int(x[2]) for x in lines if x[0]=='RESOURCE'}
+        clocks = {x[1]: float(x[2]) for x in lines if x[0] == 'CLOCK'}
+        check_clock_periods(clocks, m, a.core_khz)
+        r['clock_periods_ns'] = clocks
+        r['profile'] = expected_profile
         for name, count in dict(DSP48E1=716, ISERDESE2=144, OSERDESE2=214, IDELAYE2=144).items():
             require(inventory.get(name) == count, 'Full compute/DDR primitive count differs: '+name)
         require(inventory.get('RAMB36E1',0) >= 562 and inventory.get('RAMB18E1',0) >= 34,
@@ -291,7 +476,8 @@ def main():
         if a.review_oob_clocks:
             r['oob_clock_review'] = oob_review(out)
             r['oob_reports'] = [describe(p) for p in sorted(out.glob('oob-*')) if p.is_file()]
-        r.update(status='CH1_PCIE_IMAGE_PACKET_CRC_PINS_ROUTE_TIMING_PASS_CDC_REVIEW_PENDING',
+        r.update(status=('DUAL_PCIE_IMAGE_PACKET_CRC_PINS_ROUTE_TIMING_PASS_CDC_REVIEW_PENDING' if dual
+                         else 'CH1_PCIE_IMAGE_PACKET_CRC_PINS_ROUTE_TIMING_PASS_CDC_REVIEW_PENDING'),
                  timing=timing,route=route,pins_checked=len(ports),gt_sites=gt,
                  cdc_scope='Fresh cdc.rpt and bus-skew.rpt require review before programming',
                  build_manifest=describe(build/'manifest.json'),checker=describe(Path(__file__)))
