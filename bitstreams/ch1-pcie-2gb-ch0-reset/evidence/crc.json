@@ -1,0 +1,25 @@
+{
+  "status": "ALL_PRESENT_CRC_CHECKPOINTS_MATCH",
+  "crc_checkpoints": 2,
+  "fdri_words": 2942635,
+  "register_data_words": 3030767,
+  "known_answer_vectors": 4,
+  "resets": [
+    {
+      "header_file_offset": 327,
+      "value_file_offset": 331,
+      "computed_crc_before_reset": 2448563865,
+      "fdri_words_since_reset": 0
+    }
+  ],
+  "checkpoints": [
+    {
+      "value_file_offset": 12467415,
+      "crc": 2128467160
+    },
+    {
+      "value_file_offset": 12467903,
+      "crc": 1632635302
+    }
+  ]
+}

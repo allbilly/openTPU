@@ -11,3 +11,7 @@ tools/tourney/runs/*/agents/
 tools/tourney/runs/fmax/*/agents/
 tools/tourney/runs/_full/*.lock
 .DS_Store
+
+# Retained local generated artifacts; publish their historical metadata only.
+/bitstreams/ch1-pcie-2gb-ch0-reset/otpu.bit
+/bitstreams/ch1-pcie-2gb-ch0-reset/core/otpu_litedram.v
