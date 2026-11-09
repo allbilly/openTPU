@@ -17,6 +17,13 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 LADDER = ROOT / "ladder"
+
+# Step 3 imports the openTPU golden software contract as `opentpu/` at the repository root
+# (docs/isa.md is the contract).  The ladder runner already puts ROOT on PYTHONPATH; this makes
+# a plain `python3 -m pytest ladder/tests/test_step03_*.py` work too, before any test imports.
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 TOY_PY_CANDIDATES = [
     os.environ.get("LADDER_TOY_PY"),
     str(ROOT / ".venv/bin/python"),

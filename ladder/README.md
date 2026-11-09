@@ -70,7 +70,7 @@ Status: ✅ done · 🔨 in progress · ⏳ planned · 🚫 blocked on hardware
 | 0 | [tiny-tpu baseline](#step-0--tiny-tpu-baseline) | 2×2 Q8.8 toy TPU, XOR MLP, cocotb | 10 cocotb targets, lint, provenance | ✅ |
 | 1 | [ladder harness, roadmap, Makefile cleanup](#step-1--ladder-harness-roadmap-and-makefile-cleanup) | Step 0 machine + reproducible runner/evidence | runner doctor, roadmap/manifest consistency, step-0 re-run | ✅ |
 | 2 | [baseline hardening](#step-2--baseline-hardening-authoritative-isa-and-a-real-xor-scoreboard) | self-checking XOR forward/backward; authoritative ISA doc | scored XOR vectors (forward+backward), ISA schema test | ✅ |
-| 3 | [ISA contract](#step-3--openTPU-isa-contract) | Python golden stack imported; no RTL change | ISA/ISA-sim/fp32/quant suites | ⏳ |
+| 3 | [ISA contract](#step-3--openTPU-isa-contract) | Python golden stack imported; no RTL change | ISA/ISA-sim/fp32/quant suites | ✅ |
 | 4 | [mini-core ISA sequencer + TMEM + LD/ST](#step-4--mini-core-isa-sequencer--tmem--ldst) | first openTPU-ISA machine: instructions, loops, TMEM, DRAM | bit-exact vs `isasim` | ⏳ |
 | 5 | [mini-core VPU (elementwise fp32)](#step-5--mini-core-vpu-elementwise-fp32) | fp32 ADD/SUB/RSUB/MUL/MIN/MAX/ABS/COPY/FILL, all B modes | bit-exact vs `isasim`, fp32 corners | ⏳ |
 | 6 | [mini-core quantizer + ACT RAM](#step-6--mini-core-quantizer--act-ram) | QACT/QST, int8 blocks + scales | bit-exact vs `isasim`/`quant.py` | ⏳ |
@@ -419,3 +419,11 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   unexpected skips in a software step are a FAIL (a missing cocotb/verible
   must not read as green), and a hardware rung whose gate skips because the
   cable/card are absent records `BLOCKED` (exit 5), never a fake PASS.
+- 2026-11-10: step 3 committed — the openTPU ISA contract imported from the
+  parent commit `ca05e24f` (`opentpu/{isa,isasim,fp32,quant}.py`, `docs/isa.md`)
+  with 45 adapted golden-model tests (14 ISA, 10 fp32, 21 quantizer) plus 16
+  ladder-specific ones (14 directed `isasim` semantics, 2 hand-assembled
+  hello-arithmetic acceptance tests) in `ladder/tests/test_step03_*.py`, and
+  `docs/toy-to-isa.md` mapping the toy's Q8.8 machine onto the 256-bit /
+  TMEM / DRAM model and naming `isasim` the oracle for steps 4–8. 61 tests,
+  ~25 s. Receipt: `ladder/evidence/step03.json`.
