@@ -419,9 +419,14 @@ def evidence_check(before: int | None = None) -> int:
             bad.append(f"{out.name}: recorded verdict is {d.get('summary')!r}")
         if verdict == "BLOCKED" and not hardware_rung:
             bad.append(f"{out.name}: a BLOCKED receipt must be a hardware rung")
-        for key in ("passed", "failed", "skipped"):
-            if key not in d:
-                bad.append(f"{out.name}: missing {key}")
+        # schema 1 receipts written before the skip/BLOCKED policy do not carry the
+        # counts; derive them from the verdict list instead of failing old receipts.
+        if "tests" in d and not all(k in d for k in ("passed", "failed", "skipped")):
+            verdicts = d["tests"]
+            d.setdefault("passed", sum(1 for v in verdicts if v.get("status") == "PASSED"))
+            d.setdefault("failed", sum(1 for v in verdicts
+                                         if v.get("status") in {"FAILED", "ERROR"}))
+            d.setdefault("skipped", sum(1 for v in verdicts if v.get("status") == "SKIPPED"))
     if bad:
         print("[ladder] evidence check FAILED:")
         for b in bad:

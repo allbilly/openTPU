@@ -71,7 +71,7 @@ Status: ✅ done · 🔨 in progress · ⏳ planned · 🚫 blocked on hardware
 | 1 | [ladder harness, roadmap, Makefile cleanup](#step-1--ladder-harness-roadmap-and-makefile-cleanup) | Step 0 machine + reproducible runner/evidence | runner doctor, roadmap/manifest consistency, step-0 re-run | ✅ |
 | 2 | [baseline hardening](#step-2--baseline-hardening-authoritative-isa-and-a-real-xor-scoreboard) | self-checking XOR forward/backward; authoritative ISA doc | scored XOR vectors (forward+backward), ISA schema test | ✅ |
 | 3 | [ISA contract](#step-3--openTPU-isa-contract) | Python golden stack imported; no RTL change | ISA/ISA-sim/fp32/quant suites | ✅ |
-| 4 | [mini-core ISA sequencer + TMEM + LD/ST](#step-4--mini-core-isa-sequencer--tmem--ldst) | first openTPU-ISA machine: instructions, loops, TMEM, DRAM | bit-exact vs `isasim` | ⏳ |
+| 4 | [mini-core ISA sequencer + TMEM + LD/ST](#step-4--mini-core-isa-sequencer--tmem--ldst) | first openTPU-ISA machine: instructions, loops, TMEM, DRAM | bit-exact vs `isasim` | ✅ |
 | 5 | [mini-core VPU (elementwise fp32)](#step-5--mini-core-vpu-elementwise-fp32) | fp32 ADD/SUB/RSUB/MUL/MIN/MAX/ABS/COPY/FILL, all B modes | bit-exact vs `isasim`, fp32 corners | ⏳ |
 | 6 | [mini-core quantizer + ACT RAM](#step-6--mini-core-quantizer--act-ram) | QACT/QST, int8 blocks + scales | bit-exact vs `isasim`/`quant.py` | ⏳ |
 | 7 | [mini-core MXU (int8 MM)](#step-7--mini-core-mxu-int8-mm) | systolic int8 matmul, MX scales, fp32 epilogue | bit-exact vs `isasim`, matmul vs numpy | ⏳ |
@@ -427,3 +427,12 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   `docs/toy-to-isa.md` mapping the toy's Q8.8 machine onto the 256-bit /
   TMEM / DRAM model and naming `isasim` the oracle for steps 4–8. 61 tests,
   ~25 s. Receipt: `ladder/evidence/step03.json`.
+- 2026-11-10: step 4 committed — the first openTPU-ISA machine written for the
+  ladder (`rtl/ladder/mini_*.sv`, `sim/ladder/tb_mini.sv`,
+  `ladder/harness/mini.py`, `docs/mini-core.md`): serial one-slice execution
+  of NOP/HALT/LI/ADDI/LOOP/BAR/RLD/LD/ST against DRAM + TMEM, with 7 tests
+  including 24 random fuzz programs, every comparison bit-identical to
+  `opentpu.isasim` (TMEM + whole DRAM + icount). 4.3 s. Receipt:
+  `ladder/evidence/step04.json`. The runner's `evidence-check` also gained
+  backward compatibility with the pre-policy receipts, and steps 2–4 were
+  integrated and re-run together (steps 0–4: 14+10+9+61+7 tests, all PASS).

@@ -1,0 +1,90 @@
+{
+ "schema": 1,
+ "step": 4,
+ "title": "mini-core: ISA sequencer + TMEM + LD/ST",
+ "heavy": false,
+ "hardware": false,
+ "utc": "2026-11-09T23:20:39Z",
+ "duration_s": 4.364,
+ "command": "python3 ladder/run.py step 4",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/home/fedora/openTPU-ladder/ladder/tests/test_step04_core.py"
+ ],
+ "git": {
+  "commit": "4a02347f000d4f628a4b32eb82d9bd486292eab8",
+  "short": "4a02347f",
+  "branch": "ladder/tiny-tpu-to-opentpu",
+  "dirty": true
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "4a02347f",
+  "thermal_c": 94.375,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": false,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "tests": [
+  {
+   "test": "ladder/tests/test_step04_core.py::test_li_addi_rld_semantics",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step04_core.py::test_ld_st_copy",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step04_core.py::test_loops",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step04_core.py::test_address_arithmetic",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step04_core.py::test_fuzz_against_isasim",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step04_core.py::test_halt_before_end",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step04_core.py::test_error_reporting",
+   "status": "PASSED"
+  }
+ ],
+ "passed": 7,
+ "failed": 0,
+ "skipped": 0,
+ "skipped_tests": [],
+ "test_durations_s": {
+  "ladder/tests/test_step04_core.py::test_fuzz_against_isasim": 1.52,
+  "ladder/tests/test_step04_core.py::test_ld_st_copy": 0.7,
+  "ladder/tests/test_step04_core.py::test_loops": 0.58,
+  "ladder/tests/test_step04_core.py::test_address_arithmetic": 0.5,
+  "ladder/tests/test_step04_core.py::test_error_reporting": 0.37,
+  "ladder/tests/test_step04_core.py::test_li_addi_rld_semantics": 0.13,
+  "ladder/tests/test_step04_core.py::test_halt_before_end": 0.06
+ },
+ "summary": "PASS",
+ "stdout_tail": "============================= test session starts ==============================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /home/fedora/openTPU-ladder\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 7 items\n\nladder/tests/test_step04_core.py::test_li_addi_rld_semantics PASSED      [ 14%]\nladder/tests/test_step04_core.py::test_ld_st_copy PASSED                 [ 28%]\nladder/tests/test_step04_core.py::test_loops PASSED                      [ 42%]\nladder/tests/test_step04_core.py::test_address_arithmetic PASSED         [ 57%]\nladder/tests/test_step04_core.py::test_fuzz_against_isasim PASSED        [ 71%]\nladder/tests/test_step04_core.py::test_halt_before_end PASSED            [ 85%]\nladder/tests/test_step04_core.py::test_error_reporting PASSED            [100%]\n\n============================== slowest durations ===============================\n1.52s call     ladder/tests/test_step04_core.py::test_fuzz_against_isasim\n0.70s call     ladder/tests/test_step04_core.py::test_ld_st_copy\n0.58s call     ladder/tests/test_step04_core.py::test_loops\n0.50s call     ladder/tests/test_step04_core.py::test_address_arithmetic\n0.37s call     ladder/tests/test_step04_core.py::test_error_reporting\n0.13s call     ladder/tests/test_step04_core.py::test_li_addi_rld_semantics\n0.06s call     ladder/tests/test_step04_core.py::test_halt_before_end\n\n(14 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================== 7 passed in 3.99s ===============================\n",
+ "stderr_tail": "",
+ "notes": ""
+}
