@@ -1,0 +1,391 @@
+# The ladder: from tiny-tpu to openTPU
+
+This branch is the missing middle of one story.
+
+- **Start** — [tiny-tpu](https://www.tinytpu.com/), imported verbatim as
+  [step 0](#step-0--tiny-tpu-baseline): a teaching TPU for the 2→2→1 XOR MLP.
+  It has a 2×2 systolic array of Q8.8 MACs, a 128-word unified buffer, a VPU
+  with bias / leaky-ReLU / MSE / leaky-ReLU-derivative, SGD weight update and
+  cocotb testbenches. It has **no** instruction set in hardware (the control
+  unit is not wired up), **no** memory hierarchy, **no** host interface and
+  **no** compiler.
+- **End** — openTPU, this repository's product tree at the parent commit
+  (`ca05e24f`, branch `ypcb/dual-channel-4gb`): a compiler-driven int8
+  accelerator with a 256-bit instruction, TMEM / ACT RAM / dual-channel DDR3,
+  a systolic MXU with per-block MX scales, a fp32 VPU with bit-exact
+  transcendental sequences, a quantizer, a bit-exact ISA simulator
+  (`opentpu/isasim.py`), a Triton-style `ol` language and compiler, a
+  PCIe + JTAG host stack — and LLMs that run on a real YPCB-00338 Kintex-7
+  card producing tokens that match the simulator bit for bit. TinyStories-15M
+  int8 with exact ISA tokens was proven on this host's card on 2026-11-07/08
+  (image `c0182902`).
+
+Both ends exist. **The ladder is the sequence of intermediate machines that
+connect them**, each a real, self-contained, testable design — not a copy of
+the end state.
+
+## Ground rules
+
+1. **One commit = one step = one feature.** The commit message starts
+   `step NN: <feature>`. A step checked out in isolation must build and pass
+   its own tests.
+2. **Every step ships its tests and its receipt.** `ladder/tests/test_stepNN_*.py`
+   contains the step's tests; `ladder/evidence/stepNN.json` is the recorded
+   run (commit, command, environment, per-test status, durations, verdict).
+   `python3 ladder/run.py step NN` regenerates both.
+3. **Bit-exact or it did not happen.** From [step 4](#step-4--mini-core-isa-sequencer--tmem--ldst)
+   on, every simulation compares the RTL's DRAM and TMEM contents bit for bit
+   against the openTPU ISA simulator (`opentpu/isasim.py`), the same oracle
+   the production RTL is held to in `tests/test_rtl.py`. Arithmetic corner
+   cases use `opentpu/fp32.py`'s golden vectors.
+4. **Test tiers.**
+   - *fast* (≤ 60 s, pure Python): steps 1–3.
+   - *sim* (Icarus Verilog, seconds): steps 4–8, the mini-core.
+   - *production* (Verilator, minutes, large builds): steps 9–11, 14, 16.
+   - *heavy* (Vivado synthesis/implementation, hours): step 12.
+   - *hardware* (DLC10 JTAG + card): steps 12, 13, 15.
+5. **This host is a shared laptop.** Heavy commands must not run concurrently
+   with the other DSH session's verification queue. `ladder/run.py` runs any
+   step marked *production*/*heavy* under an exclusive `flock` on
+   `/tmp/rknpu-heavy.lock` after a thermal check (`k10temp` < 92 °C), and
+   Verilator builds are limited to `-j 2`. See [Host scheduling](#host-scheduling).
+6. **Hardware milestones are blocked, never faked.** The DLC10 cable and the
+   YPCB card were not attached when this ladder started. Steps 12/13/15 record
+   the software side, the exact acceptance recipe and the current blocker; the
+   historical c0182902 evidence is cited, not re-created.
+
+## The rungs
+
+Status: ✅ done · 🔨 in progress · ⏳ planned · 🚫 blocked on hardware
+
+| step | rung | machine | tests | status |
+| ---: | --- | --- | --- | --- |
+| 0 | [tiny-tpu baseline](#step-0--tiny-tpu-baseline) | 2×2 Q8.8 toy TPU, XOR MLP, cocotb | 10 cocotb targets, lint, provenance | ✅ |
+| 1 | [ladder harness, roadmap, Makefile cleanup](#step-1--ladder-harness-roadmap-and-makefile-cleanup) | Step 0 machine + reproducible runner/evidence | runner doctor, roadmap/manifest consistency, step-0 re-run | ✅ |
+| 2 | [baseline hardening](#step-2--baseline-hardening-authoritative-isa-and-a-real-xor-scoreboard) | self-checking XOR forward/backward; authoritative ISA doc | scored XOR vectors (forward+backward), ISA schema test | ⏳ |
+| 3 | [ISA contract](#step-3--openTPU-isa-contract) | Python golden stack imported; no RTL change | ISA/ISA-sim/fp32/quant suites | ⏳ |
+| 4 | [mini-core ISA sequencer + TMEM + LD/ST](#step-4--mini-core-isa-sequencer--tmem--ldst) | first openTPU-ISA machine: instructions, loops, TMEM, DRAM | bit-exact vs `isasim` | ⏳ |
+| 5 | [mini-core VPU (elementwise fp32)](#step-5--mini-core-vpu-elementwise-fp32) | fp32 ADD/SUB/RSUB/MUL/MIN/MAX/ABS/COPY/FILL, all B modes | bit-exact vs `isasim`, fp32 corners | ⏳ |
+| 6 | [mini-core quantizer + ACT RAM](#step-6--mini-core-quantizer--act-ram) | QACT/QST, int8 blocks + scales | bit-exact vs `isasim`/`quant.py` | ⏳ |
+| 7 | [mini-core MXU (int8 MM)](#step-7--mini-core-mxu-int8-mm) | systolic int8 matmul, MX scales, fp32 epilogue | bit-exact vs `isasim`, matmul vs numpy | ⏳ |
+| 8 | [mini-core reductions](#step-8--mini-core-reductions-and-argmax) | RSUM/RMAX/RSSQ/RDOT/ARGMAX | bit-exact vs `isasim` | ⏳ |
+| 9 | [production core adoption](#step-9--production-core-adoption) | production RTL supersedes the mini-core | production RTL↔ISA tests (selected, then wide) | ⏳ |
+| 10 | [production software stack](#step-10--compiler-language-kernels-runtime) | `ol` language, compiler, kernels, runtime, targets | `examples/` + kernels ISA↔RTL bit-exact | ⏳ |
+| 11 | [board shell + host interface](#step-11--board-shell-and-host-interface-simulation) | control regs, memory channels, TX/RX, JTAG + PCIe paths | `tb_board` sims, Fake transport runs | ⏳ |
+| 12 | [FPGA image + SRAM milestone](#step-12--fpga-image-and-sram-bring-up-hardware) | YPCB bitstream built by this branch | build receipt + JTAG self-test on card | 🚫 |
+| 13 | [on-card kernel over JTAG](#step-13--on-card-kernel-over-jtag-hardware) | image upload + matmul on the real card | on-card result == simulator | 🚫 |
+| 14 | [LLM layer in simulation](#step-14--llm-layer-in-simulation) | model pipeline, kernels, tiny fixtures | token-for-token ISA↔RTL | ⏳ |
+| 15 | [LLM inference on the card](#step-15--llm-inference-on-the-card-hardware) | TinyStories int8 on YPCB, exact tokens | full JTAG acceptance receipt | 🚫 |
+| 16 | [convergence](#step-16--convergence-on-the-production-tree) | tree == product tree + `ladder/` | parity check + production fast suite | ⏳ |
+
+Steps 9–11, 14 and 16 import production openTPU code from the parent commit
+(`git checkout <parent> -- <paths>`), so the branch converges on the real
+product instead of re-implementing it. The mini-core (steps 4–8) is the part
+the production tree does not contain: a small, readable machine that implements
+the same ISA contract and is validated against the same golden model.
+
+## Step specifications
+
+Each step's acceptance test lives in `ladder/tests/test_stepNN_*.py` and its
+recorded receipt in `ladder/evidence/stepNN.json`.
+
+### step 0 — tiny-tpu baseline
+
+Import the tiny-tpu working tree (`src/` RTL, `test/` cocotb benches,
+`Makefile`, Python project files, README) as the ladder's starting point.
+`ladder/NOTICE.md` records provenance and the missing upstream license;
+`ladder/PROVENANCE.md` records the SHA-256 of every imported file.
+
+**Acceptance:** `pe systolic unified_buffer loss_parent leaky_relu_parent
+leaky_relu_derivative_parent bias_parent vpu tpu gradient_descent` all pass
+(10/10 targets, 19 testcases); `make lint` clean; provenance hashes match.
+**Evidence:** `ladder/evidence/step00.json`.
+
+### step 1 — ladder harness, roadmap and Makefile cleanup
+
+Add the ladder runner (`ladder/run.py`), the evidence convention, this
+roadmap, a per-step test manifest and cleanup of the imported `Makefile`
+(remove the ten stale targets whose benches or cocotb modules do not exist,
+add an aggregate `test` target for the ten green ones). Correct the README's
+stale instruction-set table with a pointer to the authoritative description
+that step 2 writes: `control_unit.sv` is not instantiated by `tpu.sv`, so the
+94/130-bit tables are reference documentation, not a hardware ISA; step 3
+introduces the real ISA contract.
+
+**Acceptance:** `python3 ladder/run.py doctor` reports a usable toolchain;
+every `test_*` target in the Makefile has its sources and tests; the roadmap
+lists every rung; the step-0 suite re-runs green through the runner.
+**Evidence:** `ladder/evidence/step01.json`.
+
+### step 2 — baseline hardening: authoritative ISA and a real XOR scoreboard
+
+The imported top-level `tpu` test has no scoreboard (it only writes a VCD).
+Add a self-checking XOR forward+backward test with golden vectors computed by a
+small, independent Python model (Q8.8, saturating, the same rounding as
+`fixedpoint.sv`), covering both weight tiles, both bias vectors, the leaky-ReLU
+forward/derivative path, the loss gradient and one SGD step. Write the
+authoritative description of the toy machine's actual interfaces (ports, UB
+layout, Q8.8 semantics) in `docs/toy-isa.md`, replacing the stale 94-bit table.
+
+**Acceptance:** the new scoreboard fails if any module's arithmetic is changed
+(mutation check documented in the receipt); the five previously smoke-only
+modules get at least one asserting bench each; `make test` green.
+**Evidence:** `ladder/evidence/step02.json`.
+
+### step 3 — openTPU ISA contract
+
+Import the golden software contract from the parent commit: `opentpu/isa.py`
+(encodings), `opentpu/isasim.py` (bit-exact machine), `opentpu/fp32.py`
+(arithmetic semantics), `opentpu/quant.py` (quantization), the parts of
+`tests/conftest.py` they need, `docs/isa.md`, plus a prose map from the toy's
+Q8.8 micro-operation world to the 256-bit / TMEM / DRAM model. No RTL changes.
+
+**Acceptance:** the imported ISA, ISA-simulator, fp32 and quantizer test suites
+pass in the ladder; a hand-assembled "hello arithmetic" program runs on
+`isasim`; the ISA golden model is documented as the oracle for steps 4–8.
+**Evidence:** `ladder/evidence/step03.json`.
+
+### step 4 — mini-core: ISA sequencer + TMEM + LD/ST
+
+The first openTPU-ISA machine, written for the ladder in `rtl/ladder/`:
+a sequencer with R0–R15, LI/ADDI/LOOP/HALT, a TMEM of 32-bit words, a
+behavioural DRAM and LD/ST transfers. Reuse the production testbench protocol
+(program hex + DRAM image in, TMEM/DRAM dump out) so every later rung compares
+against `isasim` with the same harness. The toy's UB pointers/staggering are
+replaced by explicit DRAM/TMEM addresses; the ladder's own ISA is now the
+production one.
+
+**Acceptance:** hand-written and randomized programs (nested loops, addresses
+as register+immediate, unaligned-rejection cases) run on the mini-core and on
+`isasim` with bit-identical TMEM and DRAM.
+**Evidence:** `ladder/evidence/step04.json`.
+
+### step 5 — mini-core VPU (elementwise fp32)
+
+Add a VPU lane to the mini-core: VOP with ADD, SUB, RSUB, MUL, MIN, MAX, ABS,
+COPY, FILL, in the FULL / ROW / COL / SCALAR B-operand modes, reading and
+writing TMEM. The fp32 arithmetic must be bit-exact (RNE, flush-to-zero); the
+ladder reuses the production `otpu_fp` package (imported with attribution) so
+the hardware and `opentpu/fp32.py` cannot drift.
+
+**Acceptance:** random and corner-case vectors (`opentpu/fp32.py` generators:
+denormals, signed zeros, infinities, cancelling sums) produce identical TMEM
+bits on the mini-core and `isasim`.
+**Evidence:** `ladder/evidence/step05.json`.
+
+### step 6 — mini-core quantizer + ACT RAM
+
+Add ACT RAM (int8 bytes + per-row scale and per-sub-block offsets) and the
+QACT / QST instructions: quantize TMEM fp32 rows into ACT RAM, quantize TMEM
+into DRAM int8 bytes with the row/block scale records, with the ROW / CSCALE /
+RSCALE / DUP / HALF flag subsets the ladder needs for RMSNorm and KV appends.
+
+**Acceptance:** quantizer output bytes and scale records equal `isasim`'s for
+random rows, extreme amax values, zeros and infinities; `quant.py`'s reference
+quantizer agrees.
+**Evidence:** `ladder/evidence/step06.json`.
+
+### step 7 — mini-core MXU (int8 MM)
+
+Add the systolic int8 matrix unit with MX block scales and the fp32 epilogue:
+MM streams D-byte blocks of int8 weights from DRAM, reads int8 activations
+from ACT RAM, accumulates exact integers per (row, block) and applies the
+per-block power-of-two offsets and fp32 scales once per output, writing TMEM.
+Start with the no-flag form plus ACC; RMAX and ASCALE complete the
+flash-attention epilogue.
+
+**Acceptance:** random matmuls (M up to ACT_ROWS, N up to several columns,
+K = KB·D) match `isasim` bit for bit; numpy int8 reference agrees before
+scaling; corner scales (underflow groups, amax extremes) covered.
+**Evidence:** `ladder/evidence/step07.json`.
+
+### step 8 — mini-core reductions and ARGMAX
+
+Add the reduction VOPs needed by the software stack: RSUM, RMAX, RSSQ, RDOT,
+ARGMAX (and the OUTER linear-recurrence update), with the same fold semantics
+as the production VPU.
+
+**Acceptance:** reduction outputs (including NaN/±0 ordering and the ARGMAX
+tie-break) equal `isasim`'s bit for bit on random and adversarial data.
+**Evidence:** `ladder/evidence/step08.json`.
+
+### step 9 — production core adoption
+
+The mini-core proved the ISA contract; adopt the production RTL instead of
+re-implementing its 55k lines: import `rtl/`, `sim/verilator/`, `opentpu/rtlsim.py`
+and the RTL test infrastructure from the parent commit, delete `rtl/ladder/`
+and the toy `src/`, and switch the ladder harness to Verilator. The evidence
+for this step is the production RTL↔ISA test suite, run from this branch.
+
+**Acceptance:** production RTL fast tests pass (the subset that needs no
+board/models), including MLP, attention and fuzz cases; the mini-core's own
+step-4–8 programs still produce the same results on the production RTL.
+**Evidence:** `ladder/evidence/step09.json`.
+
+### step 10 — compiler, language, kernels, runtime
+
+Import `opentpu/language.py`, `opentpu/compiler.py`, `opentpu/runtime.py`,
+`opentpu/kernels/`, `opentpu/target.py`, `targets/` and `examples/`. Kernels
+now come from `ol` source rather than hand-assembled programs.
+
+**Acceptance:** `examples/run_all.py` passes (numpy reference + ISA bit-exact);
+the kernel test suite passes; a compiled MLP runs bit-identically on the ISA
+simulator and the production RTL.
+**Evidence:** `ladder/evidence/step10.json`.
+
+### step 11 — board shell and host interface (simulation)
+
+Import `rtl/shell/`, `rtl/boards/ypcb-00338/`, `sim/verilator/tb_board.sv`,
+the host register map and the host driver stack (`opentpu/host/board.py`,
+`regs.py`, fake transport) so the machine is exercised the way the card drives
+it: control registers, program loader, memory channels, JTAG and PCIe paths.
+
+**Acceptance:** `tb_board` simulations pass; a program is loaded and run
+through the simulated board interface (FakeTransport) with the same DRAM/TMEM
+state as direct RTL; the register map's image-identity fields are checked.
+**Evidence:** `ladder/evidence/step11.json`.
+
+### step 12 — FPGA image and SRAM bring-up (hardware)
+
+Import the YPCB build flow (`boards/ypcb-00338/`, `tools/litedram/`,
+constraints, LiteDRAM generation), build a bitstream from this branch's tree
+and load it into SRAM over JTAG; run the on-card self-test / RAM test.
+Vivado runs under the heavy host lock (≈1.5–4 h for a full image).
+
+**Acceptance:** build receipt with bitstream SHA-256, timing/DRC summary and
+source hashes; SRAM programming receipt; on-card self-test PASS observed over
+JTAG; the image keeps **both** JTAG and PCIe runtime interfaces (repo rule).
+**Evidence:** `ladder/evidence/step12.json`, `ladder/evidence/hardware/`.
+**Blocker (2026-11-10):** the DLC10 JTAG cable and the card are not attached;
+the software side of this step is committed and the hardware assertion waits.
+
+### step 13 — on-card kernel over JTAG (hardware)
+
+Using the step-12 image, upload a small program/image over the JTAG runtime and
+run a matmul on the card; compare the result against the simulator bit for
+bit. This is the first end-to-end "host → image → accelerator → result" loop on
+real silicon.
+
+**Acceptance:** on-card matmul bytes equal `isasim`'s; identity/config
+registers match the oracle; receipt records `flash_written: false`.
+**Evidence:** `ladder/evidence/step13.json`.
+**Blocker:** same hardware absence as step 12.
+
+### step 14 — LLM layer in simulation
+
+Import `opentpu/llm/` (model implementations, image builder, decode loop) and
+the model fixtures the tests need; run a tiny model end to end in the ISA
+simulator and on the RTL, token for token. No real checkpoint is required for
+the ladder: tiny random-weight models exercise the same kernels (attention,
+RMSNorm, silu, RoPE, sampling) and the same image path.
+
+**Acceptance:** greedy tokens from the RTL backend equal the ISA oracle for a
+tiny model; the logits and the whole DRAM image are bit-identical.
+**Evidence:** `ladder/evidence/step14.json`.
+
+### step 15 — LLM inference on the card (hardware)
+
+Run TinyStories-15M int8 on the card over JTAG and reproduce the acceptance
+the production branch already recorded for image `c0182902`: prompt
+"Once upon a time" → tokens `[29892, 727, 471, 263, 2217, 7826, 4257, 365]`,
+exact 8-token greedy continuation, image SHA-256 match, calibration unchanged,
+warm repeat with zero image rewrite, `flash_written: false`.
+
+**Acceptance:** full receipt as in `docs/tinystories_jtag_c0182902.md`, bound
+to this branch's image SHA, package manifest SHA and model SHA, including the
+identity/config guard results and the timing/limits section.
+**Evidence:** `ladder/evidence/step15.json`, `ladder/evidence/hardware/`.
+**Blocker:** hardware absence. The historical c0182902 PASS (2026-11-07/08) is
+cited in the receipt as prior evidence, not re-created.
+
+### step 16 — convergence on the production tree
+
+Import whatever is left of the parent commit's tree (`docs/`, `tools/`,
+`tests/`, `examples/`, `bend/`, `asic/`, model/target definitions, ...), then
+delete the ladder-only leftovers that production does not need except
+`ladder/` itself. From this commit on, checking out the branch gives the exact
+product tree plus the ladder documentation, receipts and tests.
+
+**Acceptance:** `git diff --stat ca05e24f -- . ':(exclude)ladder'` is empty;
+the production fast test suite passes in this tree; the ladder's own test set
+passes from the converged tree; this document's status table is complete.
+**Evidence:** `ladder/evidence/step16.json`.
+
+## Environment
+
+`python3 ladder/run.py doctor` prints the toolchain the ladder can see and the
+environment it would use. Nothing is installed by the runner.
+
+| tool | used by | requirement |
+| --- | --- | --- |
+| Python 3.11–3.13 | steps 0–2 | `cocotb>=1.9,<2`, `numpy>=2,<3` (the imported `pyproject.toml`/`uv.lock` restore it with `uv sync`) |
+| Python 3.10+ with numpy, pytest | steps 3–16 | the openTPU golden stack is pure Python + numpy |
+| Icarus Verilog 13 | steps 4–8 | `iverilog -g2012` |
+| Verilator 5.x | steps 9–11, 14, 16 | production RTL simulation (`-j 2` on this host) |
+| Vivado 2026.1 | step 12 | xc7k480tffg1156-2; full image ≈1.5–4 h |
+| openFPGALoader + DLC10 | steps 12/13/15 | patched DLC10-capable build; card must be attached |
+
+The runner picks its Python in this order: `$LADDER_PY`, `./.venv/bin/python`,
+`./ladder/.venv/bin/python`, then `python3`. The cocotb bench environment for
+steps 0–2 is `$LADDER_TOY_PY`, `./.venv/bin/python`, then the same host's
+tiny-tpu venv if it exists. Every choice is printed by `doctor` and stored in
+the evidence receipt.
+
+## Host scheduling
+
+This laptop is shared with another DSH session that runs a hardware
+verification queue and a thermal guard. The guard killed this session's first
+Verilator build at 100.4 °C, so:
+
+- Verilator builds are limited to `-j 2` and `nice`;
+- *production*/*heavy* steps acquire an exclusive `flock` on
+  `/tmp/rknpu-heavy.lock`; if the lock is busy the runner waits (default
+  ≤ 90 min) instead of starting a competing build;
+- before and during a heavy step the runner samples `k10temp`
+  (`/sys/class/hwmon/*/temp1_input`); it refuses to start above 92 °C and
+  aborts above 97 °C;
+- one heavy job at a time. Light steps (0–8) are allowed to run anytime.
+
+## Test methodology
+
+1. **Fast tier** — pure Python: the ISA golden stack and meta-tests of this
+   roadmap/harness.
+2. **Sim tier** — the mini-core built with Icarus; a Python harness writes the
+   program and DRAM image, runs the RTL, reads back TMEM and DRAM and compares
+   them with `isasim`. No tolerance: every word must match.
+3. **Production tier** — Verilator through `opentpu/rtlsim.py`, the same
+   `tb_top` protocol the product uses.
+4. **Hardware tier** — JTAG only (this host has no PCIe endpoint): exact image
+   identity, calibration receipt, structural preflight, model run, warm repeat.
+
+Mutation checks (step 2) and negative tests (rejected unaligned accesses,
+illegal opcodes) are part of a step's evidence, not an afterthought.
+
+## Known blockers and risks
+
+- **Hardware absent (2026-11-10):** no DLC10 cable (`03fd:*`/`0403:6014`), no
+  card in PCIe. Steps 12/13/15 stay blocked until the user attaches the cable
+  and card; their software side is committed.
+- **The c0182902 bitstream package, model and calibration receipt are
+  untracked** in the product tree; raw run receipts under `/tmp/opencode`
+  were lost. Re-running the full acceptance needs the package plus a fresh
+  calibration/oracle; the ladder records this explicitly rather than claiming
+  a re-run.
+- **Licensing:** tiny-tpu ships no LICENSE file and no SPDX headers. The step-0
+  import is a reference/intermediate artifact for the ladder, removed at
+  step 9/16; redistributing it inside the Apache-2.0 repo needs the owner's
+  licensing decision (`ladder/NOTICE.md`).
+- **Shared host:** heavy builds can be killed by the other session's thermal
+  guard; the runner's lock/thermal gate makes this visible instead of silent.
+
+## Status log
+
+- 2026-11-10: branch `ladder/tiny-tpu-to-opentpu` created in `~/openTPU` as an
+  orphan branch seeded from `/home/fedora/tiny-tpu`; step 0 committed
+  (`d69624ae`, 10/10 cocotb targets, verified both in the working tree and in
+  a detached worktree of its own commit). Ladder recon of both endpoints and
+  of the hardware path completed.
+- 2026-11-10: step 1 committed — this document, `ladder/run.py` (runner,
+  evidence, shared-host gate), per-step harness tests, Makefile cleanup
+  (10 stale targets removed, aggregate `test` added) and the first two
+  evidence receipts (`ladder/evidence/step00.json`, `step01.json`).

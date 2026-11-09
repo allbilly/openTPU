@@ -1,0 +1,95 @@
+{
+ "schema": 1,
+ "step": 1,
+ "title": "ladder harness, roadmap and Makefile cleanup",
+ "heavy": false,
+ "hardware": false,
+ "utc": "2026-11-09T22:44:06Z",
+ "duration_s": 5.552,
+ "command": "python3 ladder/run.py step 1",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/home/fedora/openTPU-ladder/ladder/tests/test_step01_harness.py"
+ ],
+ "git": {
+  "commit": "d69624ae97e8f5b8f263257044940aa1211c50b4",
+  "short": "d69624ae",
+  "branch": "ladder/tiny-tpu-to-opentpu",
+  "dirty": true
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "d69624ae",
+  "thermal_c": 92.375,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": true,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "tests": [
+  {
+   "test": "ladder/tests/test_step01_harness.py::test_runner_step_table",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step01_harness.py::test_roadmap_lists_every_step",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step01_harness.py::test_roadmap_titles_match_runner",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step01_harness.py::test_roadmap_status_icons_are_known",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step01_harness.py::test_makefile_targets_are_honest",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step01_harness.py::test_make_aggregate_target",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step01_harness.py::test_runner_doctor_json",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step01_harness.py::test_evidence_receipts_validate",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step01_harness.py::test_host_gate_documented",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step01_harness.py::test_dev_requirements_present",
+   "status": "PASSED"
+  }
+ ],
+ "test_durations_s": {
+  "ladder/tests/test_step01_harness.py::test_make_aggregate_target": 4.43,
+  "ladder/tests/test_step01_harness.py::test_runner_doctor_json": 0.72,
+  "ladder/tests/test_step01_harness.py::test_evidence_receipts_validate": 0.05,
+  "ladder/tests/test_step01_harness.py::test_roadmap_titles_match_runner": 0.01
+ },
+ "summary": "PASS",
+ "stdout_tail": "============================= test session starts ==============================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /home/fedora/openTPU-ladder\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 10 items\n\nladder/tests/test_step01_harness.py::test_runner_step_table PASSED       [ 10%]\nladder/tests/test_step01_harness.py::test_roadmap_lists_every_step PASSED [ 20%]\nladder/tests/test_step01_harness.py::test_roadmap_titles_match_runner PASSED [ 30%]\nladder/tests/test_step01_harness.py::test_roadmap_status_icons_are_known PASSED [ 40%]\nladder/tests/test_step01_harness.py::test_makefile_targets_are_honest PASSED [ 50%]\nladder/tests/test_step01_harness.py::test_make_aggregate_target PASSED   [ 60%]\nladder/tests/test_step01_harness.py::test_runner_doctor_json PASSED      [ 70%]\nladder/tests/test_step01_harness.py::test_evidence_receipts_validate PASSED [ 80%]\nladder/tests/test_step01_harness.py::test_host_gate_documented PASSED    [ 90%]\nladder/tests/test_step01_harness.py::test_dev_requirements_present PASSED [100%]\n\n============================== slowest durations ===============================\n4.27s call     ladder/tests/test_step01_harness.py::test_make_aggregate_target\n0.72s call     ladder/tests/test_step01_harness.py::test_runner_doctor_json\n0.16s setup    ladder/tests/test_step01_harness.py::test_make_aggregate_target\n0.05s call     ladder/tests/test_step01_harness.py::test_evidence_receipts_validate\n0.01s call     ladder/tests/test_step01_harness.py::test_roadmap_titles_match_runner\n\n(25 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================== 10 passed in 5.26s ==============================\n",
+ "stderr_tail": "",
+ "notes": ""
+}

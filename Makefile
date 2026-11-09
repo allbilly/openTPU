@@ -60,47 +60,11 @@ test_pe: $(SIM_BUILD_DIR)
 	$(CHECK_RESULTS)
 	mv pe.vcd waveforms/ 2>/dev/null || true
 
-test_leaky_relu: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s leaky_relu -s dump -g2012 $(SOURCES) test/dump_leaky_relu.sv
-	$(call COCOTB_RUN,test_leaky_relu)
-	$(CHECK_RESULTS)
-	mv test.vcd waveforms/ 2>/dev/null || true
-
 test_systolic: $(SIM_BUILD_DIR)
 	$(IVERILOG) -o $(SIM_VVP) -s systolic -s dump -g2012 $(SOURCES) test/dump_systolic.sv
 	$(call COCOTB_RUN,test_systolic)
 	$(CHECK_RESULTS)
 	mv systolic.vcd waveforms/ 2>/dev/null || true
-
-test_nn: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s nn -s dump -g2012 $(SOURCES) test/dump_nn.sv
-	$(call COCOTB_RUN,test_nn)
-	$(CHECK_RESULTS)
-	mv nn.vcd waveforms/ 2>/dev/null || true
-
-test_bias: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s bias -s dump -g2012 $(SOURCES) test/dump_bias.sv
-	$(call COCOTB_RUN,test_bias)
-	$(CHECK_RESULTS)
-	mv bias.vcd waveforms/ 2>/dev/null || true
-
-test_input_acc: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s input_acc -s dump -g2012 $(SOURCES) test/dump_input_acc.sv
-	$(call COCOTB_RUN,test_input_acc)
-	$(CHECK_RESULTS)
-	mv input_acc.vcd waveforms/ 2>/dev/null || true
-
-test_weight_acc: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s weight_acc -s dump -g2012 $(SOURCES) test/dump_weight_acc.sv
-	$(call COCOTB_RUN,test_weight_acc)
-	$(CHECK_RESULTS)
-	mv weight_acc.vcd waveforms/ 2>/dev/null || true
-
-test_cu: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s control_unit -s dump -g2012 $(SOURCES) test/dump_cu.sv
-	$(call COCOTB_RUN,test_cu)
-	$(CHECK_RESULTS)
-	mv cu.vcd waveforms/ 2>/dev/null || true
 
 test_unified_buffer: $(SIM_BUILD_DIR)
 	$(IVERILOG) -o $(SIM_VVP) -s unified_buffer -s dump -g2012 $(SOURCES) test/dump_unified_buffer.sv
@@ -108,13 +72,14 @@ test_unified_buffer: $(SIM_BUILD_DIR)
 	$(CHECK_RESULTS)
 	mv unified_buffer.vcd waveforms/ 2>/dev/null || true
 
-# Loss module test
+# Aggregate: every self-checking benchmark target of the baseline
+TESTS = pe systolic unified_buffer loss_parent leaky_relu_parent \
+        leaky_relu_derivative_parent bias_parent vpu tpu gradient_descent
 
-test_loss_child: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s loss_child -s dump -g2012 $(SOURCES) test/dump_loss_child.sv
-	$(call COCOTB_RUN,test_loss_child)
-	$(CHECK_RESULTS)
-	mv loss_child.vcd waveforms/ 2>/dev/null || true
+.PHONY: test $(addprefix test_,$(TESTS))
+test: $(addprefix test_,$(TESTS))
+
+# Loss module test
 
 test_loss_parent: $(SIM_BUILD_DIR)
 	$(IVERILOG) -o $(SIM_VVP) -s loss_parent -s dump -g2012 $(SOURCES) test/dump_loss_parent.sv
@@ -123,23 +88,11 @@ test_loss_parent: $(SIM_BUILD_DIR)
 	mv loss_parent.vcd waveforms/ 2>/dev/null || true
 
 # Leaky ReLU module tests
-test_leaky_relu_child: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s leaky_relu_child -s dump -g2012 $(SOURCES) test/dump_leaky_relu_child.sv
-	$(call COCOTB_RUN,test_leaky_relu_child)
-	$(CHECK_RESULTS)
-	mv leaky_relu_child.vcd waveforms/ 2>/dev/null || true
-
 test_leaky_relu_parent: $(SIM_BUILD_DIR)
 	$(IVERILOG) -o $(SIM_VVP) -s leaky_relu_parent -s dump -g2012 $(SOURCES) test/dump_leaky_relu_parent.sv
 	$(call COCOTB_RUN,test_leaky_relu_parent)
 	$(CHECK_RESULTS)
 	mv leaky_relu_parent.vcd waveforms/ 2>/dev/null || true
-
-test_leaky_relu_derivative_child: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s leaky_relu_derivative_child -s dump -g2012 $(SOURCES) test/dump_leaky_relu_derivative_child.sv
-	$(call COCOTB_RUN,test_leaky_relu_derivative_child)
-	$(CHECK_RESULTS)
-	mv leaky_relu_derivative_child.vcd waveforms/ 2>/dev/null || true
 
 test_leaky_relu_derivative_parent: $(SIM_BUILD_DIR)
 	$(IVERILOG) -o $(SIM_VVP) -s leaky_relu_derivative_parent -s dump -g2012 $(SOURCES) test/dump_leaky_relu_derivative_parent.sv
@@ -148,12 +101,6 @@ test_leaky_relu_derivative_parent: $(SIM_BUILD_DIR)
 	mv leaky_relu_derivative_parent.vcd waveforms/ 2>/dev/null || true
 
 # Bias module tests
-test_bias_child: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s bias_child -s dump -g2012 $(SOURCES) test/dump_bias_child.sv
-	$(call COCOTB_RUN,test_bias_child)
-	$(CHECK_RESULTS)
-	mv bias_child.vcd waveforms/ 2>/dev/null || true
-
 test_bias_parent: $(SIM_BUILD_DIR)
 	$(IVERILOG) -o $(SIM_VVP) -s bias_parent -s dump -g2012 $(SOURCES) test/dump_bias_parent.sv
 	$(call COCOTB_RUN,test_bias_parent)

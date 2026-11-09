@@ -1,5 +1,14 @@
 # tiny-tpu
 
+> **Ladder note.** This file is the upstream tiny-tpu README, imported verbatim
+> as ladder step 0 (see [`ladder/README.md`](ladder/README.md),
+> [`ladder/NOTICE.md`](ladder/NOTICE.md), [`ladder/PROVENANCE.md`](ladder/PROVENANCE.md)).
+> The instruction-set tables below describe the upstream *documentation* of the
+> toy machine; the imported `tpu.sv` does not instantiate `control_unit.sv`, so
+> those tables are not a hardware ISA. The authoritative description of the toy
+> machine's actual interfaces is written in ladder step 2
+> (`docs/toy-isa.md`); ladder step 3 introduces the real openTPU ISA contract.
+
 A minimal tensor processing unit (TPU), reinvented from Google's TPU V2 and V1.
 
 

@@ -1,0 +1,4 @@
+# Requirements for the ladder runner itself (steps 1+). The imported toy
+# project's own dependencies (cocotb>=1.9,<2, numpy>=2,<3) come from the
+# checked-in pyproject.toml/uv.lock and are restored with `uv sync`.
+pytest>=8
