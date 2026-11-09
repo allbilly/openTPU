@@ -1,0 +1,16 @@
+# simulation/build outputs of the toy TPU baseline
+sim_build/
+waveforms/*.vcd
+test/__pycache__/
+__pycache__/
+*.pyc
+results.xml
+*.log
+
+# python environment
+.venv/
+uv.lock.cache/
+
+# ladder run artifacts (per-step logs/receipts are written here; receipts are committed selectively)
+ladder/artifacts/*
+!ladder/artifacts/.gitkeep
