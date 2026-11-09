@@ -320,9 +320,22 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
     try:
         if gate:
             gate.__enter__()
-        proc = subprocess.run(cmd, cwd=ROOT, env=env, capture_output=True, text=True,
-                              timeout=int(os.environ.get("LADDER_STEP_TIMEOUT", "10800")))
-        rc = proc.returncode
+        # A run killed from outside (the sibling DSH session's host_guard SIGTERMs heavy CPU
+        # burners at ~100 C) must not be recorded as a code failure: retry it once, and record
+        # the signals/attempts in the receipt.
+        attempts, signals = 0, []
+        while True:
+            attempts += 1
+            proc = subprocess.run(cmd, cwd=ROOT, env=env, capture_output=True, text=True,
+                                  timeout=int(os.environ.get("LADDER_STEP_TIMEOUT", "10800")))
+            rc = proc.returncode
+            if rc >= 0 or attempts >= 2:
+                break
+            signals.append(-rc)
+            if not quiet:
+                print(f"[ladder] step {n}: run killed by signal {-rc} "
+                      f"(shared-host thermal guard?); retrying once", flush=True)
+            time.sleep(10)
         stdout, stderr = proc.stdout, proc.stderr
     finally:
         if gate:
@@ -339,7 +352,10 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
     # --allow-skips or LADDER_ALLOW_SKIPS=1 opts out explicitly).  BLOCKED: a hardware rung whose
     # gate tests all skip because the cable/card are absent (probe exit 3); recorded, never PASS.
     allow_skips = bool(extra_hardware_allow_skips)
-    if rc != 0 or parsed["failed"]:
+    if rc < 0:
+        verdict, out_rc = (f"ABORTED (killed by signal {-rc}: an external host-guard "
+                           f"termination, not a code failure; re-run when the host is cool)"), 6
+    elif rc != 0 or parsed["failed"]:
         verdict, out_rc = "FAIL", (rc or 1)
     elif meta["hardware"] and parsed["skipped"]:
         # the on-card action (or the whole gate) skipped: blocked on the cable/card, not a PASS
@@ -365,6 +381,8 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
         "git": git_state(),
         "toolchain": toolchain(),
         "returncode": rc,
+        "attempts": attempts,
+        "killed_by_signals": signals,
         "tests": parsed["verdicts"],
         "passed": parsed["passed"],
         "failed": parsed["failed"],

@@ -4,8 +4,8 @@
  "title": "mini-core: ISA sequencer + TMEM + LD/ST",
  "heavy": false,
  "hardware": false,
- "utc": "2026-11-09T23:34:13Z",
- "duration_s": 4.625,
+ "utc": "2026-11-09T23:46:02Z",
+ "duration_s": 5.08,
  "command": "python3 ladder/run.py step 4",
  "command_argv": [
   "/usr/bin/python3",
@@ -18,8 +18,8 @@
   "/home/fedora/openTPU-ladder/ladder/tests/test_step04_core.py"
  ],
  "git": {
-  "commit": "c01fc37e541ac573edc0cc1771fc8c96d9c68a00",
-  "short": "c01fc37e",
+  "commit": "ab489be84ee435eed7bfb0879e9b254924e3cf0a",
+  "short": "ab489be8",
   "branch": "ladder/tiny-tpu-to-opentpu",
   "dirty": true
  },
@@ -33,13 +33,15 @@
   "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
   "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
   "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
-  "git": "c01fc37e",
-  "thermal_c": 95.75,
+  "git": "ab489be8",
+  "thermal_c": 91.25,
   "heavy_lock": "/tmp/rknpu-heavy.lock",
-  "heavy_lock_held": true,
+  "heavy_lock_held": false,
   "nproc": 8
  },
  "returncode": 0,
+ "attempts": 1,
+ "killed_by_signals": [],
  "tests": [
   {
    "test": "ladder/tests/test_step04_core.py::test_li_addi_rld_semantics",
@@ -75,16 +77,16 @@
  "skipped": 0,
  "skipped_tests": [],
  "test_durations_s": {
-  "ladder/tests/test_step04_core.py::test_fuzz_against_isasim": 1.67,
-  "ladder/tests/test_step04_core.py::test_ld_st_copy": 0.72,
-  "ladder/tests/test_step04_core.py::test_loops": 0.61,
-  "ladder/tests/test_step04_core.py::test_address_arithmetic": 0.53,
-  "ladder/tests/test_step04_core.py::test_error_reporting": 0.4,
-  "ladder/tests/test_step04_core.py::test_li_addi_rld_semantics": 0.16,
-  "ladder/tests/test_step04_core.py::test_halt_before_end": 0.07
+  "ladder/tests/test_step04_core.py::test_fuzz_against_isasim": 1.88,
+  "ladder/tests/test_step04_core.py::test_ld_st_copy": 0.73,
+  "ladder/tests/test_step04_core.py::test_loops": 0.7,
+  "ladder/tests/test_step04_core.py::test_address_arithmetic": 0.61,
+  "ladder/tests/test_step04_core.py::test_error_reporting": 0.45,
+  "ladder/tests/test_step04_core.py::test_li_addi_rld_semantics": 0.19,
+  "ladder/tests/test_step04_core.py::test_halt_before_end": 0.08
  },
  "summary": "PASS",
- "stdout_tail": "============================= test session starts ==============================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /home/fedora/openTPU-ladder\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 7 items\n\nladder/tests/test_step04_core.py::test_li_addi_rld_semantics PASSED      [ 14%]\nladder/tests/test_step04_core.py::test_ld_st_copy PASSED                 [ 28%]\nladder/tests/test_step04_core.py::test_loops PASSED                      [ 42%]\nladder/tests/test_step04_core.py::test_address_arithmetic PASSED         [ 57%]\nladder/tests/test_step04_core.py::test_fuzz_against_isasim PASSED        [ 71%]\nladder/tests/test_step04_core.py::test_halt_before_end PASSED            [ 85%]\nladder/tests/test_step04_core.py::test_error_reporting PASSED            [100%]\n\n============================== slowest durations ===============================\n1.67s call     ladder/tests/test_step04_core.py::test_fuzz_against_isasim\n0.72s call     ladder/tests/test_step04_core.py::test_ld_st_copy\n0.61s call     ladder/tests/test_step04_core.py::test_loops\n0.53s call     ladder/tests/test_step04_core.py::test_address_arithmetic\n0.40s call     ladder/tests/test_step04_core.py::test_error_reporting\n0.16s call     ladder/tests/test_step04_core.py::test_li_addi_rld_semantics\n0.07s call     ladder/tests/test_step04_core.py::test_halt_before_end\n\n(14 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================== 7 passed in 4.30s ===============================\n",
+ "stdout_tail": "============================= test session starts ==============================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /home/fedora/openTPU-ladder\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 7 items\n\nladder/tests/test_step04_core.py::test_li_addi_rld_semantics PASSED      [ 14%]\nladder/tests/test_step04_core.py::test_ld_st_copy PASSED                 [ 28%]\nladder/tests/test_step04_core.py::test_loops PASSED                      [ 42%]\nladder/tests/test_step04_core.py::test_address_arithmetic PASSED         [ 57%]\nladder/tests/test_step04_core.py::test_fuzz_against_isasim PASSED        [ 71%]\nladder/tests/test_step04_core.py::test_halt_before_end PASSED            [ 85%]\nladder/tests/test_step04_core.py::test_error_reporting PASSED            [100%]\n\n============================== slowest durations ===============================\n1.88s call     ladder/tests/test_step04_core.py::test_fuzz_against_isasim\n0.73s call     ladder/tests/test_step04_core.py::test_ld_st_copy\n0.70s call     ladder/tests/test_step04_core.py::test_loops\n0.61s call     ladder/tests/test_step04_core.py::test_address_arithmetic\n0.45s call     ladder/tests/test_step04_core.py::test_error_reporting\n0.19s call     ladder/tests/test_step04_core.py::test_li_addi_rld_semantics\n0.08s call     ladder/tests/test_step04_core.py::test_halt_before_end\n\n(14 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================== 7 passed in 4.76s ===============================\n",
  "stderr_tail": "",
  "notes": ""
 }

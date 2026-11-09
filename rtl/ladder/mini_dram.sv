@@ -13,7 +13,11 @@ module mini_dram #(
   output logic [31:0] rdata,
   input  logic [31:0] waddr,    // byte address, 4-byte aligned (the core checks)
   input  logic [31:0] wdata,
-  input  logic        we
+  input  logic        we,
+  // QST writes one byte per cycle at an arbitrary (not necessarily aligned) address
+  input  logic [31:0] bwaddr,
+  input  logic [7:0]  bwdata,
+  input  logic        bwe
 );
 
   logic [7:0] mem [0:DRAM_BYTES-1];
@@ -28,6 +32,9 @@ module mini_dram #(
       mem[waddr+1] <= wdata[15:8];
       mem[waddr+2] <= wdata[23:16];
       mem[waddr+3] <= wdata[31:24];
+    end
+    if (bwe) begin
+      mem[bwaddr] <= bwdata;
     end
   end
 

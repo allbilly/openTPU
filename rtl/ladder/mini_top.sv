@@ -91,14 +91,15 @@ module mini_top #(
   endfunction
 
   // ------------------------------------------------------------------ FSM
-  typedef enum logic [2:0] {
-    ST_FETCH  = 3'd0,
-    ST_EXEC   = 3'd1,
-    ST_LDST   = 3'd2,
-    ST_ADV    = 3'd3,
-    ST_HALTED = 3'd4,
-    ST_ERROR  = 3'd5,
-    ST_VOP    = 3'd6
+  typedef enum logic [3:0] {
+    ST_FETCH  = 4'd0,
+    ST_EXEC   = 4'd1,
+    ST_LDST   = 4'd2,
+    ST_ADV    = 4'd3,
+    ST_HALTED = 4'd4,
+    ST_ERROR  = 4'd5,
+    ST_VOP    = 4'd6,
+    ST_QUANT  = 4'd7
   } state_t;
   state_t st;
 
@@ -111,12 +112,39 @@ module mini_top #(
   logic        vpu_we, vpu_busy, vpu_done, vpu_err;
   logic [2:0]  vpu_err_code;
 
+  // QACT/QST quantizer + ACT RAM (step 6)
+  logic        q_start, q_is_qst, q_busy, q_done, q_err;
+  logic [2:0]  q_err_code;
+  logic [31:0] q_src, q_rows, q_kb, q_srs, q_ab, q_cscale, q_rscale;
+  logic [31:0] q_dst, q_sdst, q_drs, q_es;
+  logic [31:0] q_raddr0, q_raddr1, q_rdata0, q_rdata1;
+  logic        q_act_we, q_act_we2, q_s_we, q_d_we, q_dram_we;
+  logic [31:0] q_act_row, q_act_lin, q_act_row2, q_act_lin2;
+  logic [7:0]  q_act_data, q_act_data2;
+  logic [31:0] q_s_row, q_s_block, q_s_data, q_d_row, q_d_block, q_d_data;
+  logic [31:0] q_dram_waddr;
+  logic [7:0]  q_dram_wdata;
+  logic [31:0] act_rrow, act_rlin, act_rrow_s, act_rblock_s, act_rrow_d, act_rblock_d;
+  logic [7:0]  act_rdata;
+  logic [31:0] act_rdata_s, act_rdata_d;
+  logic [31:0] act_rrow_w, act_rword, act_rdata_w;
+  logic [31:0] act_rrow_rec, act_rblock_rec;
+  logic [63:0] act_rdata_rec;
+  assign act_rrow_w = 32'd0; assign act_rword = 32'd0;
+  assign act_rrow_rec = 32'd0; assign act_rblock_rec = 32'd0;
+  assign act_rrow = 32'd0; assign act_rlin = 32'd0;
+  assign act_rrow_s = 32'd0; assign act_rblock_s = 32'd0;
+  assign act_rrow_d = 32'd0; assign act_rblock_d = 32'd0;
+
   // ST reads TMEM (port 0) and LD writes it; RLD reads TMEM while it executes; the VPU owns
-  // both read ports and the write port while it runs.
+  // both read ports and the write port while it runs; the quantizer owns both read ports
+  // (port 0 row data, port 1 the CSCALE factors) while QACT/QST run.
   assign tmem_raddr0 = (st == ST_VOP) ? vpu_raddr0
+                     : (st == ST_QUANT) ? q_raddr0
                      : ((st == ST_LDST) && !ldst_ld) ? (ldst_t + ldst_i)
                      : (rget(ra) + w1);
-  assign tmem_raddr1 = (st == ST_VOP) ? vpu_raddr1 : 32'd0;
+  assign tmem_raddr1 = (st == ST_VOP) ? vpu_raddr1
+                     : (st == ST_QUANT) ? q_raddr1 : 32'd0;
   assign dram_raddr = ((st == ST_LDST) && ldst_ld) ? (ldst_d + (ldst_i << 2)) : 32'd0;
   assign dram_waddr = ldst_d + (ldst_i << 2);
   assign dram_wdata = tmem_rdata0;
@@ -165,8 +193,66 @@ module mini_top #(
   // ------------------------------------------------------------------ submodules
   mini_dram #(.DRAM_BYTES(DRAM_BYTES)) dram (
     .clk(clk), .raddr(dram_raddr), .rdata(dram_rdata),
-    .waddr(dram_waddr), .wdata(dram_wdata), .we(dram_we)
+    .waddr(dram_waddr), .wdata(dram_wdata), .we(dram_we),
+    .bwaddr(q_dram_waddr), .bwdata(q_dram_wdata),
+    .bwe((st == ST_QUANT) && q_dram_we)
   );
+
+  mini_actram #(.D(D), .ACT_BLOCKS(ACT_BLOCKS), .ACT_ROWS(ACT_ROWS)) actram (
+    .clk(clk),
+    .we(st == ST_QUANT ? q_act_we : 1'b0), .wrow(q_act_row), .wlin(q_act_lin),
+    .wdata(q_act_data),
+    .we2(st == ST_QUANT ? q_act_we2 : 1'b0), .wrow2(q_act_row2), .wlin2(q_act_lin2),
+    .wdata2(q_act_data2),
+    .swe(st == ST_QUANT ? q_s_we : 1'b0), .srow(q_s_row), .sblock(q_s_block),
+    .sdata(q_s_data),
+    .dwe(st == ST_QUANT ? q_d_we : 1'b0), .drow(q_d_row), .dblock(q_d_block),
+    .ddata(q_d_data),
+    .rrow(act_rrow), .rlin(act_rlin), .rdata(act_rdata),
+    .rrow_s(act_rrow_s), .rblock_s(act_rblock_s), .rdata_s(act_rdata_s),
+    .rrow_d(act_rrow_d), .rblock_d(act_rblock_d), .rdata_d(act_rdata_d),
+    .rrow_w(act_rrow_w), .rword(act_rword), .rdata_w(act_rdata_w),
+    .rrow_rec(act_rrow_rec), .rblock_rec(act_rblock_rec), .rdata_rec(act_rdata_rec)
+  );
+
+  // the quantizer's operand and flag fields come straight from the instruction words (the
+  // operands are register-relative, resolved like isa.py's qact()/qst() encoders)
+  assign q_src    = rget(ra) + w1;
+  assign q_rows   = (op == OP_QACT) ? {24'd0, w2[7:0]}   : {16'd0, w4[15:0]};
+  assign q_kb     = (op == OP_QACT) ? (w2 >> 16)         : (w4 >> 16);
+  assign q_ab     = (op == OP_QACT) ? {24'd0, w2[15:8]}   : 32'd0;
+  assign q_srs    = (op == OP_QACT) ? w3                 : w5;
+  assign q_cscale = (fl & F_CSCALE) ? w4 : 32'd0;
+  assign q_rscale = (fl & F_RSCALE) ? w5 : 32'd0;
+  assign q_dst    = rget(rb) + w2;
+  assign q_sdst   = rget(rc) + w3;
+  assign q_drs    = w6;
+  assign q_es     = w7;
+  assign q_is_qst = (op == OP_QST);
+  assign q_start  = (st == ST_EXEC) && ((op == OP_QACT) || (op == OP_QST));
+
+  mini_quant #(
+    .D(D), .MCOLS(MCOLS), .ACT_BLOCKS(ACT_BLOCKS), .ACT_ROWS(ACT_ROWS),
+    .TMEM_WORDS(TMEM_WORDS), .DRAM_BYTES(DRAM_BYTES)
+  ) quant (
+    .clk(clk), .rst(rst), .start(q_start), .is_qst(q_is_qst),
+    .src(q_src), .rows(q_rows), .kb(q_kb), .srs(q_srs), .ab(q_ab),
+    .cscale(q_cscale), .rscale(q_rscale),
+    .dst(q_dst), .sdst(q_sdst), .drs(q_drs), .es(q_es), .flags(fl),
+    .tmem_raddr0(q_raddr0), .tmem_raddr1(q_raddr1),
+    .tmem_rdata0(q_rdata0), .tmem_rdata1(q_rdata1),
+    .act_we(q_act_we), .act_row(q_act_row), .act_lin(q_act_lin), .act_data(q_act_data),
+    .act_we2(q_act_we2), .act_row2(q_act_row2), .act_lin2(q_act_lin2),
+    .act_data2(q_act_data2),
+    .s_we(q_s_we), .s_row(q_s_row), .s_block(q_s_block), .s_data(q_s_data),
+    .d_we(q_d_we), .d_row(q_d_row), .d_block(q_d_block), .d_data(q_d_data),
+    .dram_we(q_dram_we), .dram_waddr(q_dram_waddr), .dram_wdata(q_dram_wdata),
+    .busy(q_busy), .done(q_done), .err(q_err), .err_code(q_err_code)
+  );
+
+  // the quantizer reads TMEM through the core's two read ports
+  assign q_rdata0 = tmem_rdata0;
+  assign q_rdata1 = tmem_rdata1;
 
   mini_tmem #(.TMEM_WORDS(TMEM_WORDS)) tmem (
     .clk(clk), .raddr0(tmem_raddr0), .rdata0(tmem_rdata0),
@@ -381,8 +467,14 @@ module mini_top #(
               end
             end
 
+            OP_QACT, OP_QST: begin
+              // q_start was high this cycle: the quantizer latched the operands; it does its
+              // own bounds checks and reports ERR_ACT/ERR_QST
+              st <= ST_QUANT;
+            end
+
             default: begin
-              // VOP, MM, QACT, QST, WAITW, DSTEP, STREAM, GATHER: later rungs
+              // MM, WAITW, DSTEP, STREAM, GATHER: later rungs
               err   <= 1'b1;
               ecode <= ERR_ILLEGAL;
               st    <= ST_ERROR;
@@ -397,6 +489,17 @@ module mini_top #(
             ecode <= vpu_err_code;
             st    <= ST_ERROR;
           end else if (vpu_done) begin
+            st <= ST_ADV;
+          end
+        end
+
+        // ---- QACT/QST: the quantizer runs to completion (serialized, one element a cycle)
+        ST_QUANT: begin
+          if (q_err) begin
+            err   <= 1'b1;
+            ecode <= q_err_code;
+            st    <= ST_ERROR;
+          end else if (q_done) begin
             st <= ST_ADV;
           end
         end

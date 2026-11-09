@@ -18,12 +18,20 @@ package mini_pkg;
   localparam logic [7:0] OP_LD    = 8'h10;
   localparam logic [7:0] OP_ST    = 8'h11;
   localparam logic [7:0] OP_VOP   = 8'h30;
+  localparam logic [7:0] OP_QACT  = 8'h21;
+  localparam logic [7:0] OP_QST   = 8'h22;
 
   // ---- flags
   localparam logic [7:0] F_RAW    = 8'h01;   // RLD: the word's bits, no fp32 -> int conversion
   localparam logic [7:0] F_MUL    = 8'h02;   // RLD: times R[rb] + w3 (mod 2^32)
   localparam logic [7:0] F_BOUND  = 8'h04;   // RLD: w4 <= value <= w5 (the hardware ignores it)
   localparam logic [7:0] F_CHAIN  = 8'h01;   // HALT: chain to a program in DRAM (not in step 4)
+  // QACT / QST flags (opentpu/isa.py: F_ROW/F_CSCALE/F_RSCALE/F_DUP, QST: F_ROW/F_HALF)
+  localparam logic [7:0] F_ROW    = 8'h01;   // QACT/QST: row mode, every offset 0
+  localparam logic [7:0] F_CSCALE = 8'h02;   // QACT: multiply by the per-column TMEM factors
+  localparam logic [7:0] F_RSCALE = 8'h04;   // QACT: multiply by the per-row TMEM factors
+  localparam logic [7:0] F_DUP    = 8'h08;   // QACT: also write ACT rows rows..2*rows-1
+  localparam logic [7:0] F_HALF   = 8'h02;   // QST ROW mode: write only the first half of a row
 
   // ---- error codes (mini_top's error_code output)
   localparam logic [2:0] ERR_NONE    = 3'd0;
@@ -32,6 +40,8 @@ package mini_pkg;
   localparam logic [2:0] ERR_LOOP    = 3'd3;  // LOOP error (empty body, nested end clash, depth)
   localparam logic [2:0] ERR_TMEM    = 3'd4;  // TMEM index out of range
   localparam logic [2:0] ERR_VOP_HAZ = 3'd5;  // VOP read-after-write hazard
+  localparam logic [2:0] ERR_ACT     = 3'd6;  // QACT/QST TMEM range, QACT ACT RAM bounds
+  localparam logic [2:0] ERR_QST     = 3'd7;  // QST data/scale range or overlap, bad scale address
 
   // VOP functions the step-5 VPU implements (docs/isa.md "VOP"); the reductions / ARGMAX /
   // OUTER are step 8, anything else is an illegal instruction for this rung.
@@ -70,6 +80,22 @@ package mini_pkg;
       end
       return bits[31] ? (32'd0 - v) : v;      // truncate toward zero, two's complement
     end
+  endfunction
+
+
+  // isasim/fp32.mx_offset(): the group's power-of-two offset.  `a` and `amax` are the
+  // sign-cleared fp32 bit patterns (a NaN is above +inf); d = (exp(amax) - exp(a)) -
+  // (mant(a) > mant(amax)), clipped to [0, 31], 0 where a is 0.
+  function automatic logic [7:0] mx_offset(input logic [31:0] a, input logic [31:0] amax);
+    logic signed [31:0] d;
+    if (a == 32'd0) begin
+      return 8'd0;
+    end
+    d = $signed({24'd0, amax[30:23]}) - $signed({24'd0, a[30:23]})
+        - ((a[22:0] > amax[22:0]) ? 32'sd1 : 32'sd0);
+    if (d < 32'sd0) d = 32'sd0;
+    if (d > 32'sd31) d = 32'sd31;
+    return d[7:0];
   endfunction
 
 endpackage

@@ -1,0 +1,192 @@
+{
+ "schema": 1,
+ "step": 6,
+ "title": "mini-core quantizer + ACT RAM",
+ "heavy": false,
+ "hardware": false,
+ "utc": "2026-11-09T23:46:51Z",
+ "duration_s": 3.568,
+ "command": "python3 ladder/run.py step 6",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/home/fedora/openTPU-ladder/ladder/tests/test_step06_quant.py"
+ ],
+ "git": {
+  "commit": "ab489be84ee435eed7bfb0879e9b254924e3cf0a",
+  "short": "ab489be8",
+  "branch": "ladder/tiny-tpu-to-opentpu",
+  "dirty": true
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "ab489be8",
+  "thermal_c": 91.875,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": false,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "attempts": 1,
+ "killed_by_signals": [],
+ "tests": [
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_fixed_vector_golden",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_block_mode_offsets_are_used",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[1-1-False-False-False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[1-2-False-True-False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[2-1-False-False-True]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[2-2-False-True-True]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[4-1-True-False-False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[4-2-True-True-True]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[1-1-True-False-False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_dup_copies_rows_and_records",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[1-1-True-False-1-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[1-1-True-True-1-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[2-1-False-False-1-64]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[2-2-False-False-1-16]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[1-1-False-False-2-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[2-1-False-False-3-8]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[4-2-True-True-1-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_scale_row_bytes_fixed",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_zero_row_and_extremes",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_act_bounds_error",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qact_tmem_range_errors",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_negative_cases[overlap-prog0-7]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_negative_cases[data_oob-prog1-7]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_negative_cases[sdst_unaligned-prog2-7]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_negative_cases[scale_oob-prog3-7]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_negative_cases[tmem_oob-prog4-6]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step06_quant.py::test_qst_es_zero_does_not_error_when_scale_elsewhere",
+   "status": "PASSED"
+  }
+ ],
+ "passed": 27,
+ "failed": 0,
+ "skipped": 0,
+ "skipped_tests": [],
+ "test_durations_s": {
+  "ladder/tests/test_step06_quant.py::test_qact_zero_row_and_extremes": 0.55,
+  "ladder/tests/test_step06_quant.py::test_qact_tmem_range_errors": 0.23,
+  "ladder/tests/test_step06_quant.py::test_qact_block_mode_offsets_are_used": 0.16,
+  "ladder/tests/test_step06_quant.py::test_qact_act_bounds_error": 0.15,
+  "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[4-2-True-True-True]": 0.13,
+  "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[2-2-False-True-True]": 0.11,
+  "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[4-2-True-True-1-0]": 0.11,
+  "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[4-1-True-False-False]": 0.1,
+  "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[2-2-False-False-1-16]": 0.09,
+  "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[2-1-False-False-True]": 0.09,
+  "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[1-2-False-True-False]": 0.09,
+  "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[1-1-False-False-False]": 0.09,
+  "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[2-1-False-False-1-64]": 0.09,
+  "ladder/tests/test_step06_quant.py::test_qact_dup_copies_rows_and_records": 0.09,
+  "ladder/tests/test_step06_quant.py::test_qact_fixed_vector_golden": 0.08,
+  "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[2-1-False-False-3-8]": 0.08,
+  "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[1-1-True-True-1-0]": 0.08,
+  "ladder/tests/test_step06_quant.py::test_qst_es_zero_does_not_error_when_scale_elsewhere": 0.08,
+  "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[1-1-True-False-1-0]": 0.08,
+  "ladder/tests/test_step06_quant.py::test_qst_negative_cases[overlap-prog0-7]": 0.08,
+  "ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[1-1-True-False-False]": 0.08,
+  "ladder/tests/test_step06_quant.py::test_qst_scale_row_bytes_fixed": 0.08,
+  "ladder/tests/test_step06_quant.py::test_qst_matches_isasim[1-1-False-False-2-0]": 0.08,
+  "ladder/tests/test_step06_quant.py::test_qst_negative_cases[data_oob-prog1-7]": 0.08,
+  "ladder/tests/test_step06_quant.py::test_qst_negative_cases[scale_oob-prog3-7]": 0.08,
+  "ladder/tests/test_step06_quant.py::test_qst_negative_cases[sdst_unaligned-prog2-7]": 0.08,
+  "ladder/tests/test_step06_quant.py::test_qst_negative_cases[tmem_oob-prog4-6]": 0.07
+ },
+ "summary": "PASS",
+ "stdout_tail": "============================= test session starts ==============================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /home/fedora/openTPU-ladder\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 27 items\n\nladder/tests/test_step06_quant.py::test_qact_fixed_vector_golden PASSED  [  3%]\nladder/tests/test_step06_quant.py::test_qact_block_mode_offsets_are_used PASSED [  7%]\nladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[1-1-False-False-False] PASSED [ 11%]\nladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[1-2-False-True-False] PASSED [ 14%]\nladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[2-1-False-False-True] PASSED [ 18%]\nladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[2-2-False-True-True] PASSED [ 22%]\nladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[4-1-True-False-False] PASSED [ 25%]\nladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[4-2-True-True-True] PASSED [ 29%]\nladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[1-1-True-False-False] PASSED [ 33%]\nladder/tests/test_step06_quant.py::test_qact_dup_copies_rows_and_records PASSED [ 37%]\nladder/tests/test_step06_quant.py::test_qst_matches_isasim[1-1-True-False-1-0] PASSED [ 40%]\nladder/tests/test_step06_quant.py::test_qst_matches_isasim[1-1-True-True-1-0] PASSED [ 44%]\nladder/tests/test_step06_quant.py::test_qst_matches_isasim[2-1-False-False-1-64] PASSED [ 48%]\nladder/tests/test_step06_quant.py::test_qst_matches_isasim[2-2-False-False-1-16] PASSED [ 51%]\nladder/tests/test_step06_quant.py::test_qst_matches_isasim[1-1-False-False-2-0] PASSED [ 55%]\nladder/tests/test_step06_quant.py::test_qst_matches_isasim[2-1-False-False-3-8] PASSED [ 59%]\nladder/tests/test_step06_quant.py::test_qst_matches_isasim[4-2-True-True-1-0] PASSED [ 62%]\nladder/tests/test_step06_quant.py::test_qst_scale_row_bytes_fixed PASSED [ 66%]\nladder/tests/test_step06_quant.py::test_qact_zero_row_and_extremes PASSED [ 70%]\nladder/tests/test_step06_quant.py::test_qact_act_bounds_error PASSED     [ 74%]\nladder/tests/test_step06_quant.py::test_qact_tmem_range_errors PASSED    [ 77%]\nladder/tests/test_step06_quant.py::test_qst_negative_cases[overlap-prog0-7] PASSED [ 81%]\nladder/tests/test_step06_quant.py::test_qst_negative_cases[data_oob-prog1-7] PASSED [ 85%]\nladder/tests/test_step06_quant.py::test_qst_negative_cases[sdst_unaligned-prog2-7] PASSED [ 88%]\nladder/tests/test_step06_quant.py::test_qst_negative_cases[scale_oob-prog3-7] PASSED [ 92%]\nladder/tests/test_step06_quant.py::test_qst_negative_cases[tmem_oob-prog4-6] PASSED [ 96%]\nladder/tests/test_step06_quant.py::test_qst_es_zero_does_not_error_when_scale_elsewhere PASSED [100%]\n\n============================== slowest durations ===============================\n0.55s call     ladder/tests/test_step06_quant.py::test_qact_zero_row_and_extremes\n0.23s call     ladder/tests/test_step06_quant.py::test_qact_tmem_range_errors\n0.16s call     ladder/tests/test_step06_quant.py::test_qact_block_mode_offsets_are_used\n0.15s call     ladder/tests/test_step06_quant.py::test_qact_act_bounds_error\n0.13s call     ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[4-2-True-True-True]\n0.11s call     ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[2-2-False-True-True]\n0.11s call     ladder/tests/test_step06_quant.py::test_qst_matches_isasim[4-2-True-True-1-0]\n0.10s call     ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[4-1-True-False-False]\n0.09s call     ladder/tests/test_step06_quant.py::test_qst_matches_isasim[2-2-False-False-1-16]\n0.09s call     ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[2-1-False-False-True]\n0.09s call     ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[1-2-False-True-False]\n0.09s call     ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[1-1-False-False-False]\n0.09s call     ladder/tests/test_step06_quant.py::test_qst_matches_isasim[2-1-False-False-1-64]\n0.09s call     ladder/tests/test_step06_quant.py::test_qact_dup_copies_rows_and_records\n0.08s call     ladder/tests/test_step06_quant.py::test_qact_fixed_vector_golden\n0.08s call     ladder/tests/test_step06_quant.py::test_qst_matches_isasim[2-1-False-False-3-8]\n0.08s call     ladder/tests/test_step06_quant.py::test_qst_matches_isasim[1-1-True-True-1-0]\n0.08s call     ladder/tests/test_step06_quant.py::test_qst_es_zero_does_not_error_when_scale_elsewhere\n0.08s call     ladder/tests/test_step06_quant.py::test_qst_matches_isasim[1-1-True-False-1-0]\n0.08s call     ladder/tests/test_step06_quant.py::test_qst_negative_cases[overlap-prog0-7]\n0.08s call     ladder/tests/test_step06_quant.py::test_qact_random_matches_isasim[1-1-True-False-False]\n0.08s call     ladder/tests/test_step06_quant.py::test_qst_scale_row_bytes_fixed\n0.08s call     ladder/tests/test_step06_quant.py::test_qst_matches_isasim[1-1-False-False-2-0]\n0.08s call     ladder/tests/test_step06_quant.py::test_qst_negative_cases[data_oob-prog1-7]\n0.08s call     ladder/tests/test_step06_quant.py::test_qst_negative_cases[scale_oob-prog3-7]\n0.08s call     ladder/tests/test_step06_quant.py::test_qst_negative_cases[sdst_unaligned-prog2-7]\n0.07s call     ladder/tests/test_step06_quant.py::test_qst_negative_cases[tmem_oob-prog4-6]\n\n(54 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================== 27 passed in 3.24s ==============================\n",
+ "stderr_tail": "",
+ "notes": "27 tests: QACT/QST serialized engine vs isasim + independent fp32.quantize_mx, ACT/Sa/da dumps compared bit-exactly; QST HALF-vs-CSCALE flag-bit collision handled. Receipt refreshed at parent ab489be8."
+}

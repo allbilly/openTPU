@@ -284,3 +284,49 @@ The suite is light (7 tests, ~4 s): instruction semantics with concrete expected
 word LD/ST copy compared on the full 256 KiB spec DRAM, single/nested/three-deep loops with
 carried pointers and zero-count skips, argument registers and `ADDI` address arithmetic, the error
 model, `HALT` placement, and 24 random programs fuzzed against `isasim`.
+
+## Step 6 — quantizer and ACT RAM (QACT, QST)
+
+Step 6 adds the production quantizer and the ACT RAM it writes (`rtl/ladder/mini_quant.sv`,
+`rtl/ladder/mini_actram.sv`).  The arithmetic is `opentpu/fp32.py::quantize_mx` +
+`mx_offset` + `q8` exactly (the tails of `fixedpoint`-free fp32 from step 5's `otpu_fp`
+package: `ftz`, `fp_mul`, `fp_recip`, `q8`, `F_INV127`), and the ISA semantics are
+`opentpu/isasim.py::_quant_rows/_qact/_qst`; the oracle is still the same ISA simulator.
+
+**QACT (0x21)** quantizes `rows x KB*D` TMEM words starting at `R[ra]+w1` into the ACT RAM:
+`x = ftz(T[src + r*srs + c])`, optionally `* T[cscale + c]` (CSCALE) and `* T[rscale + r]`
+(RSCALE) in isasim's order, `amax` = unsigned max of the sign-cleared fp32 bits, row scale
+`Sa = amax * inv127`, inverse `inv = 127 * recip(amax)` (both 0 for an all-zero row), a
+power-of-two offset per group (`D/NSUB` elements: `d = exp(amax)-exp(a) - (mant(a) >
+mant(amax))`, 0 in ROW mode, clipped to [0,31]), and `q = q8(x * inv * 2^d)` written as the
+ACT int8 bytes.  The scale record of each (row, block) is `Sa` plus the four sub-block
+`da` bytes; `DUP` writes the same bytes and records to rows `r+rows` as well.
+
+**QST (0x22)** quantizes groups of `D` elements and writes `rows*KB*D` int8 bytes to DRAM at
+`dst + r*drs + c*es` (HALF: only the first `KB*D/2` bytes of each row), then the scale row at
+`sdst + r*len`: `len = 4` in ROW mode (just `S`, little endian) else `4 + 4*ceil(KB/4)` bytes
+(`S`, then one offset byte per K-block, zero padded).  `sdst` must be 4-byte aligned and the
+data/scale byte ranges must not overlap.
+
+The quantizer is a serial engine (one element per cycle, two passes over each row: amax, then
+the q bytes) hung off the sequencer as state `ST_QUANT`; it owns both TMEM read ports while it
+runs and writes DRAM through a new byte-write port on `mini_dram.sv`.  New error codes:
+**6** `ERR_ACT` (QACT ACT RAM bounds, QACT/QST TMEM range), **7** `ERR_QST` (QST data/scale
+range, overlap or a misaligned scale address) — both fit the 3-bit `ecode`; step 7's codes 8/9
+will need it widened to 4 bits.
+
+### ACT RAM layout and ports
+
+`mini_actram #(D, ACT_BLOCKS, ACT_ROWS)` holds the production layout, flat so the testbench can
+dump it: `act [ACT_ROWS][ACT_BLOCKS*D]` int8 bytes, `ascale [ACT_ROWS][ACT_BLOCKS]` fp32 `Sa`,
+`adoff [ACT_ROWS][ACT_BLOCKS]` one word of four uint8 `da` bytes.  Ports:
+
+* quantizer: one ACT byte (plus a second port for `DUP`), one `Sa` word and one packed `da`
+  word per cycle;
+* MXU (step 7): combinational read ports — `(row, lin)` byte read, `(row, block)` `Sa` and
+  `da` reads, **`(row, word)` 32-bit read of four consecutive int8 bytes** (byte 0 in bits
+  `[7:0]`), and **`(row, block)` 64-bit scale-record read `{da3,da2,da1,da0, Sa}`**.
+
+`tb_mini` now also dumps `act.hex`, `ascale.hex` and `adoff.hex`, and `ladder/harness/mini.py`
+compares all three against `isasim`'s `Slice.act/ascale/adoff` on every run (the step-4/5
+programs simply leave them all zero).

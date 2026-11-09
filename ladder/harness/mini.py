@@ -184,12 +184,21 @@ def run(prog, dram=None, args=None, max_cycles: int = 200000,
         }
         out["tmem"] = _read_dump(work / "tmem.hex", words=True)
         out["dram"] = _read_dump(work / "dram_out.hex", words=False)
-        if len(out["tmem"]) != p["TMEM_WORDS"]:
+        # step 6: the ACT RAM state (quantizer output), dumped by tb_mini
+        out["act"] = _read_dump(work / "act.hex", words=False)
+        out["ascale"] = _read_dump(work / "ascale.hex", words=True)
+        out["adoff"] = _read_dump(work / "adoff.hex", words=True)
+        if len(out["act"]) != p["ACT_ROWS"] * p["ACT_BLOCKS"] * p["D"]:
             raise RuntimeError(f"tmem dump has {len(out['tmem'])} words, "
                                f"expected {p['TMEM_WORDS']}")
         if len(out["dram"]) != p["DRAM_BYTES"]:
             raise RuntimeError(f"dram dump has {len(out['dram'])} bytes, "
                                f"expected {p['DRAM_BYTES']}")
+        if len(out["ascale"]) != p["ACT_ROWS"] * p["ACT_BLOCKS"]:
+            raise RuntimeError(f"ascale dump has {len(out['ascale'])} words, "
+                               f"expected {p['ACT_ROWS'] * p['ACT_BLOCKS']}")
+        if len(out["adoff"]) != p["ACT_ROWS"] * p["ACT_BLOCKS"]:
+            raise RuntimeError(f"adoff dump has {len(out['adoff'])} words")
         if keep or os.environ.get("MINI_KEEP"):
             out["workdir"] = str(work)
             work = None  # type: ignore[assignment]
@@ -233,8 +242,14 @@ def run_isasim(prog, dram=None, args=None, params_: dict | None = None,
         return {"error": True, "message": str(e), "halted": False, "icount": None,
                 "tmem": None, "dram": None}
     s = machine.slices[0]
+    # the ACT RAM state in the same flat form the RTL dump uses
+    act = np.asarray(s.act, dtype=np.int8).reshape(-1).view(np.uint8).copy()
+    ascale = np.asarray(s.ascale, dtype=np.float32).reshape(-1).view(np.uint32).copy()
+    ad = np.asarray(s.adoff, dtype=np.uint8).reshape(-1, 4).astype(np.uint32)
+    adoff = ad[:, 0] | (ad[:, 1] << 8) | (ad[:, 2] << 16) | (ad[:, 3] << 24)
     return {"error": False, "message": "", "halted": s.halted, "icount": s.icount,
-            "tmem": s.tmem.copy(), "dram": s.dram.copy()}
+            "tmem": s.tmem.copy(), "dram": s.dram.copy(),
+            "act": act, "ascale": ascale, "adoff": adoff.astype(np.uint32).copy()}
 
 
 def _diffs(name: str, rtl: np.ndarray, isa: np.ndarray, fmt: str, limit: int = 8) -> tuple[int, str]:

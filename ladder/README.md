@@ -73,7 +73,7 @@ Status: ✅ done · 🔨 in progress · ⏳ planned · 🚫 blocked on hardware
 | 3 | [ISA contract](#step-3--openTPU-isa-contract) | Python golden stack imported; no RTL change | ISA/ISA-sim/fp32/quant suites | ✅ |
 | 4 | [mini-core ISA sequencer + TMEM + LD/ST](#step-4--mini-core-isa-sequencer--tmem--ldst) | first openTPU-ISA machine: instructions, loops, TMEM, DRAM | bit-exact vs `isasim` | ✅ |
 | 5 | [mini-core VPU (elementwise fp32)](#step-5--mini-core-vpu-elementwise-fp32) | fp32 ADD/SUB/RSUB/MUL/MIN/MAX/ABS/COPY/FILL, all B modes | bit-exact vs `isasim`, fp32 corners | ✅ |
-| 6 | [mini-core quantizer + ACT RAM](#step-6--mini-core-quantizer--act-ram) | QACT/QST, int8 blocks + scales | bit-exact vs `isasim`/`quant.py` | ⏳ |
+| 6 | [mini-core quantizer + ACT RAM](#step-6--mini-core-quantizer--act-ram) | QACT/QST, int8 blocks + scales | bit-exact vs `isasim`/`quant.py` | ✅ |
 | 7 | [mini-core MXU (int8 MM)](#step-7--mini-core-mxu-int8-mm) | systolic int8 matmul, MX scales, fp32 epilogue | bit-exact vs `isasim`, matmul vs numpy | ⏳ |
 | 8 | [mini-core reductions](#step-8--mini-core-reductions-and-argmax) | RSUM/RMAX/RSSQ/RDOT/ARGMAX | bit-exact vs `isasim` | ⏳ |
 | 9 | [production core adoption](#step-9--production-core-adoption) | production RTL supersedes the mini-core | production RTL↔ISA tests (selected, then wide) | ⏳ |
@@ -351,7 +351,12 @@ Verilator build at 100.4 °C, so:
 - before and during a heavy step the runner samples `k10temp`
   (`/sys/class/hwmon/*/temp1_input`); it refuses to start above 92 °C and
   aborts above 97 °C;
-- one heavy job at a time. Light steps (0–8) are allowed to run anytime.
+- one heavy job at a time. Light steps (0–8) are allowed to run anytime, but they are not
+  immune: the sibling session's `host_guard` SIGTERMs any CPU burner at ~100 °C, and a light
+  run caught in that kill writes a receipt with `returncode` < 0 (`ABORTED (killed by signal
+  N)`). `ladder/run.py` retries such a run once automatically and records `attempts` and
+  `killed_by_signals` in the receipt; an `ABORTED` receipt is an environment event, not a code
+  failure - re-run it when the host is cool.
 
 ## Test methodology
 
@@ -373,7 +378,10 @@ illegal opcodes) are part of a step's evidence, not an afterthought.
 `python3 ladder/run.py step NN` exit codes: `0` PASS (or PASS with skips),
 `1` FAIL, `2` usage, `3` the rung has no tests yet, `4` a hardware rung needs
 `LADDER_ALLOW_HARDWARE=1`, `5` BLOCKED (hardware absent - the receipt records
-the probe result and the skip reasons). `evidence-check` accepts `PASS` and
+the probe result and the skip reasons), `6` ABORTED (the run was killed from
+outside, normally the sibling session's thermal guard; the runner retries a
+killed run once and records `attempts`/`killed_by_signals` in the receipt - an
+ABORTED receipt is an environment event, not a code failure). `evidence-check` accepts `PASS` and
 (in the hardware rungs) `BLOCKED`, and rejects an all-skip software run that
 was mislabeled green.
 
@@ -449,3 +457,16 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   `evidence-check`: a software receipt that claims a plain PASS while tests
   were skipped is now rejected, and `LADDER_EVIDENCE_DIR` allows checking a
   receipt set elsewhere.
+- 2026-11-10: step 6 committed - the mini-core quantizer and ACT RAM:
+  `mini_actram` (production ACT layout: int8 bytes, fp32 `Sa` per row/block, four
+  `da` offsets per block, quantizer write ports and the MXU read ports - 4-byte
+  ACT word and the 64-bit `{da, Sa}` scale record), `mini_quant` (serialized
+  QACT/QST mirroring `fp32.quantize_mx`/`mx_offset`/`q8` with ROW/CSCALE/
+  RSCALE/DUP/HALF, scatter strides and the DRAM scale-row layout), DRAM byte
+  write port, decode/error codes 6/7, and complete ACT/Sa/da dumps in the
+  harness compared bit-exactly against `isasim` on every run. 27 tests
+  (goldens, random, amax 0/2^126/NaN/denormal/ties, all flags, negatives).
+  3.5 s. Receipt: `ladder/evidence/step06.json`. The integration also folded in
+  the runner's external-kill handling (retry once, `attempts`/
+  `killed_by_signals` in the receipt, exit code 6 ABORTED) requested by the
+  independent verifier after a thermal-guard kill of one light run.

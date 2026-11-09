@@ -110,6 +110,28 @@ module tb_mini #(
     end
     $fclose(fd);
 
+    // step 6: the ACT RAM state (int8 bytes, the fp32 scales, the packed uint8 offsets)
+    fd = $fopen($sformatf("%0s/act.hex", outdir_path), "w");
+    for (i = 0; i < ACT_ROWS * ACT_BLOCKS * D; i = i + 1) begin
+      $fwrite(fd, "%02x\n", dut.actram.act[i]);
+    end
+    $fclose(fd);
+
+    fd = $fopen($sformatf("%0s/ascale.hex", outdir_path), "w");
+    for (i = 0; i < ACT_ROWS * ACT_BLOCKS; i = i + 1) begin
+      $fwrite(fd, "%08x\n", dut.actram.ascale[i]);
+    end
+    $fclose(fd);
+
+    fd = $fopen($sformatf("%0s/adoff.hex", outdir_path), "w");
+    for (i = 0; i < ACT_ROWS * ACT_BLOCKS; i = i + 1) begin
+      $fwrite(fd, "%08x\n", dut.actram.adoff[i]);
+    end
+    $fclose(fd);
+
+    fd = $fopen($sformatf("%0s/result.txt", outdir_path), "w");
+    $fclose(fd);
+
     $display("RESULT cycles=%0d halted=%0d error=%0d code=%0d icount=%0d",
              cycles, all_halted, any_error, error_code, icount);
     $finish;
