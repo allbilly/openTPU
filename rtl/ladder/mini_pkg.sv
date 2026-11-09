@@ -17,6 +17,7 @@ package mini_pkg;
   localparam logic [7:0] OP_RLD   = 8'h06;
   localparam logic [7:0] OP_LD    = 8'h10;
   localparam logic [7:0] OP_ST    = 8'h11;
+  localparam logic [7:0] OP_VOP   = 8'h30;
 
   // ---- flags
   localparam logic [7:0] F_RAW    = 8'h01;   // RLD: the word's bits, no fp32 -> int conversion
@@ -30,6 +31,22 @@ package mini_pkg;
   localparam logic [2:0] ERR_DRAM    = 3'd2;  // bad DRAM word address (unaligned or out of range)
   localparam logic [2:0] ERR_LOOP    = 3'd3;  // LOOP error (empty body, nested end clash, depth)
   localparam logic [2:0] ERR_TMEM    = 3'd4;  // TMEM index out of range
+  localparam logic [2:0] ERR_VOP_HAZ = 3'd5;  // VOP read-after-write hazard
+
+  // VOP functions the step-5 VPU implements (docs/isa.md "VOP"); the reductions / ARGMAX /
+  // OUTER are step 8, anything else is an illegal instruction for this rung.
+  localparam logic [7:0] V_ADD = 8'd0, V_SUB = 8'd1, V_RSUB = 8'd2, V_MUL = 8'd3,
+                         V_MAX = 8'd4, V_MIN = 8'd5, V_COPY = 8'd8, V_EXP2 = 8'd9,
+                         V_RECIP = 8'd10, V_RSQRT = 8'd11, V_ABS = 8'd12, V_FILL = 8'd13,
+                         V_EXP2SUB = 8'd14, V_LOG2 = 8'd15;
+
+  function automatic logic is_elementwise(input logic [7:0] f);
+    case (f)
+      V_ADD, V_SUB, V_RSUB, V_MUL, V_MAX, V_MIN, V_COPY, V_EXP2, V_RECIP, V_RSQRT, V_ABS,
+      V_FILL, V_EXP2SUB, V_LOG2: return 1'b1;
+      default: return 1'b0;
+    endcase
+  endfunction
 
   localparam int LOOP_DEPTH = 4;              // docs/isa.md: loops nest 4 deep
 

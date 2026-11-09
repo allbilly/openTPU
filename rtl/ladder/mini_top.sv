@@ -8,7 +8,9 @@
 // this core; step 9 adopts the production RTL and retires it.
 //
 // Instruction subset (docs/isa.md): NOP, HALT (CHAIN -> error), LI, ADDI, LOOP, BAR (S=1 no-op),
-// RLD and LD/ST.  Everything else latches ERR_ILLEGAL.  Error codes are in mini_pkg.
+// RLD, LD/ST and (step 5) the elementwise VOPs in all four B-operand modes.  Everything else
+// latches ERR_ILLEGAL.  Error codes are in mini_pkg.  The VPU's arithmetic is the product
+// tree's otpu_fp package, so the state it leaves is bit-identical to isasim's (step 5's tests).
 `timescale 1ns/1ps
 module mini_top #(
   parameter int D          = 32,      // MXU depth == quantization block (kept for the config)
@@ -67,7 +69,7 @@ module mini_top #(
   logic [7:0]  op;
   logic [3:0]  ra, rb, rc, rd;
   logic [7:0]  fl;
-  logic [31:0] w1, w2, w3;    // payload words 1..3 (w4..w7 unused in this subset)
+  logic [31:0] w1, w2, w3, w4, w5, w6, w7;   // payload words w1..w7
 
   assign op = iw[0][7:0];
   assign ra = iw[0][11:8];
@@ -78,6 +80,10 @@ module mini_top #(
   assign w1 = iw[1];
   assign w2 = iw[2];
   assign w3 = iw[3];
+  assign w4 = iw[4];
+  assign w5 = iw[5];
+  assign w6 = iw[6];
+  assign w7 = iw[7];
 
   // R0 reads as 0; writes to R0 are dropped
   function automatic logic [31:0] rget(input logic [3:0] r);
@@ -91,26 +97,34 @@ module mini_top #(
     ST_LDST   = 3'd2,
     ST_ADV    = 3'd3,
     ST_HALTED = 3'd4,
-    ST_ERROR  = 3'd5
+    ST_ERROR  = 3'd5,
+    ST_VOP    = 3'd6
   } state_t;
   state_t st;
 
   // ------------------------------------------------------------------ memory ports
   logic [31:0] dram_raddr, dram_rdata, dram_waddr, dram_wdata;
   logic        dram_we;
-  logic [31:0] tmem_raddr, tmem_rdata, tmem_waddr, tmem_wdata;
+  logic [31:0] tmem_raddr0, tmem_rdata0, tmem_raddr1, tmem_rdata1, tmem_waddr, tmem_wdata;
   logic        tmem_we;
+  logic [31:0] vpu_raddr0, vpu_raddr1, vpu_waddr, vpu_wdata;
+  logic        vpu_we, vpu_busy, vpu_done, vpu_err;
+  logic [2:0]  vpu_err_code;
 
-  // ST reads TMEM; LD writes TMEM.  RLD reads TMEM while it executes.
-  assign tmem_raddr = ((st == ST_LDST) && !ldst_ld) ? (ldst_t + ldst_i)
-                                                   : (rget(ra) + w1);
+  // ST reads TMEM (port 0) and LD writes it; RLD reads TMEM while it executes; the VPU owns
+  // both read ports and the write port while it runs.
+  assign tmem_raddr0 = (st == ST_VOP) ? vpu_raddr0
+                     : ((st == ST_LDST) && !ldst_ld) ? (ldst_t + ldst_i)
+                     : (rget(ra) + w1);
+  assign tmem_raddr1 = (st == ST_VOP) ? vpu_raddr1 : 32'd0;
   assign dram_raddr = ((st == ST_LDST) && ldst_ld) ? (ldst_d + (ldst_i << 2)) : 32'd0;
   assign dram_waddr = ldst_d + (ldst_i << 2);
-  assign dram_wdata = tmem_rdata;
+  assign dram_wdata = tmem_rdata0;
   assign dram_we    = (st == ST_LDST) && !ldst_ld && (ldst_i < ldst_n);
-  assign tmem_waddr = ldst_t + ldst_i;
-  assign tmem_wdata = dram_rdata;
-  assign tmem_we    = (st == ST_LDST) && ldst_ld && (ldst_i < ldst_n);
+  assign tmem_waddr = (st == ST_VOP) ? vpu_waddr : (ldst_t + ldst_i);
+  assign tmem_wdata = (st == ST_VOP) ? vpu_wdata : dram_rdata;
+  assign tmem_we    = (st == ST_VOP) ? vpu_we
+                     : (st == ST_LDST) && ldst_ld && (ldst_i < ldst_n);
 
   // ------------------------------------------------------------------ operand math
   // Python (isasim) computes reg+imm in 32 bits (wrap), then indexes in 64 bits for the range
@@ -129,7 +143,7 @@ module mini_top #(
   // RLD's value, before the optional MUL: the word's bits (RAW) or f2i(bits)
   logic [31:0] rld_base, rld_val, rld_idx;
   always @* begin
-    rld_base = (fl & F_RAW) ? tmem_rdata : f2i(tmem_rdata);
+    rld_base = (fl & F_RAW) ? tmem_rdata0 : f2i(tmem_rdata0);
     rld_val  = (fl & F_MUL) ? (rld_base * (rget(rb) + w2))
                             : rld_base;
     rld_idx  = rget(ra) + w1;                        // 32-bit wrap, like isasim
@@ -155,8 +169,50 @@ module mini_top #(
   );
 
   mini_tmem #(.TMEM_WORDS(TMEM_WORDS)) tmem (
-    .clk(clk), .raddr(tmem_raddr), .rdata(tmem_rdata),
+    .clk(clk), .raddr0(tmem_raddr0), .rdata0(tmem_rdata0),
+    .raddr1(tmem_raddr1), .rdata1(tmem_rdata1),
     .waddr(tmem_waddr), .wdata(tmem_wdata), .we(tmem_we)
+  );
+
+  // ------------------------------------------------------------------ VOP operands
+  // The register-relative fields, resolved exactly like isa.py's vop() encoder and isasim's
+  // _vop: dst/a/b are R[x] + w, the shape and strides are immediates, the immediate word is
+  // w7 = R[rd] + w6 (the last payload word, register-relative).
+  logic [31:0] v_dst, v_a, v_b, v_imm;
+  logic [15:0] v_rows, v_cols, v_drs, v_ars, v_brs;
+  logic [7:0]  v_func;
+  logic [1:0]  v_bmode;
+
+  always @* begin
+    v_dst   = rget(ra) + w1;
+    v_a     = rget(rb) + w2;
+    v_b     = rget(rc) + w3;
+    v_rows  = w4[15:0];
+    v_cols  = w4[31:16];
+    v_drs   = w5[15:0];
+    v_ars   = w5[31:16];
+    v_brs   = w6[15:0];
+    v_func  = w6[23:16];
+    v_bmode = w6[25:24];
+    v_imm   = rget(rd) + w7;
+  end
+
+  // A VOP whose shape is zero or whose function is not elementwise (the reductions, ARGMAX,
+  // OUTER: step 8) is an illegal instruction for this rung.  isa.vop() refuses a zero shape
+  // too, so no compiled program can reach it.
+  logic vop_ok;
+  assign vop_ok = (w4[15:0] != 16'd0) && (w4[31:16] != 16'd0) && is_elementwise(w6[23:16]);
+  assign vpu_start = (st == ST_EXEC) && (op == OP_VOP) && vop_ok;
+
+  mini_vpu #(.TMEM_WORDS(TMEM_WORDS)) vpu (
+    .clk(clk), .rst(rst), .start(vpu_start),
+    .func(v_func), .dst(v_dst), .a(v_a), .b(v_b),
+    .rows(v_rows), .cols(v_cols), .drs(v_drs), .ars(v_ars), .brs(v_brs),
+    .bmode(v_bmode), .flags(fl), .imm(v_imm),
+    .busy(vpu_busy), .done(vpu_done), .err(vpu_err), .err_code(vpu_err_code),
+    .raddr0(vpu_raddr0), .rdata0(tmem_rdata0),
+    .raddr1(vpu_raddr1), .rdata1(tmem_rdata1),
+    .we(vpu_we), .waddr(vpu_waddr), .wdata(vpu_wdata)
   );
 
   // ------------------------------------------------------------------ sequencer
@@ -292,6 +348,17 @@ module mini_top #(
               end
             end
 
+            OP_VOP: begin
+              if (!vop_ok) begin
+                err   <= 1'b1;
+                ecode <= ERR_ILLEGAL;
+                st    <= ST_ERROR;
+              end else begin
+                // vpu_start was high this cycle: the VPU latched the operands
+                st <= ST_VOP;
+              end
+            end
+
             OP_LD, OP_ST: begin
               if (e_n == 32'd0) begin
                 // zero words: isasim's range checks pass vacuously
@@ -321,6 +388,17 @@ module mini_top #(
               st    <= ST_ERROR;
             end
           endcase
+        end
+
+        // ---- VOP: the VPU runs one element per cycle; wait for its done or its error
+        ST_VOP: begin
+          if (vpu_err) begin
+            err   <= 1'b1;
+            ecode <= vpu_err_code;
+            st    <= ST_ERROR;
+          end else if (vpu_done) begin
+            st <= ST_ADV;
+          end
         end
 
         // ---- LD/ST: one 32-bit word per cycle (DRAM read combinational, write synchronous)

@@ -1,7 +1,8 @@
 # The ladder mini-core (step 4): an openTPU-ISA machine
 
 This document describes `rtl/ladder/mini_*.sv` — the first real openTPU-ISA machine written for
-the ladder, and the base the next rungs (VPU, quantizer, MXU, reductions) extend.  Its job is
+the ladder, and the base the next rungs (quantizer, MXU, reductions) extend.  Step 4 built the
+sequencer, TMEM, DRAM and LD/ST; step 5 adds the VPU (section [The VPU](#the-vpu-step-5)).  Its job is
 narrow and strict: run the step-4 instruction subset one instruction at a time and leave exactly
 the state the openTPU ISA simulator leaves (`opentpu/isasim.py`, the golden model imported in
 step 3), so that every later unit can be trusted bit for bit before the production RTL replaces
@@ -102,7 +103,8 @@ then `w1..w7` (`opentpu/isa.py`, `docs/isa.md`).  Addresses and counts are `R[x]
 | 0x06 | RLD  | `R[rd] = f2i(T[R[ra] + w1])`; flag 0 `RAW`: the word's bits; flag 1 `MUL`: times `R[rb] + w2` mod 2^32; flag 2 `BOUND` is ignored by the hardware (the simulator checks `w3 <= v <= w4`; the waits pass uses it) |
 | 0x10 | LD   | `T[R[rb] + w2 + i] = M32[R[ra] + w1 + 4i]`, `i < w3` |
 | 0x11 | ST   | `M32[R[ra] + w1 + 4i] = T[R[rb] + w2 + i]`, `i < w3` |
-| other |      | error 1 (VOP/MM/QACT/QST/WAITW/DSTEP/STREAM/GATHER arrive in steps 5-8 / 9) |
+| 0x30 | VOP  | step 5: the 14 elementwise functions in the 4 B modes (the VPU section); the reductions / ARGMAX / OUTER are step 8 and error 1 here |
+| other |      | error 1 (MM/QACT/QST/WAITW/DSTEP/STREAM/GATHER arrive in steps 6-9) |
 
 `R0` reads as 0 and writes to it are dropped.  `R8..R15` start with the run's arguments
 (`+arg0..+arg7`, the `rinit[8]` port); `R1..R7` start at 0.  `LD`/`ST` with `w3 = 0` are no-ops
@@ -117,7 +119,8 @@ transfer starts, in `isasim`'s order: DRAM first (error 2), then TMEM (error 4).
 | 1 | illegal/unimplemented opcode, `HALT CHAIN`, program image over, fetch past the loaded program |
 | 2 | bad DRAM word address: unaligned (not a multiple of 4) or the transfer runs past `DRAM_BYTES` |
 | 3 | `LOOP` error: empty body, nested bodies ending on the same instruction, stack depth exceeded |
-| 4 | TMEM index out of range (`R[ra] + w` or an LD/ST range not inside `TMEM_WORDS`) |
+| 4 | TMEM index out of range (`R[ra] + w`, an LD/ST range, or a VOP operand/destination outside `TMEM_WORDS`) |
+| 5 | VOP read-after-write hazard: a later element reads a TMEM word an earlier element of the same VOP wrote (the ISA simulator rejects this; a one-write-port machine would compute different bits) |
 
 The codes are the ladder's own; the ISA's error *condition* is the oracle's (`isasim` raises
 `SimError` for all of them, except that the hardware-ignored `RLD BOUND` field is only checked by
@@ -131,6 +134,51 @@ Two cases are deliberately the mini-core's own reading of the ISA:
   `tb_mini` pads the IMEM image with `0xFFFFFFFF`, so falling off the end is an illegal opcode
   (error 1); `isasim` raises "pc past end of program".  Both stop the machine; the tests only
   require the mini-core to error.
+
+## The VPU (step 5)
+
+`rtl/ladder/mini_vpu.sv` executes the elementwise VOPs: **ADD, SUB, RSUB, MUL, MAX, MIN, COPY,
+EXP2, RECIP, RSQRT, ABS, FILL, EXP2SUB, LOG2**.  The arithmetic is the product tree's `otpu_fp`
+package, copied verbatim from `ca05e24f` (`rtl/ladder/otpu_fp.sv`, Apache-2.0, unmodified); it is
+the same combinational set the production VPU and `opentpu/fp32.py` define — `fp_add`, `fp_sub`,
+`fp_mul`, `fp_max`, `fp_min`, `ftz`, `fabs`, `fp_exp2`, `fp_recip`, `fp_rsqrt`, `fp_log2` — so
+the hardware and the golden model cannot drift.  The reductions, ARGMAX and OUTER are step 8;
+a function outside this set is an illegal instruction (error 1).
+
+The unit has a `start / busy / done / err` interface and owns both TMEM read ports and the write
+port while it runs (`mini_tmem` is 2R+1W from step 5 on).  Elements are processed row-major,
+`(r, c) = (0,0), (0,1), ..., (rows-1, cols-1)`, one per clock; latency is not part of the
+contract, state is.  For element `i`:
+
+* **A** = `a + r*ars + c` (read through TMEM port 0; `FILL` reads no A);
+* **B** by `bmode`: `FULL` `b + r*brs + c`, `ROW` `b + r*brs` (one word per row, broadcast over
+  the columns), `COL` `b + c` (one word per column, broadcast over the rows), `SCALAR` the
+  immediate word `w7 = R[rd] + w6` (no TMEM read; `COPY`, `EXP2`, `RECIP`, `RSQRT`, `ABS`,
+  `LOG2` read no B at all, whatever the mode);
+* the result is written to `dst + r*drs + c`.
+
+The register-relative fields are resolved exactly as `isa.vop()` encodes and `isasim._vop`
+decodes them: `dst/a/b = R[ra/rb/rc] + w1..w3`, the shape and strides are immediates
+(`rows|cols<<16`, `drs|ars<<16`, `brs|func<<16|bmode<<24`), and the immediate word is
+register-relative (`R[rd] + w7`, 32-bit wrap).
+
+**Hazard rule.**  The ISA lets no element read an address an earlier element of the same VOP
+wrote: `isasim._check_hazard` raises `SimError("VOP read-after-write hazard")` before it
+applies any write.  The VPU marks every destination address it writes in a one-bit-per-TMEM-word
+bitmap and, for each element, checks the A and B addresses it actually reads against the marks
+from earlier elements.  A hit latches **error code 5** and stops the unit; a read or write
+outside `TMEM_WORDS` is **error code 4** (checked per element, in `isasim`'s order: A, B,
+hazard, destination).  Both cases leave the machine in `ST_ERROR`, exactly what a test needs to
+prove the core rejects the program instead of silently computing different bits.
+
+The step-5 tests (`ladder/tests/test_step05_vpu.py`) compare the whole TMEM and the whole DRAM
+bit for bit against `isasim` for all 14 functions x 4 modes x four shapes on random words, for
+the documented fp32 corner cases, with fixed golden values per function (so the suite is
+meaningful without the oracle), with explicit expectations for each B mode and for unusual
+strides, and with the hazard and range negatives (codes 5 and 4).  The package itself was
+checked against `opentpu/fp32.py` on 84 322 random/corner vectors, all 14 operations, before the
+unit was wired in (0 mismatches; this check is not part of the committed suite because the
+mini-core tests already exercise it through VOP).
 
 ## Testbench protocol (`sim/ladder/tb_mini.sv`)
 
@@ -202,7 +250,8 @@ out = mini.assert_matches_isasim([I.li(1, 5), I.halt()])
 | latency / cycles | overlapped fetch, DMA, banks, scoreboard | serial: 11 cycles per instruction + 1/word for LD/ST |
 | concurrency | slices, BAR/GATHER, wait counts, chaining | single slice, BAR no-op, no chain |
 | DRAM interface | AXI / DDR controller | behavioural byte array, 1R+1W |
-| TMEM banking | LANES banks | flat 1R+1W |
+| TMEM banking / ports | LANES banks, 3R+1W per bank | flat 2R+1W |
+| VPU arithmetic | `otpu_fp` / `opentpu/fp32.py` | **exact**, the same `otpu_fp` package (step 5) |
 
 Later rungs keep the machine and the harness, add the missing units (step 5 VPU, 6 quantizer +
 ACT RAM, 7 MXU, 8 reductions/ARGMAX), and step 9 swaps the whole mini-core for the production
@@ -215,7 +264,9 @@ RTL, comparing through the same `+prog`/`+dram`/dumps protocol.
 | `rtl/ladder/mini_pkg.sv` | opcodes, flags, error codes, `f2i()` |
 | `rtl/ladder/mini_dram.sv` | behavioural byte-addressed DRAM, 1 read + 1 write port, visible `mem` |
 | `rtl/ladder/mini_tmem.sv` | TMEM word array, 1R+1W, visible `mem` |
-| `rtl/ladder/mini_top.sv` | IMEM, registers, PC, loop stack, FSM, LD/ST engine, status |
+| `rtl/ladder/mini_top.sv` | IMEM, registers, PC, loop stack, FSM, LD/ST engine, VOP decode, status |
+| `rtl/ladder/mini_vpu.sv` | the elementwise VPU: 14 functions, 4 B modes, hazard bitmap, TMEM 2R1W master |
+| `rtl/ladder/otpu_fp.sv` | the product tree's fp32 package, copied verbatim (`ca05e24f`, Apache-2.0) |
 | `sim/ladder/tb_mini.sv` | testbench / board protocol |
 | `ladder/harness/mini.py` | build, run, oracle comparison |
 | `ladder/tests/test_step04_core.py` | the step-4 acceptance suite |
@@ -225,6 +276,8 @@ RTL, comparing through the same `+prog`/`+dram`/dumps protocol.
 ```
 python3 ladder/run.py step 4            # pytest via the ladder runner, writes the receipt
 python3 -m pytest -v ladder/tests/test_step04_core.py   # directly
+python3 ladder/run.py step 5            # the VPU suite (22 tests, ~14 s, Icarus only)
+python3 -m pytest -v ladder/tests/test_step05_vpu.py    # directly
 ```
 
 The suite is light (7 tests, ~4 s): instruction semantics with concrete expected bytes, an 8/16/8-

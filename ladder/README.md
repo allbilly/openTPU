@@ -72,7 +72,7 @@ Status: ✅ done · 🔨 in progress · ⏳ planned · 🚫 blocked on hardware
 | 2 | [baseline hardening](#step-2--baseline-hardening-authoritative-isa-and-a-real-xor-scoreboard) | self-checking XOR forward/backward; authoritative ISA doc | scored XOR vectors (forward+backward), ISA schema test | ✅ |
 | 3 | [ISA contract](#step-3--openTPU-isa-contract) | Python golden stack imported; no RTL change | ISA/ISA-sim/fp32/quant suites | ✅ |
 | 4 | [mini-core ISA sequencer + TMEM + LD/ST](#step-4--mini-core-isa-sequencer--tmem--ldst) | first openTPU-ISA machine: instructions, loops, TMEM, DRAM | bit-exact vs `isasim` | ✅ |
-| 5 | [mini-core VPU (elementwise fp32)](#step-5--mini-core-vpu-elementwise-fp32) | fp32 ADD/SUB/RSUB/MUL/MIN/MAX/ABS/COPY/FILL, all B modes | bit-exact vs `isasim`, fp32 corners | ⏳ |
+| 5 | [mini-core VPU (elementwise fp32)](#step-5--mini-core-vpu-elementwise-fp32) | fp32 ADD/SUB/RSUB/MUL/MIN/MAX/ABS/COPY/FILL, all B modes | bit-exact vs `isasim`, fp32 corners | ✅ |
 | 6 | [mini-core quantizer + ACT RAM](#step-6--mini-core-quantizer--act-ram) | QACT/QST, int8 blocks + scales | bit-exact vs `isasim`/`quant.py` | ⏳ |
 | 7 | [mini-core MXU (int8 MM)](#step-7--mini-core-mxu-int8-mm) | systolic int8 matmul, MX scales, fp32 epilogue | bit-exact vs `isasim`, matmul vs numpy | ⏳ |
 | 8 | [mini-core reductions](#step-8--mini-core-reductions-and-argmax) | RSUM/RMAX/RSSQ/RDOT/ARGMAX | bit-exact vs `isasim` | ⏳ |
@@ -436,3 +436,16 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   `ladder/evidence/step04.json`. The runner's `evidence-check` also gained
   backward compatibility with the pre-policy receipts, and steps 2–4 were
   integrated and re-run together (steps 0–4: 14+10+9+61+7 tests, all PASS).
+- 2026-11-10: step 5 committed - the mini-core VPU: the product `otpu_fp`
+  package imported byte-identically (`rtl/ladder/otpu_fp.sv`, Apache-2.0),
+  `mini_tmem` widened to 2R+1W, `mini_vpu` implementing the 14 elementwise
+  fp32 VOPs in all four B-operand modes (one element/cycle, write-bitmap
+  read-after-write detection -> error code 5), VOP decode in `mini_top` and
+  the harness compiling the SV package first. 22 tests: fixed goldens, all
+  functions x modes x shapes bit-exact against `isasim` (whole TMEM + DRAM +
+  icount), fp32 corner tiles, stride and negative cases; 14 s. Receipt:
+  `ladder/evidence/step05.json`. The integration also refreshed the step 0-5
+  receipts (removing the dangling pre-amend step-4 binding), and hardened
+  `evidence-check`: a software receipt that claims a plain PASS while tests
+  were skipped is now rejected, and `LADDER_EVIDENCE_DIR` allows checking a
+  receipt set elsewhere.

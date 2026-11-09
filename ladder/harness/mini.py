@@ -55,7 +55,11 @@ def params(**overrides) -> dict:
 
 
 def sources() -> list[Path]:
-    return sorted(RTL_DIR.glob("*.sv")) + [TB_FILE]
+    # otpu_fp.sv (step 5) is a package: it must be compiled before the modules that import it, so
+    # it goes first among the alphabetical RTL sources, which carry the rest of the design.
+    rtl = sorted(RTL_DIR.glob("*.sv"))
+    return [p for p in rtl if p.name == "otpu_fp.sv"] + \
+           [p for p in rtl if p.name != "otpu_fp.sv"] + [TB_FILE]
 
 
 def _cache_key(sources_: list[Path], flags: list[str]) -> str:

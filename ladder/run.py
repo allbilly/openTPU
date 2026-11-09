@@ -38,7 +38,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 LADDER = ROOT / "ladder"
 TESTS = LADDER / "tests"
-EVIDENCE = LADDER / "evidence"
+EVIDENCE = Path(os.environ.get("LADDER_EVIDENCE_DIR", LADDER / "evidence"))
 HEAVY_LOCK = Path(os.environ.get("LADDER_HEAVY_LOCK", "/tmp/rknpu-heavy.lock"))
 TEMP_LIMIT_C = float(os.environ.get("LADDER_TEMP_LIMIT_C", "92"))
 TEMP_ABORT_C = float(os.environ.get("LADDER_TEMP_ABORT_C", "97"))
@@ -415,10 +415,18 @@ def evidence_check(before: int | None = None) -> int:
         verdict = str(d.get("summary", "")).split()[0]
         bad_verdicts = {"PASS", "BLOCKED"}
         hardware_rung = bool(d.get("hardware"))
+        summary = str(d.get("summary", ""))
         if verdict not in bad_verdicts:
-            bad.append(f"{out.name}: recorded verdict is {d.get('summary')!r}")
+            bad.append(f"{out.name}: recorded verdict is {summary!r}")
         if verdict == "BLOCKED" and not hardware_rung:
             bad.append(f"{out.name}: a BLOCKED receipt must be a hardware rung")
+        # a software receipt marked green must not hide skipped tests (a missing toolchain):
+        # silently-accepted skips are only allowed when the runner was told --allow-skips, and
+        # then the summary says "PASS (with skips)".
+        skipped = int(d.get("skipped", 0) or 0)
+        if verdict == "PASS" and skipped and "with skips" not in summary and not hardware_rung:
+            bad.append(f"{out.name}: {skipped} skipped test(s) under a plain PASS summary "
+                       f"{summary!r} (a green software receipt must not hide skips)")
         # schema 1 receipts written before the skip/BLOCKED policy do not carry the
         # counts; derive them from the verdict list instead of failing old receipts.
         if "tests" in d and not all(k in d for k in ("passed", "failed", "skipped")):
