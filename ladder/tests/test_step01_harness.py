@@ -115,10 +115,12 @@ def test_runner_doctor_json():
     assert set(info["steps"]) == {f"{n:02d}" for n in range(17)}
     assert info["toolchain"]["pytest"], "doctor found no pytest"
     assert info["toolchain"]["iverilog"], "doctor found no iverilog"
-    # the runner must be honest about which step tests exist
-    for n in range(2, 17):
-        assert info["steps"][f"{n:02d}"]["tests"] == [], (
-            f"step {n} claims tests {info['steps'][f'{n:02d}']['tests']} but this step adds none")
+    # the runner must be honest about which step tests exist (later rungs add
+    # their own tests, so compare against the files actually present on disk)
+    for n in range(17):
+        expected = sorted(p.name for p in (ROOT / "ladder/tests").glob(f"test_step{n:02d}_*.py"))
+        assert info["steps"][f"{n:02d}"]["tests"] == expected, (
+            f"step {n}: doctor lists {info['steps'][f'{n:02d}']['tests']} but disk has {expected}")
 
 
 def test_evidence_receipts_validate():

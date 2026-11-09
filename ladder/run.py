@@ -270,16 +270,21 @@ def parse_pytest(stdout: str) -> dict:
     verdicts = [{"test": m.group(1), "status": m.group(2)} for m in TEST_LINE.finditer(stdout)]
     passed = sum(1 for v in verdicts if v["status"] == "PASSED")
     failed = sum(1 for v in verdicts if v["status"] in {"FAILED", "ERROR"})
+    skipped = sum(1 for v in verdicts if v["status"] == "SKIPPED")
     durations = {}
     for line in stdout.splitlines():
         m = re.match(r"^([\d.]+)s\s+(call|setup|teardown)\s+(ladder/tests/\S+)", line.strip())
         if m:
             durations.setdefault(m.group(3), 0.0)
             durations[m.group(3)] += float(m.group(1))
-    return {"verdicts": verdicts, "passed": passed, "failed": failed, "durations_s": durations}
+    return {"verdicts": verdicts, "passed": passed, "failed": failed, "skipped": skipped,
+            "skipped_tests": [v["test"] for v in verdicts if v["status"] == "SKIPPED"],
+            "durations_s": durations}
 
 
-def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool = False) -> int:
+def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool = False,
+             allow_skips: bool = False) -> int:
+    extra_hardware_allow_skips = allow_skips or bool(os.environ.get("LADDER_ALLOW_SKIPS"))
     if n not in STEPS:
         print(f"[ladder] no such step: {n} (have 0..{max(STEPS)})", file=sys.stderr)
         return 2
@@ -291,8 +296,8 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
         return 3
     if meta["hardware"] and not os.environ.get("LADDER_ALLOW_HARDWARE"):
         print(f"[ladder] step {n} is a hardware rung; it needs the DLC10 cable+card.", file=sys.stderr)
-        print("[ladder] the software/tests still run with LADDER_ALLOW_HARDWARE=1 "
-              "(they must report BLOCKED when the card is absent).", file=sys.stderr)
+        print("[ladder] its gate tests run with LADDER_ALLOW_HARDWARE=1 and record BLOCKED "
+              "(exit 5) when the card/cable are absent; they never fake a PASS.", file=sys.stderr)
         return 4
     py, _ = pick_python(("pytest",))
     env = os.environ.copy()
@@ -328,6 +333,25 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
         print(stdout[-12000:])
         if rc:
             print(stderr[-4000:])
+    # ---- verdict policy -------------------------------------------------------------------
+    # PASS: every collected test passed.  FAIL: a failure/error, a run that collected nothing,
+    # or skips in a software step (a missing cocotb/verible/... toolchain must not read as PASS;
+    # --allow-skips or LADDER_ALLOW_SKIPS=1 opts out explicitly).  BLOCKED: a hardware rung whose
+    # gate tests all skip because the cable/card are absent (probe exit 3); recorded, never PASS.
+    allow_skips = bool(extra_hardware_allow_skips)
+    if rc != 0 or parsed["failed"]:
+        verdict, out_rc = "FAIL", (rc or 1)
+    elif meta["hardware"] and parsed["skipped"]:
+        # the on-card action (or the whole gate) skipped: blocked on the cable/card, not a PASS
+        verdict, out_rc = "BLOCKED", 5
+    elif parsed["passed"] == 0:
+        verdict, out_rc = "FAIL (no tests passed)", 1
+    elif parsed["skipped"] and not allow_skips:
+        verdict, out_rc = "FAIL (unexpected skips; set --allow-skips / LADDER_ALLOW_SKIPS=1)", 1
+    elif parsed["skipped"]:
+        verdict, out_rc = "PASS (with skips)", 0
+    else:
+        verdict, out_rc = "PASS", 0
     receipt = {
         "schema": 1,
         "step": n,
@@ -342,22 +366,28 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
         "toolchain": toolchain(),
         "returncode": rc,
         "tests": parsed["verdicts"],
+        "passed": parsed["passed"],
+        "failed": parsed["failed"],
+        "skipped": parsed["skipped"],
+        "skipped_tests": parsed["skipped_tests"],
         "test_durations_s": {k: round(v, 3) for k, v in parsed["durations_s"].items()},
-        "summary": "PASS" if rc == 0 and parsed["failed"] == 0 and parsed["passed"] > 0 else "FAIL",
+        "summary": verdict,
         "stdout_tail": stdout[-6000:],
         "stderr_tail": stderr[-2000:],
         "notes": os.environ.get("LADDER_STEP_NOTES", ""),
     }
     if rc == 0 and not parsed["verdicts"]:
-        receipt["summary"] = "PASS (exit 0, no parsed test lines)"
+        receipt["summary"] = "FAIL (exit 0, but no test verdicts were parsed)"
+        verdict, out_rc = receipt["summary"], 1
     EVIDENCE.mkdir(parents=True, exist_ok=True)
     out = EVIDENCE / f"step{n:02d}.json"
     out.write_text(json.dumps(receipt, indent=1) + "\n")
     if not quiet:
         print(f"[ladder] step {n}: {receipt['summary']} "
-              f"({parsed['passed']} passed, {parsed['failed']} failed, {duration:.1f}s)"
+              f"({parsed['passed']} passed, {parsed['failed']} failed, "
+              f"{parsed['skipped']} skipped, {duration:.1f}s)"
               f" -> {out.relative_to(ROOT)}")
-    return rc
+    return out_rc
 
 
 def evidence_check(before: int | None = None) -> int:
@@ -382,8 +412,16 @@ def evidence_check(before: int | None = None) -> int:
             bad.append(f"{out.name}: unknown step")
         if m and int(m.group(1)) in STEPS and d.get("title") != STEPS[int(m.group(1))]["title"]:
             bad.append(f"{out.name}: title does not match the runner's step table")
-        if d.get("summary", "").split()[0] != "PASS":
+        verdict = str(d.get("summary", "")).split()[0]
+        bad_verdicts = {"PASS", "BLOCKED"}
+        hardware_rung = bool(d.get("hardware"))
+        if verdict not in bad_verdicts:
             bad.append(f"{out.name}: recorded verdict is {d.get('summary')!r}")
+        if verdict == "BLOCKED" and not hardware_rung:
+            bad.append(f"{out.name}: a BLOCKED receipt must be a hardware rung")
+        for key in ("passed", "failed", "skipped"):
+            if key not in d:
+                bad.append(f"{out.name}: missing {key}")
     if bad:
         print("[ladder] evidence check FAILED:")
         for b in bad:
@@ -444,10 +482,13 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--heavy", action="store_true", help="force the shared-host lock/thermal gate")
     s.add_argument("--no-heavy", action="store_true", help="skip the gate (not recommended)")
     s.add_argument("--quiet", action="store_true")
+    s.add_argument("--allow-skips", action="store_true",
+                   help="record a software step's unexpected skips as PASS (with skips)")
 
     a = sub.add_parser("all")
     a.add_argument("--from", dest="start", type=int, default=0)
     a.add_argument("--to", dest="end", type=int, default=max(STEPS))
+    a.add_argument("--allow-skips", action="store_true")
 
     e = sub.add_parser("evidence-check")
     e.add_argument("--before", type=int, default=None,
@@ -461,13 +502,13 @@ def main(argv: list[str] | None = None) -> int:
         return doctor(args)
     if args.cmd == "step":
         heavy = True if args.heavy else (False if args.no_heavy else None)
-        return run_step(args.n, [], heavy=heavy, quiet=args.quiet)
+        return run_step(args.n, [], heavy=heavy, quiet=args.quiet, allow_skips=args.allow_skips)
     if args.cmd == "all":
         for n in range(args.start, args.end + 1):
             if not step_tests(n):
                 print(f"[ladder] step {n}: no tests yet, skipping")
                 continue
-            rc = run_step(n, [])
+            rc = run_step(n, [], allow_skips=args.allow_skips)
             if rc != 0:
                 return rc
         return 0

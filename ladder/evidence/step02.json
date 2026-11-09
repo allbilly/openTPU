@@ -1,0 +1,97 @@
+{
+ "schema": 1,
+ "step": 2,
+ "title": "baseline hardening: authoritative ISA and a real XOR scoreboard",
+ "heavy": false,
+ "hardware": false,
+ "utc": "2026-11-09T23:18:27Z",
+ "duration_s": 4.648,
+ "command": "python3 ladder/run.py step 2",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/home/fedora/openTPU-ladder/ladder/tests/test_step02_scoreboard.py"
+ ],
+ "git": {
+  "commit": "10ea3876d8bd6b7b85c22d00708eee1103a10242",
+  "short": "10ea3876",
+  "branch": "ladder/tiny-tpu-to-opentpu",
+  "dirty": true
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "10ea3876",
+  "thermal_c": 85.5,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": true,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "tests": [
+  {
+   "test": "ladder/tests/test_step02_scoreboard.py::test_fxp_helpers_match_fixedpoint_semantics",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step02_scoreboard.py::test_golden_xor_vectors_are_the_expected_network",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step02_scoreboard.py::test_isa_doc_is_authoritative",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step02_scoreboard.py::test_scoreboard_bench_passes",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[gradient_descent]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[pe]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[systolic]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[unified_buffer]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[vpu]",
+   "status": "PASSED"
+  }
+ ],
+ "passed": 9,
+ "failed": 0,
+ "skipped": 0,
+ "skipped_tests": [],
+ "test_durations_s": {
+  "ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[gradient_descent]": 0.7,
+  "ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[systolic]": 0.69,
+  "ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[pe]": 0.69,
+  "ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[vpu]": 0.69,
+  "ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[unified_buffer]": 0.69,
+  "ladder/tests/test_step02_scoreboard.py::test_scoreboard_bench_passes": 0.85
+ },
+ "summary": "PASS",
+ "stdout_tail": "============================= test session starts ==============================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /home/fedora/openTPU-ladder\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 9 items\n\nladder/tests/test_step02_scoreboard.py::test_fxp_helpers_match_fixedpoint_semantics PASSED [ 11%]\nladder/tests/test_step02_scoreboard.py::test_golden_xor_vectors_are_the_expected_network PASSED [ 22%]\nladder/tests/test_step02_scoreboard.py::test_isa_doc_is_authoritative PASSED [ 33%]\nladder/tests/test_step02_scoreboard.py::test_scoreboard_bench_passes PASSED [ 44%]\nladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[gradient_descent] PASSED [ 55%]\nladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[pe] PASSED [ 66%]\nladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[systolic] PASSED [ 77%]\nladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[unified_buffer] PASSED [ 88%]\nladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[vpu] PASSED [100%]\n\n============================== slowest durations ===============================\n0.70s call     ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[gradient_descent]\n0.69s call     ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[systolic]\n0.69s call     ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[pe]\n0.69s call     ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[vpu]\n0.69s call     ladder/tests/test_step02_scoreboard.py::test_bench_detects_arithmetic_mutation[unified_buffer]\n0.69s call     ladder/tests/test_step02_scoreboard.py::test_scoreboard_bench_passes\n0.16s setup    ladder/tests/test_step02_scoreboard.py::test_scoreboard_bench_passes\n\n(20 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================== 9 passed in 4.36s ===============================\n",
+ "stderr_tail": "",
+ "notes": ""
+}

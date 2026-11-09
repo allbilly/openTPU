@@ -32,7 +32,14 @@ the end state.
 2. **Every step ships its tests and its receipt.** `ladder/tests/test_stepNN_*.py`
    contains the step's tests; `ladder/evidence/stepNN.json` is the recorded
    run (commit, command, environment, per-test status, durations, verdict).
-   `python3 ladder/run.py step NN` regenerates both.
+   `python3 ladder/run.py step NN` regenerates both. A verdict is `PASS`,
+   `PASS (with skips)` (only with `--allow-skips`), `BLOCKED` (a hardware rung
+   whose gate skipped because the cable/card are absent; exit 5, never a fake
+   PASS) or `FAIL`. Unexpected skips in a software step are a FAIL: a missing
+   toolchain must not read as green. A receipt records the commit the run was
+   made on and whether the tree was dirty; a step's receipt is generated
+   before its own commit, so it normally names the parent commit (the
+   independent verifier re-runs each rung from a clean checkout).
 3. **Bit-exact or it did not happen.** From [step 4](#step-4--mini-core-isa-sequencer--tmem--ldst)
    on, every simulation compares the RTL's DRAM and TMEM contents bit for bit
    against the openTPU ISA simulator (`opentpu/isasim.py`), the same oracle
@@ -62,7 +69,7 @@ Status: ✅ done · 🔨 in progress · ⏳ planned · 🚫 blocked on hardware
 | ---: | --- | --- | --- | --- |
 | 0 | [tiny-tpu baseline](#step-0--tiny-tpu-baseline) | 2×2 Q8.8 toy TPU, XOR MLP, cocotb | 10 cocotb targets, lint, provenance | ✅ |
 | 1 | [ladder harness, roadmap, Makefile cleanup](#step-1--ladder-harness-roadmap-and-makefile-cleanup) | Step 0 machine + reproducible runner/evidence | runner doctor, roadmap/manifest consistency, step-0 re-run | ✅ |
-| 2 | [baseline hardening](#step-2--baseline-hardening-authoritative-isa-and-a-real-xor-scoreboard) | self-checking XOR forward/backward; authoritative ISA doc | scored XOR vectors (forward+backward), ISA schema test | ⏳ |
+| 2 | [baseline hardening](#step-2--baseline-hardening-authoritative-isa-and-a-real-xor-scoreboard) | self-checking XOR forward/backward; authoritative ISA doc | scored XOR vectors (forward+backward), ISA schema test | ✅ |
 | 3 | [ISA contract](#step-3--openTPU-isa-contract) | Python golden stack imported; no RTL change | ISA/ISA-sim/fp32/quant suites | ⏳ |
 | 4 | [mini-core ISA sequencer + TMEM + LD/ST](#step-4--mini-core-isa-sequencer--tmem--ldst) | first openTPU-ISA machine: instructions, loops, TMEM, DRAM | bit-exact vs `isasim` | ⏳ |
 | 5 | [mini-core VPU (elementwise fp32)](#step-5--mini-core-vpu-elementwise-fp32) | fp32 ADD/SUB/RSUB/MUL/MIN/MAX/ABS/COPY/FILL, all B modes | bit-exact vs `isasim`, fp32 corners | ⏳ |
@@ -361,6 +368,19 @@ Verilator build at 100.4 °C, so:
 Mutation checks (step 2) and negative tests (rejected unaligned accesses,
 illegal opcodes) are part of a step's evidence, not an afterthought.
 
+### Verdicts, exit codes and receipt binding
+
+`python3 ladder/run.py step NN` exit codes: `0` PASS (or PASS with skips),
+`1` FAIL, `2` usage, `3` the rung has no tests yet, `4` a hardware rung needs
+`LADDER_ALLOW_HARDWARE=1`, `5` BLOCKED (hardware absent - the receipt records
+the probe result and the skip reasons). `evidence-check` accepts `PASS` and
+(in the hardware rungs) `BLOCKED`, and rejects an all-skip software run that
+was mislabeled green.
+
+Heavy rungs additionally take the shared-host gate: an exclusive `flock` on
+`/tmp/rknpu-heavy.lock`, a `k10temp` cool-down wait below 92 C, and the run is
+aborted above 97 C. Light rungs (steps 0-8) run without the gate.
+
 ## Known blockers and risks
 
 - **Hardware absent (2026-11-10):** no DLC10 cable (`03fd:*`/`0403:6014`), no
@@ -389,3 +409,13 @@ illegal opcodes) are part of a step's evidence, not an afterthought.
   evidence, shared-host gate), per-step harness tests, Makefile cleanup
   (10 stale targets removed, aggregate `test` added) and the first two
   evidence receipts (`ladder/evidence/step00.json`, `step01.json`).
+- 2026-11-10: step 2 committed - `ladder/bench/` self-checking XOR scoreboard
+  (`tpu.sv` wrapper exposing the unified buffer and every VPU stage boundary,
+  Python Q8.8 golden model, five-module mutation check) and the authoritative
+  `docs/toy-isa.md` (tpu ports, UB pointer map, VPU pathway, Q8.8 semantics);
+  the imported top-level test's one-cycle-early `sys_switch_in` and the stale
+  94/130-bit documentation discrepancy are recorded there.
+- 2026-11-10: runner verdict policy hardened after independent verification:
+  unexpected skips in a software step are a FAIL (a missing cocotb/verible
+  must not read as green), and a hardware rung whose gate skips because the
+  cable/card are absent records `BLOCKED` (exit 5), never a fake PASS.
