@@ -265,6 +265,14 @@ JTAG; the image keeps **both** JTAG and PCIe runtime interfaces (repo rule).
 **Evidence:** `ladder/evidence/step12.json`, `ladder/evidence/hardware/`.
 **Blocker (2026-11-10):** the DLC10 JTAG cable and the card are not attached;
 the software side of this step is committed and the hardware assertion waits.
+**Software side (committed):** the YPCB Vivado flow, `tools/litedram/` and the
+Fedora DLC10/XVC bring-up helpers are imported byte-identically from
+`ca05e24f` (95 files, hashes in [`ladder/hardware/import-provenance.json`](hardware/import-provenance.json));
+the build flow, exact commands, dual-interface rule and known gaps are in
+[`docs/fpga-flow.md`](../docs/fpga-flow.md); the read-only probe and the
+acceptance plan are [`ladder/hardware/`](hardware/). The gate test runs the
+probe, skips on a blocked host and records verdict `BLOCKED` (runner exit 5) —
+see `ladder/evidence/step12.json` and `ladder/evidence/hardware/probe-step12.json`.
 
 ### step 13 — on-card kernel over JTAG (hardware)
 
@@ -574,3 +582,28 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   integration copied the gitignored 338 MB build cache (`tb_board_a77dbb6d33e3`)
   into `build/verilator/` and wired the runner's step-11 warm preflight to
   `board.warm_ready()`. Receipt: `ladder/evidence/step11.json`.
+- 2026-11-10: step 12 committed (hardware rung, software side + honest BLOCKED
+  receipt). Imported the YPCB build flow byte-identically from `ca05e24f`:
+  `boards/ypcb-00338/` (49 files: `Makefile`, `run_vivado.sh`, `vivado/*.tcl`
+  incl. the XDMA/PCIe block design, constraints, the generated LiteDRAM core,
+  RAM-test builds/sims), `tools/litedram/` (35 files: core generation, PHY
+  knobs, CSR/ECC helpers, self-calibration firmware), the Fedora bring-up
+  helper set (`fedora_bringup.sh`, `fedora_prepare_xvc.py`,
+  `fedora_xvc_server.py`, `fedora_jtag.py`, `fedora_check_jtag_chain.py`,
+  `fedora_check_native_image.py`, `fedora_prepare_litedram.py`,
+  `workspace_paths.py`), `opentpu/host/{__init__,jtag}.py` and
+  `docs/vivado_bitstream_guide.md`; all 95 files are listed with SHA-256 in
+  `ladder/hardware/import-provenance.json`. Added the hardware validation plan
+  (`ladder/hardware/README.md`), the stdlib-only read-only probe
+  (`ladder/hardware/probe.py`: USB DLC10/FT232H, Xilinx PCIe, `/dev/xdma*`,
+  cable owners, XVC `:3721`, k10temp, the shared heavy lock and the reviewed
+  artifacts; exit 0 ready / 3 blocked / 4 unexpected), `docs/fpga-flow.md` and
+  the step-12 gate test (7 tests: image/package identity, imported-flow
+  byte-identity, build-flow presence, both JTAG+PCIe interfaces, documented
+  commands, on-card TODO). Hardware assertion BLOCKED: no DLC10 cable/card
+  (`03fd:*`/`0403:6014`), no `10ee` PCIe, no `/dev/xdma*`; the runner recorded
+  `BLOCKED` (exit 5, 7 skipped) in `ladder/evidence/step12.json` with the probe
+  JSON in `ladder/evidence/hardware/probe-step12.json`. No Vivado run,
+  programming, flash or reset was performed. `rtl/boards/ypcb-00338/` and
+  `sim/verilator/tb_board.sv` were already imported byte-identically at step 9
+  (verified, not duplicated).
