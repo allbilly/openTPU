@@ -36,6 +36,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+# a clean environment (`python3 ladder/run.py ...`) must be able to import the repo's opentpu
+# package for the warm-cache preflight and the heavy rung harnesses - put the repo root on
+# sys.path first
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 LADDER = ROOT / "ladder"
 TESTS = LADDER / "tests"
 EVIDENCE = Path(os.environ.get("LADDER_EVIDENCE_DIR", LADDER / "evidence"))
@@ -263,11 +268,18 @@ def git_state() -> dict:
     }
 
 
-TEST_LINE = re.compile(r"^(ladder/tests/\S+?::\S+?)\s+(PASSED|FAILED|SKIPPED|ERROR)", re.M)
+# pytest -v prints one line per test; long ids may be wrapped unless COLUMNS is wide (the runner
+# sets COLUMNS below), and the path may be absolute when the tests are passed by absolute path.
+TEST_LINE = re.compile(r"^(\S*?ladder/tests/\S+?::\S+?)\s+(PASSED|FAILED|SKIPPED|ERROR)", re.M)
 
 
 def parse_pytest(stdout: str) -> dict:
-    verdicts = [{"test": m.group(1), "status": m.group(2)} for m in TEST_LINE.finditer(stdout)]
+    def _rel(tid: str) -> str:
+        i = tid.find("ladder/tests/")
+        return tid[i:] if i >= 0 else tid
+
+    verdicts = [{"test": _rel(m.group(1)), "status": m.group(2)}
+                for m in TEST_LINE.finditer(stdout)]
     passed = sum(1 for v in verdicts if v["status"] == "PASSED")
     failed = sum(1 for v in verdicts if v["status"] in {"FAILED", "ERROR"})
     skipped = sum(1 for v in verdicts if v["status"] == "SKIPPED")
@@ -340,6 +352,7 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
         env.setdefault("LADDER_TOY_PY", str(toy_py))
         env["PATH"] = os.pathsep.join([str(toy_py.parent), env.get("PATH", "")])
     env["PYTHONDONTWRITEBYTECODE"] = "1"
+    env["COLUMNS"] = "400"          # no wrapped test ids in the -v output the parser reads
 
     cmd = [str(py), "-m", "pytest", "-v", "-p", "no:cacheprovider",
            "--durations=0", *[str(t) for t in tests], *extra]
@@ -428,8 +441,11 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
         "hardware": meta["hardware"],
         "utc": utc(),
         "duration_s": round(duration, 3),
-        "command": f"python3 ladder/run.py step {n}" + (" --heavy" if (meta["heavy"] and not warm) else "")
-                   + (" --warm" if (meta["heavy"] and warm) else ""),
+        "command": (f"python3 ladder/run.py step {n}"
+                    + (" --warm" if (meta["heavy"] and warm)
+                       else " --heavy" if (meta["heavy"] and heavy)
+                       else " --no-heavy" if (meta["heavy"] and not heavy)
+                       else "")),
         "command_argv": cmd,
         "git": git_state(),
         "toolchain": toolchain(),

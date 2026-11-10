@@ -4,8 +4,8 @@
  "title": "production core adoption",
  "heavy": true,
  "hardware": false,
- "utc": "2026-11-10T00:56:49Z",
- "duration_s": 35.889,
+ "utc": "2026-11-10T01:33:04Z",
+ "duration_s": 35.876,
  "command": "python3 ladder/run.py step 9 --warm",
  "command_argv": [
   "/usr/bin/python3",
@@ -18,8 +18,8 @@
   "/home/fedora/openTPU-ladder/ladder/tests/test_step09_production_rtl.py"
  ],
  "git": {
-  "commit": "6746fe5d78deaab89a5e7d9f355450c888441e22",
-  "short": "6746fe5d",
+  "commit": "9e960c0329c8487e3eb4a530b444dd74f8e79a70",
+  "short": "9e960c03",
   "branch": "ladder/tiny-tpu-to-opentpu",
   "dirty": true
  },
@@ -33,10 +33,10 @@
   "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
   "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
   "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
-  "git": "6746fe5d",
-  "thermal_c": 85.25,
+  "git": "9e960c03",
+  "thermal_c": 75.0,
   "heavy_lock": "/tmp/rknpu-heavy.lock",
-  "heavy_lock_held": true,
+  "heavy_lock_held": false,
   "nproc": 8
  },
  "returncode": 0,
@@ -103,16 +103,16 @@
   "ladder/tests/test_step09_production_rtl.py::test_qst_scale_rows_and_bytes": 2.05,
   "ladder/tests/test_step09_production_rtl.py::test_ld_st_copy": 1.03,
   "ladder/tests/test_step09_production_rtl.py::test_reductions_and_argmax": 1.03,
-  "ladder/tests/test_step09_production_rtl.py::test_vop_arithmetic_functions": 1.02,
+  "ladder/tests/test_step09_production_rtl.py::test_vop_arithmetic_functions": 1.03,
+  "ladder/tests/test_step09_production_rtl.py::test_qact_feeds_mm_unit": 1.03,
   "ladder/tests/test_step09_production_rtl.py::test_mm_acc_and_rmax": 1.02,
+  "ladder/tests/test_step09_production_rtl.py::test_vop_b_operand_modes": 1.02,
   "ladder/tests/test_step09_production_rtl.py::test_mm_scaled_with_hand_scale_rows": 1.02,
-  "ladder/tests/test_step09_production_rtl.py::test_qact_feeds_mm_unit": 1.02,
   "ladder/tests/test_step09_production_rtl.py::test_run_arguments_and_early_halt": 1.02,
-  "ladder/tests/test_step09_production_rtl.py::test_rld_register_values": 1.02,
-  "ladder/tests/test_step09_production_rtl.py::test_vop_b_operand_modes": 1.02
+  "ladder/tests/test_step09_production_rtl.py::test_rld_register_values": 1.02
  },
  "summary": "PASS",
- "stdout_tail": "============================= test session starts ==============================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /home/fedora/openTPU-ladder\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 12 items\n\nladder/tests/test_step09_production_rtl.py::test_control_flow_loops PASSED [  8%]\nladder/tests/test_step09_production_rtl.py::test_ld_st_copy PASSED       [ 16%]\nladder/tests/test_step09_production_rtl.py::test_rld_register_values PASSED [ 25%]\nladder/tests/test_step09_production_rtl.py::test_vop_arithmetic_functions PASSED [ 33%]\nladder/tests/test_step09_production_rtl.py::test_vop_composites_and_corners PASSED [ 41%]\nladder/tests/test_step09_production_rtl.py::test_vop_b_operand_modes PASSED [ 50%]\nladder/tests/test_step09_production_rtl.py::test_qst_scale_rows_and_bytes PASSED [ 58%]\nladder/tests/test_step09_production_rtl.py::test_qact_feeds_mm_unit PASSED [ 66%]\nladder/tests/test_step09_production_rtl.py::test_mm_scaled_with_hand_scale_rows PASSED [ 75%]\nladder/tests/test_step09_production_rtl.py::test_mm_acc_and_rmax PASSED  [ 83%]\nladder/tests/test_step09_production_rtl.py::test_reductions_and_argmax PASSED [ 91%]\nladder/tests/test_step09_production_rtl.py::test_run_arguments_and_early_halt PASSED [100%]\n\n============================== slowest durations ===============================\n2.10s call     ladder/tests/test_step09_production_rtl.py::test_control_flow_loops\n2.05s call     ladder/tests/test_step09_production_rtl.py::test_vop_composites_and_corners\n2.05s call     ladder/tests/test_step09_production_rtl.py::test_qst_scale_rows_and_bytes\n1.03s call     ladder/tests/test_step09_production_rtl.py::test_ld_st_copy\n1.03s call     ladder/tests/test_step09_production_rtl.py::test_reductions_and_argmax\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_vop_arithmetic_functions\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_mm_acc_and_rmax\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_mm_scaled_with_hand_scale_rows\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_qact_feeds_mm_unit\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_run_arguments_and_early_halt\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_rld_register_values\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_vop_b_operand_modes\n\n(24 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================= 12 passed in 15.53s ==============================\n",
+ "stdout_tail": "                                                                                           [ 16%]\nladder/tests/test_step09_production_rtl.py::test_rld_register_values PASSED                                                                                                                                                                                                                                                                                                                              [ 25%]\nladder/tests/test_step09_production_rtl.py::test_vop_arithmetic_functions PASSED                                                                                                                                                                                                                                                                                                                         [ 33%]\nladder/tests/test_step09_production_rtl.py::test_vop_composites_and_corners PASSED                                                                                                                                                                                                                                                                                                                       [ 41%]\nladder/tests/test_step09_production_rtl.py::test_vop_b_operand_modes PASSED                                                                                                                                                                                                                                                                                                                              [ 50%]\nladder/tests/test_step09_production_rtl.py::test_qst_scale_rows_and_bytes PASSED                                                                                                                                                                                                                                                                                                                         [ 58%]\nladder/tests/test_step09_production_rtl.py::test_qact_feeds_mm_unit PASSED                                                                                                                                                                                                                                                                                                                               [ 66%]\nladder/tests/test_step09_production_rtl.py::test_mm_scaled_with_hand_scale_rows PASSED                                                                                                                                                                                                                                                                                                                   [ 75%]\nladder/tests/test_step09_production_rtl.py::test_mm_acc_and_rmax PASSED                                                                                                                                                                                                                                                                                                                                  [ 83%]\nladder/tests/test_step09_production_rtl.py::test_reductions_and_argmax PASSED                                                                                                                                                                                                                                                                                                                            [ 91%]\nladder/tests/test_step09_production_rtl.py::test_run_arguments_and_early_halt PASSED                                                                                                                                                                                                                                                                                                                     [100%]\n\n============================================================================================================================================================================================== slowest durations ===============================================================================================================================================================================================\n2.10s call     ladder/tests/test_step09_production_rtl.py::test_control_flow_loops\n2.05s call     ladder/tests/test_step09_production_rtl.py::test_vop_composites_and_corners\n2.05s call     ladder/tests/test_step09_production_rtl.py::test_qst_scale_rows_and_bytes\n1.03s call     ladder/tests/test_step09_production_rtl.py::test_ld_st_copy\n1.03s call     ladder/tests/test_step09_production_rtl.py::test_reductions_and_argmax\n1.03s call     ladder/tests/test_step09_production_rtl.py::test_vop_arithmetic_functions\n1.03s call     ladder/tests/test_step09_production_rtl.py::test_qact_feeds_mm_unit\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_mm_acc_and_rmax\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_vop_b_operand_modes\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_mm_scaled_with_hand_scale_rows\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_run_arguments_and_early_halt\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_rld_register_values\n\n(24 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================================================================================================================================================================================= 12 passed in 15.53s ==============================================================================================================================================================================================\n",
  "stderr_tail": "",
- "notes": "12 replay tests: the mini-core's program families (control/LD/ST/RLD, 14 VOPs x 4 B modes, QACT/QST, MM UNIT/ACC/RMAX/scaled, reductions/ARGMAX) run on the production RTL (Verilator, tb_top at prod.CFG D=32/MCOLS=8/1 MiB DRAM) and must equal isasim word for word. Warm-cache run: the build was produced earlier (the WIP attempt's build was externally killed once by the shared-host guard, not a code failure); the cached Vtb_top is gitignored next to the tree, the runner's warm mode records warm_run and the thermal state."
+ "notes": "Warm-cache run of the 12 replay tests on the production RTL (tb_top at prod.CFG); the Verilator build is cached and gitignored; warm mode is thermal-gated and records warm_run."
 }

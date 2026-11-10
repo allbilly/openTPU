@@ -77,7 +77,7 @@ Status: ✅ done · 🔨 in progress · ⏳ planned · 🚫 blocked on hardware
 | 7 | [mini-core MXU (int8 MM)](#step-7--mini-core-mxu-int8-mm) | systolic int8 matmul, MX scales, fp32 epilogue | bit-exact vs `isasim`, matmul vs numpy | ✅ |
 | 8 | [mini-core reductions](#step-8--mini-core-reductions-and-argmax) | RSUM/RMAX/RSSQ/RDOT/ARGMAX | bit-exact vs `isasim` | ✅ |
 | 9 | [production core adoption](#step-9--production-core-adoption) | production RTL supersedes the mini-core | production RTL↔ISA tests (selected, then wide) | ✅ |
-| 10 | [production software stack](#step-10--compiler-language-kernels-runtime) | `ol` language, compiler, kernels, runtime, targets | `examples/` + kernels ISA↔RTL bit-exact | ⏳ |
+| 10 | [production software stack](#step-10--compiler-language-kernels-runtime) | `ol` language, compiler, kernels, runtime, targets | `examples/` + kernels ISA↔RTL bit-exact | ✅ |
 | 11 | [board shell + host interface](#step-11--board-shell-and-host-interface-simulation) | control regs, memory channels, TX/RX, JTAG + PCIe paths | `tb_board` sims, Fake transport runs | ⏳ |
 | 12 | [FPGA image + SRAM milestone](#step-12--fpga-image-and-sram-bring-up-hardware) | YPCB bitstream built by this branch | build receipt + JTAG self-test on card | 🚫 |
 | 13 | [on-card kernel over JTAG](#step-13--on-card-kernel-over-jtag-hardware) | image upload + matmul on the real card | on-card result == simulator | 🚫 |
@@ -527,3 +527,20 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   safeguards: a cache preflight refuses warm mode when the expected `Vtb_top`
   is absent, `--warm --no-heavy` is rejected, and the receipt records the
   invocation and thermal state.
+- 2026-11-10: step 10 committed - the production software stack. Imported
+  byte-identically: `opentpu/{language,compiler,runtime,waits,reference}.py`,
+  `opentpu/kernels/` (10 files), `examples/` (11 files; `examples/` and the
+  production `tests/test_basic_examples.py` are *untracked* in the product
+  tree, so they are ladder copies with per-file sha256 recorded in
+  `docs/production-stack.md` and are excluded from the step-16 tracked-tree
+  parity check). 47 test functions / 104 testcases: a compiled MLP kernel on
+  the ISA simulator vs its numpy reference, compilation determinism, a
+  bit-exact fixed vector, `examples/run_all.py --backend isa` PASS over all
+  14 cases, the ported production kernel/compiler/example suites (2 examples
+  cases needing the step-11 host transport skip with a recorded reason), and
+  TWO production-RTL replays (compiled MLP M=4/H=128/Fd=256 and an attention
+  decode) that are bit-identical to `isasim` in whole DRAM + TMEM + icount,
+  reusing the step-9 `prod.CFG` Verilator cache (no second build). 102
+  passed / 0 failed / 2 skipped in 18.6 s under the heavy gate (thermal
+  83.9 C); the integration receipt records `PASS (with skips)` via
+  `--allow-skips --warm`. Receipt: `ladder/evidence/step10.json`.

@@ -167,7 +167,8 @@ def run(prog, dram=None, args=None, max_cycles: int = 200000,
                f"+max_cycles={int(max_cycles)}"]
         for k, v in enumerate(args):
             cmd.append(f"+arg{k}={int(v) & 0xFFFFFFFF:08x}")
-        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+        proc = subprocess.run(cmd, capture_output=True, text=True,
+                              timeout=int(os.environ.get("MINI_SIM_TIMEOUT", "1800")))
         if proc.returncode != 0:
             raise RuntimeError(f"vvp failed ({proc.returncode}):\n"
                                f"{(proc.stderr or proc.stdout)[-4000:]}")

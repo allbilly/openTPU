@@ -1,0 +1,529 @@
+{
+ "schema": 1,
+ "step": 10,
+ "title": "compiler, language, kernels, runtime",
+ "heavy": true,
+ "hardware": false,
+ "utc": "2026-11-10T01:33:25Z",
+ "duration_s": 20.6,
+ "command": "python3 ladder/run.py step 10 --warm",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/home/fedora/openTPU-ladder/ladder/tests/test_step10_compiler.py",
+  "/home/fedora/openTPU-ladder/ladder/tests/test_step10_compiler_kernels.py",
+  "/home/fedora/openTPU-ladder/ladder/tests/test_step10_examples.py",
+  "/home/fedora/openTPU-ladder/ladder/tests/test_step10_kernels.py"
+ ],
+ "git": {
+  "commit": "9e960c0329c8487e3eb4a530b444dd74f8e79a70",
+  "short": "9e960c03",
+  "branch": "ladder/tiny-tpu-to-opentpu",
+  "dirty": true
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "9e960c03",
+  "thermal_c": 79.25,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": false,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "attempts": 1,
+ "killed_by_signals": [],
+ "warm_run": true,
+ "tests": [
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_hardware_loop_lowering_uses_address_registers",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_an_accumulator_at_its_dram_stride_drains_slower_than_its_array",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_rows_loaded_into_an_accumulators_tile_go_one_ld_a_row",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_nested_loops_affine_addresses",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_register_freed_inside_a_loop_is_not_reused_with_that_loops_terms",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_a_raw_guard_at_a_loop_body_end_gets_a_nop_after_it[0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_a_raw_guard_at_a_loop_body_end_gets_a_nop_after_it[1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_tile_views_index_like_python_or_refuse",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_every_op_refuses_a_dead_tile",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_views_broadcast_and_division",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_dot_chunks_rows_beyond_mxu_columns",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_stationary_overwritten_inside_loop_is_an_error",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_a_build_given_up_inside_loops_leaves_them_open",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_shape_errors",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_program_is_spmd_over_slices",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_softmax_fuses_exp2_sub_and_elides_set_copies",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_named_temporaries_are_not_clobbered",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_rmsnorm_quantize_is_one_rssq_pass_and_one_qact",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_flash_attention_uses_mxu_epilogue_fusions",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_dot_rowmax_peephole_and_explicit_form_agree",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_act_and_tmem_are_reused_once_dead",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_released_argument_registers[13-True]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_released_argument_registers[15-False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_a_run_time_address_does_not_take_a_register_freed_in_a_live_loop",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_a_run_time_word_load_in_the_token_loop[True]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_a_run_time_word_load_in_the_token_loop[False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_a_register_set_inside_a_guard_is_not_counted_on_after_it[0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_a_register_set_inside_a_guard_is_not_counted_on_after_it[1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_a_register_set_inside_a_guard_is_not_counted_on_after_it[2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_a_released_argument_taken_by_scratch_keeps_it_until_then",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_register_allocation_fuzz",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_a_counter_steps_where_the_program_says[argument]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler.py::test_a_counter_steps_where_the_program_says[run_words]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler_kernels.py::test_compiled_mlp_isa_vs_numpy",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler_kernels.py::test_compilation_is_deterministic",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler_kernels.py::test_compiled_simple_add_exact",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler_kernels.py::test_examples_run_all_isa",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler_kernels.py::test_mlp_on_production_rtl_matches_isasim",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_compiler_kernels.py::test_attention_decode_on_production_rtl_matches_isasim",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_batch_cli_and_artifacts",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_edge_shapes[simple_add.py-arguments0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_edge_shapes[elementwise.py-arguments1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_edge_shapes[gemm.py-arguments2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_edge_shapes[gemm.py-arguments3]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_edge_shapes[conv.py-arguments4]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_edge_shapes[conv.py-arguments5]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_edge_shapes[pooling.py-arguments6]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_edge_shapes[pooling.py-arguments7]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_edge_shapes[softmax.py-arguments8]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_edge_shapes[softmax.py-arguments9]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_edge_shapes[rmsnorm.py-arguments10]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_edge_shapes[rmsnorm.py-arguments11]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[softmax.py-arguments2-8192]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_failure_receipt_is_durable",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_source_only_package_refused_without_transport",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step10_examples.py::test_fpga_adapter_reads_outputs_without_full_capacity_allocation",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_mlp[1-1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_mlp[1-2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_mlp[1-4]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_mlp[4-1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_mlp[4-2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_mlp[4-4]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_mlp[11-1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_mlp[11-2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_mlp[11-4]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode[1-32-1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode[1-32-2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode[31-32-1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode[31-32-2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode[32-32-1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode[32-32-2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode[100-32-1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode[100-32-2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode[100-64-1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode[100-64-2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode_head_layouts[1-2-1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode_head_layouts[1-4-4]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode_head_layouts[2-4-4]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode_head_layouts[4-8-4]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_layer[0-1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_layer[0-2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_layer[40-1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_layer[40-2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_layer[63-1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_layer[63-2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_design_size_block_128",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[255-32-512]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[256-64-512]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[300-128-512]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[600-256-768]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[513-32-768]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[700-128-1024]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[1300-256-1536]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_layer_vt_tiles_bit_exact[255]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_layer_vt_tiles_bit_exact[256]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_attention_layer_vt_tiles_bit_exact[511]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step10_kernels.py::test_softcap_and_gelu_tanh",
+   "status": "PASSED"
+  }
+ ],
+ "passed": 95,
+ "failed": 0,
+ "skipped": 2,
+ "skipped_tests": [
+  "ladder/tests/test_step10_examples.py::test_source_only_package_refused_without_transport",
+  "ladder/tests/test_step10_examples.py::test_fpga_adapter_reads_outputs_without_full_capacity_allocation"
+ ],
+ "test_durations_s": {
+  "ladder/tests/test_step10_compiler.py::test_register_allocation_fuzz": 6.46,
+  "ladder/tests/test_step10_examples.py::test_batch_cli_and_artifacts": 2.7,
+  "ladder/tests/test_step10_compiler_kernels.py::test_examples_run_all_isa": 2.68,
+  "ladder/tests/test_step10_compiler_kernels.py::test_mlp_on_production_rtl_matches_isasim": 1.1,
+  "ladder/tests/test_step10_compiler_kernels.py::test_attention_decode_on_production_rtl_matches_isasim": 1.03,
+  "ladder/tests/test_step10_kernels.py::test_attention_layer_vt_tiles_bit_exact[511]": 0.26,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[513-32-768]": 0.24,
+  "ladder/tests/test_step10_examples.py::test_edge_shapes[rmsnorm.py-arguments11]": 0.19,
+  "ladder/tests/test_step10_examples.py::test_edge_shapes[rmsnorm.py-arguments10]": 0.19,
+  "ladder/tests/test_step10_examples.py::test_edge_shapes[elementwise.py-arguments1]": 0.19,
+  "ladder/tests/test_step10_examples.py::test_edge_shapes[conv.py-arguments5]": 0.19,
+  "ladder/tests/test_step10_examples.py::test_edge_shapes[softmax.py-arguments9]": 0.18,
+  "ladder/tests/test_step10_examples.py::test_edge_shapes[gemm.py-arguments3]": 0.18,
+  "ladder/tests/test_step10_examples.py::test_edge_shapes[gemm.py-arguments2]": 0.18,
+  "ladder/tests/test_step10_examples.py::test_edge_shapes[conv.py-arguments4]": 0.18,
+  "ladder/tests/test_step10_examples.py::test_edge_shapes[softmax.py-arguments8]": 0.18,
+  "ladder/tests/test_step10_examples.py::test_edge_shapes[simple_add.py-arguments0]": 0.18,
+  "ladder/tests/test_step10_examples.py::test_edge_shapes[pooling.py-arguments6]": 0.18,
+  "ladder/tests/test_step10_examples.py::test_edge_shapes[pooling.py-arguments7]": 0.18,
+  "ladder/tests/test_step10_kernels.py::test_attention_layer_vt_tiles_bit_exact[256]": 0.17,
+  "ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[simple_add.py-arguments7-requires": 0.16,
+  "ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[simple_add.py-arguments6-only": 0.15,
+  "ladder/tests/test_step10_kernels.py::test_attention_layer_vt_tiles_bit_exact[255]": 0.15,
+  "ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[pooling.py-arguments5-kernel": 0.15,
+  "ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[conv.py-arguments4-<=": 0.15,
+  "ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[simple_add.py-arguments0-integer": 0.15,
+  "ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[softmax.py-arguments2-8192]": 0.15,
+  "ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[conv.py-arguments3-kernel": 0.15,
+  "ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[gemm.py-arguments1-multiple": 0.15,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[1300-256-1536]": 0.14,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[255-32-512]": 0.12,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[700-128-1024]": 0.12,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[600-256-768]": 0.08,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[256-64-512]": 0.07,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[300-128-512]": 0.06,
+  "ladder/tests/test_step10_kernels.py::test_mlp[11-4]": 0.06,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode_head_layouts[4-8-4]": 0.06,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode_head_layouts[2-4-4]": 0.05,
+  "ladder/tests/test_step10_compiler_kernels.py::test_compilation_is_deterministic": 0.05,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode_head_layouts[1-4-4]": 0.05,
+  "ladder/tests/test_step10_kernels.py::test_attention_layer[40-2]": 0.04,
+  "ladder/tests/test_step10_kernels.py::test_attention_layer[63-2]": 0.04,
+  "ladder/tests/test_step10_kernels.py::test_mlp[4-4]": 0.04,
+  "ladder/tests/test_step10_kernels.py::test_mlp[1-4]": 0.04,
+  "ladder/tests/test_step10_compiler.py::test_act_and_tmem_are_reused_once_dead": 0.04,
+  "ladder/tests/test_step10_kernels.py::test_mlp[11-2]": 0.04,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode[100-32-2]": 0.04,
+  "ladder/tests/test_step10_kernels.py::test_attention_layer[40-1]": 0.04,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode[100-32-1]": 0.04,
+  "ladder/tests/test_step10_kernels.py::test_attention_layer[63-1]": 0.04,
+  "ladder/tests/test_step10_kernels.py::test_attention_layer[0-2]": 0.04,
+  "ladder/tests/test_step10_kernels.py::test_attention_layer[0-1]": 0.03,
+  "ladder/tests/test_step10_kernels.py::test_mlp[11-1]": 0.03,
+  "ladder/tests/test_step10_kernels.py::test_mlp[4-2]": 0.03,
+  "ladder/tests/test_step10_kernels.py::test_mlp[1-2]": 0.03,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode[100-64-2]": 0.02,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode[100-64-1]": 0.02,
+  "ladder/tests/test_step10_compiler_kernels.py::test_compiled_mlp_isa_vs_numpy": 0.02,
+  "ladder/tests/test_step10_kernels.py::test_mlp[4-1]": 0.02,
+  "ladder/tests/test_step10_kernels.py::test_design_size_block_128": 0.02,
+  "ladder/tests/test_step10_kernels.py::test_mlp[1-1]": 0.02,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode[31-32-2]": 0.02,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode[1-32-2]": 0.02,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode[32-32-2]": 0.02,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode[31-32-1]": 0.02,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode[1-32-1]": 0.02,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode[32-32-1]": 0.01,
+  "ladder/tests/test_step10_kernels.py::test_attention_decode_head_layouts[1-2-1]": 0.01,
+  "ladder/tests/test_step10_compiler.py::test_released_argument_registers[15-False]": 0.01,
+  "ladder/tests/test_step10_compiler.py::test_released_argument_registers[13-True]": 0.01,
+  "ladder/tests/test_step10_examples.py::test_failure_receipt_is_durable": 0.01,
+  "ladder/tests/test_step10_compiler.py::test_program_is_spmd_over_slices": 0.01,
+  "ladder/tests/test_step10_compiler.py::test_an_accumulator_at_its_dram_stride_drains_slower_than_its_array": 0.01,
+  "ladder/tests/test_step10_compiler.py::test_a_counter_steps_where_the_program_says[run_words]": 0.01,
+  "ladder/tests/test_step10_compiler.py::test_a_counter_steps_where_the_program_says[argument]": 0.01,
+  "ladder/tests/test_step10_kernels.py::test_softcap_and_gelu_tanh": 0.01,
+  "ladder/tests/test_step10_compiler.py::test_rmsnorm_quantize_is_one_rssq_pass_and_one_qact": 0.01
+ },
+ "summary": "PASS (with skips)",
+ "stdout_tail": "arguments0]\n0.18s call     ladder/tests/test_step10_examples.py::test_edge_shapes[pooling.py-arguments6]\n0.18s call     ladder/tests/test_step10_examples.py::test_edge_shapes[pooling.py-arguments7]\n0.17s call     ladder/tests/test_step10_kernels.py::test_attention_layer_vt_tiles_bit_exact[256]\n0.16s call     ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[simple_add.py-arguments7-requires --package]\n0.15s call     ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[simple_add.py-arguments6-only to --backend fpga]\n0.15s call     ladder/tests/test_step10_kernels.py::test_attention_layer_vt_tiles_bit_exact[255]\n0.15s call     ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[pooling.py-arguments5-kernel must fit]\n0.15s call     ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[conv.py-arguments4-<= 128]\n0.15s call     ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[simple_add.py-arguments0-integer from 1]\n0.15s call     ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[softmax.py-arguments2-8192]\n0.15s call     ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[conv.py-arguments3-kernel must fit]\n0.15s call     ladder/tests/test_step10_examples.py::test_invalid_requests_fail_early[gemm.py-arguments1-multiple of]\n0.14s call     ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[1300-256-1536]\n0.12s call     ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[255-32-512]\n0.12s call     ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[700-128-1024]\n0.08s call     ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[600-256-768]\n0.07s call     ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[256-64-512]\n0.06s call     ladder/tests/test_step10_kernels.py::test_attention_decode_vt_tiles_bit_exact[300-128-512]\n0.06s call     ladder/tests/test_step10_kernels.py::test_mlp[11-4]\n0.06s call     ladder/tests/test_step10_kernels.py::test_attention_decode_head_layouts[4-8-4]\n0.05s call     ladder/tests/test_step10_kernels.py::test_attention_decode_head_layouts[2-4-4]\n0.05s call     ladder/tests/test_step10_compiler_kernels.py::test_compilation_is_deterministic\n0.05s call     ladder/tests/test_step10_kernels.py::test_attention_decode_head_layouts[1-4-4]\n0.04s call     ladder/tests/test_step10_kernels.py::test_attention_layer[40-2]\n0.04s call     ladder/tests/test_step10_kernels.py::test_attention_layer[63-2]\n0.04s call     ladder/tests/test_step10_kernels.py::test_mlp[4-4]\n0.04s call     ladder/tests/test_step10_kernels.py::test_mlp[1-4]\n0.04s call     ladder/tests/test_step10_compiler.py::test_act_and_tmem_are_reused_once_dead\n0.04s call     ladder/tests/test_step10_kernels.py::test_mlp[11-2]\n0.04s call     ladder/tests/test_step10_kernels.py::test_attention_decode[100-32-2]\n0.04s call     ladder/tests/test_step10_kernels.py::test_attention_layer[40-1]\n0.04s call     ladder/tests/test_step10_kernels.py::test_attention_decode[100-32-1]\n0.04s call     ladder/tests/test_step10_kernels.py::test_attention_layer[63-1]\n0.04s call     ladder/tests/test_step10_kernels.py::test_attention_layer[0-2]\n0.03s call     ladder/tests/test_step10_kernels.py::test_attention_layer[0-1]\n0.03s call     ladder/tests/test_step10_kernels.py::test_mlp[11-1]\n0.03s call     ladder/tests/test_step10_kernels.py::test_mlp[4-2]\n0.03s call     ladder/tests/test_step10_kernels.py::test_mlp[1-2]\n0.02s call     ladder/tests/test_step10_kernels.py::test_attention_decode[100-64-2]\n0.02s call     ladder/tests/test_step10_kernels.py::test_attention_decode[100-64-1]\n0.02s call     ladder/tests/test_step10_compiler_kernels.py::test_compiled_mlp_isa_vs_numpy\n0.02s call     ladder/tests/test_step10_kernels.py::test_mlp[4-1]\n0.02s call     ladder/tests/test_step10_kernels.py::test_design_size_block_128\n0.02s call     ladder/tests/test_step10_kernels.py::test_mlp[1-1]\n0.02s call     ladder/tests/test_step10_kernels.py::test_attention_decode[31-32-2]\n0.02s call     ladder/tests/test_step10_kernels.py::test_attention_decode[1-32-2]\n0.02s call     ladder/tests/test_step10_kernels.py::test_attention_decode[32-32-2]\n0.02s call     ladder/tests/test_step10_kernels.py::test_attention_decode[31-32-1]\n0.02s call     ladder/tests/test_step10_kernels.py::test_attention_decode[1-32-1]\n0.01s call     ladder/tests/test_step10_kernels.py::test_attention_decode[32-32-1]\n0.01s call     ladder/tests/test_step10_kernels.py::test_attention_decode_head_layouts[1-2-1]\n0.01s call     ladder/tests/test_step10_compiler.py::test_released_argument_registers[15-False]\n0.01s call     ladder/tests/test_step10_compiler.py::test_released_argument_registers[13-True]\n0.01s call     ladder/tests/test_step10_examples.py::test_failure_receipt_is_durable\n0.01s call     ladder/tests/test_step10_compiler.py::test_program_is_spmd_over_slices\n0.01s call     ladder/tests/test_step10_compiler.py::test_an_accumulator_at_its_dram_stride_drains_slower_than_its_array\n0.01s call     ladder/tests/test_step10_compiler.py::test_a_counter_steps_where_the_program_says[run_words]\n0.01s call     ladder/tests/test_step10_compiler.py::test_a_counter_steps_where_the_program_says[argument]\n0.01s call     ladder/tests/test_step10_kernels.py::test_softcap_and_gelu_tanh\n0.01s call     ladder/tests/test_step10_compiler.py::test_rmsnorm_quantize_is_one_rssq_pass_and_one_qact\n\n(233 durations < 0.005s hidden.  Use -vv to show these durations.)\n======================================================================================================================================================================================= 102 passed, 2 skipped in 20.25s ========================================================================================================================================================================================\n",
+ "stderr_tail": "",
+ "notes": "47 functions / 104 cases: compiled MLP vs numpy on isasim, determinism, exact fixed vector, examples/run_all PASS (14 cases), ported production kernel/compiler/example suites (2 host-transport cases skip until step 11), and two production-RTL replays (compiled MLP + attention decode) bit-identical to isasim. Warm prod.CFG cache reuse; 102 passed / 0 failed / 2 skipped (the 2 skips are the step-11 host transport cases)."
+}
