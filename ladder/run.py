@@ -329,9 +329,10 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
             proc = subprocess.run(cmd, cwd=ROOT, env=env, capture_output=True, text=True,
                                   timeout=int(os.environ.get("LADDER_STEP_TIMEOUT", "10800")))
             rc = proc.returncode
+            if rc < 0:
+                signals.append(-rc)          # the final kill is recorded too (ABORTED receipts)
             if rc >= 0 or attempts >= 2:
                 break
-            signals.append(-rc)
             if not quiet:
                 print(f"[ladder] step {n}: run killed by signal {-rc} "
                       f"(shared-host thermal guard?); retrying once", flush=True)

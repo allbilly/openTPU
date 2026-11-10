@@ -8,9 +8,11 @@
 // this core; step 9 adopts the production RTL and retires it.
 //
 // Instruction subset (docs/isa.md): NOP, HALT (CHAIN -> error), LI, ADDI, LOOP, BAR (S=1 no-op),
-// RLD, LD/ST and (step 5) the elementwise VOPs in all four B-operand modes.  Everything else
-// latches ERR_ILLEGAL.  Error codes are in mini_pkg.  The VPU's arithmetic is the product
-// tree's otpu_fp package, so the state it leaves is bit-identical to isasim's (step 5's tests).
+// RLD, LD/ST, (step 5) the elementwise VOPs in all four B-operand modes, (step 6) QACT/QST and
+// (step 7) the int8 MM with its scales and fp32 epilogue.  Everything else latches
+// ERR_ILLEGAL.  Error codes are in mini_pkg (4 bits from step 7: codes 8/9).  The arithmetic
+// units reuse the product tree's otpu_fp package, so the state they leave is bit-identical to
+// isasim's.
 `timescale 1ns/1ps
 module mini_top #(
   parameter int D          = 32,      // MXU depth == quantization block (kept for the config)
@@ -47,7 +49,7 @@ module mini_top #(
 
   logic        halted;
   logic        err;
-  logic [2:0]  ecode;
+  logic [3:0]  ecode;
   logic [31:0] icnt;
 
   integer k;               // reset-loop variable (in the sequencer below)
@@ -99,7 +101,8 @@ module mini_top #(
     ST_HALTED = 4'd4,
     ST_ERROR  = 4'd5,
     ST_VOP    = 4'd6,
-    ST_QUANT  = 4'd7
+    ST_QUANT  = 4'd7,
+    ST_MM     = 4'd8
   } state_t;
   state_t st;
 
@@ -130,29 +133,48 @@ module mini_top #(
   logic [31:0] act_rrow_w, act_rword, act_rdata_w;
   logic [31:0] act_rrow_rec, act_rblock_rec;
   logic [63:0] act_rdata_rec;
-  assign act_rrow_w = 32'd0; assign act_rword = 32'd0;
-  assign act_rrow_rec = 32'd0; assign act_rblock_rec = 32'd0;
+
+  // MM / MXU (step 7)
+  logic        m_start, m_busy, m_done, m_err;
+  logic [3:0]  m_err_code;
+  logic [31:0] m_sa, m_ssa, m_out, m_rs, m_srs;
+  logic [15:0] m_n, m_ors;
+  logic [7:0]  m_kb, m_k0, m_m, m_ab;
+  logic [31:0] m_dram_raddr, m_tmem_raddr, m_tmem_waddr, m_tmem_wdata;
+  logic        m_tmem_we;
+  logic [31:0] m_act_row, m_act_word, m_rec_row, m_rec_block;
+
+  // the ACT RAM's MXU read ports: the quantizer's byte/single-record ports stay idle
   assign act_rrow = 32'd0; assign act_rlin = 32'd0;
   assign act_rrow_s = 32'd0; assign act_rblock_s = 32'd0;
   assign act_rrow_d = 32'd0; assign act_rblock_d = 32'd0;
+  assign act_rrow_w = (st == ST_MM) ? m_act_row : 32'd0;
+  assign act_rword  = (st == ST_MM) ? m_act_word : 32'd0;
+  assign act_rrow_rec   = (st == ST_MM) ? m_rec_row : 32'd0;
+  assign act_rblock_rec = (st == ST_MM) ? m_rec_block : 32'd0;
 
   // ST reads TMEM (port 0) and LD writes it; RLD reads TMEM while it executes; the VPU owns
   // both read ports and the write port while it runs; the quantizer owns both read ports
   // (port 0 row data, port 1 the CSCALE factors) while QACT/QST run.
   assign tmem_raddr0 = (st == ST_VOP) ? vpu_raddr0
+                     : (st == ST_MM) ? m_tmem_raddr
                      : (st == ST_QUANT) ? q_raddr0
                      : ((st == ST_LDST) && !ldst_ld) ? (ldst_t + ldst_i)
                      : (rget(ra) + w1);
   assign tmem_raddr1 = (st == ST_VOP) ? vpu_raddr1
                      : (st == ST_QUANT) ? q_raddr1 : 32'd0;
-  assign dram_raddr = ((st == ST_LDST) && ldst_ld) ? (ldst_d + (ldst_i << 2)) : 32'd0;
+  assign dram_raddr = (st == ST_MM) ? m_dram_raddr
+                    : ((st == ST_LDST) && ldst_ld) ? (ldst_d + (ldst_i << 2)) : 32'd0;
   assign dram_waddr = ldst_d + (ldst_i << 2);
   assign dram_wdata = tmem_rdata0;
   assign dram_we    = (st == ST_LDST) && !ldst_ld && (ldst_i < ldst_n);
-  assign tmem_waddr = (st == ST_VOP) ? vpu_waddr : (ldst_t + ldst_i);
-  assign tmem_wdata = (st == ST_VOP) ? vpu_wdata : dram_rdata;
+  assign tmem_waddr = (st == ST_VOP) ? vpu_waddr
+                    : (st == ST_MM) ? m_tmem_waddr : (ldst_t + ldst_i);
+  assign tmem_wdata = (st == ST_VOP) ? vpu_wdata
+                    : (st == ST_MM) ? m_tmem_wdata : dram_rdata;
   assign tmem_we    = (st == ST_VOP) ? vpu_we
-                     : (st == ST_LDST) && ldst_ld && (ldst_i < ldst_n);
+                    : (st == ST_MM) ? m_tmem_we
+                    : (st == ST_LDST) && ldst_ld && (ldst_i < ldst_n);
 
   // ------------------------------------------------------------------ operand math
   // Python (isasim) computes reg+imm in 32 bits (wrap), then indexes in 64 bits for the range
@@ -299,6 +321,37 @@ module mini_top #(
     .raddr0(vpu_raddr0), .rdata0(tmem_rdata0),
     .raddr1(vpu_raddr1), .rdata1(tmem_rdata1),
     .we(vpu_we), .waddr(vpu_waddr), .wdata(vpu_wdata)
+  );
+
+  // ------------------------------------------------------------------ MM operands (step 7)
+  // The register-relative fields exactly as isa.mm() encodes and isasim._mm decodes them:
+  // sa/ssa/out are R[ra/rb/rc] + w1..w3, the rest are payload immediates.
+  assign m_sa  = rget(ra) + w1;
+  assign m_ssa = rget(rb) + w2;
+  assign m_out = rget(rc) + w3;
+  assign m_n   = w4[15:0];
+  assign m_kb  = w4[23:16];
+  assign m_k0  = w4[31:24];
+  assign m_rs  = w5;
+  assign m_ors = w6[15:0];
+  assign m_m   = w6[23:16];
+  assign m_ab  = w6[31:24];
+  assign m_srs = w7;
+  assign m_start = (st == ST_EXEC) && (op == OP_MM);
+
+  mini_mxu #(
+    .D(D), .MCOLS(MCOLS), .ACT_BLOCKS(ACT_BLOCKS), .ACT_ROWS(ACT_ROWS),
+    .TMEM_WORDS(TMEM_WORDS), .DRAM_BYTES(DRAM_BYTES)
+  ) mxu (
+    .clk(clk), .rst(rst), .start(m_start),
+    .sa(m_sa), .ssa(m_ssa), .out(m_out), .rs(m_rs), .srs(m_srs),
+    .n(m_n), .ors(m_ors), .kb(m_kb), .k0(m_k0), .m(m_m), .ab(m_ab), .flags(fl),
+    .busy(m_busy), .done(m_done), .err(m_err), .err_code(m_err_code),
+    .dram_raddr(m_dram_raddr), .dram_rdata(dram_rdata),
+    .act_row(m_act_row), .act_word(m_act_word), .act_rdata(act_rdata_w),
+    .rec_row(m_rec_row), .rec_block(m_rec_block), .rec_rdata(act_rdata_rec),
+    .tmem_raddr(m_tmem_raddr), .tmem_rdata(tmem_rdata0),
+    .tmem_waddr(m_tmem_waddr), .tmem_wdata(m_tmem_wdata), .tmem_we(m_tmem_we)
   );
 
   // ------------------------------------------------------------------ sequencer
@@ -467,6 +520,12 @@ module mini_top #(
               end
             end
 
+            OP_MM: begin
+              // m_start was high this cycle: the MXU latched the operands; it does its own
+              // bounds checks (codes 8/9) and the ACT Sa consistency walk before any write
+              st <= ST_MM;
+            end
+
             OP_QACT, OP_QST: begin
               // q_start was high this cycle: the quantizer latched the operands; it does its
               // own bounds checks and reports ERR_ACT/ERR_QST
@@ -474,7 +533,7 @@ module mini_top #(
             end
 
             default: begin
-              // MM, WAITW, DSTEP, STREAM, GATHER: later rungs
+              // WAITW, DSTEP, STREAM, GATHER: later rungs
               err   <= 1'b1;
               ecode <= ERR_ILLEGAL;
               st    <= ST_ERROR;
@@ -500,6 +559,17 @@ module mini_top #(
             ecode <= q_err_code;
             st    <= ST_ERROR;
           end else if (q_done) begin
+            st <= ST_ADV;
+          end
+        end
+
+        // ---- MM: the MXU runs one element per cycle; wait for its done or its error
+        ST_MM: begin
+          if (m_err) begin
+            err   <= 1'b1;
+            ecode <= m_err_code;
+            st    <= ST_ERROR;
+          end else if (m_done) begin
             st <= ST_ADV;
           end
         end
@@ -552,7 +622,7 @@ module mini_top #(
   // ------------------------------------------------------------------ status
   assign all_halted = halted;
   assign any_error  = err;
-  assign error_code = {29'd0, ecode};
+  assign error_code = {28'd0, ecode};
   assign icount     = icnt;
 
 endmodule

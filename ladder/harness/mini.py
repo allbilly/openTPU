@@ -281,6 +281,13 @@ def compare(out: dict, golden: dict, check_icount: bool = True) -> list[str]:
         problems.append(f"TMEM differs in {nt} word(s):\n{dt}")
     if nd:
         problems.append(f"DRAM differs in {nd} byte(s):\n{dd}")
+    # the quantizer's ACT RAM state (int8 bytes, fp32 Sa words, packed da offsets), when both
+    # sides dumped it: the step-6/7 tests compare this against the ISA simulator's Slice state.
+    for name, fmt in (("act", "%02x"), ("ascale", "%08x"), ("adoff", "%08x")):
+        if name in golden and name in out and golden[name] is not None and out[name] is not None:
+            n, d = _diffs(name, out[name], golden[name], fmt)
+            if n:
+                problems.append(f"ACT {name} differs in {n} entry(ies):\n{d}")
     return problems
 
 

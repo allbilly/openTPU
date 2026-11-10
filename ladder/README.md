@@ -74,7 +74,7 @@ Status: ✅ done · 🔨 in progress · ⏳ planned · 🚫 blocked on hardware
 | 4 | [mini-core ISA sequencer + TMEM + LD/ST](#step-4--mini-core-isa-sequencer--tmem--ldst) | first openTPU-ISA machine: instructions, loops, TMEM, DRAM | bit-exact vs `isasim` | ✅ |
 | 5 | [mini-core VPU (elementwise fp32)](#step-5--mini-core-vpu-elementwise-fp32) | fp32 ADD/SUB/RSUB/MUL/MIN/MAX/ABS/COPY/FILL, all B modes | bit-exact vs `isasim`, fp32 corners | ✅ |
 | 6 | [mini-core quantizer + ACT RAM](#step-6--mini-core-quantizer--act-ram) | QACT/QST, int8 blocks + scales | bit-exact vs `isasim`/`quant.py` | ✅ |
-| 7 | [mini-core MXU (int8 MM)](#step-7--mini-core-mxu-int8-mm) | systolic int8 matmul, MX scales, fp32 epilogue | bit-exact vs `isasim`, matmul vs numpy | ⏳ |
+| 7 | [mini-core MXU (int8 MM)](#step-7--mini-core-mxu-int8-mm) | systolic int8 matmul, MX scales, fp32 epilogue | bit-exact vs `isasim`, matmul vs numpy | ✅ |
 | 8 | [mini-core reductions](#step-8--mini-core-reductions-and-argmax) | RSUM/RMAX/RSSQ/RDOT/ARGMAX | bit-exact vs `isasim` | ⏳ |
 | 9 | [production core adoption](#step-9--production-core-adoption) | production RTL supersedes the mini-core | production RTL↔ISA tests (selected, then wide) | ⏳ |
 | 10 | [production software stack](#step-10--compiler-language-kernels-runtime) | `ol` language, compiler, kernels, runtime, targets | `examples/` + kernels ISA↔RTL bit-exact | ⏳ |
@@ -470,3 +470,19 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   the runner's external-kill handling (retry once, `attempts`/
   `killed_by_signals` in the receipt, exit code 6 ABORTED) requested by the
   independent verifier after a thermal-guard kill of one light run.
+- 2026-11-10: step 7 committed - the mini-core MXU: `mini_mxu` implements MM (0x20,
+  int8 WF 0) with UNIT/ACC/RMAX, exact 48-bit integer accumulation over D-byte
+  blocks with the W=16 shift window, per-row `Sw` and per-block `dw` scale rows,
+  ACT `Sa`/`da` records read through `mini_actram`'s MXU ports, and the
+  isasim-order fp32 epilogue with the production MXU's 48-bit `i2f48`
+  converter. Unsupported formats/flags are error 8, bounds/alignment/Sa
+  consistency error 9 (the `ecode` output widened to 4 bits); the serialized
+  ACC aliasing limitation (bit-exact for distinct output addresses, ors >= N)
+  is documented. 31 tests: 10 embedded bit-exact golden vectors + 16 negative
+  cases (with independent docs-formula replay), 16 random LD->QACT->MM
+  programs vs isasim whole-state (TMEM + DRAM + ACT bytes/Sa/da), a numpy
+  int64 accumulation cross-check and the boundary cases. 33 s. Receipt:
+  `ladder/evidence/step07.json`. Integration also applied two verifier
+  findings: the harness `compare()` now also asserts ACT bytes/Sa/da against
+  isasim's Slice state (previously computed but unasserted), and
+  `killed_by_signals` records every killed attempt of an ABORTED run.

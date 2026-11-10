@@ -1,8 +1,9 @@
 # The ladder mini-core (step 4): an openTPU-ISA machine
 
 This document describes `rtl/ladder/mini_*.sv` — the first real openTPU-ISA machine written for
-the ladder, and the base the next rungs (quantizer, MXU, reductions) extend.  Step 4 built the
-sequencer, TMEM, DRAM and LD/ST; step 5 adds the VPU (section [The VPU](#the-vpu-step-5)).  Its job is
+the ladder, and the base the next rungs (reductions) extend.  Step 4 built the sequencer,
+TMEM, DRAM and LD/ST; step 5 adds the VPU (section [The VPU](#the-vpu-step-5)), step 6 the
+quantizer + ACT RAM and step 7 the MXU (section [The MXU](#the-mxu-step-7)).  Its job is
 narrow and strict: run the step-4 instruction subset one instruction at a time and leave exactly
 the state the openTPU ISA simulator leaves (`opentpu/isasim.py`, the golden model imported in
 step 3), so that every later unit can be trusted bit for bit before the production RTL replaces
@@ -104,7 +105,10 @@ then `w1..w7` (`opentpu/isa.py`, `docs/isa.md`).  Addresses and counts are `R[x]
 | 0x10 | LD   | `T[R[rb] + w2 + i] = M32[R[ra] + w1 + 4i]`, `i < w3` |
 | 0x11 | ST   | `M32[R[ra] + w1 + 4i] = T[R[rb] + w2 + i]`, `i < w3` |
 | 0x30 | VOP  | step 5: the 14 elementwise functions in the 4 B modes (the VPU section); the reductions / ARGMAX / OUTER are step 8 and error 1 here |
-| other |      | error 1 (MM/QACT/QST/WAITW/DSTEP/STREAM/GATHER arrive in steps 6-9) |
+| 0x21 | QACT | step 6: quantize TMEM rows into ACT RAM (the quantizer section) |
+| 0x22 | QST  | step 6: quantize TMEM rows into DRAM int8 bytes + scale records |
+| 0x20 | MM   | step 7: int8 (WF 0) matmul with MX scales and the fp32 epilogue; UNIT/ACC/RMAX (the MXU section); other formats/flags are error 8 |
+| other |      | error 1 (WAITW/DSTEP/STREAM/GATHER arrive in step 8+) |
 
 `R0` reads as 0 and writes to it are dropped.  `R8..R15` start with the run's arguments
 (`+arg0..+arg7`, the `rinit[8]` port); `R1..R7` start at 0.  `LD`/`ST` with `w3 = 0` are no-ops
@@ -121,6 +125,10 @@ transfer starts, in `isasim`'s order: DRAM first (error 2), then TMEM (error 4).
 | 3 | `LOOP` error: empty body, nested bodies ending on the same instruction, stack depth exceeded |
 | 4 | TMEM index out of range (`R[ra] + w`, an LD/ST range, or a VOP operand/destination outside `TMEM_WORDS`) |
 | 5 | VOP read-after-write hazard: a later element reads a TMEM word an earlier element of the same VOP wrote (the ISA simulator rejects this; a one-write-port machine would compute different bits) |
+| 6 | QACT/QST TMEM range, or QACT ACT RAM bounds (step 6) |
+| 7 | QST data/scale range or overlap, bad scale address (step 6) |
+| 8 | MM flag/format the mini-core does not implement: PAIR, RSC, ASCALE, the 4-bit / NVFP4 weight formats (step 9) |
+| 9 | MM bounds/alignment/scale-row checks, or an ACT row whose K-blocks hold different Sa (two QACTs) |
 
 The codes are the ladder's own; the ISA's error *condition* is the oracle's (`isasim` raises
 `SimError` for all of them, except that the hardware-ignored `RLD BOUND` field is only checked by
@@ -179,6 +187,78 @@ strides, and with the hazard and range negatives (codes 5 and 4).  The package i
 checked against `opentpu/fp32.py` on 84 322 random/corner vectors, all 14 operations, before the
 unit was wired in (0 mismatches; this check is not part of the committed suite because the
 mini-core tests already exercise it through VOP).
+
+## The MXU (step 7)
+
+`rtl/ladder/mini_mxu.sv` implements MM for the **int8 weight format (WF 0)** with the flags
+**UNIT / ACC / RMAX**: exact integer accumulation over D-byte K-blocks, the MX scales, and the
+fp32 epilogue.  PAIR, RSC, ASCALE and the 4-bit / NVFP4 formats are rejected with error 8, so a
+program that relies on them fails instead of computing wrong bits.  The arithmetic is
+`docs/isa.md` "MM" / "Weight formats", i.e. `opentpu/isasim.py::_mm` / `_mx_scales`, the golden
+model imported in step 3 (`opentpu/fp32.py` for the epilogue, `rtl/ladder/otpu_fp.sv` for the
+hardware, both bit-exact).
+
+For every output `y[j][n]` (stationary ACT row `j`, streamed weight row `n`):
+
+```
+acc = 0                                                    exact signed 48-bit (< 2^47)
+for k in 0..KB-1:                                          ACT block ab+k, weight block k
+  for g in 0..3:                                           the D/4 = 8-element sub-blocks
+    c  = sum_i ACT[j][(ab+k)*D + g*8+i] * w[n][k*D + g*8+i]   exact, |c| < 2^17
+    sh = 16 - dw[n][k0+k] - da[j][ab+k][g]                 unsigned bytes: sh is signed
+    acc = acc + (sh >= 0 ? c << sh : 0)                    sh < 0: the group drops
+y = fp_mul(fp_mul(i2f48(acc), Sw[n]), fp_mul(Sa[j][ab], 2^-16))
+if ACC: y = fp_add(T[out + j*ors + n], y)
+T[out + j*ors + n] = y
+if RMAX: the row maximum of the written y (total order of flushed values, `otpu_fp::fp_gt`);
+         after all M*N outputs, T[out + M*ors + j] = rmax[j]
+```
+
+The epilogue's association is load-bearing: `Sa * 2^-16` is its own rounded multiply
+(`0x37800000`), not a folded exponent, so a denormal `Sa` or a NaN result rounds exactly as
+`opentpu/fp32.py` does.  `i2f48` is the production MXU's accumulator converter
+(`rtl/mxu/otpu_mxu.sv`'s `otpu_mx_lane`): 48-bit signed, round to nearest even with guard and
+sticky, exponent carry; `otpu_fp::i2f` is 32-bit and would truncate the accumulator, so the
+mini-core carries its own copy of the converter.
+
+Scale sources (WF 0): `Sw[n]` is the fp32 word at `ssa + n*srs`; `dw[n][k]` is the byte at
+`ssa + n*srs + 4 + k0 + k` (the `k0` offset applies to the `dw` byte and never to the weights);
+`Sa[j][ab+k]` and its four `da[j][ab+k][g]` bytes come from step 6's ACT RAM.  The MXU reads
+the ACT through mini_actram's MXU ports: a 32-bit word of four int8 bytes per cycle
+(`act[row][block*D/4 + word]`) and the (row, block) scale record `{da3, da2, da1, da0, Sa}`;
+the streamed weights and scale rows come from the DRAM read port one 32-bit word (four int8
+bytes) or one byte at a time.  `UNIT` reads no scale row at all (no alignment or range checks
+on `ssa`/`srs`, `Sw = 1.0`, `dw = 0`) but still uses the ACT `Sa`/`da`.
+
+**Checks, in isasim's order.**  The unit validates before any TMEM write (the `M_CHK` /
+`M_CHK_SA` / `M_CHK_TMEM` states), mirroring `_mm`/`_mx_scales`:
+
+| # | check | code |
+|---|-------|------|
+| 0 | unsupported flag/format (PAIR, RSC, ASCALE, WF != 0) | 8 |
+| 1 | `N == 0` or `KB == 0` | 9 |
+| 2 | `not (0 < M <= ACT_ROWS)` or `ab + KB > ACT_BLOCKS` | 9 |
+| 3 | `M > MCOLS` with RMAX (ASCALE is code 8) | 9 |
+| 4 | `sa % D`, `rs % D`, or `sa + (N-1)*rs + KB*D > DRAM_BYTES` (all 64-bit) | 9 |
+| 5 | non-UNIT only: `ssa % 4`, `srs % 4`, `ssa + (N-1)*srs + 4 > DRAM_BYTES`, or a `dw` byte past DRAM | 9 |
+| 6 | an ACT row's K-blocks hold different `Sa` bits (two QACTs on one row) | 9 |
+| 7 | an output word (`out + (M-1)*ors + N-1`) or an RMAX word outside TMEM | 4 |
+
+All address math after the 32-bit `R[x]+w` wrap is 64-bit, like isasim's Python integers, so a
+huge `sa`/`srs` is rejected instead of wrapping into range.
+
+**Documented serialized limitation.**  isasim reads every old ACC value before writing any
+output, while the serialized unit reads `T[addr]` just before writing `addr`.  The state is
+bit-identical while the `M*N` output addresses are distinct, i.e. `ors >= N` (the production
+convention; every step-7 vector and fuzz case satisfies it).  A program with aliasing output
+rows would need an `M*N` pre-read buffer.
+
+The step-7 tests (`ladder/tests/test_step07_mm.py`, 31 tests, Icarus only) run the 10 positive
+golden vectors from `/tmp/ladder-plan/step07_vectors.json` through the mini-core and assert the
+recorded TMEM/ACT/ascale/adoff state, plus whole-state equality with isasim; 16 negative vectors
+(13 isasim-rejected cases with codes 9/4 and 3 mini-only unsupported cases with code 8); 16+
+random LD->QACT->MM programs fuzzed against isasim; a numpy int64 cross-check of the integer
+accumulation; the UNIT-skips-scale-checks case; and the `ors == N` ACC boundary.
 
 ## Testbench protocol (`sim/ladder/tb_mini.sv`)
 
@@ -252,6 +332,8 @@ out = mini.assert_matches_isasim([I.li(1, 5), I.halt()])
 | DRAM interface | AXI / DDR controller | behavioural byte array, 1R+1W |
 | TMEM banking / ports | LANES banks, 3R+1W per bank | flat 2R+1W |
 | VPU arithmetic | `otpu_fp` / `opentpu/fp32.py` | **exact**, the same `otpu_fp` package (step 5) |
+| quantizer | `opentpu/fp32.py::quantize_mx` | **exact** bytes/scales vs isasim's `_quant_rows` (step 6) |
+| MXU | `opentpu/fp32.py` + `_mm` / `_mx_scales` | **exact** for WF 0 with UNIT/ACC/RMAX (step 7); other formats are step 9 |
 
 Later rungs keep the machine and the harness, add the missing units (step 5 VPU, 6 quantizer +
 ACT RAM, 7 MXU, 8 reductions/ARGMAX), and step 9 swaps the whole mini-core for the production
@@ -266,6 +348,9 @@ RTL, comparing through the same `+prog`/`+dram`/dumps protocol.
 | `rtl/ladder/mini_tmem.sv` | TMEM word array, 1R+1W, visible `mem` |
 | `rtl/ladder/mini_top.sv` | IMEM, registers, PC, loop stack, FSM, LD/ST engine, VOP decode, status |
 | `rtl/ladder/mini_vpu.sv` | the elementwise VPU: 14 functions, 4 B modes, hazard bitmap, TMEM 2R1W master |
+| `rtl/ladder/mini_quant.sv` | the quantizer: QACT/QST, MX row quantization (step 6) |
+| `rtl/ladder/mini_actram.sv` | ACT RAM: int8 bytes + Sa/da scale records, quantizer write/MXU read ports (step 6) |
+| `rtl/ladder/mini_mxu.sv` | the int8 MXU: exact block accumulation, MX scale rows, fp32 epilogue, RMAX (step 7) |
 | `rtl/ladder/otpu_fp.sv` | the product tree's fp32 package, copied verbatim (`ca05e24f`, Apache-2.0) |
 | `sim/ladder/tb_mini.sv` | testbench / board protocol |
 | `ladder/harness/mini.py` | build, run, oracle comparison |
@@ -277,7 +362,10 @@ RTL, comparing through the same `+prog`/`+dram`/dumps protocol.
 python3 ladder/run.py step 4            # pytest via the ladder runner, writes the receipt
 python3 -m pytest -v ladder/tests/test_step04_core.py   # directly
 python3 ladder/run.py step 5            # the VPU suite (22 tests, ~14 s, Icarus only)
+python3 ladder/run.py step 6            # the quantizer suite (Icarus only)
+python3 ladder/run.py step 7            # the MXU suite (31 tests, ~33 s, Icarus only)
 python3 -m pytest -v ladder/tests/test_step05_vpu.py    # directly
+python3 -m pytest -v ladder/tests/test_step07_mm.py     # directly
 ```
 
 The suite is light (7 tests, ~4 s): instruction semantics with concrete expected bytes, an 8/16/8-

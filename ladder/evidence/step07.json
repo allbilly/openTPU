@@ -1,0 +1,211 @@
+{
+ "schema": 1,
+ "step": 7,
+ "title": "mini-core MXU (int8 MM)",
+ "heavy": false,
+ "hardware": false,
+ "utc": "2026-11-10T00:08:27Z",
+ "duration_s": 32.062,
+ "command": "python3 ladder/run.py step 7",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/home/fedora/openTPU-ladder/ladder/tests/test_step07_mm.py"
+ ],
+ "git": {
+  "commit": "a35b19b58674f9a36a243f70db53d142bf60f8bd",
+  "short": "a35b19b5",
+  "branch": "ladder/tiny-tpu-to-opentpu",
+  "dirty": true
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "a35b19b5",
+  "thermal_c": 90.75,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": true,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "attempts": 1,
+ "killed_by_signals": [],
+ "tests": [
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_identity_m1n1kb1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_dot_m1n1kb2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_acc]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_rmax_m2n3]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_golden_vectors[scaled_k0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_golden_vectors[scaled_strides]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_nonrow_da]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_acc_rmax]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_m4kb2_rmax]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_golden_vectors[scaled_min_m1n1kb1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_unit_identity_integer_readback",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_fuzz_against_isasim",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_numpy_cross_check_unit",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_unit_skips_scale_row_checks",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_sa]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_rs]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_ssa]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_srs]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_sw_out_of_range]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_dw_out_of_range]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_act_bounds]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_m_too_big]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_rmax_m_too_big]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_n_zero]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_kb_zero]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_tmem_out]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_sa_inconsistent]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[unsup_wf_int4]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[unsup_rsc]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_negative_vectors[unsup_ascale]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step07_mm.py::test_acc_serialized_read_before_write",
+   "status": "PASSED"
+  }
+ ],
+ "passed": 31,
+ "failed": 0,
+ "skipped": 0,
+ "skipped_tests": [],
+ "test_durations_s": {
+  "ladder/tests/test_step07_mm.py::test_fuzz_against_isasim": 11.4,
+  "ladder/tests/test_step07_mm.py::test_numpy_cross_check_unit": 0.72,
+  "ladder/tests/test_step07_mm.py::test_acc_serialized_read_before_write": 0.71,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_sa_inconsistent]": 0.7,
+  "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_m4kb2_rmax]": 0.7,
+  "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_acc_rmax]": 0.7,
+  "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_dot_m1n1kb2]": 0.7,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[unsup_ascale]": 0.7,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_rs]": 0.7,
+  "ladder/tests/test_step07_mm.py::test_unit_skips_scale_row_checks": 0.7,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_kb_zero]": 0.7,
+  "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_identity_m1n1kb1]": 0.7,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[unsup_wf_int4]": 0.7,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_dw_out_of_range]": 0.7,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_act_bounds]": 0.7,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_sa]": 0.7,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_m_too_big]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_sw_out_of_range]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_n_zero]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_rmax_m_too_big]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_ssa]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_rmax_m2n3]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_tmem_out]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_srs]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_golden_vectors[scaled_min_m1n1kb1]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_negative_vectors[unsup_rsc]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_golden_vectors[scaled_k0]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_golden_vectors[scaled_strides]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_nonrow_da]": 0.69,
+  "ladder/tests/test_step07_mm.py::test_golden_vectors[unit_acc]": 0.69
+ },
+ "summary": "PASS",
+ "stdout_tail": "============================= test session starts ==============================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /home/fedora/openTPU-ladder\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 31 items\n\nladder/tests/test_step07_mm.py::test_golden_vectors[unit_identity_m1n1kb1] PASSED [  3%]\nladder/tests/test_step07_mm.py::test_golden_vectors[unit_dot_m1n1kb2] PASSED [  6%]\nladder/tests/test_step07_mm.py::test_golden_vectors[unit_acc] PASSED     [  9%]\nladder/tests/test_step07_mm.py::test_golden_vectors[unit_rmax_m2n3] PASSED [ 12%]\nladder/tests/test_step07_mm.py::test_golden_vectors[scaled_k0] PASSED    [ 16%]\nladder/tests/test_step07_mm.py::test_golden_vectors[scaled_strides] PASSED [ 19%]\nladder/tests/test_step07_mm.py::test_golden_vectors[unit_nonrow_da] PASSED [ 22%]\nladder/tests/test_step07_mm.py::test_golden_vectors[unit_acc_rmax] PASSED [ 25%]\nladder/tests/test_step07_mm.py::test_golden_vectors[unit_m4kb2_rmax] PASSED [ 29%]\nladder/tests/test_step07_mm.py::test_golden_vectors[scaled_min_m1n1kb1] PASSED [ 32%]\nladder/tests/test_step07_mm.py::test_unit_identity_integer_readback PASSED [ 35%]\nladder/tests/test_step07_mm.py::test_fuzz_against_isasim PASSED          [ 38%]\nladder/tests/test_step07_mm.py::test_numpy_cross_check_unit PASSED       [ 41%]\nladder/tests/test_step07_mm.py::test_unit_skips_scale_row_checks PASSED  [ 45%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_sa] PASSED [ 48%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_rs] PASSED [ 51%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_ssa] PASSED [ 54%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_srs] PASSED [ 58%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_sw_out_of_range] PASSED [ 61%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_dw_out_of_range] PASSED [ 64%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_act_bounds] PASSED [ 67%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_m_too_big] PASSED [ 70%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_rmax_m_too_big] PASSED [ 74%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_n_zero] PASSED [ 77%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_kb_zero] PASSED [ 80%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_tmem_out] PASSED [ 83%]\nladder/tests/test_step07_mm.py::test_negative_vectors[neg_sa_inconsistent] PASSED [ 87%]\nladder/tests/test_step07_mm.py::test_negative_vectors[unsup_wf_int4] PASSED [ 90%]\nladder/tests/test_step07_mm.py::test_negative_vectors[unsup_rsc] PASSED  [ 93%]\nladder/tests/test_step07_mm.py::test_negative_vectors[unsup_ascale] PASSED [ 96%]\nladder/tests/test_step07_mm.py::test_acc_serialized_read_before_write PASSED [100%]\n\n============================== slowest durations ===============================\n11.40s call     ladder/tests/test_step07_mm.py::test_fuzz_against_isasim\n0.72s call     ladder/tests/test_step07_mm.py::test_numpy_cross_check_unit\n0.71s call     ladder/tests/test_step07_mm.py::test_acc_serialized_read_before_write\n0.70s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_sa_inconsistent]\n0.70s call     ladder/tests/test_step07_mm.py::test_golden_vectors[unit_m4kb2_rmax]\n0.70s call     ladder/tests/test_step07_mm.py::test_golden_vectors[unit_acc_rmax]\n0.70s call     ladder/tests/test_step07_mm.py::test_golden_vectors[unit_dot_m1n1kb2]\n0.70s call     ladder/tests/test_step07_mm.py::test_negative_vectors[unsup_ascale]\n0.70s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_rs]\n0.70s call     ladder/tests/test_step07_mm.py::test_unit_skips_scale_row_checks\n0.70s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_kb_zero]\n0.70s call     ladder/tests/test_step07_mm.py::test_golden_vectors[unit_identity_m1n1kb1]\n0.70s call     ladder/tests/test_step07_mm.py::test_negative_vectors[unsup_wf_int4]\n0.70s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_dw_out_of_range]\n0.70s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_act_bounds]\n0.70s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_sa]\n0.69s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_m_too_big]\n0.69s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_sw_out_of_range]\n0.69s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_n_zero]\n0.69s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_rmax_m_too_big]\n0.69s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_ssa]\n0.69s call     ladder/tests/test_step07_mm.py::test_golden_vectors[unit_rmax_m2n3]\n0.69s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_tmem_out]\n0.69s call     ladder/tests/test_step07_mm.py::test_negative_vectors[neg_unaligned_srs]\n0.69s call     ladder/tests/test_step07_mm.py::test_golden_vectors[scaled_min_m1n1kb1]\n0.69s call     ladder/tests/test_step07_mm.py::test_negative_vectors[unsup_rsc]\n0.69s call     ladder/tests/test_step07_mm.py::test_golden_vectors[scaled_k0]\n0.69s call     ladder/tests/test_step07_mm.py::test_golden_vectors[scaled_strides]\n0.69s call     ladder/tests/test_step07_mm.py::test_golden_vectors[unit_nonrow_da]\n0.69s call     ladder/tests/test_step07_mm.py::test_golden_vectors[unit_acc]\n\n(63 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================= 31 passed in 31.74s ==============================\n",
+ "stderr_tail": "",
+ "notes": "31 tests: 10 embedded bit-exact golden vectors + 16 negative cases from /tmp/ladder-plan/step07_vectors.json (independent docs-formula replay), 16 random LD->QACT->MM programs vs isasim whole-state, numpy int64 accumulation cross-check; i2f48 epilogue, ecode widened to 4 bits, ACC aliasing (ors>=N) documented."
+}

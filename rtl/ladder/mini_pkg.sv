@@ -20,6 +20,7 @@ package mini_pkg;
   localparam logic [7:0] OP_VOP   = 8'h30;
   localparam logic [7:0] OP_QACT  = 8'h21;
   localparam logic [7:0] OP_QST   = 8'h22;
+  localparam logic [7:0] OP_MM    = 8'h20;
 
   // ---- flags
   localparam logic [7:0] F_RAW    = 8'h01;   // RLD: the word's bits, no fp32 -> int conversion
@@ -42,6 +43,9 @@ package mini_pkg;
   localparam logic [2:0] ERR_VOP_HAZ = 3'd5;  // VOP read-after-write hazard
   localparam logic [2:0] ERR_ACT     = 3'd6;  // QACT/QST TMEM range, QACT ACT RAM bounds
   localparam logic [2:0] ERR_QST     = 3'd7;  // QST data/scale range or overlap, bad scale address
+  // step 7 (the error-code output is 4 bits from step 7 on: 8/9 do not fit the old 3)
+  localparam logic [3:0] ERR_MM_UNSUP  = 4'd8;  // MM flag/format the mini-core does not implement
+  localparam logic [3:0] ERR_MM_BOUNDS = 4'd9;  // MM bounds/alignment/scale-row/Sa consistency
 
   // VOP functions the step-5 VPU implements (docs/isa.md "VOP"); the reductions / ARGMAX /
   // OUTER are step 8, anything else is an illegal instruction for this rung.

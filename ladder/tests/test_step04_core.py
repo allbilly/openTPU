@@ -479,8 +479,10 @@ def test_error_reporting():
     assert out["error"] and out["code"] == 1
     # a truly undefined opcode is an error for both
     mini.assert_errors([I.Instr(0x77), I.halt()], code=1, params_=SMALL)
-    # MM (0x20) is in the ISA; bad fields make isasim raise, the mini-core rejects the opcode
-    mini.assert_errors([I.Instr(0x20), I.halt()], code=1, params_=SMALL)
+    # MM (0x20) is in the ISA and step 7 implements it: an all-zero MM word has N = KB = 0,
+    # which both the ISA encoder refuses and the MXU's own checks reject before any write
+    # (error 9, the bounds/alignment code; isasim raises "MM: N and KB must be at least 1")
+    mini.assert_errors([I.Instr(0x20), I.halt()], code=9, params_=SMALL)
     # HALT CHAIN: not in the mini-core (and isasim rejects a chain to zero instructions)
     mini.assert_errors([I.halt(chain=True), I.halt()], code=1, params_=SMALL)
     # an instruction fetched past the end of the program image: the padded IMEM words are
