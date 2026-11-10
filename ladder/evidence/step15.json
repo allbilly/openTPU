@@ -1,0 +1,103 @@
+{
+ "schema": 1,
+ "step": 15,
+ "title": "LLM inference on the card (hardware)",
+ "heavy": false,
+ "hardware": true,
+ "utc": "2026-11-10T03:56:53Z",
+ "duration_s": 0.55,
+ "command": "python3 ladder/run.py step 15 --no-heavy",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/tmp/ldr/ladder/tests/test_step15_hardware_gate.py"
+ ],
+ "git": {
+  "commit": "cfaac19dbc5576fab420104c0cbc2680d7591d89",
+  "short": "cfaac19d",
+  "branch": "HEAD",
+  "dirty": true
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "cfaac19d",
+  "thermal_c": 75.875,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": true,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "attempts": 1,
+ "killed_by_signals": [],
+ "warm_run": false,
+ "tests": [
+  {
+   "test": "ladder/tests/test_step15_hardware_gate.py::test_step15_provenance_byte_identical",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step15_hardware_gate.py::test_step15_acceptance_constants_are_pinned",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step15_hardware_gate.py::test_step15_image_and_model_identity",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step15_hardware_gate.py::test_step15_historical_acceptance_record",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step15_hardware_gate.py::test_step15_llm_recipe_is_documented",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step15_hardware_gate.py::test_step15_live_model_run_expected_tokens",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step15_hardware_gate.py::test_step15_warm_repeat_and_optional_evidence",
+   "status": "SKIPPED"
+  }
+ ],
+ "passed": 0,
+ "failed": 0,
+ "skipped": 7,
+ "skipped_tests": [
+  "ladder/tests/test_step15_hardware_gate.py::test_step15_provenance_byte_identical",
+  "ladder/tests/test_step15_hardware_gate.py::test_step15_acceptance_constants_are_pinned",
+  "ladder/tests/test_step15_hardware_gate.py::test_step15_image_and_model_identity",
+  "ladder/tests/test_step15_hardware_gate.py::test_step15_historical_acceptance_record",
+  "ladder/tests/test_step15_hardware_gate.py::test_step15_llm_recipe_is_documented",
+  "ladder/tests/test_step15_hardware_gate.py::test_step15_live_model_run_expected_tokens",
+  "ladder/tests/test_step15_hardware_gate.py::test_step15_warm_repeat_and_optional_evidence"
+ ],
+ "allow_skips": false,
+ "pytest_summary": {
+  "passed": 0,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 7,
+  "deselected": 0
+ },
+ "test_durations_s": {
+  "ladder/tests/test_step15_hardware_gate.py::test_step15_provenance_byte_identical": 0.21
+ },
+ "summary": "BLOCKED",
+ "stdout_tail": "============================================================================================================================================================================================= test session starts ==============================================================================================================================================================================================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /tmp/ldr\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 7 items\n\nladder/tests/test_step15_hardware_gate.py::test_step15_provenance_byte_identical SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                                        [ 14%]\nladder/tests/test_step15_hardware_gate.py::test_step15_acceptance_constants_are_pinned SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                                  [ 28%]\nladder/tests/test_step15_hardware_gate.py::test_step15_image_and_model_identity SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                                         [ 42%]\nladder/tests/test_step15_hardware_gate.py::test_step15_historical_acceptance_record SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                                     [ 57%]\nladder/tests/test_step15_hardware_gate.py::test_step15_llm_recipe_is_documented SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                                         [ 71%]\nladder/tests/test_step15_hardware_gate.py::test_step15_live_model_run_expected_tokens SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                                   [ 85%]\nladder/tests/test_step15_hardware_gate.py::test_step15_warm_repeat_and_optional_evidence SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                                [100%]\n\n============================================================================================================================================================================================== slowest durations ===============================================================================================================================================================================================\n0.21s setup    ladder/tests/test_step15_hardware_gate.py::test_step15_provenance_byte_identical\n\n(13 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================================================================================================================================================================================== 7 skipped in 0.25s ==============================================================================================================================================================================================\n",
+ "stderr_tail": "",
+ "notes": ""
+}

@@ -82,6 +82,60 @@ TIMING = {
 }
 
 
+# The end-to-end LLM acceptance target for step 15: TinyStories-15M int8 on the
+# reviewed c0182902 image, as recorded in docs/tinystories_jtag_c0182902.md and
+# docs/data/c0182902-tinystories-jtag-20261107.json.  Steps 13 and 15 share the
+# JTAG runtime; step 15 adds the model run, the exact token comparison, the warm
+# repeat and the optional full readback/bandwidth checks.
+LLM_ACCEPTANCE = {
+    "image": ACCEPTANCE["image"],
+    "model": "build/models/TinyStories-Llama-15M-tiles128-20261018-v2",
+    "prompt": ACCEPTANCE["prompt"],
+    "prompt_token_ids": ACCEPTANCE["prompt_token_ids"],
+    "expected_token_ids": ACCEPTANCE["expected_token_ids"],
+    "image_bytes": ACCEPTANCE["image_bytes"],
+    "image_sha256": ACCEPTANCE["image_sha256"],
+    "bitstream_sha256": ACCEPTANCE["bitstream_sha256"],
+    "package_manifest_sha256": ACCEPTANCE["package_manifest_sha256"],
+    "model_sha256": ACCEPTANCE["model_sha256"],
+    # structural preflight that must pass on the same configured image first
+    "preflight": {
+        "initialization_chunks": 2048,
+        "program_fetch_instructions": 1371,
+        "program_fetch_words_compared": 65,
+        "matmul_instructions": 5,
+        "program_readbacks": 13,
+    },
+    # the passing run's own record
+    "required": {
+        "tokens_exact": True,
+        "image_sha256_match": True,
+        "calibration_unchanged": True,
+        "ecc_clean": True,
+        "flash_written": False,
+    },
+    # the warm repeat re-runs generation on the configured image without rewriting it
+    "warm_repeat": {
+        "image_bytes_written": 0,
+        "image_bytes_reused": ACCEPTANCE["image_bytes"],
+        "tokens_exact": True,
+        "calibration_unchanged": True,
+    },
+    # optional extra evidence (not required for the token acceptance)
+    "optional_checks": {
+        "full_image_readback_sha256": ACCEPTANCE["image_sha256"],
+        "native_read_bandwidth": {
+            "transport": "jtag",
+            "span_bytes": 67_108_864,
+            "repeats": 3,
+            "median_logical_read_gbs": 3.9814,
+        },
+    },
+    "historical_evidence": "docs/data/c0182902-tinystories-jtag-20261107.json",
+    "acceptance_doc": "docs/oncard-llm.md",
+}
+
+
 def run_probe(timeout: float = 30) -> tuple[int, dict]:
     """Run the read-only hardware probe; returns (exit_code, report)."""
     r = subprocess.run([sys.executable, str(PROBE), "--json"],

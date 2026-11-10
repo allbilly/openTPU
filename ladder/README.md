@@ -666,3 +666,24 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   the integration completed it thermally paced (`-O0` C++ override +
   temperature-aware incremental make across cool windows); the receipt notes
   record this. `docs/llm-sim.md`.
+- 2026-11-10: step 15 committed (hardware rung, software side + honest BLOCKED
+  receipt). Imported byte-identically the last tracked tools the on-card
+  TinyStories acceptance needs: `tools/spare_program_fetch_check.py` (the
+  1,371-instruction / 65-word structural preflight) and
+  `tools/spare_runtime_c0182902.py` (image-bound CH0 calibration guards),
+  recorded in `ladder/hardware/import-provenance.json`. Extended
+  `ladder/harness/hardware.py` with the `LLM_ACCEPTANCE` constants (pinned
+  prompt/token oracle `[1,9038,2501,263,931] -> [29892,727,471,263,2217,7826,
+  4257,365]`, image/package/bitstream/model hashes, 2,048 init chunks, 1,371
+  instructions/65 exact words, 5 matmul instructions, 13/13 readbacks,
+  warm-repeat/ECC/calibration/flash conditions), added the probe-gated
+  `ladder/tests/test_step15_hardware_gate.py` (7 skips while the cable/card
+  are absent; when ready it runs 5 structural identity checks and leaves the
+  live run/warm repeat as explicit TODO(step 15) skips) and
+  `docs/oncard-llm.md` with the full end-to-end acceptance recipe, the
+  historical c0182902 PASS evidence, the lift procedure and the known gaps
+  (untracked package/model/host-tree/calibration/oracle, tokenizer wheel
+  path). Hardware assertion BLOCKED: no DLC10 (`03fd:*`/`0403:6014`), no
+  `10ee` PCIe, no `/dev/xdma*`; receipt `BLOCKED` (exit 5, 7 skipped) with the
+  probe JSON committed. Nothing was programmed, flashed or reset. Roadmap row
+  15 stays 🚫 until the probe exits 0.

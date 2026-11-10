@@ -116,6 +116,12 @@
     "docs/tinystories_jtag_c0182902.md": "6dd6dc856cd3463ba404afa14a0259d8ea6040b8ab234a21935bb0fa65e038b0",
     "docs/data/c0182902-tinystories-jtag-20261107.json": "b75635750f4010138d1ed13b68a85ed8a47aa6ab553cc24c5761454e3d1e2f5e"
    }
+  },
+  "15": {
+   "files": {
+    "tools/spare_runtime_c0182902.py": "f78b3d6cc4fe83a2a83ee4f5571be1c07ff7664e4bdc74ee5d775cf3984e6841",
+    "tools/spare_program_fetch_check.py": "4c17b1404fef0a9c5295cc01be54954f5edb0ead3b3fee30c7f89abbd05647bc"
+   }
   }
  }
 }

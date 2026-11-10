@@ -1,0 +1,249 @@
+{
+ "schema": 1,
+ "utc": "2026-11-10T01:14:40Z",
+ "host": "fedora",
+ "probe": "ladder/hardware/probe.py",
+ "product_root": "/home/fedora/openTPU",
+ "product_root_source": "fallback",
+ "status": "blocked",
+ "exit_code": 3,
+ "blocking_reasons": [
+  {
+   "reason": "jtag_cable_absent",
+   "detail": "no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb"
+  }
+ ],
+ "unexpected": [],
+ "warnings": [
+  {
+   "reason": "heavy_lock_held",
+   "detail": "/tmp/rknpu-heavy.lock is held; the runner waits up to 90 min"
+  }
+ ],
+ "summary": [
+  "BLOCKED: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb",
+  "WARNING: heavy_lock_held: /tmp/rknpu-heavy.lock is held; the runner waits up to 90 min"
+ ],
+ "checks": {
+  "usb": {
+   "tool_available": true,
+   "device_count": 6,
+   "devices": [
+    {
+     "id": "1d6b:0002",
+     "description": "Linux Foundation 2.0 root hub",
+     "line": "Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub"
+    },
+    {
+     "id": "30c9:0014",
+     "description": "Luxvisions Innotech Limited Integrated Camera",
+     "line": "Bus 001 Device 002: ID 30c9:0014 Luxvisions Innotech Limited Integrated Camera"
+    },
+    {
+     "id": "1d6b:0003",
+     "description": "Linux Foundation 3.0 root hub",
+     "line": "Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub"
+    },
+    {
+     "id": "1d6b:0002",
+     "description": "Linux Foundation 2.0 root hub",
+     "line": "Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub"
+    },
+    {
+     "id": "0bda:c123",
+     "description": "Realtek Semiconductor Corp. Bluetooth Radio",
+     "line": "Bus 003 Device 002: ID 0bda:c123 Realtek Semiconductor Corp. Bluetooth Radio"
+    },
+    {
+     "id": "1d6b:0003",
+     "description": "Linux Foundation 3.0 root hub",
+     "line": "Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub"
+    }
+   ],
+   "jtag_cable_present": false,
+   "jtag_candidates": [],
+   "expects": [
+    "03fd:0008",
+    "03fd:0013",
+    "0403:6014"
+   ]
+  },
+  "pcie": {
+   "tool_available": true,
+   "xilinx_devices": [],
+   "note": "PCIe is not required for the JTAG-only ladder path (steps 12/13/15 run over DLC10; docs/bitstreams.md). Informational only."
+  },
+  "dev_nodes": {
+   "xdma": [],
+   "note": "/dev/xdma* exists only when a PCIe-hosted image enumerates; JTAG-only bring-up does not need it."
+  },
+  "jtag_owners": {
+   "busy": false,
+   "cable_holder": false,
+   "heavy_running": false,
+   "processes": [],
+   "checked": [
+    "fxload",
+    "hw_server",
+    "openFPGALoader",
+    "openfpgaloader",
+    "vivado",
+    "vivado_lab",
+    "xsdb"
+   ]
+  },
+  "xvc": {
+   "port": 3721,
+   "listening": false,
+   "listeners": [],
+   "note": "An already-listening XVC server is not an error, but its owner must be the reviewed tools/fedora_xvc_server.py before a run."
+  },
+  "thermal": {
+   "sensors": [
+    {
+     "name": "k10temp",
+     "temp_c": 80.5
+    }
+   ],
+   "k10temp_c": 80.5,
+   "limit_c": 92.0,
+   "ok": true
+  },
+  "heavy_lock": {
+   "path": "/tmp/rknpu-heavy.lock",
+   "exists": true,
+   "held": true
+  },
+  "artifacts": {
+   "product_root": "/home/fedora/openTPU",
+   "missing": [],
+   "mismatched": [],
+   "bitstream": {
+    "path": "/home/fedora/openTPU/bitstreams/spare-dual-host-4gb-c0182902-exact-review/otpu.bit",
+    "exists": true,
+    "bytes": 13871699,
+    "bytes_expected": 13871699,
+    "sha256": "3b804b81456f7c075a83e965bd012ec84865293a0ea18e1d55746c1ed79838cf",
+    "sha256_expected": "3b804b81456f7c075a83e965bd012ec84865293a0ea18e1d55746c1ed79838cf",
+    "sha256_match": true
+   },
+   "package_manifest": {
+    "path": "/home/fedora/openTPU/bitstreams/spare-dual-host-4gb-c0182902-exact-review/manifest.json",
+    "exists": true,
+    "bytes": 30341,
+    "bytes_expected": null,
+    "sha256": "72193faf07305e45503b11331e698b9fd46a86199d4486e250975cc3fb1737be",
+    "sha256_expected": "72193faf07305e45503b11331e698b9fd46a86199d4486e250975cc3fb1737be",
+    "sha256_match": true,
+    "build_id": "0xc0182902",
+    "interfaces": [
+     "pcie",
+     "jtag"
+    ],
+    "status": "EXPERIMENTAL_SPARE_DUAL_HOST_OFFLINE_REVIEW_PASS_EXTERNAL_DDR_TIMING_AND_PHYSICAL_PENDING"
+   },
+   "model": {
+    "path": "/home/fedora/openTPU/build/models/TinyStories-Llama-15M-tiles128-20261018-v2/model.safetensors",
+    "exists": true,
+    "bytes": 147875464,
+    "bytes_expected": 147875464,
+    "sha256": "9f74baf73f258f040f0994b9fb67da17eb92cf56b2214f309b5d037c82e1da8b",
+    "sha256_expected": "9f74baf73f258f040f0994b9fb67da17eb92cf56b2214f309b5d037c82e1da8b",
+    "sha256_match": true
+   },
+   "evidence_json": {
+    "path": "/home/fedora/openTPU/docs/data/c0182902-tinystories-jtag-20261107.json",
+    "exists": true,
+    "bytes": 9428,
+    "bytes_expected": null,
+    "sha256": "b75635750f4010138d1ed13b68a85ed8a47aa6ab553cc24c5761454e3d1e2f5e",
+    "sha256_expected": null,
+    "sha256_match": null,
+    "status": "PASS_PHYSICAL_JTAG_TINYSTORIES_INT8_EXACT_ISA_TOKENS",
+    "build_id": "c0182902",
+    "expected_token_ids": [
+     29892,
+     727,
+     471,
+     263,
+     2217,
+     7826,
+     4257,
+     365
+    ],
+    "actual_token_ids": [
+     29892,
+     727,
+     471,
+     263,
+     2217,
+     7826,
+     4257,
+     365
+    ],
+    "exact_match": true,
+    "image_sha256": "d32fd2844e1f5330bfa36bfd43374516fee7b141aefd731ad58eecb0e130e993",
+    "flash_written": false,
+    "programming_performed": false
+   },
+   "evidence_md": {
+    "path": "/home/fedora/openTPU/docs/tinystories_jtag_c0182902.md",
+    "exists": true,
+    "bytes": 8268,
+    "bytes_expected": null,
+    "sha256": "6dd6dc856cd3463ba404afa14a0259d8ea6040b8ab234a21935bb0fa65e038b0",
+    "sha256_expected": null,
+    "sha256_match": null
+   },
+   "model_dir": {
+    "path": "/home/fedora/openTPU/build/models/TinyStories-Llama-15M-tiles128-20261018-v2",
+    "exists": true,
+    "files": [
+     "config.json",
+     "conversion.json",
+     "generation_config.json",
+     "model.safetensors",
+     "special_tokens_map.json",
+     "tokenizer.model",
+     "tokenizer_config.json"
+    ]
+   }
+  }
+ },
+ "acceptance": {
+  "steps": [
+   12,
+   13,
+   15
+  ],
+  "image": "c0182902",
+  "core_khz": 133333,
+  "ddr_mts": 1066,
+  "prompt": "Once upon a time",
+  "prompt_token_ids": [
+   1,
+   9038,
+   2501,
+   263,
+   931
+  ],
+  "expected_token_ids": [
+   29892,
+   727,
+   471,
+   263,
+   2217,
+   7826,
+   4257,
+   365
+  ],
+  "expected_image_sha256": "d32fd2844e1f5330bfa36bfd43374516fee7b141aefd731ad58eecb0e130e993",
+  "expected_bitstream_sha256": "3b804b81456f7c075a83e965bd012ec84865293a0ea18e1d55746c1ed79838cf",
+  "expected_image_bytes": 29226624,
+  "xvc_port": 3721,
+  "thermal_limit_c": 92.0,
+  "heavy_lock": "/tmp/rknpu-heavy.lock"
+ },
+ "read_only": true,
+ "duration_s": 0.155
+}
