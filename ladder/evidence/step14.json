@@ -1,0 +1,81 @@
+{
+ "schema": 1,
+ "step": 14,
+ "title": "LLM layer in simulation",
+ "heavy": true,
+ "hardware": false,
+ "utc": "2026-11-10T05:31:18Z",
+ "duration_s": 94.355,
+ "command": "python3 ladder/run.py step 14 --warm",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/tmp/ldr/ladder/tests/test_step14_llm_sim.py"
+ ],
+ "git": {
+  "commit": "cfaac19dbc5576fab420104c0cbc2680d7591d89",
+  "short": "cfaac19d",
+  "branch": "HEAD",
+  "dirty": true
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "cfaac19d",
+  "thermal_c": 98.375,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": true,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "attempts": 1,
+ "killed_by_signals": [],
+ "warm_run": true,
+ "tests": [
+  {
+   "test": "ladder/tests/test_step14_llm_sim.py::test_llm_layer_imports_without_torch",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step14_llm_sim.py::test_tiny_model_tokens_on_isa",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step14_llm_sim.py::test_tiny_model_token_on_rtl",
+   "status": "PASSED"
+  }
+ ],
+ "passed": 3,
+ "failed": 0,
+ "skipped": 0,
+ "skipped_tests": [],
+ "allow_skips": false,
+ "pytest_summary": {
+  "passed": 3,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "deselected": 0
+ },
+ "test_durations_s": {
+  "ladder/tests/test_step14_llm_sim.py::test_tiny_model_token_on_rtl": 72.86,
+  "ladder/tests/test_step14_llm_sim.py::test_tiny_model_tokens_on_isa": 0.9,
+  "ladder/tests/test_step14_llm_sim.py::test_llm_layer_imports_without_torch": 0.15
+ },
+ "summary": "PASS",
+ "stdout_tail": "============================================================================================================================================================================================= test session starts ==============================================================================================================================================================================================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /tmp/ldr\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 3 items\n\nladder/tests/test_step14_llm_sim.py::test_llm_layer_imports_without_torch PASSED                                                                                                                                                                                                                                                                                                                         [ 33%]\nladder/tests/test_step14_llm_sim.py::test_tiny_model_tokens_on_isa PASSED                                                                                                                                                                                                                                                                                                                                [ 66%]\nladder/tests/test_step14_llm_sim.py::test_tiny_model_token_on_rtl PASSED                                                                                                                                                                                                                                                                                                                                 [100%]\n\n============================================================================================================================================================================================== slowest durations ===============================================================================================================================================================================================\n72.86s call     ladder/tests/test_step14_llm_sim.py::test_tiny_model_token_on_rtl\n0.90s call     ladder/tests/test_step14_llm_sim.py::test_tiny_model_tokens_on_isa\n0.15s call     ladder/tests/test_step14_llm_sim.py::test_llm_layer_imports_without_torch\n\n(6 durations < 0.005s hidden.  Use -vv to show these durations.)\n========================================================================================================================================================================================= 3 passed in 74.00s (0:01:13) =========================================================================================================================================================================================\n",
+ "stderr_tail": "",
+ "notes": "4 greedy tokens: RTL logits, token ids and whole DRAM equal the ISA simulator's. Tiny numpy Qwen3 fixture (no checkpoint/torch), production D=128 Config (tb_top_6c0cd0fddf92). Build was a one-time cold Verilator build on this contended shared laptop: -j1/-O1 with a -O0 C++ override and thermal-paced incremental make across cool windows (the host guard SIGTERMed earlier full builds at ~95 C). Receipt generated in the identical detached checkout /tmp/ldr (documented host-contention workaround)."
+}

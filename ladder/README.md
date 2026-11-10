@@ -81,7 +81,7 @@ Status: ✅ done · 🔨 in progress · ⏳ planned · 🚫 blocked on hardware
 | 11 | [board shell + host interface](#step-11--board-shell-and-host-interface-simulation) | control regs, memory channels, TX/RX, JTAG + PCIe paths | `tb_board` sims, Fake transport runs | ✅ |
 | 12 | [FPGA image + SRAM milestone](#step-12--fpga-image-and-sram-bring-up-hardware) | YPCB bitstream built by this branch | build receipt + JTAG self-test on card | 🚫 |
 | 13 | [on-card kernel over JTAG](#step-13--on-card-kernel-over-jtag-hardware) | image upload + matmul on the real card | on-card result == simulator | 🚫 |
-| 14 | [LLM layer in simulation](#step-14--llm-layer-in-simulation) | model pipeline, kernels, tiny fixtures | token-for-token ISA↔RTL | ⏳ |
+| 14 | [LLM layer in simulation](#step-14--llm-layer-in-simulation) | model pipeline, kernels, tiny fixtures | token-for-token ISA↔RTL | ✅ |
 | 15 | [LLM inference on the card](#step-15--llm-inference-on-the-card-hardware) | TinyStories int8 on YPCB, exact tokens | full JTAG acceptance receipt | 🚫 |
 | 16 | [convergence](#step-16--convergence-on-the-production-tree) | tree == product tree + `ladder/` | parity check + production fast suite | ⏳ |
 
@@ -643,3 +643,26 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   in `ladder/evidence/step13.json` with the probe JSON in
   `ladder/evidence/hardware/probe-step13.json`. No hardware access, no Vivado
   run, no programming/flash/reset.
+- 2026-11-10: step 14 committed - the LLM layer in simulation. Imported
+  byte-identically (23 files): `opentpu/llm/` (16 modules), the image/program
+  cache and profiling modules, and `opentpu/host/{__init__,offload}.py`
+  (qwen3.py imports `..host.offload` at import time; all torch/transformers/
+  safetensors/PIL imports in the LLM package are lazy, so `import opentpu.llm`
+  works numpy-only - required here because this host has no torch and no
+  offline wheels for it). New `ladder/harness/llm.py`: a deterministic,
+  torch-free tiny Qwen3 fixture (hidden=256, 2 layers, n_q=4/n_kv=2,
+  head_dim=128, ffn=512, vocab=1000; 24 numpy tensors, rng seed 0; 2.2 MB
+  image sha256 3937bafd...), the production D=128 Config, ISA goldens and the
+  per-token RTL replay (ISA DRAM snapshot -> ISA oracle step vs
+  `RtlBackend` step, requiring identical uint32 logits, whole DRAM and token
+  ids). New `ladder/tests/test_step14_llm_sim.py`: torch-free import test, the
+  light ISA golden token test (prompt [811,85,179,236,181] -> greedy
+  [181,181,181,564,564,564], deterministic), and the heavy 4-token RTL
+  replay. The committed receipt is a warm-cache PASS (3/3, 94 s): the one-time
+  D=128 `tb_top` build (key `tb_top_6c0cd0fddf92`) could not be made with the
+  stock flags on this laptop - the host's thermal guard (<~95 C) killed the
+  compiler at -j2/-O3 and at -j1/-O1, so the harness builds with `-j1`, a
+  `-O1` Verilator optimization (part of the deterministic build-cache key) and
+  the integration completed it thermally paced (`-O0` C++ override +
+  temperature-aware incremental make across cool windows); the receipt notes
+  record this. `docs/llm-sim.md`.
