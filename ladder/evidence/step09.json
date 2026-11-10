@@ -1,0 +1,118 @@
+{
+ "schema": 1,
+ "step": 9,
+ "title": "production core adoption",
+ "heavy": true,
+ "hardware": false,
+ "utc": "2026-11-10T00:56:49Z",
+ "duration_s": 35.889,
+ "command": "python3 ladder/run.py step 9 --warm",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/home/fedora/openTPU-ladder/ladder/tests/test_step09_production_rtl.py"
+ ],
+ "git": {
+  "commit": "6746fe5d78deaab89a5e7d9f355450c888441e22",
+  "short": "6746fe5d",
+  "branch": "ladder/tiny-tpu-to-opentpu",
+  "dirty": true
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "6746fe5d",
+  "thermal_c": 85.25,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": true,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "attempts": 1,
+ "killed_by_signals": [],
+ "warm_run": true,
+ "tests": [
+  {
+   "test": "ladder/tests/test_step09_production_rtl.py::test_control_flow_loops",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step09_production_rtl.py::test_ld_st_copy",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step09_production_rtl.py::test_rld_register_values",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step09_production_rtl.py::test_vop_arithmetic_functions",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step09_production_rtl.py::test_vop_composites_and_corners",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step09_production_rtl.py::test_vop_b_operand_modes",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step09_production_rtl.py::test_qst_scale_rows_and_bytes",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step09_production_rtl.py::test_qact_feeds_mm_unit",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step09_production_rtl.py::test_mm_scaled_with_hand_scale_rows",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step09_production_rtl.py::test_mm_acc_and_rmax",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step09_production_rtl.py::test_reductions_and_argmax",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step09_production_rtl.py::test_run_arguments_and_early_halt",
+   "status": "PASSED"
+  }
+ ],
+ "passed": 12,
+ "failed": 0,
+ "skipped": 0,
+ "skipped_tests": [],
+ "test_durations_s": {
+  "ladder/tests/test_step09_production_rtl.py::test_control_flow_loops": 2.1,
+  "ladder/tests/test_step09_production_rtl.py::test_vop_composites_and_corners": 2.05,
+  "ladder/tests/test_step09_production_rtl.py::test_qst_scale_rows_and_bytes": 2.05,
+  "ladder/tests/test_step09_production_rtl.py::test_ld_st_copy": 1.03,
+  "ladder/tests/test_step09_production_rtl.py::test_reductions_and_argmax": 1.03,
+  "ladder/tests/test_step09_production_rtl.py::test_vop_arithmetic_functions": 1.02,
+  "ladder/tests/test_step09_production_rtl.py::test_mm_acc_and_rmax": 1.02,
+  "ladder/tests/test_step09_production_rtl.py::test_mm_scaled_with_hand_scale_rows": 1.02,
+  "ladder/tests/test_step09_production_rtl.py::test_qact_feeds_mm_unit": 1.02,
+  "ladder/tests/test_step09_production_rtl.py::test_run_arguments_and_early_halt": 1.02,
+  "ladder/tests/test_step09_production_rtl.py::test_rld_register_values": 1.02,
+  "ladder/tests/test_step09_production_rtl.py::test_vop_b_operand_modes": 1.02
+ },
+ "summary": "PASS",
+ "stdout_tail": "============================= test session starts ==============================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /home/fedora/openTPU-ladder\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 12 items\n\nladder/tests/test_step09_production_rtl.py::test_control_flow_loops PASSED [  8%]\nladder/tests/test_step09_production_rtl.py::test_ld_st_copy PASSED       [ 16%]\nladder/tests/test_step09_production_rtl.py::test_rld_register_values PASSED [ 25%]\nladder/tests/test_step09_production_rtl.py::test_vop_arithmetic_functions PASSED [ 33%]\nladder/tests/test_step09_production_rtl.py::test_vop_composites_and_corners PASSED [ 41%]\nladder/tests/test_step09_production_rtl.py::test_vop_b_operand_modes PASSED [ 50%]\nladder/tests/test_step09_production_rtl.py::test_qst_scale_rows_and_bytes PASSED [ 58%]\nladder/tests/test_step09_production_rtl.py::test_qact_feeds_mm_unit PASSED [ 66%]\nladder/tests/test_step09_production_rtl.py::test_mm_scaled_with_hand_scale_rows PASSED [ 75%]\nladder/tests/test_step09_production_rtl.py::test_mm_acc_and_rmax PASSED  [ 83%]\nladder/tests/test_step09_production_rtl.py::test_reductions_and_argmax PASSED [ 91%]\nladder/tests/test_step09_production_rtl.py::test_run_arguments_and_early_halt PASSED [100%]\n\n============================== slowest durations ===============================\n2.10s call     ladder/tests/test_step09_production_rtl.py::test_control_flow_loops\n2.05s call     ladder/tests/test_step09_production_rtl.py::test_vop_composites_and_corners\n2.05s call     ladder/tests/test_step09_production_rtl.py::test_qst_scale_rows_and_bytes\n1.03s call     ladder/tests/test_step09_production_rtl.py::test_ld_st_copy\n1.03s call     ladder/tests/test_step09_production_rtl.py::test_reductions_and_argmax\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_vop_arithmetic_functions\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_mm_acc_and_rmax\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_mm_scaled_with_hand_scale_rows\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_qact_feeds_mm_unit\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_run_arguments_and_early_halt\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_rld_register_values\n1.02s call     ladder/tests/test_step09_production_rtl.py::test_vop_b_operand_modes\n\n(24 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================= 12 passed in 15.53s ==============================\n",
+ "stderr_tail": "",
+ "notes": "12 replay tests: the mini-core's program families (control/LD/ST/RLD, 14 VOPs x 4 B modes, QACT/QST, MM UNIT/ACC/RMAX/scaled, reductions/ARGMAX) run on the production RTL (Verilator, tb_top at prod.CFG D=32/MCOLS=8/1 MiB DRAM) and must equal isasim word for word. Warm-cache run: the build was produced earlier (the WIP attempt's build was externally killed once by the shared-host guard, not a code failure); the cached Vtb_top is gitignored next to the tree, the runner's warm mode records warm_run and the thermal state."
+}

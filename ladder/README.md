@@ -76,7 +76,7 @@ Status: ✅ done · 🔨 in progress · ⏳ planned · 🚫 blocked on hardware
 | 6 | [mini-core quantizer + ACT RAM](#step-6--mini-core-quantizer--act-ram) | QACT/QST, int8 blocks + scales | bit-exact vs `isasim`/`quant.py` | ✅ |
 | 7 | [mini-core MXU (int8 MM)](#step-7--mini-core-mxu-int8-mm) | systolic int8 matmul, MX scales, fp32 epilogue | bit-exact vs `isasim`, matmul vs numpy | ✅ |
 | 8 | [mini-core reductions](#step-8--mini-core-reductions-and-argmax) | RSUM/RMAX/RSSQ/RDOT/ARGMAX | bit-exact vs `isasim` | ✅ |
-| 9 | [production core adoption](#step-9--production-core-adoption) | production RTL supersedes the mini-core | production RTL↔ISA tests (selected, then wide) | ⏳ |
+| 9 | [production core adoption](#step-9--production-core-adoption) | production RTL supersedes the mini-core | production RTL↔ISA tests (selected, then wide) | ✅ |
 | 10 | [production software stack](#step-10--compiler-language-kernels-runtime) | `ol` language, compiler, kernels, runtime, targets | `examples/` + kernels ISA↔RTL bit-exact | ⏳ |
 | 11 | [board shell + host interface](#step-11--board-shell-and-host-interface-simulation) | control regs, memory channels, TX/RX, JTAG + PCIe paths | `tb_board` sims, Fake transport runs | ⏳ |
 | 12 | [FPGA image + SRAM milestone](#step-12--fpga-image-and-sram-bring-up-hardware) | YPCB bitstream built by this branch | build receipt + JTAG self-test on card | 🚫 |
@@ -357,6 +357,14 @@ Verilator build at 100.4 °C, so:
   N)`). `ladder/run.py` retries such a run once automatically and records `attempts` and
   `killed_by_signals` in the receipt; an `ABORTED` receipt is an environment event, not a code
   failure - re-run it when the host is cool.
+- **Warm-run mode** (`--warm`, `LADDER_WARM_RUN=1`): the heavy part of a production rung is the
+  Verilator *compile*. When the build cache for the rung's Config is already present, the rung
+  only launches short single-core simulations, so `ladder/run.py step NN --warm` skips the
+  shared-host flock but keeps the thermal gate (waits below 88 °C, refuses above 92 °C) and
+  records `warm_run: true` in the receipt. `--warm` is refused (and the cold gate used) unless
+  the rung's cached `Vtb_top` executable is found for its exact Config/build key; steps without
+  a built-in cache probe require an explicit `LADDER_WARM_OK=1` acknowledgement. Cold builds
+  always take the flock, and `--warm` cannot be combined with `--no-heavy`.
 
 ## Test methodology
 
@@ -502,3 +510,20 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   retired when the production RTL is adopted at step 9.
 - 2026-11-10: mini-core complete (steps 4-8, all bit-exact vs `isasim`):
   7+22+27+31+33 = 120 mini-core tests, plus the 94 earlier fast-tier tests.
+- 2026-11-10: step 9 committed - the production core is adopted. `rtl/`
+  (71 SV files incl. the tech cells and the board wrappers), `sim/verilator/`,
+  `sim/tech/`, `targets/` and `opentpu/{rtlsim,simtmp,target}.py` are imported
+  byte-identically from `ca05e24f` (the only ladder edit is rtlsim's Verilator
+  `-j 2`), plus `ladder/harness/prod.py` and 12 replay tests: the mini-core's
+  own program families (control/LD/ST/RLD, the 14 VOPs x 4 B modes, QACT/QST,
+  MM UNIT/ACC/RMAX/scaled, reductions/ARGMAX) now run on the production RTL
+  through Verilator and must equal `opentpu.isasim` word for word (TMEM +
+  whole DRAM + icount). The toy tree and the mini-core stay in place and
+  runnable; they move under `ladder/` at convergence. First build of `tb_top`
+  took ~70-80 s under `-j 2`; the committed run is a warm-cache run (the build
+  cache is gitignored next to the tree; the runner's new warm-run mode records
+  `warm_run: true`). Receipt: `ladder/evidence/step09.json`. The integration
+  also committed the runner's warm-run mode with the independent verifier's
+  safeguards: a cache preflight refuses warm mode when the expected `Vtb_top`
+  is absent, `--warm --no-heavy` is rejected, and the receipt records the
+  invocation and thermal state.

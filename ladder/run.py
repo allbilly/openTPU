@@ -282,8 +282,30 @@ def parse_pytest(stdout: str) -> dict:
             "durations_s": durations}
 
 
+def warm_cache_ready(n: int) -> tuple[bool, str]:
+    """Whether the Verilator build a warm run would execute is already compiled.
+
+    A warm run is only legitimate when the expensive compile is already done; otherwise the
+    runner must take the cold gate.  Steps 9/10 use the ladder.harness.prod Config; other heavy
+    rungs are unknown here and require an explicit LADDER_WARM_OK=1 acknowledgement.
+    """
+    try:
+        from opentpu import rtlsim
+
+        if n in (9, 10):
+            from ladder.harness import prod
+
+            sources = [rtlsim.RTL / s for s in rtlsim.RTL_SOURCES] + [rtlsim.TB / "tb_top.sv"]
+            d = rtlsim.build_dir("tb_top", sources, rtlsim.top_params(prod.CFG))
+            exe = d / "Vtb_top"
+            return exe.exists(), f"tb_top build {d.name} present={exe.exists()}"
+    except Exception as e:  # noqa: BLE001 - any import/build-dir failure means "not warm"
+        return bool(os.environ.get("LADDER_WARM_OK")), f"preflight error: {e}"
+    return bool(os.environ.get("LADDER_WARM_OK")), "step has no built-in cache probe; LADDER_WARM_OK required"
+
+
 def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool = False,
-             allow_skips: bool = False) -> int:
+             allow_skips: bool = False, warm_run: bool = False) -> int:
     extra_hardware_allow_skips = allow_skips or bool(os.environ.get("LADDER_ALLOW_SKIPS"))
     if n not in STEPS:
         print(f"[ladder] no such step: {n} (have 0..{max(STEPS)})", file=sys.stderr)
@@ -294,6 +316,15 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
         print(f"[ladder] step {n} ({meta['title']}) has no tests yet: "
               f"expected ladder/tests/test_step{n:02d}_*.py", file=sys.stderr)
         return 3
+    warm = bool(warm_run) or bool(os.environ.get("LADDER_WARM_RUN"))
+    if warm and not quiet:
+        ready, why = warm_cache_ready(n)
+        if not ready:
+            print(f"[ladder] step {n}: --warm refused ({why}); falling back to the cold gate",
+                  flush=True)
+            warm = False
+        else:
+            print(f"[ladder] step {n}: warm cache preflight OK ({why})", flush=True)
     if meta["hardware"] and not os.environ.get("LADDER_ALLOW_HARDWARE"):
         print(f"[ladder] step {n} is a hardware rung; it needs the DLC10 cable+card.", file=sys.stderr)
         print("[ladder] its gate tests run with LADDER_ALLOW_HARDWARE=1 and record BLOCKED "
@@ -316,7 +347,27 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
         print(f"[ladder] step {n}: {meta['title']}")
         print(f"[ladder] {py} -m pytest {' '.join(str(t) for t in tests)}")
     started = time.time()
-    gate = HeavyGate() if (meta["heavy"] if heavy is None else heavy) else None
+    heavy = meta["heavy"] if heavy is None else heavy
+    if warm and not heavy:
+        print(f"[ladder] step {n}: --warm cannot be combined with --no-heavy", file=sys.stderr)
+        return 2
+    gate = HeavyGate() if (heavy and not warm) else None
+    if heavy and warm:
+        # The Verilator cache is warm: the run only launches short single-core simulations, so
+        # it does not take the shared-host flock (the compile - the heavy part - is already
+        # done). The thermal gate still applies: wait for a cool host before starting.
+        t = thermal_c()
+        deadline = time.time() + 300
+        while t is not None and t > 88 and time.time() < deadline:
+            if not quiet:
+                print(f"[ladder] step {n}: warm run waiting for the host to cool "
+                      f"({t:.1f} C > 88 C)", flush=True)
+            time.sleep(20)
+            t = thermal_c()
+        if t is not None and t > 92:
+            raise SystemExit(f"[ladder] step {n}: host at {t:.1f} C, refusing a warm run")
+        if not quiet:
+            print(f"[ladder] step {n}: warm run (cached build, no flock) thermal={t} C", flush=True)
     try:
         if gate:
             gate.__enter__()
@@ -377,13 +428,15 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
         "hardware": meta["hardware"],
         "utc": utc(),
         "duration_s": round(duration, 3),
-        "command": f"python3 ladder/run.py step {n}" + (" --heavy" if meta["heavy"] else ""),
+        "command": f"python3 ladder/run.py step {n}" + (" --heavy" if (meta["heavy"] and not warm) else "")
+                   + (" --warm" if (meta["heavy"] and warm) else ""),
         "command_argv": cmd,
         "git": git_state(),
         "toolchain": toolchain(),
         "returncode": rc,
         "attempts": attempts,
         "killed_by_signals": signals,
+        "warm_run": bool(warm and heavy),
         "tests": parsed["verdicts"],
         "passed": parsed["passed"],
         "failed": parsed["failed"],
@@ -516,11 +569,15 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--quiet", action="store_true")
     s.add_argument("--allow-skips", action="store_true",
                    help="record a software step's unexpected skips as PASS (with skips)")
+    s.add_argument("--warm", action="store_true",
+                   help="heavy rung whose Verilator cache is warm: run the short simulations "
+                        "without taking the shared-host flock (thermal gate still applies)")
 
     a = sub.add_parser("all")
     a.add_argument("--from", dest="start", type=int, default=0)
     a.add_argument("--to", dest="end", type=int, default=max(STEPS))
     a.add_argument("--allow-skips", action="store_true")
+    a.add_argument("--warm", action="store_true")
 
     e = sub.add_parser("evidence-check")
     e.add_argument("--before", type=int, default=None,
@@ -534,13 +591,14 @@ def main(argv: list[str] | None = None) -> int:
         return doctor(args)
     if args.cmd == "step":
         heavy = True if args.heavy else (False if args.no_heavy else None)
-        return run_step(args.n, [], heavy=heavy, quiet=args.quiet, allow_skips=args.allow_skips)
+        return run_step(args.n, [], heavy=heavy, quiet=args.quiet, allow_skips=args.allow_skips,
+                        warm_run=args.warm)
     if args.cmd == "all":
         for n in range(args.start, args.end + 1):
             if not step_tests(n):
                 print(f"[ladder] step {n}: no tests yet, skipping")
                 continue
-            rc = run_step(n, [], allow_skips=args.allow_skips)
+            rc = run_step(n, [], allow_skips=args.allow_skips, warm_run=args.warm)
             if rc != 0:
                 return rc
         return 0

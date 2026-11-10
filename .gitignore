@@ -14,3 +14,6 @@ uv.lock.cache/
 # ladder run artifacts (per-step logs/receipts are written here; receipts are committed selectively)
 ladder/artifacts/*
 !ladder/artifacts/.gitkeep
+
+# production Verilator build cache (step 9+: opentpu.rtlsim builds under build/verilator)
+build/

@@ -473,3 +473,36 @@ reduce/ARGMAX path.  A zero `rows`/`cols` VOP is still rejected as error 1 by th
 
 TMEM ports: the unit owns read ports 0 and 1 (A / B or old destination) and the write port while
 `ST_REDUCE` runs, the same muxing pattern as the VPU's `ST_VOP`.
+
+## Step 9: the production core
+
+Step 9 adopts the real thing: the product tree's RTL (`rtl/`, 89 SystemVerilog files, the full
+systolic MXU / VPU / quantizer / stream engine / collective slice and the board shell), its
+Verilator harness (`sim/verilator/`, `sim/tech/`) and the target abstraction
+(`opentpu/rtlsim.py`, `opentpu/simtmp.py`, `opentpu/target.py`, `targets/`) are imported from
+`ca05e24f` unchanged, and the mini-core becomes the iced educational machine described above.
+The production core is held to the same contract this document has described all along: the
+bit-exact ISA simulator (`opentpu/isasim.py`) is the oracle, and every TMEM word and DRAM byte
+must match it.
+
+The one ladder edit to the imported code: `opentpu/rtlsim.py`'s Verilator `VFLAGS` use `-j 2`
+instead of `-j 0`, because this laptop is shared with another session's heavy verification queue
+(a full-width build makes the host thermal guard kill compiles). Everything else is
+byte-identical to the product tree, and the Verilator build cache lives under `build/verilator/`
+(gitignored).
+
+The ladder's production configuration (`ladder/harness/prod.py`) is one small, real
+configuration of the production RTL: `S=1, D=32, MCOLS=8, ACT_BLOCKS=64, ACT_ROWS=8,
+TMEM_WORDS=65536, IMEM_WORDS=4096, DRAM_BYTES=1 MiB, LANES=8`, the console build's UARCH (WIN 32,
+RPB 4, WPB 2, the systolic MXU) and the behavioural DRAM (the AXI board path needs D = 128).  The
+production parameters, the build and the run all come from `opentpu.rtlsim`, exactly as the
+product's own `tests/test_rtl.py` does it.
+
+`ladder/tests/test_step09_production_rtl.py` is the rung's acceptance: the program families the
+mini-core rungs established are replayed on the production core — control flow and LD/ST/RLD
+(step 4), the 14 elementwise VOPs with all four B-operand modes and the fp32 corner words
+(step 5), QST scale records and QACT feeding an MM (step 6), int8 MM with UNIT/ACC/RMAX and MX
+scale rows (step 7), and the reductions/ARGMAX (step 8) — and each run must equal
+`opentpu.isasim.Machine` bit for bit (TMEM, the whole DRAM, and the retired-instruction count).
+The Verilator build is the expensive part, so step 9 is a heavy rung: run it through
+`python3 ladder/run.py step 9`, which takes the shared-host lock and the thermal gate.
