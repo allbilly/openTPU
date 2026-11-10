@@ -1,0 +1,23 @@
+{
+  "status": "SPARE_SHARED_PIPELINED_CH0_REFERENCE_FIRMWARE_IMAGE_BOUND",
+  "required_build_id": "c0182800",
+  "required_bitstream_sha256": "df2521d80de1d69ea4ca758821dc67a814b95d67ac851b78727c9154a3104bf2",
+  "firmware_id": "c0172068",
+  "startup_firmware_id": "c0172060",
+  "binary_sha256": "fe4fc9caba63e8b97ac1ce978dd0b67d9c532ce154f57a3582fb6228c4686e8e",
+  "firmware_model_sha256": "92df8258b2f19ad64eb09eafc97eb8be674ec249b9f9d47c27c3d0cf2d792895",
+  "reference_package_sha256": "4417698459fbbe1073e62122b77d1f35f9907bc48b8fac53a19079af3ded2707",
+  "reference_firmware_sha256": "89beccb507b5743cb429c78e88a6268e9c37b8f35041f16395f037840adb1a19",
+  "reference_csr_sha256": "1d2d600f7596ff7677c7a2521afd91664d637a9e05edf60743578364abca167c",
+  "adapter_model_sha256": "6a94841f32bd16c1952a19fd795c30a0b133f109516002eefee8067f4e0434cd",
+  "matched_core_files": {
+    "otpu_litedram.v": "487df743d02ac20d5eb679d921528635afd069389757dddbddaca07b6e2a6f6a",
+    "csr.csv": "b22850a26d00fad288232c29494c29ee81621d79bbe3712f1ec64516bb3ed0d0",
+    "sdram_init.py": "f2a5791a48df4a37fa59e04efe34c7c1e8c8f689482ad601e38a31878e3c3629",
+    "sdram_init_ch0.py": "889ccf54e8bad7a04c212cdabb6e895a8d16f8fa9ebae1a64e76b25eff948833",
+    "otpu_litedram_mem.init": "3539495b12fca557dbbe9fb3252bbb64acfe31c06f69ef5a810ac76b70da5cc5"
+  },
+  "physical_calibration_verified": false,
+  "bridge_model_sha256": "03b4c6c992fdf9cdc74b98b76c7f1c3c1ba49149caa199635497612dc4116b33",
+  "controller_model_sha256": "7cdd8d9291a61f464f983dba2c2f65fa07063c8691ab88aa2108ca5633931d99"
+}

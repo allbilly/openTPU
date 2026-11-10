@@ -1,0 +1,559 @@
+{
+  "status": "EXPERIMENTAL_SPARE_PIPELINED_OFFLINE_REVIEW_PASS_EXTERNAL_DDR_TIMING_AND_PHYSICAL_PENDING",
+  "created_utc": "2026-10-17T10:46:32.114261+00:00",
+  "build_id_register": "0xc0172300",
+  "part": "xc7k480tffg1156-2",
+  "compute": {
+    "MCOLS": 4,
+    "ACT_ROWS": 4,
+    "LANES": 8,
+    "VPU_CL": 2,
+    "MXU_IMPL": 2,
+    "CORE_KHZ": 100000,
+    "DDR_MTS": 800
+  },
+  "compute_clock": {
+    "requested_mhz": 100.0,
+    "actual_mhz": 100.0,
+    "actual_hz": 100000000,
+    "core_khz": 100000,
+    "vco_mhz": 800,
+    "output_divide": 8.0
+  },
+  "memory_clock": {
+    "sys_hz": 100000000,
+    "ddr_clock_hz": 400000000,
+    "ddr_mts": 800
+  },
+  "memory": {
+    "physical_user_channels": [
+      0,
+      1
+    ],
+    "logical_capacity_bytes": 4294967296,
+    "virtual_channel_bytes": 2147483648,
+    "calibration_mask": 3,
+    "ddr_mts": 800,
+    "ecc_channels": [
+      1
+    ],
+    "ch0_physical_lanes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      7
+    ],
+    "automatic_calibration_channels": [
+      1
+    ],
+    "host_calibration_channels": [
+      0
+    ]
+  },
+  "pcie": "XDMA Gen2 x8",
+  "hardware_accessed": false,
+  "flash_written": false,
+  "physical_ch0_repair_verified": false,
+  "physical_model_verified": false,
+  "external_ddr_pad_timing_qualified": false,
+  "timing": {
+    "WNS": 0.044,
+    "TNS": 0.0,
+    "setup_failing": 0.0,
+    "setup_total": 573491.0,
+    "WHS": 0.022,
+    "THS": 0.0,
+    "hold_failing": 0.0,
+    "hold_total": 573201.0,
+    "WPWS": 0.0,
+    "TPWS": 0.0,
+    "pulse_failing": 0.0,
+    "pulse_total": 177335.0
+  },
+  "route": {
+    "routable": 319258,
+    "fully_routed": 319258,
+    "routing_errors": 0
+  },
+  "oob_clock_review": {
+    "timing": {
+      "WNS": 0.044,
+      "TNS": 0.0,
+      "setup_failing": 0.0,
+      "setup_total": 573491.0,
+      "WHS": 0.022,
+      "THS": 0.0,
+      "hold_failing": 0.0,
+      "hold_total": 573201.0,
+      "WPWS": 0.0,
+      "TPWS": 0.0,
+      "pulse_failing": 0.0,
+      "pulse_total": 177335.0
+    },
+    "route": {
+      "routable": 319258,
+      "fully_routed": 319258,
+      "routing_errors": 0
+    },
+    "coverage": {
+      "no_clock": 0,
+      "constant_clock": 0,
+      "pulse_width_clock": 0,
+      "unconstrained_internal_endpoints": 0,
+      "no_input_delay": 142,
+      "no_output_delay": 212,
+      "multiple_clock": 0,
+      "generated_clocks": 0,
+      "loops": 0,
+      "partial_input_delay": 0,
+      "partial_output_delay": 0,
+      "latch_loops": 0
+    },
+    "generated_clocks": 32,
+    "bus_skew_constraints": 39,
+    "minimum_bus_skew_slack_ns": 2.594,
+    "netlist_placement_routing_modified": false,
+    "cdc_review": "PENDING"
+  },
+  "files": [
+    {
+      "name": "README.md",
+      "bytes": 1108,
+      "sha256": "cb91cc31c32390b4b41f403af9728d52be8ecc11508f2fd2be692b6fbcb398f7"
+    },
+    {
+      "name": "calibration/README.md",
+      "bytes": 2296,
+      "sha256": "ba2f5277c711aedc9630b1aeccc3f995a05d6f33a29e225fb5b9849065dbd532"
+    },
+    {
+      "name": "calibration/SHA256SUMS",
+      "bytes": 2115,
+      "sha256": "4e15747fa1c8c3200c77612823a48921940cf8dc6f57931d5090790447c3a7d5"
+    },
+    {
+      "name": "calibration/build-manifest.json",
+      "bytes": 1910,
+      "sha256": "a3af5bf729b82e61e1b0f79ee42d48bde979e06b42a781f5937f33ef8aaee8cf"
+    },
+    {
+      "name": "calibration/bundle.json",
+      "bytes": 459,
+      "sha256": "89beccb507b5743cb429c78e88a6268e9c37b8f35041f16395f037840adb1a19"
+    },
+    {
+      "name": "calibration/check_ramtest_spare_calibration.py",
+      "bytes": 4172,
+      "sha256": "1e51d2f780347be3e77f04c7e3236a039b801472cac7381eee067cc6062645cd"
+    },
+    {
+      "name": "calibration/core/csr.csv",
+      "bytes": 9578,
+      "sha256": "1d2d600f7596ff7677c7a2521afd91664d637a9e05edf60743578364abca167c"
+    },
+    {
+      "name": "calibration/core/sdram_init.py",
+      "bytes": 1515,
+      "sha256": "889ccf54e8bad7a04c212cdabb6e895a8d16f8fa9ebae1a64e76b25eff948833"
+    },
+    {
+      "name": "calibration/host-model-review.json",
+      "bytes": 1457,
+      "sha256": "92df8258b2f19ad64eb09eafc97eb8be674ec249b9f9d47c27c3d0cf2d792895"
+    },
+    {
+      "name": "calibration/pipeline-binding.json",
+      "bytes": 1485,
+      "sha256": "dab3268184a8452cbeb6dbd66a77c30288436f4a5762581475af807bcf7fb352"
+    },
+    {
+      "name": "calibration/prepare_ramtest_spare_calibration.py",
+      "bytes": 4388,
+      "sha256": "069793f1e636a288a11bc4e57197be429761fcde6e932992dba2444152981806"
+    },
+    {
+      "name": "calibration/reference_ddrcal.py",
+      "bytes": 37555,
+      "sha256": "6a7baa1c8fdac5460fe39c58b4e78d1af29c78bb9036ca9c22c69420d4fcd74a"
+    },
+    {
+      "name": "calibration/selfcal.bin",
+      "bytes": 9156,
+      "sha256": "fe4fc9caba63e8b97ac1ce978dd0b67d9c532ce154f57a3582fb6228c4686e8e"
+    },
+    {
+      "name": "calibration/selfcal.elf",
+      "bytes": 14804,
+      "sha256": "051f1a0086abb5f3e3a50d9e37594382a3d1e46d858ab5f3eefbdcaaf794f193"
+    },
+    {
+      "name": "calibration/selfcal.lst",
+      "bytes": 98032,
+      "sha256": "edff5eb44db3e0506a160ba6675bfcb8ea0dd89666bb2c1295da88abbc9bfdb6"
+    },
+    {
+      "name": "calibration/selfcal.map",
+      "bytes": 8435,
+      "sha256": "d0d6cd0896e2c2b894dedee989f050028050903d6482426cc1a47d24da029da7"
+    },
+    {
+      "name": "calibration/selfcal_cfg.h",
+      "bytes": 3313,
+      "sha256": "5e4a5ee84fd6aabd47ff20dc2d4b301212eb4a8311e1d8191fde17b5ad831bb1"
+    },
+    {
+      "name": "calibration/source/opentpu/host/ddrcal.py",
+      "bytes": 37575,
+      "sha256": "75a6d8ba03d31baf86bb11092dccc5e2eac54ce3b7994b5c4690c5924a94062f"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/cal.c",
+      "bytes": 22349,
+      "sha256": "afc0e27011799f15afcde8ed86a7bf69fa13df64654670bf851fa91f2908ae2d"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/cal.h",
+      "bytes": 3124,
+      "sha256": "5b33911451cfc0b316adffd72ef90d11e7c9d721143e33713aef7462c8db0b4e"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/crt0.S",
+      "bytes": 332,
+      "sha256": "ebcbcb876af5b0a1e85826b689c281a04e402ea2bebae8f8245fe50958fea026"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/fw.py",
+      "bytes": 11847,
+      "sha256": "311d73a6f3cded0437f10878de9ef3c4741bc9303d2aba4a9a697f62c9e5de96"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/host.c",
+      "bytes": 422,
+      "sha256": "3137a4142a229044330fa826a30ed72decba0c18b8018d9cacc17a3fa6f76c93"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/hw.h",
+      "bytes": 2172,
+      "sha256": "e458d8c22623c2f10278b19d8f05e199059c1ecdea4ffc0bf296ac6e8bc7c770"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/link.ld",
+      "bytes": 893,
+      "sha256": "bb897e8fab88f1b852c92e383469ffc62ffcab2dfa77cd5c20a4505667e651ee"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/main.c",
+      "bytes": 572,
+      "sha256": "e49dcc49481186eeb8f934245cd092928d73abc2762c2c73cf4f33074d9630e7"
+    },
+    {
+      "name": "core/csr.csv",
+      "bytes": 9578,
+      "sha256": "f3095c87916c1e15e599962bc02fabc1514585607e762dae9f6bfaeba81da891"
+    },
+    {
+      "name": "core/openxc7-profile.json",
+      "bytes": 14589,
+      "sha256": "27151547d3b3661d02b9cc295b13643b1f348a8785190be589aaade6bd7a4e67"
+    },
+    {
+      "name": "core/otpu_litedram.v",
+      "bytes": 5005174,
+      "sha256": "7101eba761af5c4efb77cca58c0a493afd35b6385083524d0b10ee778d791854"
+    },
+    {
+      "name": "core/otpu_litedram.xdc",
+      "bytes": 56328,
+      "sha256": "bb27574cf95490e041e935b575a4fc0220d0345963d9f80240eb99e44c1b52d0"
+    },
+    {
+      "name": "core/otpu_litedram_mem.init",
+      "bytes": 51,
+      "sha256": "3539495b12fca557dbbe9fb3252bbb64acfe31c06f69ef5a810ac76b70da5cc5"
+    },
+    {
+      "name": "core/sdram_init.py",
+      "bytes": 1520,
+      "sha256": "f2a5791a48df4a37fa59e04efe34c7c1e8c8f689482ad601e38a31878e3c3629"
+    },
+    {
+      "name": "core/sdram_init_ch0.py",
+      "bytes": 1515,
+      "sha256": "889ccf54e8bad7a04c212cdabb6e895a8d16f8fa9ebae1a64e76b25eff948833"
+    },
+    {
+      "name": "core/variant-profile.json",
+      "bytes": 14589,
+      "sha256": "27151547d3b3661d02b9cc295b13643b1f348a8785190be589aaade6bd7a4e67"
+    },
+    {
+      "name": "evidence/adapter-model.json",
+      "bytes": 8734,
+      "sha256": "fc4e76b7eda8b9f21e879acf28151e46e2ad63296051b27b99cdf43981d9ae36"
+    },
+    {
+      "name": "evidence/adapter-source.py",
+      "bytes": 6645,
+      "sha256": "7f2c2fd1a6b927fa374d986c2dcd155622e3b7b0748cb8820716a2444e1d5518"
+    },
+    {
+      "name": "evidence/artifact/audit.command.json",
+      "bytes": 440,
+      "sha256": "7449612567ca099828f4366aa0221245f06aa4c381e504affdbb507bdf484fcd"
+    },
+    {
+      "name": "evidence/artifact/audit.log.gz",
+      "bytes": 9574,
+      "sha256": "36d4d58a942129e75ce19ced41ce623e97a66b5fdd85e333734e63b3df1173f9"
+    },
+    {
+      "name": "evidence/artifact/audit.tcl",
+      "bytes": 172837,
+      "sha256": "12fcdfe0182ec64ac726ee0768049e602a000c55d9b54b33cf80861a8bdcf521"
+    },
+    {
+      "name": "evidence/artifact/bus-skew.rpt.gz",
+      "bytes": 22457,
+      "sha256": "4be75a3483fd4722bf307c9505d7ab2fedf96689f0c6d20da87a435194ef8c8e"
+    },
+    {
+      "name": "evidence/artifact/cdc.rpt.gz",
+      "bytes": 4485,
+      "sha256": "24b7796a10dbdbfad1f3c57850599a68e279c2748c004ae3174eecb47a4cc39b"
+    },
+    {
+      "name": "evidence/artifact/checkpoint.tsv",
+      "bytes": 31566,
+      "sha256": "3379faccc41fc98f7439656510b2579a4c397fc20489d2576809944a6a91478a"
+    },
+    {
+      "name": "evidence/artifact/clocks.rpt.gz",
+      "bytes": 1613,
+      "sha256": "69f8690295c380f67b686427d4240e2e28aeedb272232292029e13d65dff7676"
+    },
+    {
+      "name": "evidence/artifact/crc.json",
+      "bytes": 510,
+      "sha256": "06f66cebd73161cb2d2cc60886180d5b7a4daae890972b387f32536ebb522472"
+    },
+    {
+      "name": "evidence/artifact/drc.rpt.gz",
+      "bytes": 10221,
+      "sha256": "625b552628c31eb2cec035d2317f5d5f52995c207868ddcadde3da4b9c59e45f"
+    },
+    {
+      "name": "evidence/artifact/oob-bus-skew.rpt.gz",
+      "bytes": 22461,
+      "sha256": "0dd046fcb4a9e73f333823f71bcaee78ccc7ee05f63abbac416643afaf5703d4"
+    },
+    {
+      "name": "evidence/artifact/oob-cdc.rpt.gz",
+      "bytes": 4489,
+      "sha256": "9f91fac597bca61d17f32845c1c433d943dd47a7f1346c2939434b585e34302d"
+    },
+    {
+      "name": "evidence/artifact/oob-clocks.rpt.gz",
+      "bytes": 2162,
+      "sha256": "1002cc9b0244bce904484bc51eb1253801b28e467d00a03c6ab541843eabba3d"
+    },
+    {
+      "name": "evidence/artifact/oob-clocks.tsv",
+      "bytes": 7736,
+      "sha256": "eea530f701026f6884579c6bbffae9c17be73b99519d2cdd77d7a7785bbd4c9f"
+    },
+    {
+      "name": "evidence/artifact/oob-generated.xdc",
+      "bytes": 15584,
+      "sha256": "b4febc8463c299f0785b5498dbf5a79d20732f906bf8fc43a24dcf8e5be4624a"
+    },
+    {
+      "name": "evidence/artifact/oob-pulse-clock-pins.rpt.gz",
+      "bytes": 508,
+      "sha256": "5b7aa5f71f5169a8690e6d8f03154d8e20a5377cba32ba1bed575cf9ae56ef03"
+    },
+    {
+      "name": "evidence/artifact/oob-route.rpt.gz",
+      "bytes": 209,
+      "sha256": "85cc0cbee02cf0e7a33bacb4cf6f55693bab2b0c70937f7a00bad5e716c88e39"
+    },
+    {
+      "name": "evidence/artifact/oob-timing.rpt.gz",
+      "bytes": 47061,
+      "sha256": "852d34cbd55613d616f71daecdd22c763c155f5da71d329e81dc6fb2689251b6"
+    },
+    {
+      "name": "evidence/artifact/packets.json",
+      "bytes": 5528,
+      "sha256": "2fff6d4bafbabb10119a66e6df5daf1d77fc2785c1b00430f3bb4bac33c3c7f3"
+    },
+    {
+      "name": "evidence/artifact/pad-groups.tsv",
+      "bytes": 6664,
+      "sha256": "9feb96d0f182e0c446c6106c18c0ad8b4ab28dad8a200fa81d586e74da7b41d1"
+    },
+    {
+      "name": "evidence/artifact/pads.command.json",
+      "bytes": 400,
+      "sha256": "e70c4d9ca9d671b31a7ea9afb25e610e350a9cbeee9dbe98fdebd0791b8af250"
+    },
+    {
+      "name": "evidence/artifact/pads.log.gz",
+      "bytes": 5844,
+      "sha256": "7d93d11f32a4fdcd2f16fad3512a392a886c25ed1aa12c3e18225557580d0f8b"
+    },
+    {
+      "name": "evidence/artifact/pads.tcl",
+      "bytes": 80545,
+      "sha256": "9efa07a37ff50ff3be705a4e989a02be979918217922b50923eb2fc274f51a0f"
+    },
+    {
+      "name": "evidence/artifact/phase-query.tsv",
+      "bytes": 334,
+      "sha256": "f190b0d77040e3882310ad0b32a8b86b3cfb3b80bb7c1159ca26b4b69f806514"
+    },
+    {
+      "name": "evidence/artifact/reset-source-facts.json",
+      "bytes": 26762,
+      "sha256": "0afa6692f0257f9599ba8ac59bbf3757da9800c6f43ac05b0074866de12a6c80"
+    },
+    {
+      "name": "evidence/artifact/review_oob_clocks.tcl",
+      "bytes": 2292,
+      "sha256": "126c3da4a45a1dc6677b2ad593c29f53a74a2a2c29eadebf7cd3d11e5f3711d3"
+    },
+    {
+      "name": "evidence/artifact/route.rpt.gz",
+      "bytes": 209,
+      "sha256": "85cc0cbee02cf0e7a33bacb4cf6f55693bab2b0c70937f7a00bad5e716c88e39"
+    },
+    {
+      "name": "evidence/artifact/timing.rpt.gz",
+      "bytes": 43899,
+      "sha256": "808f8f40ca928681d4bc184a44315374b71b7ba9e1d861197f6cf3398e3828db"
+    },
+    {
+      "name": "evidence/build-manifest.json",
+      "bytes": 26647,
+      "sha256": "cef83f648bb5a98e6916ca6bacf997052632f02d118b753a01c6c603ba1c8f08"
+    },
+    {
+      "name": "evidence/cdc/audit.log.gz",
+      "bytes": 2625,
+      "sha256": "ec44f85f60acb09a7eddecad45af856bb8ecf82c02f829bd050c2a62263c2e20"
+    },
+    {
+      "name": "evidence/cdc/audit.tcl",
+      "bytes": 1093,
+      "sha256": "b5bcaf6126f7cfa7779c0f267e0f458f438cf89dcbdebdef072ce6b2d336baae"
+    },
+    {
+      "name": "evidence/cdc/cdc.rpt.gz",
+      "bytes": 4479,
+      "sha256": "254d98e131a4cbc0b765eba144b3837802520f6461605a596a0964b590e2facc"
+    },
+    {
+      "name": "evidence/cdc/collector-at-launch.py",
+      "bytes": 7461,
+      "sha256": "ea43f3f4881ab7e85df0769a8e6718bf7f5a57121f1207f566e0d07e3a80242c"
+    },
+    {
+      "name": "evidence/cdc/command.json",
+      "bytes": 414,
+      "sha256": "666bcd9b4775488422406b6e99e93aba236631d1a1f3b89d1bbd93f97c4ffe30"
+    },
+    {
+      "name": "evidence/cdc/exceptions.rpt.gz",
+      "bytes": 3917,
+      "sha256": "32431c58cc6959602bfa22b5f8d4c583068a886c09073ad5285379dc2bf52600"
+    },
+    {
+      "name": "evidence/cdc/facts.tsv",
+      "bytes": 1010,
+      "sha256": "13298655c327bf2a2fd14ceae2aee5d2ea120d3c631694b200e44c49391573ab"
+    },
+    {
+      "name": "evidence/cdc/pad-coverage.rpt.gz",
+      "bytes": 1266,
+      "sha256": "3290d8613f333f9aaceefc629019f5fb8835a6d0edb4d2093f8275108d373c09"
+    },
+    {
+      "name": "evidence/cdc-collection.json",
+      "bytes": 59916,
+      "sha256": "8fb0a4b1e5f3c1c6b9c001afe6ca00207d74d97d33dad43f52bff0788c78fbf2"
+    },
+    {
+      "name": "evidence/cdc-review.json",
+      "bytes": 65997,
+      "sha256": "58e17b9d153519e78bdee6093ac4f977e168cf93949cc77ccdaf2ecf88931783"
+    },
+    {
+      "name": "evidence/cdc-source-comparison.json",
+      "bytes": 84466,
+      "sha256": "a34bd00861409d7dbca600538db75b1cce9e8c72afec3e87cab53913052d3955"
+    },
+    {
+      "name": "evidence/csr-gray-review.json",
+      "bytes": 20578,
+      "sha256": "0b6a4710060d9d09536beff5ff147916d7a60c7cf183f6535ea0179ea4e7aea8"
+    },
+    {
+      "name": "evidence/gray/audit.log.gz",
+      "bytes": 2937,
+      "sha256": "58bf47ed19f62f7f0df8cd4ac61c9859f723ce6f727781adf2a19ba9c870e664"
+    },
+    {
+      "name": "evidence/gray/audit.tcl",
+      "bytes": 3055,
+      "sha256": "b6daa8444d52c29af29a765230253d5502c9e82e1ce3d436c7dcc324d402b185"
+    },
+    {
+      "name": "evidence/gray/bus-skew.rpt.gz",
+      "bytes": 26383,
+      "sha256": "41ac74679702bb2038587fcc573561f2a6a1834df7924e91a0f6be8eb06e61fb"
+    },
+    {
+      "name": "evidence/gray/checker-at-launch.py",
+      "bytes": 9291,
+      "sha256": "a704c43ed6b5e4ed400cbf78103bcd2a0486ad6321a40fb32f6d71eef09cf4a2"
+    },
+    {
+      "name": "evidence/gray/command.json",
+      "bytes": 416,
+      "sha256": "8d84b77d42d9fc63357a2da37319a3d8c4a3c4bd085486e8ad67bd0a007b5c34"
+    },
+    {
+      "name": "evidence/gray/facts.tsv",
+      "bytes": 9440,
+      "sha256": "585deec1893885dc5974af30660f8b8a192a84d977a6a9d92e20782e7054cc9f"
+    },
+    {
+      "name": "evidence/gray/route.rpt.gz",
+      "bytes": 209,
+      "sha256": "85cc0cbee02cf0e7a33bacb4cf6f55693bab2b0c70937f7a00bad5e716c88e39"
+    },
+    {
+      "name": "evidence/offline-image-review.json",
+      "bytes": 29219,
+      "sha256": "88e99113b0738e54043cae7698a5f27769cc0d0561ae8ae36d1745388292dedf"
+    },
+    {
+      "name": "evidence/packager.py",
+      "bytes": 12961,
+      "sha256": "5c9c1d0e0ce594221119d3693b898fff883e39bf24d6f1691ca6d4cf1177900f"
+    },
+    {
+      "name": "evidence/reference-bundle.json",
+      "bytes": 627,
+      "sha256": "4417698459fbbe1073e62122b77d1f35f9907bc48b8fac53a19079af3ded2707"
+    },
+    {
+      "name": "otpu.bit",
+      "bytes": 13309211,
+      "sha256": "669a7382ff9f9f1391b163ff0fcd5971ded8e378d7668c737c1692819a1323aa"
+    }
+  ]
+}

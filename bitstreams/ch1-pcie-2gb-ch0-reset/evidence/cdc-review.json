@@ -1,0 +1,110 @@
+{
+  "status": "CH1_PCIE_RESET_CANDIDATE_CDC_AND_BUS_SKEW_REVIEW_PASS_PHYSICAL_PENDING",
+  "observed_utc": "2026-10-16T11:21:17.570615+00:00",
+  "bitstream": {
+    "bytes": 12469503,
+    "sha256": "40173515ee16b6b0b127a856139b023529e6dbf53ab1e301b1a3002847df62fc"
+  },
+  "source_sha256": "22314a8b76c7ec9bbdfec99664b86aacd9b627bd71e8a2d65f09b2c0c755d739",
+  "entries": [
+    {
+      "kind": "CDC-13",
+      "depth": 0,
+      "exception": "False Path",
+      "source": "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_clock_int.pipe_clock_i/pclk_sel_reg/C",
+      "target": "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_clock_int.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/S1",
+      "review": "pcie_clock_select"
+    },
+    {
+      "kind": "CDC-13",
+      "depth": 0,
+      "exception": "False Path",
+      "source": "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_clock_int.pipe_clock_i/pclk_sel_reg/C",
+      "target": "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_clock_int.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/S1",
+      "review": "pcie_clock_select"
+    },
+    {
+      "kind": "CDC-11",
+      "depth": 2,
+      "exception": "Max Delay Datapath Only",
+      "source": "u_ld/cal1_storage_reg/C",
+      "target": "u_sys/u_board/cal_s1_reg[0]/D",
+      "review": "calibration_ready"
+    },
+    {
+      "kind": "CDC-11",
+      "depth": 2,
+      "exception": "Max Delay Datapath Only",
+      "source": "u_ld/cal1_storage_reg/C",
+      "target": "u_sys/u_board/cal_s1_reg[1]/D",
+      "review": "calibration_ready"
+    },
+    {
+      "kind": "CDC-11",
+      "depth": 5,
+      "exception": "False Path",
+      "source": "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/user_reset_out_reg/C",
+      "target": "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[0].mi_cdc.m_psr/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/syncstages_ff_reg[0]/D",
+      "review": "vendor_reset"
+    },
+    {
+      "kind": "CDC-11",
+      "depth": 5,
+      "exception": "False Path",
+      "source": "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/user_reset_out_reg/C",
+      "target": "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[1].mi_cdc.m_psr/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/syncstages_ff_reg[0]/D",
+      "review": "vendor_reset"
+    },
+    {
+      "kind": "CDC-11",
+      "depth": 5,
+      "exception": "False Path",
+      "source": "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/user_reset_out_reg/C",
+      "target": "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[2].mi_cdc.m_psr/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/syncstages_ff_reg[0]/D",
+      "review": "vendor_reset"
+    },
+    {
+      "kind": "CDC-10",
+      "depth": 8,
+      "exception": "False Path",
+      "source": "u_ld/reset_storage_reg[0]/C",
+      "target": "u_ld/FDCE/D",
+      "review": "unused_management_reset"
+    },
+    {
+      "kind": "CDC-10",
+      "depth": 8,
+      "exception": "False Path",
+      "source": "u_ld/reset_storage_reg[0]/C",
+      "target": "u_ld/FDCE_8/D",
+      "review": "unused_management_reset"
+    }
+  ],
+  "bus_skew_constraints": 39,
+  "timing": {
+    "WNS": 0.006,
+    "TNS": 0.0,
+    "setup_failing": 0.0,
+    "setup_total": 575465.0,
+    "WHS": 0.035,
+    "THS": 0.0,
+    "hold_failing": 0.0,
+    "hold_total": 575175.0,
+    "WPWS": 0.0,
+    "TPWS": 0.0,
+    "pulse_failing": 0.0,
+    "pulse_total": 179087.0
+  },
+  "route": {
+    "routable": 322153,
+    "fully_routed": 322153,
+    "routing_errors": 0
+  },
+  "physical_hardware": "NOT_RUN",
+  "ch0_repaired": false,
+  "reviewed_scope": "Configuration startup and normal PCIe operation; critical crossings retain the baseline structures and fresh max-delay/bus-skew checks.",
+  "operating_limitations": [
+    "Do not write the unused LiteX global SoC reset CSR. Use a configuration reload or power cycle."
+  ],
+  "interpretation": "CH1-only user mapping remains. CH0 is available only through calibration/raw BIST; this is not a RAM-only or 4 GiB image."
+}

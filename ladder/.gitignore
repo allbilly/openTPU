@@ -1,0 +1,16 @@
+# Ladder-only build/run outputs (the product's root .gitignore is imported byte-identically and
+# only covers the product tree: build/, __pycache__, models/, ...).
+artifacts/
+toy/sim_build/
+toy/waveforms/*.vcd
+toy/results.xml
+toy/test/__pycache__/
+toy/__pycache__/
+mini-core/artifacts/
+examples/**/result.json
+examples/**/program.bin
+examples/**/dram.bin
+examples/**/out.npy
+examples/**/out.reference.npy
+examples/**/summary.json
+hardware/**/*.json.tmp

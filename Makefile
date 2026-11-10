@@ -1,149 +1,75 @@
-#================DO NOT MODIFY BELOW===================== Compiler and simulator settings
-IVERILOG = iverilog
-VVP = vvp
-COCOTB_LIBS = $(shell cocotb-config --lib-dir)
-COCOTB_VPI_MODULE = $(shell cocotb-config --lib-name vpi icarus)
-COCOTB_LIBPYTHON = $(shell cocotb-config --libpython)
-COCOTB_PYTHON_BIN = $(shell cocotb-config --python-bin)
+# Architecture tournament (docs/tourney.md)
+#   make tourney COMP=otpu_coll N=1 K=1 [AGENT=claude|codex] [EVAL=yosys|vivado-remote]
+#                [MODEL_HYP=..] [MODEL_IMPL=..] [MODEL_SCRIBE=..]   (default claude-opus-5-5)
+#                [EFFORT_HYP=high] [EFFORT_IMPL=high,xhigh] [EFFORT_SCRIBE=low] [ARGS=--keep]
+#   make tourney-report [COMP=otpu_coll]
+#   (any target: EXEC=remote (default) runs lint and the test gates on omarchy, EXEC=local here)
+#   make tourney-fmax N=1 K=2 [TARGET_MHZ=133.33] [FMAX_COMPS="otpu_native_dram otpu_tmem ..."]
+#        the whole-design fmax tournament: N passes over FMAX_COMPS, one round each, all on the
+#        shared champion tourney/fmax, Vivado on the build host (EVAL=vivado-remote)
+#   make tourney-fmax-baseline [TARGET_MHZ=133.33]   the champion's full build only
+#   make tourney-units K=1 [UNIT_COMPS="otpu_tmem ..."]   the unit tournament, without end: each
+#        unit alone out of context in Vivado, its own champion tourney/unit/<comp>, no full builds
+PYTHON ?= python3
+COMP   ?=
+N      ?= 1
+K      ?= 1
+AGENT  ?= claude
+EVAL   ?= yosys
+BASE   ?= main
+ARGS   ?=
+# 133.33 MHz (800 / 6, an MMCM step): 128 B x f = 17.07 GB/s, both DDR3-1066 channels' peak
+TARGET_MHZ ?= 133.33
+# where lint and the test gates run: remote (omarchy, tools/omarchy_test.sh) or local
+EXEC   ?= remote
+export EXEC
+# the units on the measured worst path families first (docs/tourney.md)
+FMAX_COMPS ?= otpu_native_dram otpu_tmem otpu_mxu otpu_seq otpu_dma otpu_xunit otpu_vpu \
+              otpu_quant otpu_coll otpu_actram otpu_fp
+export MODEL_HYP MODEL_IMPL MODEL_SCRIBE EFFORT_HYP EFFORT_IMPL EFFORT_SCRIBE
 
-SIM_BUILD_DIR = sim_build
-SIM_VVP = $(SIM_BUILD_DIR)/sim.vvp
-COCOTB_RUN = rm -f results.xml && PYTHONOPTIMIZE=$(NOASSERT) MODULE=$(1) COCOTB_TEST_MODULES=$(1) LIBPYTHON_LOC=$(COCOTB_LIBPYTHON) PYGPI_PYTHON_BIN=$(COCOTB_PYTHON_BIN) $(VVP) -M $(COCOTB_LIBS) -m $(COCOTB_VPI_MODULE) $(SIM_VVP)
-CHECK_RESULTS = python -c "import sys, xml.etree.ElementTree as ET; root=ET.parse('results.xml').getroot(); sys.exit(1 if root.findall('.//failure') or root.findall('.//error') else 0)"
+# the unit tournament's components (the units with an out-of-context part) and build hosts
+UNIT_COMPS ?= otpu_tmem otpu_quant otpu_seq otpu_actram otpu_coll otpu_vpu otpu_dma otpu_fp
+UNIT_HOSTS ?= opentpu
 
-# Force bash shell on Windows so ! negation and Unix commands work
-ifeq ($(OS),Windows_NT)
-  SHELL = C:/Program Files/Git/bin/sh.exe
-  .SHELLFLAGS = -c
-endif
+.PHONY: tourney tourney-baseline tourney-report test-tourney tourney-fmax tourney-fmax-baseline \
+        tourney-forever tourney-units
 
-# Environment variables
-export COCOTB_REDUCED_LOG_FMT=1
-ifeq ($(OS),Windows_NT)
-  export PYTHONPATH := $(abspath test);$(PYTHONPATH)
-else
-  export PYTHONPATH := $(abspath test):$(PYTHONPATH)
-endif
+tourney:
+	@test -n "$(COMP)" || (echo "COMP=<component> required; see tools/tourney/components/" && false)
+	$(PYTHON) -m tools.tourney.orchestrator --comp $(COMP) --rounds $(N) --slots $(K) \
+	  --agent $(AGENT) --eval $(EVAL) --base $(BASE) $(ARGS)
 
-#=============== MODIFY BELOW ======================
-# ********** IF YOU HAVE A NEW VERILOG FILE, ADD IT TO THE SOURCES VARIABLE
-SOURCES = src/pe.sv \
-          src/leaky_relu_child.sv \
-          src/leaky_relu_parent.sv \
-          src/leaky_relu_derivative_child.sv \
-          src/leaky_relu_derivative_parent.sv \
-          src/systolic.sv \
-          src/bias_child.sv \
-          src/bias_parent.sv \
-          src/fixedpoint.sv \
-          src/control_unit.sv \
-          src/unified_buffer.sv \
-          src/vpu.sv \
-          src/loss_parent.sv \
-		  src/loss_child.sv \
-		  src/tpu.sv \
-		  src/gradient_descent.sv
+tourney-baseline:
+	@test -n "$(COMP)" || (echo "COMP=<component> required" && false)
+	$(PYTHON) -m tools.tourney.orchestrator --comp $(COMP) --eval $(EVAL) --base $(BASE) \
+	  --baseline-only $(ARGS)
 
-LINT_SOURCES = $(filter-out src/fixedpoint.sv,$(SOURCES))
-VERIBLE_RULES = -always-comb,-always-ff-non-blocking,-line-length,-unpacked-dimensions-range-ordering,-generate-label-prefix
+tourney-fmax:
+	@for n in $$(seq 1 $(N)); do for c in $(FMAX_COMPS); do \
+	  $(PYTHON) -m tools.tourney.orchestrator --objective fmax --target-mhz $(TARGET_MHZ) \
+	    --comp $$c --rounds 1 --slots $(K) --agent $(AGENT) --eval vivado-remote --base $(BASE) \
+	    $(ARGS) || exit $$?; done; done
 
-# MODIFY 1) variable next to -s 
-# MODIFY 2) variable next to $(SOURCES)
-# MODIFY 3) variable right of MODULE=
-# MODIFY 4) file name next to mv (i.e. pe.vcd)
+# the fmax tournament without end: every component in turn, the whole-design component every
+# WHOLE_EVERY rounds (tools/tourney/forever.sh; stop: touch /tmp/otpu-tourney-stop)
+tourney-forever:
+	K=$(K) TARGET_MHZ=$(TARGET_MHZ) bash tools/tourney/forever.sh
 
+# the unit tournament beside it (docs/tourney.md, "The unit tournament"): forever.sh with
+# OBJECTIVE=unit and its own control files, /tmp/otpu-tourney-units-{stop,pause,comps,hosts}
+tourney-units:
+	OBJECTIVE=unit WHOLE_EVERY=0 K=$(K) TARGET_MHZ=$(TARGET_MHZ) FOREVER_COMPS="$(UNIT_COMPS)" \
+	  FOREVER_COMPS_FILE=/tmp/otpu-tourney-units-comps FOREVER_STOP=/tmp/otpu-tourney-units-stop \
+	  FOREVER_PAUSE=/tmp/otpu-tourney-units-pause OTPU_HOSTS_FILE=/tmp/otpu-tourney-units-hosts \
+	  OTPU_BUILD_HOSTS=$(UNIT_HOSTS) bash tools/tourney/forever.sh
 
-# Test targets
-test_pe: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s pe -s dump -g2012 $(SOURCES) test/dump_pe.sv
-	$(call COCOTB_RUN,test_pe)
-	$(CHECK_RESULTS)
-	mv pe.vcd waveforms/ 2>/dev/null || true
+tourney-fmax-baseline:
+	$(PYTHON) -m tools.tourney.orchestrator --objective fmax --target-mhz $(TARGET_MHZ) \
+	  --comp otpu_xunit --eval vivado-remote --base $(BASE) --baseline-only $(ARGS)
 
-test_systolic: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s systolic -s dump -g2012 $(SOURCES) test/dump_systolic.sv
-	$(call COCOTB_RUN,test_systolic)
-	$(CHECK_RESULTS)
-	mv systolic.vcd waveforms/ 2>/dev/null || true
+tourney-report:
+	$(PYTHON) -m tools.tourney.report $(if $(COMP),--comp $(COMP),)
 
-test_unified_buffer: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s unified_buffer -s dump -g2012 $(SOURCES) test/dump_unified_buffer.sv
-	$(call COCOTB_RUN,test_unified_buffer)
-	$(CHECK_RESULTS)
-	mv unified_buffer.vcd waveforms/ 2>/dev/null || true
-
-# Aggregate: every self-checking benchmark target of the baseline
-TESTS = pe systolic unified_buffer loss_parent leaky_relu_parent \
-        leaky_relu_derivative_parent bias_parent vpu tpu gradient_descent
-
-.PHONY: test $(addprefix test_,$(TESTS))
-test: $(addprefix test_,$(TESTS))
-
-# Loss module test
-
-test_loss_parent: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s loss_parent -s dump -g2012 $(SOURCES) test/dump_loss_parent.sv
-	$(call COCOTB_RUN,test_loss_parent)
-	$(CHECK_RESULTS)
-	mv loss_parent.vcd waveforms/ 2>/dev/null || true
-
-# Leaky ReLU module tests
-test_leaky_relu_parent: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s leaky_relu_parent -s dump -g2012 $(SOURCES) test/dump_leaky_relu_parent.sv
-	$(call COCOTB_RUN,test_leaky_relu_parent)
-	$(CHECK_RESULTS)
-	mv leaky_relu_parent.vcd waveforms/ 2>/dev/null || true
-
-test_leaky_relu_derivative_parent: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s leaky_relu_derivative_parent -s dump -g2012 $(SOURCES) test/dump_leaky_relu_derivative_parent.sv
-	$(call COCOTB_RUN,test_leaky_relu_derivative_parent)
-	$(CHECK_RESULTS)
-	mv leaky_relu_derivative_parent.vcd waveforms/ 2>/dev/null || true
-
-# Bias module tests
-test_bias_parent: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s bias_parent -s dump -g2012 $(SOURCES) test/dump_bias_parent.sv
-	$(call COCOTB_RUN,test_bias_parent)
-	$(CHECK_RESULTS)
-	mv bias_parent.vcd waveforms/ 2>/dev/null || true
-
-# Vector Processing unit test
-test_vpu: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s vpu -s dump -g2012 $(SOURCES) test/dump_vpu.sv
-	$(call COCOTB_RUN,test_vpu)
-	$(CHECK_RESULTS)
-	mv vpu.vcd waveforms/ 2>/dev/null || true
-
-test_tpu: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s tpu -s dump -g2012 $(SOURCES) test/dump_tpu.sv
-	$(call COCOTB_RUN,test_tpu)
-	$(CHECK_RESULTS)
-	mv tpu.vcd waveforms/ 2>/dev/null || true
-
-test_gradient_descent: $(SIM_BUILD_DIR)
-	$(IVERILOG) -o $(SIM_VVP) -s gradient_descent -s dump -g2012 $(SOURCES) test/dump_gradient_descent.sv
-	$(call COCOTB_RUN,test_gradient_descent)
-	$(CHECK_RESULTS)
-	mv gradient_descent.vcd waveforms/ 2>/dev/null || true
-
-
-# ============ DO NOT MODIFY BELOW THIS LINE ==============
-
-# Create simulation build directory and waveforms directory
-$(SIM_BUILD_DIR):
-	mkdir -p $(SIM_BUILD_DIR)
-	mkdir -p waveforms
-
-# Waveform viewing
-show_%: waveforms/%.vcd waveforms/%.gtkw
-	gtkwave $^
-
-# Linting
-lint:
-	verible-verilog-lint $(LINT_SOURCES) --rules_config verible.rules --rules "$(VERIBLE_RULES)"
-
-# Cleanup
-clean:
-	rm -rf waveforms/*vcd $(SIM_BUILD_DIR) test/__pycache__
-
-.PHONY: clean lint
+test-tourney:
+	$(PYTHON) -m pytest -q tests/test_tourney.py

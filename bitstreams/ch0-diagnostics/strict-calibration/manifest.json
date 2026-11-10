@@ -1,0 +1,17 @@
+{
+  "status": "BUILT_DIAGNOSTIC_FIRMWARE_CH0_REPAIR_NOT_VERIFIED",
+  "fw_id": 3491037185,
+  "firmware_relative": "selfcal.bin",
+  "bytes": 10352,
+  "sha256": "92aa4f71423dd234b1db58575843f5d0065a3d203014dba54bc1496b1e64c644",
+  "core_config_sha256": "f0f39eb7976199c724503b2990d998397c2420a905c38c96b578d665372187d5",
+  "traffic_diagnostic": false,
+  "purpose": "Second PRBS seed at every phase and full 2 GiB validation before cal_ready; historical CH0 test found no passing phase.",
+  "compatible_profile": "CH1 recovery DDR800 with retained physical CH0 CSRs",
+  "firmware_is_fpga_bitstream": false,
+  "algorithm_changed_from_historical_build": false,
+  "historical_sha256": "92aa4f71423dd234b1db58575843f5d0065a3d203014dba54bc1496b1e64c644",
+  "build_receipt": "build-receipt.json",
+  "build_tool": "tools/fedora_prepare_ddr_recovery_firmware.py",
+  "physical_result_after_this_packaging": "NOT_RUN"
+}

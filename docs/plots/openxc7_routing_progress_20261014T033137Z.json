@@ -1,0 +1,84 @@
+{
+  "status": "OBSERVED_ROUTING_HISTORY_AND_CONDITIONAL_RATE_PROJECTIONS",
+  "native_pid": 400903,
+  "native_start_ticks": 21826315,
+  "connection_identity_sha256": "0b0efe1064442c5d0cc97791894f9c5ca9c67fda4264220983296f593f2cbe6f",
+  "total_connections": 1693833,
+  "router_iteration": 1,
+  "successful_samples": 201,
+  "first_observed_utc": "2026-10-13T10:40:43.139142+00:00",
+  "latest_observed_utc": "2026-10-14T03:31:37.882203+00:00",
+  "latest_remaining": 213240,
+  "recorded_hours": 16.848539739166668,
+  "all_history_connections_per_hour": 12971.628603038193,
+  "all_history_hours_to_zero_if_rate_constant": 16.438953544357204,
+  "scenarios": [
+    {
+      "label": "Last 2 hours",
+      "window_hours": 2,
+      "connections_per_hour": 7507.0,
+      "hours_to_zero_if_rate_constant": 28.405488211003064,
+      "projected_zero_hkt": "2026-10-15T15:55:57.639763+08:00",
+      "color": "#19855d",
+      "largest_interval_decrease_within_window": 11092.0,
+      "largest_interval_end_utc": "2026-10-14T02:01:37.901709+00:00",
+      "largest_interval_share_of_window_decrease": 0.7387771413347543,
+      "dominated_by_one_sample_interval": true
+    },
+    {
+      "label": "Last 1 hour",
+      "window_hours": 1,
+      "connections_per_hour": 2667.91145138556,
+      "hours_to_zero_if_rate_constant": 79.92769021222776,
+      "projected_zero_hkt": "2026-10-17T19:27:17.566967+08:00",
+      "color": "#2463b6",
+      "largest_interval_decrease_within_window": 681.0,
+      "largest_interval_end_utc": "2026-10-14T03:06:37.803988+00:00",
+      "largest_interval_share_of_window_decrease": 0.25525584803286017,
+      "dominated_by_one_sample_interval": false
+    },
+    {
+      "label": "Last 30 minutes",
+      "window_hours": 0.5,
+      "connections_per_hour": 3295.713125727605,
+      "hours_to_zero_if_rate_constant": 64.7022334363287,
+      "projected_zero_hkt": "2026-10-17T04:13:45.922574+08:00",
+      "color": "#c27518",
+      "largest_interval_decrease_within_window": 680.8565628637995,
+      "largest_interval_end_utc": "2026-10-14T03:06:37.803988+00:00",
+      "largest_interval_share_of_window_decrease": 0.41317707997627046,
+      "dominated_by_one_sample_interval": false
+    }
+  ],
+  "skipped_samples": [
+    {
+      "path": "./build/fedora-openxc7/routing-five-minute-observer-20261013T104000Z/sample-20261013T103731Z/manifest.json",
+      "reason": "not a successful metrics sample"
+    },
+    {
+      "path": "./build/fedora-openxc7/routing-five-minute-observer-20261013T104000Z/sample-20261013T162126Z/manifest.json",
+      "reason": "not a successful metrics sample"
+    },
+    {
+      "path": "./build/fedora-openxc7/routing-five-minute-observer-20261013T104000Z/sample-20261013T174126Z/manifest.json",
+      "reason": "not a successful metrics sample"
+    },
+    {
+      "path": "./build/fedora-openxc7/routing-five-minute-observer-20261013T104000Z/sample-20261013T190626Z/manifest.json",
+      "reason": "not a successful metrics sample"
+    }
+  ],
+  "largest_recent_sample_decrease": 11092,
+  "largest_decrease_observed_utc": "2026-10-14T02:01:37.901709+00:00",
+  "largest_last_hour_interval_share": 0.25525584803286017,
+  "recent_projections_dominated_by_one_sample_interval": true,
+  "method": "Endpoint decrease divided by window hours; linearly interpolate the starting count between adjacent snapshots.",
+  "interval_dominance_method": "Largest interval decrease divided by the window decrease, prorating a boundary interval using the same linear interpolation; dominance means more than half of the decrease.",
+  "limitations": [
+    "Remaining means unique driven net/sink-wire pairs without a routed flag, not unresolved legal-congestion proof.",
+    "Rates can change across routing phases and individual searches.",
+    "First iteration is incomplete; cross-partition routing and later congestion/retry work remain.",
+    "Scenarios are not confidence intervals, convergence guarantees or bitstream completion times.",
+    "Full numeric timing and full image qualification remain after native routing."
+  ]
+}

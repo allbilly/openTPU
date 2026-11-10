@@ -1,0 +1,54 @@
+{
+  "status": "GENERATED_PROFILE_PASS_IMPLEMENTATION_NOT_RUN",
+  "part": "xc7k480tffg1156-2",
+  "parameters": {
+    "CORE_KHZ": 100000,
+    "DDR_MTS": 800
+  },
+  "physical_hardware": "NOT_RUN",
+  "timing": "NOT_QUALIFIED",
+  "calibration_cpu": {
+    "status": "REFERENCE_CPU_RETAINED",
+    "reference_core": "/home/fedora/ypcb_ref/openTPU/boards/ypcb-00338/litedram/otpu_litedram.v",
+    "reference_core_sha256": "efd976a5a087f793fd49557ae3d95cc5569b3d8ff67f7b482c6eb18ce011f610",
+    "embedded_cpu_sha256": "983f1daf7058c72fc50ff44d92cc5ccd60e24864bcfc6767661799783b70fa3a",
+    "original_generator_output_sha256": "5c1fa4a16b2d0c4d82aa580ea992aec83dda65281eac4984eace8455ba93d9e2",
+    "port_abi": "MATCH",
+    "hardware": "NOT_RUN"
+  },
+  "files": {
+    "verilog": {
+      "name": "otpu_litedram.v",
+      "sha256": "4a8f2c883d3f4e84103f00e6b7cb0bb139ff20cfe631a9994d5b5f6a29c61d72",
+      "bytes": 8180418
+    },
+    "xdc": {
+      "name": "otpu_litedram.xdc",
+      "sha256": "91991c2b6b41b9d98579d8b9515b634cdb9028a51dfa6f2e6ab608772a1b122e",
+      "bytes": 56328
+    },
+    "rom": {
+      "name": "otpu_litedram_mem.init",
+      "sha256": "3539495b12fca557dbbe9fb3252bbb64acfe31c06f69ef5a810ac76b70da5cc5",
+      "bytes": 51
+    },
+    "csr": {
+      "name": "csr.csv",
+      "sha256": "722d1c90772e237713072397ddca7688eba821971705364261742a2a775c59cf",
+      "bytes": 8997
+    },
+    "init": {
+      "name": "sdram_init.py",
+      "sha256": "652e0927fec7ef5ba5e263f49e04e44b8000f86ed6498377d8067f496618b6ca",
+      "bytes": 1526
+    }
+  },
+  "note": "CH1-only recovery, four virtual user ports share physical CH1; physical CH0 has no user traffic. Virtual ready flags report CH1 calibration. No physical CH0 pass implied.",
+  "physical_user_channels": [
+    1
+  ],
+  "virtual_channel_bytes": 1073741824,
+  "usable_logical_bytes": 2147483648,
+  "user_address_mapping": "physical CH1 beat = (virtual beat << 1) | virtual channel",
+  "calibration_mask": 2
+}

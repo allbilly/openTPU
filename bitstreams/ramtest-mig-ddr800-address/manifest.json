@@ -1,0 +1,28 @@
+{
+  "status": "EXPERIMENTAL_RAM_ONLY_IMAGE_PHYSICAL_TESTS_PENDING",
+  "created_utc": "2026-10-16T09:27:02.693803+00:00",
+  "target": "xc7k480tffg1156-2",
+  "build_id": "c0161001",
+  "identity": "RAMT",
+  "snapshot_abi": 1,
+  "ddr_mts": 800,
+  "physical_channels": [
+    0,
+    1
+  ],
+  "bytes_per_channel": 2147483648,
+  "ecc_enabled": true,
+  "pattern": "address",
+  "bitstream": {
+    "file": "ramtest.bit",
+    "bytes": 18735228,
+    "sha256": "812322919ed3c6a592abe2b13acdf066e77625c3698bf524b3bbf36dfb621f58"
+  },
+  "offline_review": "evidence/offline-review.json",
+  "build_record": "evidence/build-manifest.json",
+  "physical_hardware": "NOT_RUN",
+  "mac_programming_and_readback": "NOT_RUN",
+  "first_error_record_alignment": "UNVERIFIED_VENDOR_PIPELINE_MISALIGNMENT",
+  "working_ch1_release": "../ch1-pcie-2gb",
+  "flash_programming": "NOT_PERFORMED_SRAM_DIAGNOSTIC_ONLY"
+}

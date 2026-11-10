@@ -1,0 +1,21 @@
+{
+  "status": "PASS_SPARE_NATIVE_RMW_TWO_PORTS_INDEPENDENT_STALLS",
+  "hardware_accessed": false,
+  "physical_ddr_simulated": false,
+  "sources": {
+    "/home/fedora/openTPU/tools/check_ramtest_spare_native.py": "6ae427b55cf7e08bd29ce5e470108d83d6c56a54a9cc2cd20907a781a3883e9d",
+    "/home/fedora/openTPU/tools/litedram/spare_native.py": "3ca6b34b9d2fbaa34a4477a8371b041630b8e0ecf7af8c72cf12df44e55ef443"
+  },
+  "cycles": 1290,
+  "counts": {
+    "raw_write_commands": 56,
+    "raw_write_payloads": 56,
+    "raw_reads": 104,
+    "user_commands": 128,
+    "partial_writes": 40,
+    "zero_mask_writes": 8
+  },
+  "full_width_physical_writes": true,
+  "physical_lane_mapping_validated": false,
+  "utc": "2026-10-17T00:29:27.045069+00:00"
+}

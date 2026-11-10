@@ -1,6 +1,6 @@
 """Independent Q8.8 golden model for the step-2 toy-TPU scoreboard.
 
-Arithmetic mirrors `src/fixedpoint.sv` defaults (all fxp_* instances use
+Arithmetic mirrors `ladder/toy/src/fixedpoint.sv` defaults (all fxp_* instances use
 WII=WIF=8, i.e. signed 16-bit Q8.8, ROUND=1):
 
 * `fmul(a, b)`  - `fxp_mul`: 32-bit Q16.16 product, arithmetic shift right by

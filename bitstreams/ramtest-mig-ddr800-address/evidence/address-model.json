@@ -1,0 +1,36 @@
+{
+  "status": "PASS_SELECTED_VENDOR_TRAFFIC_MODEL_TRIALS",
+  "physical_hardware_test": false,
+  "simulation_window_bytes": 131072,
+  "simulator": "verilator",
+  "independent_stalls": true,
+  "sources": {
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/tb_vendor_traffic.sv": "e0ad1bb8310d9ac3499d5ddc3ed131720139db547995399b93d82c4781bfb2c0",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/ramtest_channel.sv": "f96ea8f382ea40c8bf3a007d740ef08a47f1ac610c987e1599070b3bbe8a970b",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_afifo.v": "185be3f2b2e373e83a48ece0590e2d47b1f2118ca09601e651b5c560acd63eb1",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_cmd_gen.v": "c5bebf290c3326817551ffeb2d7b9e078fa271e96f76b3aea835aa58fbfe56bd",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_cmd_prbs_gen.v": "d5fd5dfead4e4649dfe7a2fef9656b9595f1e70e4bddc29ee1cf7587b7fed4b5",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_data_prbs_gen.v": "da1a88e84bf0768858f109cf969a8881246063580fd76d098df27ecfd385772b",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_init_mem_pattern_ctr.v": "54203364cbfc4511dd3e7887f35a9569f1d5f90ea66c7197f4db41e2bcd565df",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_memc_flow_vcontrol.v": "f635c33184f55789541495ec6a29c7d85e06c5c75ba919a67bc104dec4902a8f",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_memc_traffic_gen.v": "a556910283c001933c35d51e600c9bd6a3b2e8903ca567099e98db641b4b1b58",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_rd_data_gen.v": "0d745b08b90335c5b8bc132fe7f9d146da220a445e4e60f3c65cda3e732055d7",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_read_data_path.v": "99ec0cace6bdac30b66cfb535ac01a06185d6dfc088edca593854d72d623751f",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_read_posted_fifo.v": "3c0ce8b4e86b5188b00c83c285b817689d191141d401b69f4128536646583c79",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_s7ven_data_gen.v": "5ea315ac5413df4d600decee35d71f7a579e71365f555178fc60e7aa47274ffe",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_tg_prbs_gen.v": "6642879937d9dd856da05eec3297a6cf62049741acdaedeb7e26136e8ba7d880",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_tg_status.v": "d2e55b8bf0692351e8de448277f4577871d039a9f7a5e0aa1314ac037e5c844e",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_traffic_gen_top.v": "f63664fa285f110c235b714780ea0e81bad31f00f2a39ef72eb3fb36bdf07bf7",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_vio_init_pattern_bram.v": "f60c0179044eae5de76abb52587bbb2790ea906f9e2177990c24a276b59154ea",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_wr_data_gen.v": "37333e5664306e1af385e6f2bf0bc3ae1fb8fd92cd6840722cf884eb7a51d68b",
+    "build/fedora-vivado/ram-only-address-model-v5-20261016/traffic_gen/mig_7series_v4_2_write_data_path.v": "89a9ae0a5787b09cb1c4b84c0ee237dfdb8cbb344812713d6a93ef55e6a6b918"
+  },
+  "trials": [
+    {
+      "pattern": "address",
+      "returncode": 0,
+      "pass_marker": true,
+      "fatal_diagnostic": false
+    }
+  ]
+}

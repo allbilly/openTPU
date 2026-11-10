@@ -1,0 +1,582 @@
+{
+  "updated_utc": "2026-10-18T14:22:01.751171+00:00",
+  "scope": "One matched Qwen3.5-2B INT8 benchmark on c0182863 through Chestnut, compared with the separately measured c0182800 run.",
+  "image": {
+    "build_id": "c0182863",
+    "bitstream_sha256": "03b513a44544009afff9dfb82515bf84c5df84ac6a63673a0882308ce8a323ae",
+    "original_image_manifest_sha256": "143554ed99423f024344a916e5b6c7ee1e53d210a78bfa5d9b534762bd1dbdfb",
+    "runtime_manifest_sha256": "d1c66d9b07061093c001de6bc570e6cf081ae3b7514d1038d4972d032c0796b0",
+    "core_mhz": 148.8372093023256,
+    "reported_core_khz": 148837,
+    "ddr_mts": 1066.6666666666665,
+    "reported_ddr_mts": 1066,
+    "capacity_bytes": 4294967296,
+    "ch0_physical_lanes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      7
+    ],
+    "ecc_channels": [
+      1
+    ],
+    "interfaces": [
+      "pcie",
+      "jtag"
+    ],
+    "calibration": "CH1 automatic startup; image-bound DDR1066 CH0 host firmware c0172168, retaining CH1 calibration.",
+    "what_changed": "148.837 MHz compute and DDR1066 with quantizer predicate timing correction; retained shared pipelined CH0 response bus, registered host reset, lane mapping, ECC mode and JTAG/PCIe runtime."
+  },
+  "original_receipts": [
+    {
+      "path": "build/mac-c0182863-qwen35-2b-20261018T134818Z/manifest.json",
+      "bytes": 19851,
+      "sha256": "8e2a549c734a6f4f0609f14c8d10b63b23b1b5d0eeaa8126614d4bdce2264602"
+    },
+    {
+      "path": "build/mac-c0182863-qwen35-2b-20261018T134818Z/comparison.json",
+      "bytes": 3531,
+      "sha256": "bdba3a3a4d7029ad03cb09e4031d706d506cbcdf907be44f128d5bf0cd692f64"
+    },
+    {
+      "path": "build/mac-c0182863-qwen35-2b-20261018T134818Z/run.json",
+      "bytes": 3972,
+      "sha256": "73ec4a989d526b22c3b581352bd27796c494759650a448b1c6e48c2102425e63"
+    },
+    {
+      "path": "build/mac-c0182863-lfm-20261018T133024Z/lfm/manifest.json",
+      "bytes": 505152,
+      "sha256": "d11aa02d0d30217c18e94ab35186afd17cbdeb32013b7dfe6de1c914a9f3fbaa"
+    },
+    {
+      "path": "build/mac-c0182863-lfm-20261018T133024Z/calibration/manifest.json",
+      "bytes": 10460,
+      "sha256": "9094903d5137b8a3378704a04bec5f6c36acd50ebf2265a4ed1eca2a16878674"
+    }
+  ],
+  "method": {
+    "model": "Qwen/Qwen3.5-2B",
+    "weights": "int8",
+    "kv_capacity": 4096,
+    "resident": true,
+    "prompt_tokens": 512,
+    "decode_steps": 32,
+    "passes_per_image": 1,
+    "allocated_percent": 94.1610336303711,
+    "checkpoint_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+    "configuration_and_memory_identical": true,
+    "chat_tokens_exact_isa": true,
+    "benchmark_tokens_equal_between_images": true,
+    "program_readbacks_exact": 137,
+    "benchmark_prompt": {
+      "path": "tools/data/austen_pp_ch1.txt",
+      "sha256": "3f51d84fc665be7064af3a68c3eb68fe4c0a92ecadd92013c5efcf6c853a4f2e",
+      "selection": "First 512 tokens using the pinned checkpoint tokenizer."
+    },
+    "wall_includes": "Program compilation, upload/readback before IMEM load, polling, full-logit USB readback and host argmax.",
+    "wall_excludes": "Checkpoint verification/loading, model packing/upload, calibration/initialization and separate ISA correctness check.",
+    "decode_bandwidth": "64 * (DRAM_RD + DRAM_WR) / (RUNNING / 148837000) / 1e9 GB/s; aggregate payload peak 17.0666666667 GB/s.",
+    "comparison_scope": "One pass per image at separate times; host conditions not controlled. Both compute/DDR clocks and quantizer timing correction changed together."
+  },
+  "cases": [
+    {
+      "status": "PASS_PHYSICAL_SPARE4GB_QWEN35_2B_REFERENCE_AND_BENCHMARK",
+      "physical": true,
+      "model": "Qwen/Qwen3.5-2B",
+      "wformat": "int8",
+      "resident": true,
+      "cap": 4096,
+      "prompt_tokens": 512,
+      "decode_steps": 32,
+      "started_utc": "2026-10-18T13:48:50.709932+00:00",
+      "finished_utc": "2026-10-18T13:54:05.805274+00:00",
+      "repository_revision": "cd6562a3518d816e3fff31ed13c3d532bd01dc5f",
+      "package": {
+        "manifest_sha256": "d1c66d9b07061093c001de6bc570e6cf081ae3b7514d1038d4972d032c0796b0",
+        "bitstream_sha256": "03b513a44544009afff9dfb82515bf84c5df84ac6a63673a0882308ce8a323ae"
+      },
+      "sources": {
+        "tools/benchmark_spare_c0182863.py": "f7b1804ffad37b0f2d9c80cc2d1c13367357c0c8ecec932228ab6cd4f4ac5df3",
+        "opentpu/host/spare_c0182863.py": "6a8cd3693a6b64250110e056e21b25d5a2d8edc45128d227298cc3f3a69960e1",
+        "opentpu/host/chestnut.py": "adff0a8aca884cb5001005477ddf3a87e3deaab5f75360934c665978aa1ea7df",
+        "opentpu/llm/qwen35.py": "b164471b232b4a06e7499df5247aaed865883579e0f221d2dc1aa8aca305cf1b",
+        "opentpu/llm/qwen3.py": "13f2bdf480de7797d22c202527d9f5c75bb1a6a239a48d948fc93445e00c871f",
+        "opentpu/host/board.py": "6de73cc1b79b31aa8b96c0e905c6b77ad7fd5e91ddf9eabe3ce50b0ea1b83c4d",
+        "opentpu/host/program_verify.py": "5bb150e929cc8e40c7fbcdaec7e10089f12a8de197893138f9d3cae6a6768556",
+        "tools/spare_runtime_c0182863.py": "4cae6382b1cb5a878c556b1f37b4eb0977aaaf8145ec14e16b27c1847d0ea10d",
+        "tools/chestnut_benchmark.py": "1428cf3bafd8cc20e76ef531817d873635809bebc1b4c5aae792dae9ad1334e0",
+        "tools/chestnut_checkpoints.py": "c8aac23ae62f6fbd94986524ab72ed043a06c9d1d67803de3dd48ab39c037f89",
+        "tools/fedora_matmul_check.py": "c8255fe5daa6142e2d201c79ddbebbc8c75c18830b4e34122e9959f0f643aa9f"
+      },
+      "checkpoint_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "checkpoint": [
+        {
+          "name": "model.safetensors-00001-of-00001.safetensors",
+          "bytes": 4548221488,
+          "sha256": "aa33250c4fc64891ddfaba3a314fd9542ea371843c387178b425fbcc5ed680b1"
+        }
+      ],
+      "identity": {
+        "D": 128,
+        "MCOLS": 4,
+        "LANES": 8,
+        "status": 104,
+        "calib": [
+          true,
+          true
+        ],
+        "calibrated": true,
+        "running": false,
+        "regmap": 3,
+        "caps": {
+          "trace": true,
+          "temp": true,
+          "i2c": true,
+          "ddr": true,
+          "w4": true,
+          "pair": true,
+          "dstep": true,
+          "chash": true,
+          "act_rows": true,
+          "args": true,
+          "stream": true,
+          "hostcal": true,
+          "gen": true,
+          "waitw": true,
+          "trace_depth": 16384,
+          "pq_window": 1024
+        },
+        "core_khz": 148837,
+        "build_id": 3222808675,
+        "temp_c": 57.83,
+        "ddr_mts": 1066,
+        "act_rows": 4
+      },
+      "config": {
+        "S": 1,
+        "D": 128,
+        "MCOLS": 4,
+        "ACT_BLOCKS": 128,
+        "TMEM_WORDS": 65536,
+        "DRAM_BYTES": 4294967296,
+        "IMEM_WORDS": 32768,
+        "LANES": 8,
+        "PAIR": true,
+        "DSTEP": true,
+        "STREAM": true,
+        "ACT_ROWS": 0
+      },
+      "memory": {
+        "total": 4294967296,
+        "image": 4044054400,
+        "weights": 3998097280,
+        "kv_capacity": 45957120,
+        "kv_used": 0,
+        "program": 131072,
+        "free": 250781696,
+        "allocated_percent": 94.1610336303711
+      },
+      "compile_checks": [
+        {
+          "bucket": 1,
+          "instructions": [
+            1729
+          ]
+        },
+        {
+          "bucket": 16,
+          "instructions": [
+            1884
+          ]
+        }
+      ],
+      "upload_readback": [
+        {
+          "address": 0,
+          "bytes": 4096,
+          "expected_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+          "actual_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+          "exact_match": true
+        },
+        {
+          "address": 2147479552,
+          "bytes": 4096,
+          "expected_sha256": "8d425a219f37f1cf1f9957d702e55eff93ae36df09b8852846dff1ebc1affddc",
+          "actual_sha256": "8d425a219f37f1cf1f9957d702e55eff93ae36df09b8852846dff1ebc1affddc",
+          "exact_match": true
+        },
+        {
+          "address": 2147483648,
+          "bytes": 4096,
+          "expected_sha256": "230b0f21ead0ba08d1408d1ec510db897b0eb6231c18eb5197bb035dea0c5acf",
+          "actual_sha256": "230b0f21ead0ba08d1408d1ec510db897b0eb6231c18eb5197bb035dea0c5acf",
+          "exact_match": true
+        },
+        {
+          "address": 4044050304,
+          "bytes": 4096,
+          "expected_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+          "actual_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+          "exact_match": true
+        }
+      ],
+      "correctness": {
+        "prompt_token_ids": [
+          248045,
+          846,
+          198,
+          3710,
+          369,
+          279,
+          6511,
+          314,
+          9338,
+          30,
+          21134,
+          303,
+          799,
+          11316,
+          13,
+          248046,
+          198,
+          248045,
+          74455,
+          198,
+          248068,
+          271,
+          248069,
+          271
+        ],
+        "actual_token_ids": [
+          760,
+          6511,
+          314,
+          9338,
+          369,
+          11751,
+          13,
+          248046
+        ],
+        "text": "The capital of France is Paris.",
+        "exact_match": true,
+        "expected_token_ids": [
+          760,
+          6511,
+          314,
+          9338,
+          369,
+          11751,
+          13,
+          248046
+        ]
+      },
+      "prefill": {
+        "tokens": 512,
+        "runs": 128,
+        "cycles": 2430340743,
+        "device_seconds": 16.32887482951148,
+        "wall_seconds": 53.47115908399974,
+        "device_tok_s": 31.355497873904508,
+        "wall_tok_s": 9.575255310917818
+      },
+      "decode": {
+        "tokens": 32,
+        "runs": 32,
+        "cycles": 615982582,
+        "device_seconds": 4.138638792773302,
+        "wall_seconds": 56.45977099999982,
+        "device_tok_s": 7.732010837929829,
+        "wall_tok_s": 0.5667752354149665,
+        "token_ids": [
+          524,
+          748,
+          42327,
+          430,
+          866,
+          314,
+          1070,
+          1149,
+          271,
+          1,
+          11861,
+          488,
+          1902,
+          708,
+          11,
+          321,
+          353,
+          668,
+          3502,
+          488,
+          539,
+          5941,
+          1149,
+          271,
+          6825,
+          1044,
+          524,
+          2019,
+          310,
+          443,
+          2636,
+          2482
+        ],
+        "text": " not so handsome as any of them.\"\n\n\"Then you must go, and I will send you by yourself.\"\n\n\"I am not going to Netherfield",
+        "counters": {
+          "UPTIME": 8403889206,
+          "RUNNING": 615982582,
+          "MXU_BUSY": 615886187,
+          "MXU_MAC": 471498752,
+          "VPU_BUSY": 25854048,
+          "QNT_BUSY": 3126479,
+          "DMA_BUSY": 66344508,
+          "TMEM_DENY": 11727856,
+          "DRAM_RD": 984093280,
+          "DRAM_WR": 10699520,
+          "DRAM_WAIT": 29873148,
+          "INSTR": 326496,
+          "MXU_STARVE": 4007515
+        },
+        "device_dram_gb_s": 15.383497422189123
+      },
+      "channel_io": {
+        "0": {
+          "written": 2026826880,
+          "read": 25178944,
+          "max_write_end": 2022066176,
+          "write_seconds": 18.009596026005056
+        },
+        "1": {
+          "written": 2026826880,
+          "read": 25178944,
+          "max_write_end": 2022066176,
+          "write_seconds": 18.728441446012766
+        }
+      },
+      "ecc_before": {
+        "0": {
+          "ecc_enable": 0,
+          "ecc_sec_errors": 0,
+          "ecc_ded_errors": 0
+        },
+        "1": {
+          "ecc_enable": 1,
+          "ecc_sec_errors": 0,
+          "ecc_ded_errors": 0
+        }
+      },
+      "ecc_after": {
+        "0": {
+          "ecc_enable": 0,
+          "ecc_sec_errors": 0,
+          "ecc_ded_errors": 0
+        },
+        "1": {
+          "ecc_enable": 1,
+          "ecc_sec_errors": 0,
+          "ecc_ded_errors": 0
+        }
+      },
+      "program_readback": {
+        "count": 137,
+        "all_exact": true,
+        "all_loads_finished": true,
+        "receipt_inventory_sha256": "c2001ef3a9809312dad31afbdb14406fac513aae54288bbe84287899c4dff778",
+        "inventory_encoding": "Sorted receipt path relative to run directory, space, receipt SHA256, newline. Individual receipts stay local."
+      },
+      "temporary_pci_configuration_restored": true,
+      "upload": {
+        "bytes": 4044054400,
+        "seconds": 56.85745683299956,
+        "channel_write_seconds": 36.73803747201782,
+        "effective_mb_s": 71.12619215238743
+      },
+      "initialization_reused": {
+        "receipt": "build/mac-c0182863-lfm-20261018T133024Z/lfm/manifest.json",
+        "sha256": "d11aa02d0d30217c18e94ab35186afd17cbdeb32013b7dfe6de1c914a9f3fbaa",
+        "live_marker": 1546382592
+      },
+      "calibration_unchanged": true
+    }
+  ],
+  "comparison": {
+    "status": "PASS_MATCHED_QWEN35_2B_COMPARISON",
+    "updated_utc": "2026-10-18T13:55:37.435851+00:00",
+    "baseline": {
+      "path": "docs/data/spare_pcie_benchmark_20261018.json",
+      "sha256": "7c269fed1871d72648f27ad4a08097cb29c5bdc991fbe2b273485721e290f0de",
+      "build_id": "c0182800",
+      "core_mhz": 100,
+      "ddr_mts": 800,
+      "bitstream_sha256": "df2521d80de1d69ea4ca758821dc67a814b95d67ac851b78727c9154a3104bf2"
+    },
+    "current": {
+      "path": "build/mac-c0182863-qwen35-2b-20261018T134818Z/manifest.json",
+      "sha256": "8e2a549c734a6f4f0609f14c8d10b63b23b1b5d0eeaa8126614d4bdce2264602",
+      "build_id": "c0182863",
+      "core_mhz": 148.837,
+      "ddr_mts": 1066.6666666666667,
+      "bitstream_sha256": "03b513a44544009afff9dfb82515bf84c5df84ac6a63673a0882308ce8a323ae"
+    },
+    "method": {
+      "model": "Qwen/Qwen3.5-2B",
+      "weights": "int8",
+      "kv_capacity": 4096,
+      "resident": true,
+      "prompt_tokens": 512,
+      "decode_steps": 32,
+      "passes_per_image": 1,
+      "allocated_percent": 94.1610336303711,
+      "checkpoint_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "configuration_and_memory_identical": true,
+      "chat_tokens_exact_isa": true,
+      "benchmark_tokens_equal_between_images": true,
+      "program_readbacks_exact": 137
+    },
+    "metrics": [
+      {
+        "metric": "Prefill device",
+        "unit": "tok/s",
+        "c0182800": 23.37650284746008,
+        "c0182863": 31.355497873904508,
+        "ratio": 1.3413254359948612,
+        "percent_change": 34.13254359948612
+      },
+      {
+        "metric": "Decode device",
+        "unit": "tok/s",
+        "c0182800": 5.78401541826192,
+        "c0182863": 7.732010837929829,
+        "ratio": 1.336789458326388,
+        "percent_change": 33.678945832638796
+      },
+      {
+        "metric": "Prefill wall",
+        "unit": "tok/s",
+        "c0182800": 8.897247075088071,
+        "c0182863": 9.575255310917818,
+        "ratio": 1.0762042719627447,
+        "percent_change": 7.620427196274471
+      },
+      {
+        "metric": "Decode wall",
+        "unit": "tok/s",
+        "c0182800": 0.616103335469864,
+        "c0182863": 0.5667752354149665,
+        "ratio": 0.9199353465319614,
+        "percent_change": -8.006465346803859
+      },
+      {
+        "metric": "Decode DRAM bandwidth",
+        "unit": "GB/s",
+        "c0182800": 11.507793786351893,
+        "c0182863": 15.383497422189123,
+        "ratio": 1.3367894583263882,
+        "percent_change": 33.67894583263882
+      }
+    ],
+    "memory_peak_gb_s": {
+      "c0182800": 12.8,
+      "c0182863": 17.066666666666666
+    },
+    "memory_peak_utilization_percent": {
+      "c0182800": 89.90463895587415,
+      "c0182863": 90.1376802081394
+    },
+    "host_overhead_seconds_per_decode_token": {
+      "c0182800": 1.4502140715625005,
+      "c0182863": 1.6350353814758287
+    },
+    "calibration_unchanged": true,
+    "ecc_after": {
+      "0": {
+        "ecc_enable": 0,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      },
+      "1": {
+        "ecc_enable": 1,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      }
+    },
+    "limitations": [
+      "One matched workload pass per image, measured at separate times; host conditions were not controlled.",
+      "Device metrics exclude host idle time; wall metrics include program verification, USB transfers, compilation, polling and host argmax.",
+      "The measured wall decode regression is not isolated to any one host/USB component.",
+      "Both core and DDR clocks and the quantizer timing correction changed; individual contributions are not isolated.",
+      "No full-range arbitrary-payload or cold/warm repeatability qualification is claimed."
+    ]
+  },
+  "lfm_validation": {
+    "source_receipt": "build/mac-c0182863-lfm-20261018T133024Z/lfm/manifest.json",
+    "source_receipt_sha256": "d11aa02d0d30217c18e94ab35186afd17cbdeb32013b7dfe6de1c914a9f3fbaa",
+    "status": "PASS_OBSERVED_SPARE_PCIE_MATMUL_LFM2_FULL_MEMORY_QUALIFICATION_PENDING",
+    "model": "LFM2.5-230M",
+    "actual_token_ids": [
+      1098,
+      5706,
+      803,
+      4481,
+      856,
+      5242,
+      523,
+      7
+    ],
+    "expected_token_ids": [
+      1098,
+      5706,
+      803,
+      4481,
+      856,
+      5242,
+      523,
+      7
+    ],
+    "text": "The capital of France is Paris.",
+    "model_message": "'The capital of France is Paris.'; tokens=[1098, 5706, 803, 4481, 856, 5242, 523, 7]; ISA=[1098, 5706, 803, 4481, 856, 5242, 523, 7]; prompt of 21 tokens in 5 runs of up to 8, 0.43 Mcycles/token; 8 one-token runs, 2.21 Mcycles/token; 4.7 s wall",
+    "program_readbacks_exact": 14,
+    "calibration_unchanged": true,
+    "ecc_after": {
+      "0": {
+        "ecc_enable": 0,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      },
+      "1": {
+        "ecc_enable": 1,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      }
+    },
+    "zero_initialization_progress": {
+      "completed_chunks": 2048,
+      "total_chunks": 2048,
+      "elapsed_seconds": 450.4048927500003,
+      "pause_seconds_per_chunk": 0.2,
+      "all_chunks_validated": true,
+      "initialization_complete": true
+    }
+  },
+  "reproduction": {
+    "script": "tools/benchmark_spare_c0182863.py",
+    "sha256": "f7b1804ffad37b0f2d9c80cc2d1c13367357c0c8ecec932228ab6cd4f4ac5df3",
+    "status": "Exact checked-in script physically exercised by this recorded run.",
+    "runtime_guide": "docs/mac_c0182863.md",
+    "command": "python3 tools/benchmark_spare_c0182863.py --calibration-receipt build/mac-c0182863-lfm/calibration/manifest.json --initialization-receipt build/mac-c0182863-lfm/lfm/manifest.json --out build/mac-c0182863-qwen35-2b-1",
+    "prerequisite": "Same powered configuration as successful exact-image calibration and initialization; no other card clients."
+  },
+  "limitations": [
+    "One matched workload pass per image, measured at separate times; host conditions were not controlled.",
+    "Device metrics exclude host idle time; wall metrics include program verification, USB transfers, compilation, polling and host argmax.",
+    "The measured wall decode regression is not isolated to any one host/USB component.",
+    "Both core and DDR clocks and the quantizer timing correction changed; individual contributions are not isolated.",
+    "No full-range arbitrary-payload or cold/warm repeatability qualification is claimed.",
+    "This runtime test did not program or independently verify permanent flash contents.",
+    "Synthetic LD-stream throughput and physical PCIe transfer bandwidth are separate from Qwen decode memory bandwidth."
+  ]
+}

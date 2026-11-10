@@ -1,0 +1,206 @@
+{
+  "status": "CH1_PCIE_IMAGE_PACKET_CRC_PINS_ROUTE_TIMING_PASS_CDC_REVIEW_PENDING",
+  "hardware_accessed": false,
+  "physical_model_verified": false,
+  "flash_written": false,
+  "started_utc": "2026-10-16T08:21:53.126281+00:00",
+  "ecc": {
+    "log": {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/ch1-recovery-prepare-20261014T075931Z/four-port-ecc.log",
+      "bytes": 75,
+      "sha256": "a1af23e2af504a4f41fd41d90c0a5770c84d73fbf2e8e157d6a040a059b1e723"
+    },
+    "exit": {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/ch1-recovery-prepare-20261014T075931Z/four-port-ecc.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "scope": "Full four-port stock comparison"
+  },
+  "crc_checker": {
+    "path": "/home/fedora/openTPU/build/fedora-openxc7/bitstream-crc-qualification-20261013T152000Z/check-crc",
+    "bytes": 28584,
+    "sha256": "047b5e0dc5c29193e2a1311eef1d09d44d8b08d37844fb6a771b1f9b76057802"
+  },
+  "bitstream": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/ch0-reset-pcie-20261016/project/otpu.bit",
+    "bytes": 12469503,
+    "sha256": "40173515ee16b6b0b127a856139b023529e6dbf53ab1e301b1a3002847df62fc"
+  },
+  "crc": {
+    "status": "ALL_PRESENT_CRC_CHECKPOINTS_MATCH",
+    "crc_checkpoints": 2,
+    "fdri_words": 2942635,
+    "register_data_words": 3030767,
+    "known_answer_vectors": 4,
+    "resets": [
+      {
+        "header_file_offset": 327,
+        "value_file_offset": 331,
+        "computed_crc_before_reset": 2448563865,
+        "fdri_words_since_reset": 0
+      }
+    ],
+    "checkpoints": [
+      {
+        "value_file_offset": 12467415,
+        "crc": 2128467160
+      },
+      {
+        "value_file_offset": 12467903,
+        "crc": 1632635302
+      }
+    ]
+  },
+  "oob_review_script": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/ch0-reset-pcie-20261016/independent-image-review/review_oob_clocks.tcl",
+    "bytes": 2292,
+    "sha256": "126c3da4a45a1dc6677b2ad593c29f53a74a2a2c29eadebf7cd3d11e5f3711d3"
+  },
+  "implemented_primitives": {
+    "DSP48E1": 716,
+    "RAMB36E1": 585,
+    "RAMB18E1": 35,
+    "ISERDESE2": 144,
+    "OSERDESE2": 214,
+    "IDELAYE2": 144
+  },
+  "serializer_reset_registers": [
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wl7ddrphy0_sys_rst_reg",
+      "FDSE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wl7ddrphy1_sys_rst_reg",
+      "FDSE"
+    ]
+  ],
+  "oob_clock_review": {
+    "timing": {
+      "WNS": 0.006,
+      "TNS": 0.0,
+      "setup_failing": 0.0,
+      "setup_total": 575465.0,
+      "WHS": 0.035,
+      "THS": 0.0,
+      "hold_failing": 0.0,
+      "hold_total": 575175.0,
+      "WPWS": 0.0,
+      "TPWS": 0.0,
+      "pulse_failing": 0.0,
+      "pulse_total": 179087.0
+    },
+    "route": {
+      "routable": 322153,
+      "fully_routed": 322153,
+      "routing_errors": 0
+    },
+    "coverage": {
+      "no_clock": 0,
+      "constant_clock": 0,
+      "pulse_width_clock": 0,
+      "unconstrained_internal_endpoints": 0,
+      "no_input_delay": 150,
+      "no_output_delay": 221,
+      "multiple_clock": 0,
+      "generated_clocks": 0,
+      "loops": 0,
+      "partial_input_delay": 0,
+      "partial_output_delay": 0,
+      "latch_loops": 0
+    },
+    "generated_clocks": 32,
+    "bus_skew_constraints": 39,
+    "minimum_bus_skew_slack_ns": 2.364,
+    "netlist_placement_routing_modified": false,
+    "cdc_review": "PENDING"
+  },
+  "oob_reports": [
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/ch0-reset-pcie-20261016/independent-image-review/oob-bus-skew.rpt",
+      "bytes": 526102,
+      "sha256": "2d364f464c4812b12b72b55fbc6a1a9df6b577c0cb6c881343beed7f03fd8b7f"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/ch0-reset-pcie-20261016/independent-image-review/oob-cdc.rpt",
+      "bytes": 72840,
+      "sha256": "c50ebd4eb6a74161d628e8997a28eaea9acf0ec62b7406183ead07c11ba2cc69"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/ch0-reset-pcie-20261016/independent-image-review/oob-clocks.rpt",
+      "bytes": 37487,
+      "sha256": "5d3f8c0ab4d2dbff0a4dcfcd5da19ad91fa1c1a86cbba23430de704be5e4dd92"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/ch0-reset-pcie-20261016/independent-image-review/oob-clocks.tsv",
+      "bytes": 7736,
+      "sha256": "eea530f701026f6884579c6bbffae9c17be73b99519d2cdd77d7a7785bbd4c9f"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/ch0-reset-pcie-20261016/independent-image-review/oob-generated.xdc",
+      "bytes": 15584,
+      "sha256": "b4febc8463c299f0785b5498dbf5a79d20732f906bf8fc43a24dcf8e5be4624a"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/ch0-reset-pcie-20261016/independent-image-review/oob-pulse-clock-pins.rpt",
+      "bytes": 1265,
+      "sha256": "4c8c805322a107d1976f65b248f88e440ce1b7e27b37fa72e273a69d40740f9f"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/ch0-reset-pcie-20261016/independent-image-review/oob-route.rpt",
+      "bytes": 651,
+      "sha256": "3f08db3a026b0f72d12d4d30b87de3525a39f739b0c3d4d0797892e410555a00"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/ch0-reset-pcie-20261016/independent-image-review/oob-timing.rpt",
+      "bytes": 834923,
+      "sha256": "44538e1635924464137e14fa6f531c5e3a0af8089721d2a9d64c726da8f03330"
+    }
+  ],
+  "timing": {
+    "WNS": 0.006,
+    "TNS": 0.0,
+    "setup_failing": 0.0,
+    "setup_total": 575465.0,
+    "WHS": 0.035,
+    "THS": 0.0,
+    "hold_failing": 0.0,
+    "hold_total": 575175.0,
+    "WPWS": 0.0,
+    "TPWS": 0.0,
+    "pulse_failing": 0.0,
+    "pulse_total": 179079.0
+  },
+  "route": {
+    "routable": 322153,
+    "fully_routed": 322153,
+    "routing_errors": 0
+  },
+  "pins_checked": 278,
+  "gt_sites": [
+    "GTXE2_CHANNEL_X0Y23",
+    "GTXE2_CHANNEL_X0Y22",
+    "GTXE2_CHANNEL_X0Y21",
+    "GTXE2_CHANNEL_X0Y20",
+    "GTXE2_CHANNEL_X0Y19",
+    "GTXE2_CHANNEL_X0Y18",
+    "GTXE2_CHANNEL_X0Y17",
+    "GTXE2_CHANNEL_X0Y16"
+  ],
+  "cdc_scope": "Fresh cdc.rpt and bus-skew.rpt require review before programming",
+  "build_manifest": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/ch0-reset-pcie-20261016/manifest.json",
+    "bytes": 28191,
+    "sha256": "09107ffac2272243c68a8ad8f869cae1b2d229acb43fcd65096915a6ec86979f"
+  },
+  "checker": {
+    "path": "/home/fedora/openTPU/tools/fedora_qualify_ch1_image.py",
+    "bytes": 17598,
+    "sha256": "30c36d6d404187c49ff34d5827a95ca6884b482d616044f645e17448f1206685"
+  },
+  "finished_utc": "2026-10-16T08:26:40.258259+00:00"
+}

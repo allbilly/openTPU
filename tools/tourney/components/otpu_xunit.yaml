@@ -1,0 +1,51 @@
+name: otpu_xunit
+description: 'Cross-unit paths: otpu_slice (the units and their wiring: scoreboard grants, TMEM port muxes,
+  DRAM ports), otpu_top, otpu_pkg, the board wrappers (otpu_board: PCIe bridge, DRAM adapter, control
+  registers, trace; otpu_native_sys: the channels'' bridges (otpu_mem_ch, otpu_afifo) and XDMA''s split
+  (otpu_axi_split2); otpu_fpga_top_ld: clocks and resets), the RAMs every unit instantiates
+  (otpu_tech_ram: otpu_ram_1r1w / otpu_ram_1r1w_be) and the core timing constraints (otpu_top_ld.xdc:
+  pblocks, placement, no timing exceptions or clock changes). Changes here target paths
+  that cross unit boundaries: register slices on inter-unit buses, fanout of broadcast signals, placement.'
+allowed:
+- rtl/top/otpu_slice.sv
+- rtl/top/otpu_top.sv
+- rtl/top/otpu_pkg.sv
+- rtl/shell/otpu_board.sv
+- rtl/shell/otpu_ctrl.sv
+- rtl/boards/ypcb-00338/otpu_native_sys.sv
+- rtl/shell/otpu_mem_ch.sv
+- rtl/shell/otpu_afifo.sv
+- rtl/shell/otpu_axi_split2.sv
+- rtl/boards/ypcb-00338/otpu_fpga_top_ld.sv
+- rtl/shell/otpu_trace.sv
+- rtl/tech/generic/otpu_tech_ram.sv
+- boards/ypcb-00338/constraints/otpu_top_ld.xdc
+synth:
+  parts: []
+objectives:
+- fmax
+target_mhz: 133.33
+tests:
+  fast:
+  - tests/test_perf.py
+  - tests/test_rtl.py::test_mlp_rtl[1]
+  - tests/test_rtl.py::test_attention_decode_rtl[1-8-2-100]
+  - tests/test_rtl.py::test_design_size_block_128_rtl
+  - tests/test_rtl.py::test_fuzz_single_slice[0]
+  - tests/test_rtl.py::test_fuzz_single_slice[1]
+  - tests/test_rtl.py::test_scoreboard_stress_single_slice[0]
+  - tests/test_rtl.py::test_scoreboard_stress_single_slice[1]
+  - tests/test_rtl.py::test_scoreboard_stress_single_slice[2]
+  - tests/test_rtl.py::test_fuzz_two_slices[0]
+  - tests/test_rtl.py::test_scoreboard_stress_two_slices[0]
+  - tests/test_rtl.py::test_attention_layer_rtl[1]
+  - tests/test_vops.py::test_dstep_rtl_bit_exact
+  board:
+  - tests/test_rtl.py::test_design_size_block_128_rtl
+  - tests/test_rtl.py::test_board_memory_path_stress[1-30]
+  - tests/test_rtl.py::test_board_memory_path_stress[4-80]
+  - tests/test_rtl.py::test_board_memory_path_fuzz[0-40]
+  - tests/test_rtl.py::test_board_memory_path_stress[2-60]
+  - tests/test_rtl.py::test_board_memory_path_fuzz[1-70]
+  - tests/test_board.py
+perf: true

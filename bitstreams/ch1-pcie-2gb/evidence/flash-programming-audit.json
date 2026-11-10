@@ -1,0 +1,40 @@
+{
+  "status": "PASS_AUDITED_PERMANENT_CH1_PCIE_PROGRAM_VERIFY_JTAG_FLASH_BOOT",
+  "observed_utc": "2026-10-15T00:01:13.865798+00:00",
+  "out": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-permanent-pcie-20261014T234409Z",
+  "manifest": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-permanent-pcie-20261014T234409Z/manifest.json",
+  "backup_policy": "SKIPPED_BY_USER",
+  "flash_written": true,
+  "flash_verified": true,
+  "jtag_boot_from_flash_verified": true,
+  "cold_boot_verified": false,
+  "physical_pcie_verified": false,
+  "phase_evidence": {
+    "program": {
+      "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-permanent-pcie-20261014T234409Z/program.log",
+      "sha256": "728337457a5c8e47efad898b05201165f19b8f2f8d0231a540bd2672fe807cf1",
+      "actual_ack": "PASS_FLASH_OPERATION_program"
+    },
+    "verify": {
+      "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-permanent-pcie-20261014T234409Z/verify.log",
+      "sha256": "05e9e214193e2c82c01d1cef5378aaa45fbdf586f86ca6944de5bf340b86da99",
+      "actual_ack": "PASS_FLASH_OPERATION_verify"
+    },
+    "boot": {
+      "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-permanent-pcie-20261014T234409Z/boot.log",
+      "sha256": "86b99227164196574bb367896bc60649126c1a0399114e965f9993e3c6ab1658",
+      "actual_ack": "PASS_BOOT_FROM_FLASH_INIT_DONE"
+    }
+  },
+  "bitstream": {
+    "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/project/otpu.bit",
+    "bytes": 12472031,
+    "sha256": "c7d3891b58d65ba72a3fc67c27c63c8dca3246db55d6504f7a63b636c876d1cf"
+  },
+  "mcs": {
+    "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/project/otpu.mcs",
+    "bytes": 34300540,
+    "sha256": "101178a32024ba416f90813afe7672b80e26fb154982d7fec85209bbab2e5f77"
+  },
+  "deferred_task": "CH0 DDR repair deferred by user; CH1-only image selected"
+}

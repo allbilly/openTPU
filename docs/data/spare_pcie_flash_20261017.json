@@ -1,0 +1,62 @@
+{
+  "status": "PASS_SPARE_PCIE_PERMANENT_FLASH_VERIFY_JTAG_BOOT_MAC_RUNTIME_PENDING",
+  "finished_utc": "2026-10-17T07:11:12.050800+00:00",
+  "source_receipt": "build/hardware-test/spare-flash-no-backup-20261017/manifest.json",
+  "source_receipt_sha256": "3bddf5023d812374d37c6dba5e23b8be438e0aee8443a036e7d2a487cd9ef719",
+  "bitstream": {
+    "path": "bitstreams/spare-pcie-4gb-ddr800/otpu.bit",
+    "sha256": "19730b4708653c428cf388999c4d49b7437648dd27d358028999ee98c380a425",
+    "bytes": 12735199
+  },
+  "mcs": {
+    "bundle_path": "flash/otpu.mcs",
+    "sha256": "9448f6323a6763da6c9c5d9cb5731f2a43c4d85e1db88c8236009be3ff6db031",
+    "bytes": 35024316
+  },
+  "build_id": "c0172080",
+  "core_mhz": 100,
+  "ddr_mts": 800,
+  "capacity_bytes": 4294967296,
+  "ch0_physical_lanes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    7
+  ],
+  "ecc_channels": [
+    1
+  ],
+  "backup_policy": "SKIPPED_BY_USER",
+  "flash_written": true,
+  "flash_verified": true,
+  "jtag_boot_from_flash_verified": true,
+  "cold_boot_verified": false,
+  "physical_pcie_verified": false,
+  "mac_memory_matmul_inference_verified": false,
+  "ch0_host_calibration_required_after_each_configuration": true,
+  "supply_observation": "Existing sole12V2A adapter, card voltage/current unmeasured; no supply change",
+  "phase_logs": {
+    "program": {
+      "path": "build/hardware-test/spare-flash-no-backup-20261017/program.log",
+      "sha256": "9417f04aee21f6b0d4732df2a6b9296fdc589973631f961e7b9a2614cededd77",
+      "completion_marker": "PASS_FLASH_OPERATION_program",
+      "exit_code": 0
+    },
+    "verify": {
+      "path": "build/hardware-test/spare-flash-no-backup-20261017/verify.log",
+      "sha256": "69e388897712991e8e27b89980413652b75c0089ca00673e3200f8626153b085",
+      "completion_marker": "PASS_FLASH_OPERATION_verify",
+      "exit_code": 0
+    },
+    "boot": {
+      "path": "build/hardware-test/spare-flash-no-backup-20261017/boot.log",
+      "sha256": "95af56dbda3fe553f369f3f394af0be2d7c7407ebacfb80321570d47651a5ca6",
+      "completion_marker": "PASS_BOOT_FROM_FLASH_INIT_DONE",
+      "exit_code": 0
+    }
+  }
+}

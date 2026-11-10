@@ -30,12 +30,13 @@ BASELINE_TARGETS = [
 
 @pytest.mark.parametrize("target", BASELINE_TARGETS)
 def test_cocotb_target_passes(target, make_env, make_bin, repo_root):
-    r = subprocess.run([make_bin, "-s", f"test_{target}"], cwd=repo_root, env=make_env,
+    toy = repo_root / "ladder/toy"
+    r = subprocess.run([make_bin, "-s", f"test_{target}"], cwd=toy, env=make_env,
                        capture_output=True, text=True, timeout=600)
     assert r.returncode == 0, (
         f"make test_{target} failed\n--- stdout tail ---\n{r.stdout[-3000:]}\n"
         f"--- stderr tail ---\n{r.stderr[-3000:]}")
-    xml = repo_root / "results.xml"
+    xml = repo_root / "ladder/toy/results.xml"
     assert xml.is_file(), f"make test_{target} did not write results.xml"
     root = ET.parse(xml).getroot()
     failures = root.findall(".//failure") + root.findall(".//error")
@@ -47,7 +48,7 @@ def test_cocotb_target_passes(target, make_env, make_bin, repo_root):
 def test_make_lint(make_env, make_bin, repo_root):
     if not __import__("shutil").which("verible-verilog-lint"):
         pytest.skip("verible-verilog-lint not installed")
-    r = subprocess.run([make_bin, "-s", "lint"], cwd=repo_root, env=make_env,
+    r = subprocess.run([make_bin, "-s", "lint"], cwd=repo_root / "ladder/toy", env=make_env,
                        capture_output=True, text=True, timeout=300)
     assert r.returncode == 0, r.stdout[-3000:] + r.stderr[-3000:]
     assert "0 findings" in (r.stdout + r.stderr) or r.stdout.strip() == "", r.stdout[-1000:]
@@ -89,11 +90,13 @@ def test_step0_commit_is_the_import(repo_root):
 
 
 def test_imported_rtl_is_complete(repo_root):
-    src = sorted((repo_root / "src").glob("*.sv"))
+    """The step-0 import is preserved, relocated under ladder/toy/ at step 16."""
+    toy = repo_root / "ladder/toy"
+    src = sorted((toy / "src").glob("*.sv"))
     assert len(src) == 16, [p.name for p in src]
-    tests = sorted((repo_root / "test").glob("test_*.py"))
+    tests = sorted((toy / "test").glob("test_*.py"))
     assert len(tests) == 10, [p.name for p in tests]
-    dumps = sorted((repo_root / "test").glob("dump_*.sv"))
+    dumps = sorted((toy / "test").glob("dump_*.sv"))
     assert len(dumps) == 14, [p.name for p in dumps]
-    readme = (repo_root / "README.md").read_text()
+    readme = (toy / "README.md").read_text()
     assert "tiny-tpu" in readme.lower()

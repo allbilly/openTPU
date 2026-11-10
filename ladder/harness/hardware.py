@@ -132,7 +132,7 @@ LLM_ACCEPTANCE = {
         },
     },
     "historical_evidence": "docs/data/c0182902-tinystories-jtag-20261107.json",
-    "acceptance_doc": "docs/oncard-llm.md",
+    "acceptance_doc": "ladder/docs/oncard-llm.md",
 }
 
 

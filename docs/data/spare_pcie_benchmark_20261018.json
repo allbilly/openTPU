@@ -1,0 +1,595 @@
+{
+  "updated_utc": "2026-10-18T09:57:15.989200+00:00",
+  "scope": "Observed c0182800 dual-runtime-interface 4 GiB image through Chestnut; single Qwen3.5-2B INT8 run. Historical results are retained separately.",
+  "image": {
+    "build_id": "c0182800",
+    "bitstream_sha256": "df2521d80de1d69ea4ca758821dc67a814b95d67ac851b78727c9154a3104bf2",
+    "runtime_manifest_sha256": "310e2856d29c0eb2b8f917b8b8a72537bc3d63546a2c3f6d84aaf3524a155093",
+    "core_mhz": 100,
+    "ddr_mts": 800,
+    "capacity_bytes": 4294967296,
+    "ch0_physical_lanes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      7
+    ],
+    "ecc_channels": [
+      1
+    ],
+    "interfaces": [
+      "pcie",
+      "jtag"
+    ],
+    "calibration": "CH1 automatic startup; image-bound eight-lane CH0 firmware c0172068 loaded by host",
+    "what_changed": "CH0 shared read-response bus repair with two pipelined native ports and 32 read credits per port; registered host reset; independent 250 MHz host clock; JTAG USER2 and PCIe runtime access."
+  },
+  "original_receipts": [
+    {
+      "path": "build/mac-c0182800-qwen35-2b-20261018T093504Z-fresh/manifest.json",
+      "bytes": 19461,
+      "sha256": "cb69ee5ce4d08986cf467d3acafdbbdf3f4f957d8a484accf74ee3327091e686"
+    },
+    {
+      "path": "build/mac-c0182800-qwen35-2b-20261018T093504Z-fresh/run.json",
+      "bytes": 30269,
+      "sha256": "d656248193b43aa1f7add3145524115e9184a7f6e1268a5da893f8b14b69f36c"
+    },
+    {
+      "path": "build/mac-c0182800-qwen35-2b-20261018T093504Z-fresh/initialization/manifest.json",
+      "bytes": 498655,
+      "sha256": "e0d50f60212d3fcac59bfbd19a0157ed29210450ce5d13eecea6cabd32c086a1"
+    },
+    {
+      "path": "build/mac-c0182800-qwen35-2b-20261018T093504Z-fresh/calibration/manifest.json",
+      "bytes": 10807,
+      "sha256": "a060d12680df3eeb98d43e1d1dd3c562768de15777fbf8adbff72ec4958f7293"
+    },
+    {
+      "path": "build/mac-c0182800-qwen35-2b-20261018T093504Z-fresh/bandwidth/manifest.json",
+      "bytes": 16498,
+      "sha256": "567990ccd2633f15b3d833b70525c0c8edaa0f84bc00fc865486114f387459d5"
+    }
+  ],
+  "method": {
+    "prompt_tokens": 512,
+    "decode_steps": 32,
+    "kv_capacity": 4096,
+    "repeats": 1,
+    "sampling": "host argmax; EOS does not end the fixed benchmark",
+    "benchmark_prompt": {
+      "path": "tools/data/austen_pp_ch1.txt",
+      "sha256": "3f51d84fc665be7064af3a68c3eb68fe4c0a92ecadd92013c5efcf6c853a4f2e",
+      "selection": "first 512 tokens using the pinned checkpoint tokenizer"
+    },
+    "correctness": "Eight chat tokens exactly match fresh ISA; all 137 program DRAM readbacks exact before IMEM loading; matmul and four image boundary samples exact. The 32 benchmark tokens also match the previous CH1 run prefix.",
+    "wall_includes": "program compilation, program upload and exact readback before IMEM load, polling, full-vocabulary logits readback and host argmax",
+    "wall_excludes": "checkpoint verification/loading, quantization, model upload, memory initialization and separate ISA correctness check",
+    "decode_bandwidth": "(DRAM_RD + DRAM_WR) * 64 / (RUNNING / 100000000) / 1e9 GB/s; aggregate payload peak is 12.8 GB/s",
+    "memory": "Image includes weights, embedding/lookup tables, I/O and allocated cache/state for 4096 tokens; program reserve included in allocated percentage."
+  },
+  "cases": [
+    {
+      "status": "PASS_PHYSICAL_SPARE4GB_QWEN35_2B_REFERENCE_AND_BENCHMARK",
+      "physical": true,
+      "model": "Qwen/Qwen3.5-2B",
+      "wformat": "int8",
+      "resident": true,
+      "cap": 4096,
+      "prompt_tokens": 512,
+      "decode_steps": 32,
+      "started_utc": "2026-10-18T09:44:28.895282+00:00",
+      "finished_utc": "2026-10-18T09:49:40.623564+00:00",
+      "repository_revision": "959881a36195174b7d0c6afe81fa7573c5043b73",
+      "package": {
+        "manifest_sha256": "310e2856d29c0eb2b8f917b8b8a72537bc3d63546a2c3f6d84aaf3524a155093",
+        "bitstream_sha256": "df2521d80de1d69ea4ca758821dc67a814b95d67ac851b78727c9154a3104bf2"
+      },
+      "sources": {
+        "build/mac-c0182800-qwen35-2b-20261018T093504Z-fresh/run_model.py": "34afc81609fd6b4bba602b32282dd06a4382b4cf46130e7d66b02928bf39932d",
+        "opentpu/host/spare_c0182800.py": "b77a6b9ee8fe6c6f0c59be770e9e5dc7e191246c9a156407bace592e861a98f2",
+        "opentpu/host/chestnut.py": "adff0a8aca884cb5001005477ddf3a87e3deaab5f75360934c665978aa1ea7df",
+        "opentpu/llm/qwen35.py": "b164471b232b4a06e7499df5247aaed865883579e0f221d2dc1aa8aca305cf1b",
+        "opentpu/llm/qwen3.py": "13f2bdf480de7797d22c202527d9f5c75bb1a6a239a48d948fc93445e00c871f",
+        "opentpu/host/board.py": "6de73cc1b79b31aa8b96c0e905c6b77ad7fd5e91ddf9eabe3ce50b0ea1b83c4d",
+        "opentpu/host/program_verify.py": "5bb150e929cc8e40c7fbcdaec7e10089f12a8de197893138f9d3cae6a6768556",
+        "tools/spare_runtime_c0182800.py": "b668fd52a0bcac467c98e89dc2b3aa57eea765a56b6c207a4a196d23f849a453"
+      },
+      "checkpoint_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "checkpoint": [
+        {
+          "name": "model.safetensors-00001-of-00001.safetensors",
+          "bytes": 4548221488,
+          "sha256": "aa33250c4fc64891ddfaba3a314fd9542ea371843c387178b425fbcc5ed680b1"
+        }
+      ],
+      "identity": {
+        "D": 128,
+        "MCOLS": 4,
+        "LANES": 8,
+        "status": 104,
+        "calib": [
+          true,
+          true
+        ],
+        "calibrated": true,
+        "running": false,
+        "regmap": 3,
+        "caps": {
+          "trace": true,
+          "temp": true,
+          "i2c": true,
+          "ddr": true,
+          "w4": true,
+          "pair": true,
+          "dstep": true,
+          "chash": true,
+          "act_rows": true,
+          "args": true,
+          "stream": true,
+          "hostcal": true,
+          "gen": true,
+          "waitw": true,
+          "trace_depth": 16384,
+          "pq_window": 1024
+        },
+        "core_khz": 100000,
+        "build_id": 3222808576,
+        "temp_c": 57.09,
+        "ddr_mts": 800,
+        "act_rows": 4
+      },
+      "config": {
+        "S": 1,
+        "D": 128,
+        "MCOLS": 4,
+        "ACT_BLOCKS": 128,
+        "TMEM_WORDS": 65536,
+        "DRAM_BYTES": 4294967296,
+        "IMEM_WORDS": 32768,
+        "LANES": 8,
+        "PAIR": true,
+        "DSTEP": true,
+        "STREAM": true,
+        "ACT_ROWS": 0
+      },
+      "memory": {
+        "total": 4294967296,
+        "image": 4044054400,
+        "weights": 3998097280,
+        "kv_capacity": 45957120,
+        "kv_used": 0,
+        "program": 131072,
+        "free": 250781696,
+        "allocated_percent": 94.1610336303711
+      },
+      "compile_checks": [
+        {
+          "bucket": 1,
+          "instructions": [
+            1729
+          ]
+        },
+        {
+          "bucket": 16,
+          "instructions": [
+            1884
+          ]
+        }
+      ],
+      "upload_readback": [
+        {
+          "address": 0,
+          "bytes": 4096,
+          "expected_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+          "actual_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+          "exact_match": true
+        },
+        {
+          "address": 2147479552,
+          "bytes": 4096,
+          "expected_sha256": "8d425a219f37f1cf1f9957d702e55eff93ae36df09b8852846dff1ebc1affddc",
+          "actual_sha256": "8d425a219f37f1cf1f9957d702e55eff93ae36df09b8852846dff1ebc1affddc",
+          "exact_match": true
+        },
+        {
+          "address": 2147483648,
+          "bytes": 4096,
+          "expected_sha256": "230b0f21ead0ba08d1408d1ec510db897b0eb6231c18eb5197bb035dea0c5acf",
+          "actual_sha256": "230b0f21ead0ba08d1408d1ec510db897b0eb6231c18eb5197bb035dea0c5acf",
+          "exact_match": true
+        },
+        {
+          "address": 4044050304,
+          "bytes": 4096,
+          "expected_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+          "actual_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+          "exact_match": true
+        }
+      ],
+      "correctness": {
+        "prompt_token_ids": [
+          248045,
+          846,
+          198,
+          3710,
+          369,
+          279,
+          6511,
+          314,
+          9338,
+          30,
+          21134,
+          303,
+          799,
+          11316,
+          13,
+          248046,
+          198,
+          248045,
+          74455,
+          198,
+          248068,
+          271,
+          248069,
+          271
+        ],
+        "actual_token_ids": [
+          760,
+          6511,
+          314,
+          9338,
+          369,
+          11751,
+          13,
+          248046
+        ],
+        "text": "The capital of France is Paris.",
+        "exact_match": true,
+        "expected_token_ids": [
+          760,
+          6511,
+          314,
+          9338,
+          369,
+          11751,
+          13,
+          248046
+        ]
+      },
+      "prefill": {
+        "tokens": 512,
+        "runs": 128,
+        "cycles": 2190233515,
+        "device_seconds": 21.90233515,
+        "wall_seconds": 57.54588983300005,
+        "device_tok_s": 23.37650284746008,
+        "wall_tok_s": 8.897247075088071
+      },
+      "decode": {
+        "tokens": 32,
+        "runs": 32,
+        "cycles": 553248871,
+        "device_seconds": 5.53248871,
+        "wall_seconds": 51.93933900000002,
+        "device_tok_s": 5.78401541826192,
+        "wall_tok_s": 0.616103335469864,
+        "token_ids": [
+          524,
+          748,
+          42327,
+          430,
+          866,
+          314,
+          1070,
+          1149,
+          271,
+          1,
+          11861,
+          488,
+          1902,
+          708,
+          11,
+          321,
+          353,
+          668,
+          3502,
+          488,
+          539,
+          5941,
+          1149,
+          271,
+          6825,
+          1044,
+          524,
+          2019,
+          310,
+          443,
+          2636,
+          2482
+        ],
+        "text": " not so handsome as any of them.\"\n\n\"Then you must go, and I will send you by yourself.\"\n\n\"I am not going to Netherfield",
+        "counters": {
+          "UPTIME": 5194157901,
+          "RUNNING": 553248871,
+          "MXU_BUSY": 553153815,
+          "MXU_MAC": 471498752,
+          "VPU_BUSY": 25946264,
+          "QNT_BUSY": 3053426,
+          "DMA_BUSY": 60750769,
+          "TMEM_DENY": 11737829,
+          "DRAM_RD": 984093280,
+          "DRAM_WR": 10699520,
+          "DRAM_WAIT": 25753606,
+          "INSTR": 326496,
+          "MXU_STARVE": 3414263
+        }
+      },
+      "channel_io": {
+        "0": {
+          "written": 2026826880,
+          "read": 25178944,
+          "max_write_end": 2022066176,
+          "write_seconds": 17.681036743999698
+        },
+        "1": {
+          "written": 2026826880,
+          "read": 25178944,
+          "max_write_end": 2022066176,
+          "write_seconds": 18.722767004001298
+        }
+      },
+      "ecc_before": {
+        "0": {
+          "ecc_enable": 0,
+          "ecc_sec_errors": 0,
+          "ecc_ded_errors": 0
+        },
+        "1": {
+          "ecc_enable": 1,
+          "ecc_sec_errors": 0,
+          "ecc_ded_errors": 0
+        }
+      },
+      "ecc_after": {
+        "0": {
+          "ecc_enable": 0,
+          "ecc_sec_errors": 0,
+          "ecc_ded_errors": 0
+        },
+        "1": {
+          "ecc_enable": 1,
+          "ecc_sec_errors": 0,
+          "ecc_ded_errors": 0
+        }
+      },
+      "temporary_pci_configuration_restored": true,
+      "upload": {
+        "bytes": 4044054400,
+        "seconds": 53.73857774999999,
+        "channel_write_seconds": 36.403803748000996,
+        "effective_mb_s": 75.2542134407344
+      },
+      "calibration_unchanged": true,
+      "initialization": {
+        "status": "PASS_C0182800_ZERO_INITIALIZATION",
+        "coverage": [
+          {
+            "channel": 0,
+            "operation": "zero_write",
+            "chunks": 512,
+            "unique_payload_bytes": 2147483648,
+            "compare_errors": 0
+          },
+          {
+            "channel": 0,
+            "operation": "zero_readback",
+            "chunks": 512,
+            "unique_payload_bytes": 2147483648,
+            "compare_errors": 0
+          },
+          {
+            "channel": 1,
+            "operation": "zero_write",
+            "chunks": 512,
+            "unique_payload_bytes": 2147483648,
+            "compare_errors": 0
+          },
+          {
+            "channel": 1,
+            "operation": "zero_readback",
+            "chunks": 512,
+            "unique_payload_bytes": 2147483648,
+            "compare_errors": 0
+          }
+        ],
+        "scope": "Full-address-range raw zero write/readback; arbitrary payload qualification and repeatability remain separate."
+      },
+      "program_verification": {
+        "count": 137,
+        "all_exact": true,
+        "all_loads_finished": true,
+        "receipt_inventory_sha256": "c7317fbf2a5b77402286f31233758cf7a3e7e246775554ffce5dbadcdf7bcaa7",
+        "inventory_encoding": "Sorted receipt paths relative to the run directory, space, receipt SHA256, newline. Individual receipts stay local.",
+        "observed_source_script": "build/mac-c0182800-qwen35-2b-20261018T093504Z-fresh/run_model.py"
+      },
+      "metrics": {
+        "qwen_decode_device_gb_s": 11.507793786351893,
+        "single_channel_baseline_gb_s": 6.1045750860242345,
+        "bandwidth_ratio": 1.8851097126641532,
+        "traffic_bytes_per_token": 1989585600.0,
+        "baseline_traffic_bytes_per_token": 1988527360.0,
+        "device_decode_tok_s": 5.78401541826192,
+        "wall_decode_tok_s": 0.616103335469864,
+        "allocated_percent": 94.1610336303711,
+        "caveat": "Baseline cap=1024, nonresident, 64 steps; current cap=4096, resident, 32 steps. Separate measured runs, not a controlled A/B.",
+        "baseline_device_decode_tok_s": 3.0698974571937674,
+        "baseline_wall_decode_tok_s": 0.5274833955853506,
+        "device_decode_ratio": 1.8841070423079092,
+        "wall_decode_ratio": 1.1680051744305078,
+        "benchmark_token_ids_match_previous_ch1_prefix": true,
+        "decode_peak_percent": 89.90463895587416
+      },
+      "transport": "Chestnut USB3 -> PCIe XDMA"
+    }
+  ],
+  "comparison": {
+    "baseline_receipt": "docs/data/chestnut_ch1_20261016.json",
+    "baseline_raw_receipt": "build/chestnut-bench/qwen35-2b-auto/manifest.json",
+    "baseline_build_id": "0x5b1e646c",
+    "qwen_decode_device_gb_s": 11.507793786351893,
+    "single_channel_baseline_gb_s": 6.1045750860242345,
+    "bandwidth_ratio": 1.8851097126641532,
+    "traffic_bytes_per_token": 1989585600.0,
+    "baseline_traffic_bytes_per_token": 1988527360.0,
+    "device_decode_tok_s": 5.78401541826192,
+    "wall_decode_tok_s": 0.616103335469864,
+    "allocated_percent": 94.1610336303711,
+    "caveat": "Baseline cap=1024, nonresident, 64 steps; current cap=4096, resident, 32 steps. Separate measured runs, not a controlled A/B.",
+    "baseline_device_decode_tok_s": 3.0698974571937674,
+    "baseline_wall_decode_tok_s": 0.5274833955853506,
+    "device_decode_ratio": 1.8841070423079092,
+    "wall_decode_ratio": 1.1680051744305078,
+    "benchmark_token_ids_match_previous_ch1_prefix": true
+  },
+  "synthetic_native_read": {
+    "status": "PASS_OBSERVED_NATIVE_READ_BANDWIDTH_FULL_SYSTEM_QUALIFICATION_PENDING",
+    "span_bytes": 67108864,
+    "repeats": 3,
+    "median_logical_read_gb_s": 2.9916162891828795,
+    "runs": [
+      {
+        "device_seconds": 0.02243236,
+        "logical_read_gb_s": 2.9916096211009453,
+        "counter_delta": {
+          "RUNNING": 2243236,
+          "DRAM_RD": 1048576,
+          "DRAM_WR": 256
+        },
+        "exact_final_chunk": true
+      },
+      {
+        "device_seconds": 0.02243198,
+        "logical_read_gb_s": 2.9916602992691685,
+        "counter_delta": {
+          "RUNNING": 2243198,
+          "DRAM_RD": 1048576,
+          "DRAM_WR": 256
+        },
+        "exact_final_chunk": true
+      },
+      {
+        "device_seconds": 0.02243231,
+        "logical_read_gb_s": 2.9916162891828795,
+        "counter_delta": {
+          "RUNNING": 2243231,
+          "DRAM_RD": 1048576,
+          "DRAM_WR": 256
+        },
+        "exact_final_chunk": true
+      }
+    ],
+    "scope": "Separate LD-to-TMEM workload; compares only the final 16 KiB. This is not the Qwen decode bandwidth measurement."
+  },
+  "lfm_validation": {
+    "source_receipt": {
+      "path": "build/mac-c0182800-lfm-20261018T090733Z/lfm/manifest.json",
+      "sha256": "fb1ca610b8d5da59f130727cdcb9da937e0dd433723b94d124457d2eeaf7b167"
+    },
+    "status": "PASS_OBSERVED_SPARE_PCIE_MATMUL_LFM2_FULL_MEMORY_QUALIFICATION_PENDING",
+    "build_id": "c0182800",
+    "bitstream_sha256": "df2521d80de1d69ea4ca758821dc67a814b95d67ac851b78727c9154a3104bf2",
+    "model": "LFM2.5-230M",
+    "correctness": {
+      "model": "LFM2.5-230M",
+      "prompt_token_ids": [
+        1,
+        6,
+        6423,
+        708,
+        3493,
+        856,
+        779,
+        5706,
+        803,
+        4481,
+        540,
+        42275,
+        797,
+        1235,
+        13184,
+        523,
+        7,
+        708,
+        6,
+        64015,
+        708
+      ],
+      "actual_token_ids": [
+        1098,
+        5706,
+        803,
+        4481,
+        856,
+        5242,
+        523,
+        7
+      ],
+      "expected_token_ids": [
+        1098,
+        5706,
+        803,
+        4481,
+        856,
+        5242,
+        523,
+        7
+      ],
+      "text": "The capital of France is Paris.",
+      "max_new_tokens": 8,
+      "cap": 256,
+      "wformat": "int8",
+      "head_format": null,
+      "exact_match": true,
+      "seconds": 4.577847003936768,
+      "physical": true,
+      "physical_memory_channels": [
+        0,
+        1
+      ]
+    },
+    "program_readbacks_exact": 14,
+    "calibration_unchanged": true,
+    "scope": "Earlier boot of this same image; Qwen used its own fresh calibration and initialization.",
+    "ecc_after": {
+      "0": {
+        "ecc_enable": 0,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      },
+      "1": {
+        "ecc_enable": 1,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      }
+    }
+  },
+  "reproduction": {
+    "script": "tools/benchmark_spare_c0182800.py",
+    "script_sha256": "e633de6f2782d36d976cefc2b3ba9c8d1cdfd4ff4c506fd99ffca43e33959267",
+    "status": "Portable CLI derived from the recorded hardware runner; not rerun on FPGA after CLI extraction.",
+    "command": "python3 tools/benchmark_spare_c0182800.py --calibration-receipt build/mac-c0182800-lfm/calibration/manifest.json --initialization-receipt build/mac-c0182800-lfm/lfm/manifest.json --out build/mac-c0182800-qwen35-2b",
+    "prerequisite": "Same powered configuration as the successful exact-image LFM calibration/initialization run; no other card clients."
+  },
+  "limitations": [
+    "One timed workload, not full memory payload, retention, or cold/warm repeatability qualification.",
+    "Baseline cap=1024, nonresident, 64 decode steps; this run cap=4096, resident, 32 steps. Separate measured runs, not a controlled A/B.",
+    "Device bandwidth excludes host idle time; wall throughput includes USB and host overhead.",
+    "This runtime workflow did not program flash or independently rehash current flash contents.",
+    "Image review and JTAG validation remain bound to the separately recorded runtime metadata."
+  ]
+}

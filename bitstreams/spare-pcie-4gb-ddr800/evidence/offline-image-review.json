@@ -1,0 +1,1522 @@
+{
+  "status": "SPARE_PCIE_ARTIFACT_CHECKS_PASS_CDC_AND_RUNTIME_PENDING",
+  "hardware_accessed": false,
+  "flash_written": false,
+  "physical_qualified": false,
+  "source_hashes": {
+    "/home/fedora/openTPU/tools/collect_spare_pcie_review_v3.py": "f93f28349569a59e7aeda2b27827d41e26ccc27da2684f4d8179a45f33321129",
+    "/home/fedora/openTPU/tools/fedora_qualify_ch1_image.py": "bfaf7745e3a19db24e678e3cf3e7d59798ed0cf49847b60522b025db24bbe0cb",
+    "/home/fedora/openTPU/tools/review_ramtest_variant.py": "9dd22b724fe11ffadc64575526b3735117643db3eb113182049a5317ca735b44",
+    "/home/fedora/openTPU/tools/review_ramtest_phase_constraints.py": "8f1df81ee7b926e585697aadc396a612df519028ce297bd1fe092b13835b19bd",
+    "/home/fedora/openTPU/tools/ramtest_variant_profile.py": "94fb6fb6a23d94af7dad5d45fd65e5e7eaa71cc9a657778a30be80f8252016d4",
+    "/home/fedora/openTPU/tools/spare_pcie_phase_review_v2.py": "b1f40dc533666e340407b5ef27787755fc33e40a48774f1b5a6e6a7c7e2a53cf",
+    "/home/fedora/openTPU/tools/spare_pcie_reset_review.py": "c0e70567128b50dc2be4fafb1b997ab531d8d3d332172885a03d32ead712ed64"
+  },
+  "utc": "2026-10-17T04:14:59.942799+00:00",
+  "build_manifest": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/manifest.json",
+    "bytes": 26083,
+    "sha256": "a4535c0fe484dace93d91391645f6949f954995131432be10fe0c1d5df30a2dc"
+  },
+  "bitstream": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/project/otpu.bit",
+    "bytes": 12735199,
+    "sha256": "19730b4708653c428cf388999c4d49b7437648dd27d358028999ee98c380a425"
+  },
+  "routed_checkpoint": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/project/final-routed.dcp",
+    "bytes": 123287811,
+    "sha256": "8e98e9f89124bf897765a496ce2c4bfd76e53aa16783ca376bd628e6ebbf72a9"
+  },
+  "preparation": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/manifest.json",
+    "bytes": 1754,
+    "sha256": "c64eeab63b1378e1e7c71cc118bee87fb6b1988e77813d72d4a0d37ad109f682"
+  },
+  "phase_uncertainty_commands": [
+    "set_clock_uncertainty -setup -from [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm0/CLKIN1}]] -to [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm0/CLKOUT0}]] 1.250",
+    "set_clock_uncertainty -hold -from [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm0/CLKIN1}]] -to [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm0/CLKOUT0}]] 1.250",
+    "set_clock_uncertainty -setup -from [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm0/CLKOUT0}]] -to [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm0/CLKIN1}]] 1.250",
+    "set_clock_uncertainty -hold -from [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm0/CLKOUT0}]] -to [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm0/CLKIN1}]] 1.250",
+    "set_clock_uncertainty -setup -from [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm1/CLKIN1}]] -to [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm1/CLKOUT0}]] 1.250",
+    "set_clock_uncertainty -hold -from [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm1/CLKIN1}]] -to [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm1/CLKOUT0}]] 1.250",
+    "set_clock_uncertainty -setup -from [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm1/CLKOUT0}]] -to [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm1/CLKIN1}]] 1.250",
+    "set_clock_uncertainty -hold -from [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm1/CLKOUT0}]] -to [get_clocks -of_objects [get_pins -hierarchical -filter {NAME =~ */ldmmcm1/CLKIN1}]] 1.250"
+  ],
+  "audit_exit": 0,
+  "pads_exit": 0,
+  "pins_checked": 278,
+  "reference_pin_evidence": {
+    "path": "/home/fedora/openTPU/bitstreams/dual-pcie-4gb-ddr800-reset/evidence/checkpoint.tsv",
+    "bytes": 11236,
+    "sha256": "de808ef98ea002450f2918c4626f088aff0097ad9ec7f1f96c4fccb2ffe6f08e"
+  },
+  "resources": {
+    "DSP48E1": 716,
+    "RAMB36E1": 585,
+    "RAMB18E1": 35,
+    "ISERDESE2": 136,
+    "OSERDESE2": 205,
+    "IDELAYE2": 136
+  },
+  "timing": {
+    "WNS": 0.039,
+    "TNS": 0.0,
+    "setup_failing": 0.0,
+    "setup_total": 577499.0,
+    "WHS": 0.012,
+    "THS": 0.0,
+    "hold_failing": 0.0,
+    "hold_total": 577209.0,
+    "WPWS": 0.0,
+    "TPWS": 0.0,
+    "pulse_failing": 0.0,
+    "pulse_total": 178880.0
+  },
+  "route": {
+    "routable": 319578,
+    "fully_routed": 319578,
+    "routing_errors": 0
+  },
+  "oob_clock_review": {
+    "timing": {
+      "WNS": 0.039,
+      "TNS": 0.0,
+      "setup_failing": 0.0,
+      "setup_total": 577499.0,
+      "WHS": 0.012,
+      "THS": 0.0,
+      "hold_failing": 0.0,
+      "hold_total": 577209.0,
+      "WPWS": 0.0,
+      "TPWS": 0.0,
+      "pulse_failing": 0.0,
+      "pulse_total": 178888.0
+    },
+    "route": {
+      "routable": 319578,
+      "fully_routed": 319578,
+      "routing_errors": 0
+    },
+    "coverage": {
+      "no_clock": 0,
+      "constant_clock": 0,
+      "pulse_width_clock": 0,
+      "unconstrained_internal_endpoints": 0,
+      "no_input_delay": 142,
+      "no_output_delay": 212,
+      "multiple_clock": 0,
+      "generated_clocks": 0,
+      "loops": 0,
+      "partial_input_delay": 0,
+      "partial_output_delay": 0,
+      "latch_loops": 0
+    },
+    "generated_clocks": 32,
+    "bus_skew_constraints": 39,
+    "minimum_bus_skew_slack_ns": 2.878,
+    "netlist_placement_routing_modified": false,
+    "cdc_review": "PENDING"
+  },
+  "serializer_reset_registers": [
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_1",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_2",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_2",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_2",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_2",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_2",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_2",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_2",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_2",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_3",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_3",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_3",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_3",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_3",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_3",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_3",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_3",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_4",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_5",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_6",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_7",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_8",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_9",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_10",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_11",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_12",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_13",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_14",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_15",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_16",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_17",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_18",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_19",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_20",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_21",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_22",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_23",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_24",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_25",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_26",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_27",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_28",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_29",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_30",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_31",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_32",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_33",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_34",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_35",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_36",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_37",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_38",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_39",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_40",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_41",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_42",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_43",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_44",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_45",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_46",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_47",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_48",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_49",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_50",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_51",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_52",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_53",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_54",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_55",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_56",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_57",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_58",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_59",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_60",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_61",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_62",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_63",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_64",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_65",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_66",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_67",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_68",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_69",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_70",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_71",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_72",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_73",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_74",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_75",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "0",
+      "u_ld/wlrst_76",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_77",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_78",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_77",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_77",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_77",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_77",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_77",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_77",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_77",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_79",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_79",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_79",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_79",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_79",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_79",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_79",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_79",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_80",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_80",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_80",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_80",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_80",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_80",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_80",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_80",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_81",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_82",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_83",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_84",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_85",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_86",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_87",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_88",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_89",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_90",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_91",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_92",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_93",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_94",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_95",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_96",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_97",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_98",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_99",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_100",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_101",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_102",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_103",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_104",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_105",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_106",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_107",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_108",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_109",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_110",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_111",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_112",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_113",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_114",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_115",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_116",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_117",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_118",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_119",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_120",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_121",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_122",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_123",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_124",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_125",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_126",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_127",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_128",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_129",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_130",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_131",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_132",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_133",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_134",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_135",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_136",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_137",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_138",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_139",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_140",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_141",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_142",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_143",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_144",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_145",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_146",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_147",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_148",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_149",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_150",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_151",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_152",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_153",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_154",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_155",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_156",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_157",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_158",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_159",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_160",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_161",
+      "FDRE"
+    ],
+    [
+      "PHY_RESET",
+      "1",
+      "u_ld/wlrst_162",
+      "FDRE"
+    ]
+  ],
+  "pad_connections": 180,
+  "disabled_buffers": 9,
+  "crc": {
+    "status": "ALL_PRESENT_CRC_CHECKPOINTS_MATCH",
+    "crc_checkpoints": 2,
+    "fdri_words": 3011921,
+    "register_data_words": 3097660,
+    "known_answer_vectors": 4,
+    "resets": [
+      {
+        "header_file_offset": 327,
+        "value_file_offset": 331,
+        "computed_crc_before_reset": 2448563865,
+        "fdri_words_since_reset": 0
+      }
+    ],
+    "checkpoints": [
+      {
+        "value_file_offset": 12733111,
+        "crc": 1518956881
+      },
+      {
+        "value_file_offset": 12733599,
+        "crc": 1632635302
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/audit.command.json",
+      "bytes": 413,
+      "sha256": "e1e15502b0ef9562d77a6063485cab80faf51953a2002a741e05187e39f8b60c"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/audit.log",
+      "bytes": 191181,
+      "sha256": "3e80139b58373b1378c44965b58cc02ee152a273aade8d07e5b0aea0fe105077"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/audit.tcl",
+      "bytes": 172837,
+      "sha256": "12fcdfe0182ec64ac726ee0768049e602a000c55d9b54b33cf80861a8bdcf521"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/bus-skew.rpt",
+      "bytes": 525908,
+      "sha256": "7c3bdfd0a4c5f0a6002c57a9c7dd2b8fb278676714ace4dd4e409bb9297d1ad0"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/cdc.rpt",
+      "bytes": 72796,
+      "sha256": "13edd0a67fe35753de82585468c058558dfc109cff0c80b716f2daee92f88a6e"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/checkpoint.tsv",
+      "bytes": 31566,
+      "sha256": "c61c49199599ff4a3212952ff7cc111e75e04742200ef44c2df49f33d0877109"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/clocks.rpt",
+      "bytes": 12668,
+      "sha256": "759f3b71441e7bebe8ae67df63a364d2d5277b831c65585bc026c4c8ff0b768c"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/crc.json",
+      "bytes": 512,
+      "sha256": "4f6ce0863409246103c27aaea851377872837ec19866211a2cee7744df57095b"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/drc.rpt",
+      "bytes": 350722,
+      "sha256": "c80a913765bebbc0b3b7bb50248e33a07e438c57ba63a1f87d1b286a9a8c1eab"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/oob-bus-skew.rpt",
+      "bytes": 525912,
+      "sha256": "7b94c57533344061ca596159b56b3fda15b303c5592cca9cb3f55dafa0a70862"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/oob-cdc.rpt",
+      "bytes": 72800,
+      "sha256": "0c9e244b11526a82d209c633de938f919c8e407875eba06e5e6e3fd4d2b0fb59"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/oob-clocks.rpt",
+      "bytes": 37453,
+      "sha256": "07c2476e58407bff54f99723d686ec0d8732784285c1f0c1087ba3ba78bb750e"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/oob-clocks.tsv",
+      "bytes": 7736,
+      "sha256": "eea530f701026f6884579c6bbffae9c17be73b99519d2cdd77d7a7785bbd4c9f"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/oob-generated.xdc",
+      "bytes": 15584,
+      "sha256": "b4febc8463c299f0785b5498dbf5a79d20732f906bf8fc43a24dcf8e5be4624a"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/oob-pulse-clock-pins.rpt",
+      "bytes": 1191,
+      "sha256": "9d36912793a11857fa8cf42fcb1e1ae0dd30eb8313c3cb3491f1b8859e1b6524"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/oob-route.rpt",
+      "bytes": 651,
+      "sha256": "b6d1fc7af87000318fd321992478db9fc176b4f8d35b5f4b3b25176dd5fe32f8"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/oob-timing.rpt",
+      "bytes": 837612,
+      "sha256": "19f2da48bd97bf33fb3775c5f5601907f1eabedfd53653b2256f75328a5f5bc7"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/packets.json",
+      "bytes": 5636,
+      "sha256": "9fdd8cc9bef875351f6a99351969049ee8f65ce9266969099abc8e036d5e8420"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/pad-groups.tsv",
+      "bytes": 6664,
+      "sha256": "9feb96d0f182e0c446c6106c18c0ad8b4ab28dad8a200fa81d586e74da7b41d1"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/pads.command.json",
+      "bytes": 373,
+      "sha256": "565bf3308595e5ae73ffc6a742feca30a792c6ff2ff9a34e7b260269b767cfbe"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/pads.log",
+      "bytes": 87495,
+      "sha256": "43f0959561a7748c46ce3a070994973ab72f92e355b00fd2d59a5812bc390b36"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/pads.tcl",
+      "bytes": 80545,
+      "sha256": "9efa07a37ff50ff3be705a4e989a02be979918217922b50923eb2fc274f51a0f"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/phase-query.tsv",
+      "bytes": 334,
+      "sha256": "f190b0d77040e3882310ad0b32a8b86b3cfb3b80bb7c1159ca26b4b69f806514"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/reset-source-facts.json",
+      "bytes": 26762,
+      "sha256": "0afa6692f0257f9599ba8ac59bbf3757da9800c6f43ac05b0074866de12a6c80"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/review_oob_clocks.tcl",
+      "bytes": 2292,
+      "sha256": "126c3da4a45a1dc6677b2ad593c29f53a74a2a2c29eadebf7cd3d11e5f3711d3"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/route.rpt",
+      "bytes": 651,
+      "sha256": "b6d1fc7af87000318fd321992478db9fc176b4f8d35b5f4b3b25176dd5fe32f8"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/timing.rpt",
+      "bytes": 777371,
+      "sha256": "2475244bafec8e0e2d51b130eabaccd57725797fcd9234f429482c142f318193"
+    }
+  ],
+  "limitations": [
+    "CDC paths and gray-pointer skew require dedicated review before packaging or loading",
+    "External DDR pad timing and physical runtime remain unqualified",
+    "No CH0 ECC; full-image firmware binding and host support remain pending"
+  ]
+}

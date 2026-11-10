@@ -1,0 +1,63 @@
+{
+  "status": "OBSERVED_ROUTING_HISTORY_AND_CONDITIONAL_RATE_PROJECTIONS",
+  "native_pid": 400903,
+  "native_start_ticks": 21826315,
+  "connection_identity_sha256": "0b0efe1064442c5d0cc97791894f9c5ca9c67fda4264220983296f593f2cbe6f",
+  "total_connections": 1693833,
+  "router_iteration": 1,
+  "successful_samples": 88,
+  "first_observed_utc": "2026-10-13T10:40:43.139142+00:00",
+  "latest_observed_utc": "2026-10-13T18:01:39.224398+00:00",
+  "latest_remaining": 378665,
+  "recorded_hours": 7.348912571111111,
+  "all_history_connections_per_hour": 7229.368901304995,
+  "all_history_hours_to_zero_if_rate_constant": 52.3787076257301,
+  "scenarios": [
+    {
+      "label": "Last 2 hours",
+      "window_hours": 2,
+      "connections_per_hour": 6397.953970172763,
+      "hours_to_zero_if_rate_constant": 59.18532733516602,
+      "projected_zero_hkt": "2026-10-16T13:12:46.402805+08:00",
+      "color": "#19855d"
+    },
+    {
+      "label": "Last 1 hour",
+      "window_hours": 1,
+      "connections_per_hour": 2796.768051836232,
+      "hours_to_zero_if_rate_constant": 135.393780600213,
+      "projected_zero_hkt": "2026-10-19T17:25:16.834559+08:00",
+      "color": "#2463b6"
+    },
+    {
+      "label": "Last 30 minutes",
+      "window_hours": 0.5,
+      "connections_per_hour": 2790.0311156084063,
+      "hours_to_zero_if_rate_constant": 135.72070859053005,
+      "projected_zero_hkt": "2026-10-19T17:44:53.775324+08:00",
+      "color": "#c27518"
+    }
+  ],
+  "skipped_samples": [
+    {
+      "path": "./build/fedora-openxc7/routing-five-minute-observer-20261013T104000Z/sample-20261013T103731Z/manifest.json",
+      "reason": "not a successful metrics sample"
+    },
+    {
+      "path": "./build/fedora-openxc7/routing-five-minute-observer-20261013T104000Z/sample-20261013T162126Z/manifest.json",
+      "reason": "not a successful metrics sample"
+    },
+    {
+      "path": "./build/fedora-openxc7/routing-five-minute-observer-20261013T104000Z/sample-20261013T174126Z/manifest.json",
+      "reason": "not a successful metrics sample"
+    }
+  ],
+  "method": "Endpoint decrease divided by window hours; linearly interpolate the starting count between adjacent snapshots.",
+  "limitations": [
+    "Remaining means unique driven net/sink-wire pairs without a routed flag, not unresolved legal-congestion proof.",
+    "Rates can change across routing phases and individual searches.",
+    "First iteration is incomplete; cross-partition routing and later congestion/retry work remain.",
+    "Scenarios are not confidence intervals, convergence guarantees or bitstream completion times.",
+    "Full numeric timing and full image qualification remain after native routing."
+  ]
+}

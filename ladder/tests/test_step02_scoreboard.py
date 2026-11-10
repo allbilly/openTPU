@@ -30,16 +30,16 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 BENCH = ROOT / "ladder/bench"
 GOLDEN_PY = BENCH / "toy_golden.py"
-ISA_DOC = ROOT / "docs/toy-isa.md"
+ISA_DOC = ROOT / "ladder/docs/toy-isa.md"
 
 MUTATIONS = {
     # one mutation per module that the imported baseline left smoke-only
-    "pe": ("src/pe.sv", "pe_psum_out     <= mac_out;", "pe_psum_out     <= mac_out + 16'sd1;"),
-    "systolic": ("src/systolic.sv", ".pe_psum_in(pe_psum_out_11),", ".pe_psum_in(16'b0),"),
-    "vpu": ("src/vpu.sv", "bias_data_1_in = vpu_data_in_1;", "bias_data_1_in = vpu_data_in_2;"),
-    "unified_buffer": ("src/unified_buffer.sv",
+    "pe": ("ladder/toy/src/pe.sv", "pe_psum_out     <= mac_out;", "pe_psum_out     <= mac_out + 16'sd1;"),
+    "systolic": ("ladder/toy/src/systolic.sv", ".pe_psum_in(pe_psum_out_11),", ".pe_psum_in(16'b0),"),
+    "vpu": ("ladder/toy/src/vpu.sv", "bias_data_1_in = vpu_data_in_1;", "bias_data_1_in = vpu_data_in_2;"),
+    "unified_buffer": ("ladder/toy/src/unified_buffer.sv",
                        "wr_ptr_next = wr_ptr_next + 1;", "wr_ptr_next = wr_ptr_next + 2;"),
-    "gradient_descent": ("src/gradient_descent.sv", ".sub(1'b1),", ".sub(1'b0),"),
+    "gradient_descent": ("ladder/toy/src/gradient_descent.sv", ".sub(1'b1),", ".sub(1'b0),"),
 }
 
 STAGES = ("host_ub", "forward_h1", "bias", "leaky_relu", "loss_gradient",
@@ -65,7 +65,7 @@ def _cocotb_config(toy_python: Path, what: str, *args: str) -> str:
 def run_bench(toy_python: Path, tmp_path: Path, src_dir: Path | None = None,
               out_json: Path | None = None) -> tuple[int, str, Path]:
     """Compile the scoreboard bench with Icarus and run it under cocotb."""
-    src_dir = src_dir or ROOT / "src"
+    src_dir = src_dir or ROOT / "ladder/toy/src"
     build = tmp_path / "sim_build"
     build.mkdir(parents=True, exist_ok=True)
     vvp_path = build / "sim.vvp"
@@ -172,7 +172,7 @@ def test_scoreboard_bench_passes(toy_python, tmp_path):
 def test_bench_detects_arithmetic_mutation(module, toy_python, tmp_path):
     rel, old, new = MUTATIONS[module]
     src = tmp_path / "mut/src"
-    shutil.copytree(ROOT / "src", src)
+    shutil.copytree(ROOT / "ladder/toy/src", src)
     target = src / Path(rel).name
     text = target.read_text()
     assert old in text, f"mutation anchor {old!r} not found in {rel}"

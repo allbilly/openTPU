@@ -1,0 +1,736 @@
+PART	xc7k480tffg1156-2
+TOP	otpu_fpga_top_ld
+CFGBVS	GND
+CONFIG_VOLTAGE	1.8
+CONFIG_MODE	BPI16
+PORT	SYS_CLK	AA28	LVCMOS18
+PORT	ddram0_a[0]	AK27	SSTL15
+PORT	ddram0_a[10]	AL28	SSTL15
+PORT	ddram0_a[11]	AL25	SSTL15
+PORT	ddram0_a[12]	AM25	SSTL15
+PORT	ddram0_a[13]	AK24	SSTL15
+PORT	ddram0_a[14]	AM27	SSTL15
+PORT	ddram0_a[1]	AN23	SSTL15
+PORT	ddram0_a[2]	AL24	SSTL15
+PORT	ddram0_a[3]	AK26	SSTL15
+PORT	ddram0_a[4]	AH24	SSTL15
+PORT	ddram0_a[5]	AH25	SSTL15
+PORT	ddram0_a[6]	AL26	SSTL15
+PORT	ddram0_a[7]	AJ24	SSTL15
+PORT	ddram0_a[8]	AJ25	SSTL15
+PORT	ddram0_a[9]	AM23	SSTL15
+PORT	ddram0_ba[0]	AM26	SSTL15
+PORT	ddram0_ba[1]	AP24	SSTL15
+PORT	ddram0_ba[2]	AN28	SSTL15
+PORT	ddram0_cas_n	AP26	SSTL15
+PORT	ddram0_cke	AP27	SSTL15
+PORT	ddram0_clk_n	AP25	DIFF_SSTL15
+PORT	ddram0_clk_p	AN25	DIFF_SSTL15
+PORT	ddram0_cs_n	AK28	SSTL15
+PORT	ddram0_dq[0]	AG17	SSTL15
+PORT	ddram0_dq[10]	AL19	SSTL15
+PORT	ddram0_dq[11]	AM16	SSTL15
+PORT	ddram0_dq[12]	AL18	SSTL15
+PORT	ddram0_dq[13]	AL16	SSTL15
+PORT	ddram0_dq[14]	AM20	SSTL15
+PORT	ddram0_dq[15]	AN18	SSTL15
+PORT	ddram0_dq[16]	AL23	SSTL15
+PORT	ddram0_dq[17]	AN20	SSTL15
+PORT	ddram0_dq[18]	AK23	SSTL15
+PORT	ddram0_dq[19]	AP19	SSTL15
+PORT	ddram0_dq[1]	AG16	SSTL15
+PORT	ddram0_dq[20]	AN22	SSTL15
+PORT	ddram0_dq[21]	AN19	SSTL15
+PORT	ddram0_dq[22]	AM22	SSTL15
+PORT	ddram0_dq[23]	AP20	SSTL15
+PORT	ddram0_dq[24]	AJ21	SSTL15
+PORT	ddram0_dq[25]	AH22	SSTL15
+PORT	ddram0_dq[26]	AK21	SSTL15
+PORT	ddram0_dq[27]	AG21	SSTL15
+PORT	ddram0_dq[28]	AG22	SSTL15
+PORT	ddram0_dq[29]	AG20	SSTL15
+PORT	ddram0_dq[2]	AH17	SSTL15
+PORT	ddram0_dq[30]	AH23	SSTL15
+PORT	ddram0_dq[31]	AG23	SSTL15
+PORT	ddram0_dq[32]	AJ32	SSTL15
+PORT	ddram0_dq[33]	AK32	SSTL15
+PORT	ddram0_dq[34]	AK31	SSTL15
+PORT	ddram0_dq[35]	AL30	SSTL15
+PORT	ddram0_dq[36]	AL34	SSTL15
+PORT	ddram0_dq[37]	AL31	SSTL15
+PORT	ddram0_dq[38]	AK34	SSTL15
+PORT	ddram0_dq[39]	AL29	SSTL15
+PORT	ddram0_dq[3]	AJ19	SSTL15
+PORT	ddram0_dq[40]	AJ34	SSTL15
+PORT	ddram0_dq[41]	AH32	SSTL15
+PORT	ddram0_dq[42]	AJ30	SSTL15
+PORT	ddram0_dq[43]	AH34	SSTL15
+PORT	ddram0_dq[44]	AF31	SSTL15
+PORT	ddram0_dq[45]	AG30	SSTL15
+PORT	ddram0_dq[46]	AG31	SSTL15
+PORT	ddram0_dq[47]	AF30	SSTL15
+PORT	ddram0_dq[48]	AE32	SSTL15
+PORT	ddram0_dq[49]	AC33	SSTL15
+PORT	ddram0_dq[4]	AH18	SSTL15
+PORT	ddram0_dq[50]	AF33	SSTL15
+PORT	ddram0_dq[51]	AC32	SSTL15
+PORT	ddram0_dq[52]	AD34	SSTL15
+PORT	ddram0_dq[53]	AC34	SSTL15
+PORT	ddram0_dq[54]	AE33	SSTL15
+PORT	ddram0_dq[55]	AE31	SSTL15
+PORT	ddram0_dq[56]	AE26	SSTL15
+PORT	ddram0_dq[57]	AF29	SSTL15
+PORT	ddram0_dq[58]	AE24	SSTL15
+PORT	ddram0_dq[59]	AF28	SSTL15
+PORT	ddram0_dq[5]	AH19	SSTL15
+PORT	ddram0_dq[60]	AF24	SSTL15
+PORT	ddram0_dq[61]	AG25	SSTL15
+PORT	ddram0_dq[62]	AF26	SSTL15
+PORT	ddram0_dq[63]	AF25	SSTL15
+PORT	ddram0_dq[64]	AN34	SSTL15
+PORT	ddram0_dq[65]	AP30	SSTL15
+PORT	ddram0_dq[66]	AM33	SSTL15
+PORT	ddram0_dq[67]	AN29	SSTL15
+PORT	ddram0_dq[68]	AP32	SSTL15
+PORT	ddram0_dq[69]	AP29	SSTL15
+PORT	ddram0_dq[6]	AJ16	SSTL15
+PORT	ddram0_dq[70]	AM31	SSTL15
+PORT	ddram0_dq[71]	AP31	SSTL15
+PORT	ddram0_dq[7]	AJ17	SSTL15
+PORT	ddram0_dq[8]	AL20	SSTL15
+PORT	ddram0_dq[9]	AN17	SSTL15
+PORT	ddram0_dqs_n[0]	AK17	DIFF_SSTL15
+PORT	ddram0_dqs_n[1]	AM18	DIFF_SSTL15
+PORT	ddram0_dqs_n[2]	AP22	DIFF_SSTL15
+PORT	ddram0_dqs_n[3]	AJ20	DIFF_SSTL15
+PORT	ddram0_dqs_n[4]	AL33	DIFF_SSTL15
+PORT	ddram0_dqs_n[5]	AH33	DIFF_SSTL15
+PORT	ddram0_dqs_n[6]	AF34	DIFF_SSTL15
+PORT	ddram0_dqs_n[7]	AE28	DIFF_SSTL15
+PORT	ddram0_dqs_n[8]	AP33	DIFF_SSTL15
+PORT	ddram0_dqs_p[0]	AK16	DIFF_SSTL15
+PORT	ddram0_dqs_p[1]	AM17	DIFF_SSTL15
+PORT	ddram0_dqs_p[2]	AP21	DIFF_SSTL15
+PORT	ddram0_dqs_p[3]	AH20	DIFF_SSTL15
+PORT	ddram0_dqs_p[4]	AK33	DIFF_SSTL15
+PORT	ddram0_dqs_p[5]	AG33	DIFF_SSTL15
+PORT	ddram0_dqs_p[6]	AE34	DIFF_SSTL15
+PORT	ddram0_dqs_p[7]	AE27	DIFF_SSTL15
+PORT	ddram0_dqs_p[8]	AN32	DIFF_SSTL15
+PORT	ddram0_odt	AK29	SSTL15
+PORT	ddram0_ras_n	AJ29	SSTL15
+PORT	ddram0_reset_n	AD31	SSTL15
+PORT	ddram0_we_n	AN27	SSTL15
+PORT	ddram1_a[0]	E27	SSTL15
+PORT	ddram1_a[10]	F26	SSTL15
+PORT	ddram1_a[11]	D26	SSTL15
+PORT	ddram1_a[12]	H25	SSTL15
+PORT	ddram1_a[13]	D25	SSTL15
+PORT	ddram1_a[14]	B26	SSTL15
+PORT	ddram1_a[1]	C27	SSTL15
+PORT	ddram1_a[2]	B28	SSTL15
+PORT	ddram1_a[3]	D27	SSTL15
+PORT	ddram1_a[4]	C24	SSTL15
+PORT	ddram1_a[5]	D24	SSTL15
+PORT	ddram1_a[6]	C25	SSTL15
+PORT	ddram1_a[7]	A24	SSTL15
+PORT	ddram1_a[8]	A25	SSTL15
+PORT	ddram1_a[9]	J24	SSTL15
+PORT	ddram1_ba[0]	F24	SSTL15
+PORT	ddram1_ba[1]	J25	SSTL15
+PORT	ddram1_ba[2]	E24	SSTL15
+PORT	ddram1_cas_n	E26	SSTL15
+PORT	ddram1_cke	A28	SSTL15
+PORT	ddram1_clk_n	A26	DIFF_SSTL15
+PORT	ddram1_clk_p	B25	DIFF_SSTL15
+PORT	ddram1_cs_n	F28	SSTL15
+PORT	ddram1_dq[0]	A29	SSTL15
+PORT	ddram1_dq[10]	D30	SSTL15
+PORT	ddram1_dq[11]	D29	SSTL15
+PORT	ddram1_dq[12]	E33	SSTL15
+PORT	ddram1_dq[13]	E34	SSTL15
+PORT	ddram1_dq[14]	E31	SSTL15
+PORT	ddram1_dq[15]	F34	SSTL15
+PORT	ddram1_dq[16]	B23	SSTL15
+PORT	ddram1_dq[17]	A21	SSTL15
+PORT	ddram1_dq[18]	C23	SSTL15
+PORT	ddram1_dq[19]	B20	SSTL15
+PORT	ddram1_dq[1]	B33	SSTL15
+PORT	ddram1_dq[20]	B22	SSTL15
+PORT	ddram1_dq[21]	A23	SSTL15
+PORT	ddram1_dq[22]	C20	SSTL15
+PORT	ddram1_dq[23]	B21	SSTL15
+PORT	ddram1_dq[24]	G31	SSTL15
+PORT	ddram1_dq[25]	G32	SSTL15
+PORT	ddram1_dq[26]	F29	SSTL15
+PORT	ddram1_dq[27]	F31	SSTL15
+PORT	ddram1_dq[28]	E29	SSTL15
+PORT	ddram1_dq[29]	G33	SSTL15
+PORT	ddram1_dq[2]	A31	SSTL15
+PORT	ddram1_dq[30]	H33	SSTL15
+PORT	ddram1_dq[31]	H32	SSTL15
+PORT	ddram1_dq[32]	B18	SSTL15
+PORT	ddram1_dq[33]	C17	SSTL15
+PORT	ddram1_dq[34]	C19	SSTL15
+PORT	ddram1_dq[35]	B16	SSTL15
+PORT	ddram1_dq[36]	A18	SSTL15
+PORT	ddram1_dq[37]	A16	SSTL15
+PORT	ddram1_dq[38]	C18	SSTL15
+PORT	ddram1_dq[39]	B17	SSTL15
+PORT	ddram1_dq[3]	C33	SSTL15
+PORT	ddram1_dq[40]	K27	SSTL15
+PORT	ddram1_dq[41]	L24	SSTL15
+PORT	ddram1_dq[42]	K24	SSTL15
+PORT	ddram1_dq[43]	L28	SSTL15
+PORT	ddram1_dq[44]	K26	SSTL15
+PORT	ddram1_dq[45]	M27	SSTL15
+PORT	ddram1_dq[46]	L25	SSTL15
+PORT	ddram1_dq[47]	M26	SSTL15
+PORT	ddram1_dq[48]	F16	SSTL15
+PORT	ddram1_dq[49]	E18	SSTL15
+PORT	ddram1_dq[4]	C32	SSTL15
+PORT	ddram1_dq[50]	E16	SSTL15
+PORT	ddram1_dq[51]	H19	SSTL15
+PORT	ddram1_dq[52]	H17	SSTL15
+PORT	ddram1_dq[53]	H20	SSTL15
+PORT	ddram1_dq[54]	E17	SSTL15
+PORT	ddram1_dq[55]	H18	SSTL15
+PORT	ddram1_dq[56]	D20	SSTL15
+PORT	ddram1_dq[57]	F21	SSTL15
+PORT	ddram1_dq[58]	E23	SSTL15
+PORT	ddram1_dq[59]	G21	SSTL15
+PORT	ddram1_dq[5]	A30	SSTL15
+PORT	ddram1_dq[60]	G20	SSTL15
+PORT	ddram1_dq[61]	D21	SSTL15
+PORT	ddram1_dq[62]	F20	SSTL15
+PORT	ddram1_dq[63]	F23	SSTL15
+PORT	ddram1_dq[64]	L34	SSTL15
+PORT	ddram1_dq[65]	K34	SSTL15
+PORT	ddram1_dq[66]	K31	SSTL15
+PORT	ddram1_dq[67]	K33	SSTL15
+PORT	ddram1_dq[68]	L31	SSTL15
+PORT	ddram1_dq[69]	J30	SSTL15
+PORT	ddram1_dq[6]	B30	SSTL15
+PORT	ddram1_dq[70]	L33	SSTL15
+PORT	ddram1_dq[71]	J34	SSTL15
+PORT	ddram1_dq[7]	A33	SSTL15
+PORT	ddram1_dq[8]	D31	SSTL15
+PORT	ddram1_dq[9]	F33	SSTL15
+PORT	ddram1_dqs_n[0]	B32	DIFF_SSTL15
+PORT	ddram1_dqs_n[1]	C34	DIFF_SSTL15
+PORT	ddram1_dqs_n[2]	A20	DIFF_SSTL15
+PORT	ddram1_dqs_n[3]	H30	DIFF_SSTL15
+PORT	ddram1_dqs_n[4]	D17	DIFF_SSTL15
+PORT	ddram1_dqs_n[5]	K29	DIFF_SSTL15
+PORT	ddram1_dqs_n[6]	G18	DIFF_SSTL15
+PORT	ddram1_dqs_n[7]	G23	DIFF_SSTL15
+PORT	ddram1_dqs_n[8]	J32	DIFF_SSTL15
+PORT	ddram1_dqs_p[0]	B31	DIFF_SSTL15
+PORT	ddram1_dqs_p[1]	D34	DIFF_SSTL15
+PORT	ddram1_dqs_p[2]	A19	DIFF_SSTL15
+PORT	ddram1_dqs_p[3]	H29	DIFF_SSTL15
+PORT	ddram1_dqs_p[4]	D16	DIFF_SSTL15
+PORT	ddram1_dqs_p[5]	K28	DIFF_SSTL15
+PORT	ddram1_dqs_p[6]	G17	DIFF_SSTL15
+PORT	ddram1_dqs_p[7]	G22	DIFF_SSTL15
+PORT	ddram1_dqs_p[8]	K32	DIFF_SSTL15
+PORT	ddram1_odt	B27	SSTL15
+PORT	ddram1_ras_n	E28	SSTL15
+PORT	ddram1_reset_n	F18	SSTL15
+PORT	ddram1_we_n	F25	SSTL15
+PORT	led[0]	P30	LVCMOS18
+PORT	led[1]	M30	LVCMOS18
+PORT	led[2]	N30	LVCMOS18
+PORT	lm73_alert_n	P25	LVCMOS18
+PORT	lm73_scl	N24	LVCMOS18
+PORT	lm73_sda	N25	LVCMOS18
+PORT	pcie_mgt_rxn[0]	H5	
+PORT	pcie_mgt_rxn[1]	J3	
+PORT	pcie_mgt_rxn[2]	K5	
+PORT	pcie_mgt_rxn[3]	L3	
+PORT	pcie_mgt_rxn[4]	M5	
+PORT	pcie_mgt_rxn[5]	P5	
+PORT	pcie_mgt_rxn[6]	R3	
+PORT	pcie_mgt_rxn[7]	T5	
+PORT	pcie_mgt_rxp[0]	H6	
+PORT	pcie_mgt_rxp[1]	J4	
+PORT	pcie_mgt_rxp[2]	K6	
+PORT	pcie_mgt_rxp[3]	L4	
+PORT	pcie_mgt_rxp[4]	M6	
+PORT	pcie_mgt_rxp[5]	P6	
+PORT	pcie_mgt_rxp[6]	R4	
+PORT	pcie_mgt_rxp[7]	T6	
+PORT	pcie_mgt_txn[0]	F1	
+PORT	pcie_mgt_txn[1]	H1	
+PORT	pcie_mgt_txn[2]	K1	
+PORT	pcie_mgt_txn[3]	M1	
+PORT	pcie_mgt_txn[4]	N3	
+PORT	pcie_mgt_txn[5]	P1	
+PORT	pcie_mgt_txn[6]	T1	
+PORT	pcie_mgt_txn[7]	U3	
+PORT	pcie_mgt_txp[0]	F2	
+PORT	pcie_mgt_txp[1]	H2	
+PORT	pcie_mgt_txp[2]	K2	
+PORT	pcie_mgt_txp[3]	M2	
+PORT	pcie_mgt_txp[4]	N4	
+PORT	pcie_mgt_txp[5]	P2	
+PORT	pcie_mgt_txp[6]	T2	
+PORT	pcie_mgt_txp[7]	U4	
+PORT	pcie_perstn	Y26	LVCMOS18
+PORT	pcie_refclk_clk_n	J7	
+PORT	pcie_refclk_clk_p	J8	
+PORT	smb_scl	R26	LVCMOS18
+PORT	smb_sda	R27	LVCMOS18
+GT	u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i	GTXE2_CHANNEL_X0Y23
+GT	u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[1].gt_wrapper_i/gtx_channel.gtxe2_channel_i	GTXE2_CHANNEL_X0Y22
+GT	u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[2].gt_wrapper_i/gtx_channel.gtxe2_channel_i	GTXE2_CHANNEL_X0Y21
+GT	u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[3].gt_wrapper_i/gtx_channel.gtxe2_channel_i	GTXE2_CHANNEL_X0Y20
+GT	u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].gt_wrapper_i/gtx_channel.gtxe2_channel_i	GTXE2_CHANNEL_X0Y19
+GT	u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[5].gt_wrapper_i/gtx_channel.gtxe2_channel_i	GTXE2_CHANNEL_X0Y18
+GT	u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[6].gt_wrapper_i/gtx_channel.gtxe2_channel_i	GTXE2_CHANNEL_X0Y17
+GT	u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[7].gt_wrapper_i/gtx_channel.gtxe2_channel_i	GTXE2_CHANNEL_X0Y16
+PCIE	u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i	PCIE_X0Y0
+RESOURCE	DSP48E1	716
+RESOURCE	RAMB36E1	585
+RESOURCE	RAMB18E1	35
+RESOURCE	ISERDESE2	136
+RESOURCE	OSERDESE2	205
+RESOURCE	IDELAYE2	136
+CLOCK	clk_125mhz_mux_x0y0	8.000
+CLOCK	clk_125mhz_x0y0	8.000
+CLOCK	clk_250mhz_mux_x0y0	4.000
+CLOCK	clk_250mhz_x0y0	4.000
+CLOCK	clkfbout_otpu_bd_clk_wiz_0_0	20.000
+CLOCK	core_clk_otpu_bd_clk_wiz_0_0	10.000
+CLOCK	crg_s7mmcm_clkout	10.000
+CLOCK	crg_s7pll_clkout	5.000
+CLOCK	mmcm_fb	10.000
+CLOCK	pcie_refclk	10.000
+CLOCK	s7mmcm_mmcm_fb	20.000
+CLOCK	s7pll_pll_fb	20.000
+CLOCK	sys_clk_50	20.000
+CLOCK	txoutclk_x0y0	10.000
+CLOCK	userclk1	2.000
+CLOCK	userclk2	4.000
+CLOCK	writeclocks07	10.000
+CLOCK	writeclocks0_outs0	10.000
+CLOCK	writeclocks0_outs1	2.500
+CLOCK	writeclocks0_outs2	10.000
+CLOCK	writeclocks0_outs3	2.500
+CLOCK	writeclocks0_outs4	2.500
+CLOCK	writeclocks17	10.000
+CLOCK	writeclocks1_outs0	10.000
+CLOCK	writeclocks1_outs1	2.500
+CLOCK	writeclocks1_outs2	10.000
+CLOCK	writeclocks1_outs3	2.500
+CLOCK	writeclocks1_outs4	2.500
+PHY_RESET	0	u_ld/wlrst	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2	u_ld/wlrst	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_1	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_1	u_ld/wlrst_1	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_2	u_ld/wlrst	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_3	u_ld/wlrst	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_4	u_ld/wlrst	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_5	u_ld/wlrst	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_6	u_ld/wlrst	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_7	u_ld/wlrst	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_8	u_ld/wlrst	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_2	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_9	u_ld/wlrst_2	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_2	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_10	u_ld/wlrst_2	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_2	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_11	u_ld/wlrst_2	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_2	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_12	u_ld/wlrst_2	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_2	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_13	u_ld/wlrst_2	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_2	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_14	u_ld/wlrst_2	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_2	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_15	u_ld/wlrst_2	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_2	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_16	u_ld/wlrst_2	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_3	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_17	u_ld/wlrst_3	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_3	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_18	u_ld/wlrst_3	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_3	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_19	u_ld/wlrst_3	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_3	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_20	u_ld/wlrst_3	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_3	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_21	u_ld/wlrst_3	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_3	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_22	u_ld/wlrst_3	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_3	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_23	u_ld/wlrst_3	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_3	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_24	u_ld/wlrst_3	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_4	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_25	u_ld/wlrst_4	writeclocks0_outs0
+PHY_RESET	0	u_ld/wlrst_5	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_26	u_ld/wlrst_5	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_6	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_27	u_ld/wlrst_6	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_7	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_28	u_ld/wlrst_7	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_8	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_29	u_ld/wlrst_8	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_9	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_30	u_ld/wlrst_9	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_10	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_31	u_ld/wlrst_10	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_11	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_32	u_ld/wlrst_11	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_12	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_33	u_ld/wlrst_12	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_13	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_34	u_ld/wlrst_13	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_14	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_35	u_ld/wlrst_14	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_15	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_36	u_ld/wlrst_15	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_16	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_37	u_ld/wlrst_16	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_17	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_38	u_ld/wlrst_17	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_18	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_39	u_ld/wlrst_18	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_19	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_40	u_ld/wlrst_19	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_20	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_41	u_ld/wlrst_20	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_21	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_42	u_ld/wlrst_21	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_22	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_43	u_ld/wlrst_22	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_23	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_44	u_ld/wlrst_23	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_24	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_45	u_ld/wlrst_24	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_25	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_46	u_ld/wlrst_25	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_26	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_47	u_ld/wlrst_26	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_27	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_48	u_ld/wlrst_27	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_28	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_49	u_ld/wlrst_28	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_29	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_50	u_ld/wlrst_29	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_30	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_51	u_ld/wlrst_30	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_31	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_52	u_ld/wlrst_31	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_32	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_53	u_ld/wlrst_32	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_33	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_54	u_ld/wlrst_33	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_34	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_55	u_ld/wlrst_34	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_35	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_56	u_ld/wlrst_35	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_36	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_57	u_ld/wlrst_36	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_37	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_58	u_ld/wlrst_37	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_38	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_59	u_ld/wlrst_38	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_39	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_60	u_ld/wlrst_39	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_40	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_61	u_ld/wlrst_40	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_41	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_62	u_ld/wlrst_41	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_42	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_63	u_ld/wlrst_42	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_43	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_64	u_ld/wlrst_43	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_44	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_65	u_ld/wlrst_44	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_45	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_66	u_ld/wlrst_45	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_46	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_67	u_ld/wlrst_46	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_47	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_68	u_ld/wlrst_47	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_48	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_69	u_ld/wlrst_48	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_49	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_70	u_ld/wlrst_49	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_50	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_71	u_ld/wlrst_50	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_51	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_72	u_ld/wlrst_51	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_52	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_73	u_ld/wlrst_52	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_53	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_74	u_ld/wlrst_53	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_54	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_75	u_ld/wlrst_54	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_55	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_76	u_ld/wlrst_55	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_56	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_77	u_ld/wlrst_56	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_57	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_78	u_ld/wlrst_57	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_58	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_79	u_ld/wlrst_58	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_59	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_80	u_ld/wlrst_59	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_60	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_81	u_ld/wlrst_60	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_61	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_82	u_ld/wlrst_61	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_62	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_83	u_ld/wlrst_62	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_63	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_84	u_ld/wlrst_63	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_64	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_85	u_ld/wlrst_64	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_65	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_86	u_ld/wlrst_65	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_66	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_87	u_ld/wlrst_66	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_67	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_88	u_ld/wlrst_67	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_68	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_89	u_ld/wlrst_68	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_69	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_90	u_ld/wlrst_69	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_70	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_91	u_ld/wlrst_70	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_71	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_92	u_ld/wlrst_71	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_72	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_93	u_ld/wlrst_72	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_73	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_94	u_ld/wlrst_73	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_74	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_95	u_ld/wlrst_74	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_75	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_96	u_ld/wlrst_75	writeclocks0_outs2
+PHY_RESET	0	u_ld/wlrst_76	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_97	u_ld/wlrst_76	writeclocks0_outs2
+PHY_RESET	1	u_ld/wlrst_77	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_98	u_ld/wlrst_77	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_78	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_99	u_ld/wlrst_78	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_77	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_100	u_ld/wlrst_77	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_77	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_101	u_ld/wlrst_77	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_77	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_102	u_ld/wlrst_77	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_77	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_103	u_ld/wlrst_77	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_77	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_104	u_ld/wlrst_77	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_77	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_105	u_ld/wlrst_77	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_77	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_106	u_ld/wlrst_77	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_79	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_107	u_ld/wlrst_79	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_79	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_108	u_ld/wlrst_79	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_79	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_109	u_ld/wlrst_79	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_79	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_110	u_ld/wlrst_79	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_79	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_111	u_ld/wlrst_79	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_79	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_112	u_ld/wlrst_79	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_79	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_113	u_ld/wlrst_79	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_79	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_114	u_ld/wlrst_79	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_80	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_115	u_ld/wlrst_80	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_80	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_116	u_ld/wlrst_80	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_80	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_117	u_ld/wlrst_80	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_80	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_118	u_ld/wlrst_80	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_80	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_119	u_ld/wlrst_80	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_80	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_120	u_ld/wlrst_80	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_80	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_121	u_ld/wlrst_80	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_80	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_122	u_ld/wlrst_80	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_81	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_123	u_ld/wlrst_81	writeclocks1_outs0
+PHY_RESET	1	u_ld/wlrst_82	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_124	u_ld/wlrst_82	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_83	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_125	u_ld/wlrst_83	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_84	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_126	u_ld/wlrst_84	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_85	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_127	u_ld/wlrst_85	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_86	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_128	u_ld/wlrst_86	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_87	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_129	u_ld/wlrst_87	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_88	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_130	u_ld/wlrst_88	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_89	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_131	u_ld/wlrst_89	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_90	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_132	u_ld/wlrst_90	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_91	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_133	u_ld/wlrst_91	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_92	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_134	u_ld/wlrst_92	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_93	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_135	u_ld/wlrst_93	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_94	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_136	u_ld/wlrst_94	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_95	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_137	u_ld/wlrst_95	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_96	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_138	u_ld/wlrst_96	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_97	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_139	u_ld/wlrst_97	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_98	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_140	u_ld/wlrst_98	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_99	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_141	u_ld/wlrst_99	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_100	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_142	u_ld/wlrst_100	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_101	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_143	u_ld/wlrst_101	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_102	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_144	u_ld/wlrst_102	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_103	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_145	u_ld/wlrst_103	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_104	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_146	u_ld/wlrst_104	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_105	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_147	u_ld/wlrst_105	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_106	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_148	u_ld/wlrst_106	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_107	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_149	u_ld/wlrst_107	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_108	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_150	u_ld/wlrst_108	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_109	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_151	u_ld/wlrst_109	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_110	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_152	u_ld/wlrst_110	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_111	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_153	u_ld/wlrst_111	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_112	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_154	u_ld/wlrst_112	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_113	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_155	u_ld/wlrst_113	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_114	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_156	u_ld/wlrst_114	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_115	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_157	u_ld/wlrst_115	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_116	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_158	u_ld/wlrst_116	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_117	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_159	u_ld/wlrst_117	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_118	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_160	u_ld/wlrst_118	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_119	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_161	u_ld/wlrst_119	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_120	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_162	u_ld/wlrst_120	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_121	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_163	u_ld/wlrst_121	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_122	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_164	u_ld/wlrst_122	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_123	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_165	u_ld/wlrst_123	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_124	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_166	u_ld/wlrst_124	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_125	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_167	u_ld/wlrst_125	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_126	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_168	u_ld/wlrst_126	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_127	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_169	u_ld/wlrst_127	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_128	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_170	u_ld/wlrst_128	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_129	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_171	u_ld/wlrst_129	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_130	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_172	u_ld/wlrst_130	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_131	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_173	u_ld/wlrst_131	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_132	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_174	u_ld/wlrst_132	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_133	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_175	u_ld/wlrst_133	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_134	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_176	u_ld/wlrst_134	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_135	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_177	u_ld/wlrst_135	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_136	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_178	u_ld/wlrst_136	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_137	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_179	u_ld/wlrst_137	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_138	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_180	u_ld/wlrst_138	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_139	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_181	u_ld/wlrst_139	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_140	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_182	u_ld/wlrst_140	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_141	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_183	u_ld/wlrst_141	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_142	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_184	u_ld/wlrst_142	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_143	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_185	u_ld/wlrst_143	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_144	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_186	u_ld/wlrst_144	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_145	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_187	u_ld/wlrst_145	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_146	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_188	u_ld/wlrst_146	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_147	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_189	u_ld/wlrst_147	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_148	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_190	u_ld/wlrst_148	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_149	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_191	u_ld/wlrst_149	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_150	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_192	u_ld/wlrst_150	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_151	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_193	u_ld/wlrst_151	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_152	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_194	u_ld/wlrst_152	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_153	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_195	u_ld/wlrst_153	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_154	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_196	u_ld/wlrst_154	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_155	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_197	u_ld/wlrst_155	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_156	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_198	u_ld/wlrst_156	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_157	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_199	u_ld/wlrst_157	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_158	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_200	u_ld/wlrst_158	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_159	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_201	u_ld/wlrst_159	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_160	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_202	u_ld/wlrst_160	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_161	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_203	u_ld/wlrst_161	writeclocks1_outs2
+PHY_RESET	1	u_ld/wlrst_162	FDRE
+SERIALIZER_RESET	u_ld/OSERDESE2_204	u_ld/wlrst_162	writeclocks1_outs2

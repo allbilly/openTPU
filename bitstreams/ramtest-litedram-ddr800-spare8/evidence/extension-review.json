@@ -1,0 +1,28 @@
+{
+  "status": "OFFLINE_RAM_VARIANT_EXTENSION_REVIEW_PASS_PHYSICAL_PENDING",
+  "hardware_accessed": false,
+  "native_adapter_model_sha256": "7a33019313529d022d1f44836c39d3c9f87d6f2f8751f62ce2bd576dc3b2eb4e",
+  "variant": "spare8",
+  "build_manifest_sha256": "d1def4ba36cfa85bd74018388270cbaae783c4d325ae45728c882ded33a51f8e",
+  "bitstream_sha256": "171d2c94edd75d2041ebeeada6dd8896c9771423c27fe103f044dd35e1cdca2b",
+  "base_review_sha256": "5c5dbe580c9424179ad10261b57efab0e42bfeff71ab962341dfa8e7550537cc",
+  "phase_review_sha256": "200d99e22a9ab2baf9814f7fdb15503e2269ff158c3846505e339983d116dc86",
+  "generation_manifest_sha256": "2897e033fa1f6088ccd08fe51d02209e4a282d302dbfef7bedbfbadddcb75aea",
+  "pad_group_count": 162,
+  "physical_pad_connections_checked": 180,
+  "disabled_buffers": 9,
+  "pad_mapping_sha256": "0705ea3bd24707628b49ea07cc9abb593ca5b2ca9ff47fabc4981ad742bae511",
+  "routed_pad_facts_sha256": "9feb96d0f182e0c446c6106c18c0ad8b4ab28dad8a200fa81d586e74da7b41d1",
+  "ecc_channels": [
+    1
+  ],
+  "automatic_calibration_channels": [
+    1
+  ],
+  "limitations": [
+    "External DDR timing and physical memory qualification pending",
+    "Spare CH0 requires its eight-lane host calibration profile and has no ECC"
+  ],
+  "utc": "2026-10-17T00:59:26.259575+00:00",
+  "reviewer_sha256": "4b011eb58cdf53d894449fc5bab992102e945561e6f8db3f2b99042996421bdc"
+}

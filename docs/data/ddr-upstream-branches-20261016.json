@@ -1,0 +1,2340 @@
+{
+  "observed_utc": "2026-10-16T10:33:24.201686+00:00",
+  "reference_checkout": "/home/fedora/upstream_openTPU",
+  "upstream_url": "https://github.com/FeSens/openTPU",
+  "main": "f237dab2f196855a59a083b1454786df8f01291f",
+  "live_remote_branch_count": 190,
+  "all_local_remote_heads_match_live": true,
+  "scope": [
+    "tools/litedram",
+    "opentpu/host/ddrcal.py",
+    "opentpu/host/memcal.py",
+    "boards/ypcb-00338/litedram"
+  ],
+  "fixes": {
+    "static_read_clocks": "d2c1ede8",
+    "per_bit_framing": "8cbfd3ba",
+    "read_register": "86bee3c3",
+    "serializer_reset_stage": "f2d1023d"
+  },
+  "current_checkout_fix_ancestry": {
+    "static_read_clocks": true,
+    "per_bit_framing": true,
+    "read_register": true,
+    "serializer_reset_stage": false
+  },
+  "branches": [
+    {
+      "branch": "act-wreg",
+      "head": "d2bb14f7e9ebc80a630f04ea785f51527ed08a9b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "836241c5d3ab92b076121f850b2817735f17b9a36ce6bcab5b56b24f3742f3f6"
+    },
+    {
+      "branch": "act-wreg2",
+      "head": "b28d4e30385ae32f1f43c34ec6074ab7e965544e",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "autodecode",
+      "head": "2402fc5ac2bfe44b12ee8497348494b5a4f2c3da",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "b-card-note",
+      "head": "cfcaed052ccc68ee59fb119d29d1f109c10a28ef",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "cardprebuild",
+      "head": "01f0ec02829136a978527c92f53184b0ccf8fdf4",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "chat-auto",
+      "head": "c8f72e18a0599c4a0704c12186b7c55cd7b17c33",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "dma-excl",
+      "head": "c86f134e85219c9b00cf3d86685eb6df7f223b80",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "dma-gb",
+      "head": "e575d7464d17c71d8f97439948d44d4e4b2c585f",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "dma-ob",
+      "head": "3b40fab7e4c8539200e2c67cda0e55068c8a5a94",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "dn-rows",
+      "head": "1ce428c61805dfa16e0389f8d633ff6b54c87589",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "docs-prod133",
+      "head": "226fbd2182184d4bdce0729d835046e71915fa9b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "dram-eff",
+      "head": "ec89587131ade89af0179e6af5af10f358a22342",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "em-note",
+      "head": "e1cad1efb35699241aa28b54142d89652d4f4f5f",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "em-realsrv",
+      "head": "055d28aeca6165614ad22cf743dafa6a4616fb06",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "embed-host",
+      "head": "b77ce8b4f938d42784abd8089a25630b7b3c4bcd",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "expert-major",
+      "head": "b5a1110f3f29e872829622969f067b389bae37bd",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "fastmux",
+      "head": "5a088e54c5c504d0aca42fe975d25fff9958ef6f",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "fix-bdclk",
+      "head": "959b425cf6b14e76a467bc3fa54b8db10cf3540b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "cd3bc31baa2111b868d8deac8e2ec70ec618325906d4a70c31450a836cf63866"
+    },
+    {
+      "branch": "floorplan",
+      "head": "ca2ae5ba42da467ce3b84d6ec91e22ba46db2a13",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "fmax-133",
+      "head": "e41312bbeb0b9b2d7e97231125dd82d91ceb83ab",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "cd3bc31baa2111b868d8deac8e2ec70ec618325906d4a70c31450a836cf63866"
+    },
+    {
+      "branch": "fmax-133-vpu",
+      "head": "8f8bd462ce247a2e8cf4d801413f8dcf2f6add5a",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5940e98a34adfb3734effe7424d8657b9dde43afea1225b28e9e957ff07b30e5"
+    },
+    {
+      "branch": "fmax-133b",
+      "head": "75d5512c9749c5dc35c40a164d57d023ed236a3b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "fmax-133c",
+      "head": "bb7f8440b99ae0aae3bc2b911c4b6847a332a3ca",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "fmax-133d",
+      "head": "56d547a73e6c96681837e159e334eeeb4cdd24c7",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "fmax-133e",
+      "head": "9b391ee0ea2cca07ba71fbc2c67401891b09108e",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "fmax-133f",
+      "head": "648d15501b9c19b6abf31a576cf38f0fcc60e4b3",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "fmax-133g",
+      "head": "5f3268718e3171d5c3142f04d61b1cde43766a48",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "fmax-133h",
+      "head": "84f7bcfe618078b5a1f35327dae59f42fedd992b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "fmax-133i",
+      "head": "dd39f4d19c58bacaa7159bae063a683eb7666bd5",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "fmax-133j",
+      "head": "f8fb9200e950ceddc2dd2aed7caeac6f7a68c36f",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "fmax-dma",
+      "head": "23ee14ccda2b1068161cf2c2476c1b31dce34faa",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "836241c5d3ab92b076121f850b2817735f17b9a36ce6bcab5b56b24f3742f3f6"
+    },
+    {
+      "branch": "fmax-dma2",
+      "head": "b4e0d056b911565f8754945c877b279864097516",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5940e98a34adfb3734effe7424d8657b9dde43afea1225b28e9e957ff07b30e5"
+    },
+    {
+      "branch": "fmt-a",
+      "head": "d3c85b290d51b5b0ff81db7336bb51c8a9a0b209",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "fmt-b2",
+      "head": "731bbae240de2f838b8aa330e858e12ef3766b5c",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "fmt-def",
+      "head": "1771b5205e95e9fcaf05e67b99257a5cc75e41cc",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "fmt-mix",
+      "head": "b6641a404678a87fd6eedd15bcfe7afea6ca763d",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "fmt-mix2",
+      "head": "c4aa0c0fbb533e32b7b40a509bd6fa0748a0a373",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "formats",
+      "head": "56e404ecdb76c6bcbdd4dca439a83a61ac599727",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "fp-fix",
+      "head": "3cce3dc2d161adfe90bc70340d06c2f770853085",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "fused-133",
+      "head": "c2830d6a22ebe0b2fdc7291223b77c934392a93b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [
+        "31e928bc1151f828bd7622a22a94823a19d1b5e2 Merge ld-fmax2 (63fbb5f) into fused-133: the LiteDRAM core's three sys-domain families of the 812bb01 full build (the CSR bus's register stage per channel's banks, csr_pipe.py; the CRG's registered reset; the ECC counters a cycle late), on ld-2port eb5beed",
+        "f321f99ee6e175437669829609692ec6b9c4e0f4 Merge ld-2port (eb5beed) into main + waitw-main: the board's STATUS keeps both WAIT_TO (bit8, waitw) and AXI_ERR from the channels' bridges (otpu_mem_ch n_err, ld-2port); otpu_board passes .wait_to and .axi_err(|n_err)"
+      ],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "fused-133b",
+      "head": "32074ad715f4b6c4b0c7501c02d0836519af023a",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [
+        "32074ad715f4b6c4b0c7501c02d0836519af023a Merge ld-phy (e0bef4b: a serializer reset register per DQ / DQS pad and reset_n's own; the software-injected DFI commands a cycle after their CSR write, dfii_q.py) into fused-133b. Card check before production: calibration and BIST on both channels, write / read leveling results equal to the production image's.",
+        "31e928bc1151f828bd7622a22a94823a19d1b5e2 Merge ld-fmax2 (63fbb5f) into fused-133: the LiteDRAM core's three sys-domain families of the 812bb01 full build (the CSR bus's register stage per channel's banks, csr_pipe.py; the CRG's registered reset; the ECC counters a cycle late), on ld-2port eb5beed",
+        "f321f99ee6e175437669829609692ec6b9c4e0f4 Merge ld-2port (eb5beed) into main + waitw-main: the board's STATUS keeps both WAIT_TO (bit8, waitw) and AXI_ERR from the channels' bridges (otpu_mem_ch n_err, ld-2port); otpu_board passes .wait_to and .axi_err(|n_err)"
+      ],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "fused-133b-dmares",
+      "head": "32074ad715f4b6c4b0c7501c02d0836519af023a",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [
+        "32074ad715f4b6c4b0c7501c02d0836519af023a Merge ld-phy (e0bef4b: a serializer reset register per DQ / DQS pad and reset_n's own; the software-injected DFI commands a cycle after their CSR write, dfii_q.py) into fused-133b. Card check before production: calibration and BIST on both channels, write / read leveling results equal to the production image's.",
+        "31e928bc1151f828bd7622a22a94823a19d1b5e2 Merge ld-fmax2 (63fbb5f) into fused-133: the LiteDRAM core's three sys-domain families of the 812bb01 full build (the CSR bus's register stage per channel's banks, csr_pipe.py; the CRG's registered reset; the ECC counters a cycle late), on ld-2port eb5beed",
+        "f321f99ee6e175437669829609692ec6b9c4e0f4 Merge ld-2port (eb5beed) into main + waitw-main: the board's STATUS keeps both WAIT_TO (bit8, waitw) and AXI_ERR from the channels' bridges (otpu_mem_ch n_err, ld-2port); otpu_board passes .wait_to and .axi_err(|n_err)"
+      ],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "fused-133b2",
+      "head": "ee7f8e346b53c58dce398fa4c3bd54e67ec5049b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [
+        "62b5f260b2b82001e86d9b81e4b3f12bc3b23f06 Merge ld-phy (e0bef4b: a serializer reset register per DQ / DQS pad and reset_n's own; the software-injected DFI commands a cycle after their CSR write, dfii_q.py) into fused-133b2. Card check before production: calibration and BIST on both channels, write / read leveling results equal to the production image's.",
+        "31e928bc1151f828bd7622a22a94823a19d1b5e2 Merge ld-fmax2 (63fbb5f) into fused-133: the LiteDRAM core's three sys-domain families of the 812bb01 full build (the CSR bus's register stage per channel's banks, csr_pipe.py; the CRG's registered reset; the ECC counters a cycle late), on ld-2port eb5beed",
+        "f321f99ee6e175437669829609692ec6b9c4e0f4 Merge ld-2port (eb5beed) into main + waitw-main: the board's STATUS keeps both WAIT_TO (bit8, waitw) and AXI_ERR from the channels' bridges (otpu_mem_ch n_err, ld-2port); otpu_board passes .wait_to and .axi_err(|n_err)"
+      ],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "fused-133c",
+      "head": "3cda92dedafa0c73cc7401e7673bfc9c244b1428",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "fused-fmvf",
+      "head": "dd0dc7ab88f1de956edcc6448b737780314a2de3",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "g26-card",
+      "head": "cf7ee2aacefa3b240d9c6116c563305c26fb6e9a",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "g26-formats",
+      "head": "fb3081dad8fe68038200b0e2c169386521eef197",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "g26-g2",
+      "head": "983731b801bede44e42c688b17954c761dc0b6a7",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "g26-moe",
+      "head": "415a44df24d105a2a3ac3a5ac7d565b0cacf271e",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "g4-formats",
+      "head": "6cb975315871fffd54c8f8d4301c544c2efa3062",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gemma4",
+      "head": "09459621d658985ced2514187b84193304518388",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "gemma4-26b-acc",
+      "head": "3f086ec464fd3f38c209a80354d5f491bfc8a8dc",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gemma4-card-docs",
+      "head": "5d4a88341149e4810cd71b5ca58bd990deed1b2d",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gemma4-e4b",
+      "head": "9dbe75b33b5a0676634c4ce0e6da458572a60452",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gemma4-g2tool",
+      "head": "f21f1e9fe0d1462863fb3817a09cef3009969cc8",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gemma4-gen",
+      "head": "aedbe747648e8a2b7ef6ab1f8c174abdbe0cb462",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gemma4-kstride",
+      "head": "2e715be60d3b902caee857d84861779f0aae1662",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gemma4-moe",
+      "head": "5ac5025428e8634163b1e367c5108fa3a21fdf44",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gemma4-moe-c",
+      "head": "c9847e915ea53d140a82a57385e5d6a9d152fdff",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gemma4-qc2",
+      "head": "012ca87c2878b8c9d54a4fda6874b802d156a1ad",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gemma4-qcache",
+      "head": "bb4ba336ba280b56fdc10f9354efcca16d37ce88",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gemma4-qstats",
+      "head": "ed893aec73e4ed76fa7b0e34cf4e71edf9b36aae",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gen-post-docs",
+      "head": "3ec32435d8b7d42806290991a81ae4260a4484af",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "gen2-fix",
+      "head": "348264e94b7b55ae7c96ba613727d609137574c1",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "h2c-run",
+      "head": "852f5af4a095a9b9561d0e78e504e9414a596330",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "h2c-sweep",
+      "head": "340d3237d0261e2986a464ee724b081eadd9bf09",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "hint-off",
+      "head": "ecc87815426912e5d5dfc0b8055571cc1adeec5a",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "hint-results",
+      "head": "9f32256ac1bb2db7216f17a2a099f3833587ed47",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "hint-tune",
+      "head": "6f00ffd6c2d69ae8a686e9cb5901ac4d4b97fe33",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "host-tail",
+      "head": "694237d83ae7e5724205d9615101c5a2284d1656",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "hwin",
+      "head": "8fce8304e99ab1ae4f69257471246534fd521406",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "idle-refresh",
+      "head": "c7911e94c81b1cb144c3739fcf00161c6fd6ea8d",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "imgcache",
+      "head": "6a9cb9b196b2a3def4a700fc458d0998f047c8ee",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "layer-ahead",
+      "head": "e131fd51a4494708e27fa06e7ea877e038329348",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "layer-compile",
+      "head": "f6faa74f8f63eb923845cf8c2478f19802b65504",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "layer-hint",
+      "head": "5051032cda9d4c84542b4b6f8c7859cbc9348eab",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "ld-2port",
+      "head": "eb5beed92e4655f7e56a859caf8548c6f56c1962",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "ld-cpu",
+      "head": "32f2b1ad7dbdb6a3778d008901709962c780cae2",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [
+        "32f2b1ad7dbdb6a3778d008901709962c780cae2 card_session.sh selfcal DIR: an image with the calibration CPU on the card - info, the CPU's calibration since configuration (result, BIST, --soak SOAK s per channel), the host's calibration with the CPU held against it (--compare), the CPU again (--rerun); LDHOST picks the ld_host.py (a staged tree's). docs section 9: the stride-1 simulation of the test image's binary from reset (6,951,674 CSR writes, identical to ddrcal's; 2.9 s per channel simulated without BIST; hold / release pass)",
+        "d5eb52706a1a24044a74352ba03a5946033c0bab LiteDRAM calibration on the card: a VexRiscv (LiteX minimal, RV32I) in the core calibrates both DDR3 channels at reset with ddrcal's algorithm, raising cal_ready / cal1_ready itself (docs/litedram.md section 9)"
+      ],
+      "calibration_source_tree_sha256": "e288f06d87e9a3460768d3ac2155ac1b2e9af5ea847bc9cabb7fb979a279760c"
+    },
+    {
+      "branch": "ld-cpu2",
+      "head": "7c5b08f6d9f8439c274496036d209e3bafe31559",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [
+        "7c5b08f6d9f8439c274496036d209e3bafe31559 Merge remote-tracking branch 'origin/main' into ld-cpu2"
+      ],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "ld-default",
+      "head": "282ee31eca65dcda6cfcc1a7d42410c6678d56a2",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5940e98a34adfb3734effe7424d8657b9dde43afea1225b28e9e957ff07b30e5"
+    },
+    {
+      "branch": "ld-docs",
+      "head": "f1f635a4d1e97ff6ee0dff04c2213e399421eb04",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "d667c55740eb7ae339eb325970494eee505d2379e1ac72f535a4dc209e0230aa"
+    },
+    {
+      "branch": "ld-fmax",
+      "head": "1425d078afe4b429cb141491f6cfa1eb545f15ef",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [
+        "1425d078afe4b429cb141491f6cfa1eb545f15ef LiteDRAM core at 133.33 MHz: the three sys-domain families of the 812bb01 full build (+0.077 to +0.127 ns, the core's worst), all the die's scale (the two channels at its two ends, one register driving loads at both), cut in the generator; no change in the CSR map or the data paths. (1) The CSR bus (interface1_dat_w -> phaseinjector*_storage, 0 levels, 97% route, about 140 loads over 200 rows): a register stage per group of banks (tools/litedram/csr_pipe.py: channel 0's, channel 1's, the rest), each group's read data back through a register, LiteX's registered Wishbone2CSR acking two cycles later (an access 3 -> 5 sys cycles; the host's AXI-Lite and the calibration CPU handshake). (2) The sys reset (FDPE_1 -> dfi_p*_address R, 3,794 loads, 6.8 ns of route): FDPE_1 is the synchronizer's ASYNC_REG flip-flop, which Vivado does not replicate; WLCRG(rst_reg=True) (the test images keep the stock reset) puts a plain register after it (initially 1, max_fanout 256), so the whole sys reset (controllers, the PHYs' wlrst serializer resets from sys_rst, the write-clock MMCMs' resets) releases a cycle later in the same order. (3) The ECC counters (read bitslip -> decoder -> ded_errors_status CE, 11 levels): ecc_ports.py counts from registered flags (e & !clear), LiteDRAMNativePortECC's counters a cycle late; the read data, and so both ports' identical read buses, unchanged; the four ECC CSRs per channel stay. Regenerated (gen_core.py --phy wl --selfcal --fw-id 4461c052): only otpu_litedram.v changes (csr.csv, sdram_init.py, the XDC and the firmware ROM byte for byte); core.json's hashes; sim/verilator/otpu_ldc_ch.v regenerated (gen_ldc.py, the ECC module). Checks: csr_pipe_check.py (migen, LiteX's bridge and bus against the pipelined ones, 3,000 random accesses to every word and unmapped offsets; banks with a 32-bit storage, a 64-bit atomic_write storage, a 40-bit status, a CSR's write / read strobes as the PHYs' delay-line taps, pulse fields): the same read data and storages, every strobe once and in order with its data, 3 -> 5 cycles per access; fails with one wait cycle fewer or without the read-data register. ecc_ports_check.py 600 cycles (compared a cycle later, 0 after a clear): PASS at seeds 1, 2, 3. selfcal_sim.py on the regenerated core, its SoC on the same pipelined bridge and bus (stride 16, --hold-test): 643,724 CSR writes identical to ddrcal's, c0_ready / c1_ready 1 / 1, both channels' results equal ddrcal's, the hold test passes. Co-simulation on omarchy: test_rtl.py -k ldc 5 passed; perf_qwen --wformat fp4 --ddr 1066 --mhz 133.33 --ldc 1,478,549 cycles before (d3d5f0f) and after, the whole profile identical. check_core.sh reproduces the committed core; make lint clean. docs/litedram.md section 12."
+      ],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "ld-fmax2",
+      "head": "49e7a691a08d8f28150666fc8ac174f9d4bad887",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "ld-memch",
+      "head": "2de598691d5018d4c5c0ac888ee8dbc491ff19d3",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "ld-ndram",
+      "head": "a0bade7c6acdc6175eb82617313c1a41b5b0e47b",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "ld-phy",
+      "head": "e0bef4b4c8b4765fa1094adc6eef06debb3efc67",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "ld-qual",
+      "head": "b719cd3d387c85aad9a06e4247b25ea7938174cd",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "cd3bc31baa2111b868d8deac8e2ec70ec618325906d4a70c31450a836cf63866"
+    },
+    {
+      "branch": "ld-top",
+      "head": "1b97d90dca9d883677ffd6d9e75ce4fbcd79151f",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [
+        "a262649e88d42be2216216a20f8782a379c42ebc Merge litedram-int 86bee3c (WL7DDRPHY: a register after each DQ bit's read bitslip mux, rd_reg on by default, the read latency one sys cycle longer; wlrst max_delay 3.0 ns, as ld-top's 00cc828; ld_host --fused) into ld-top, the core regenerated from it: otpu_litedram.v (dfi rddata registered on sys, the rddata_valid delay line and the crossbar one cycle longer), sdram_init.py read_latency 8 -> 9; csr.csv and the XDC unchanged. For the build after 5e5a58ab (the ECC error counters' 9-LUT path from the bitslip mux, -0.409 at 133 MHz on 14875bf). Checked: check_core.sh matches, check_offline --mem litedram ok, test_ddrcal 13 passed"
+      ],
+      "calibration_source_tree_sha256": "0abcdfac9cd49a8e637f3d99df8f017c3c73fe53eabfc422eb4a3f13f06a14c8"
+    },
+    {
+      "branch": "ldc-cosim",
+      "head": "2034946dd3f419ac05472c6bb6cbe4ea96617525",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "litedram-int",
+      "head": "c8b4d49a3c634429883acb426fb585c5105ad9e1",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "0abcdfac9cd49a8e637f3d99df8f017c3c73fe53eabfc422eb4a3f13f06a14c8"
+    },
+    {
+      "branch": "litepcie",
+      "head": "ca47de35195c69401c469e9258b0a3ef34c9a9f2",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": true
+      },
+      "unmerged_ddr_commits": [
+        "955fdd1fe54e66cfd8930d974b1097849d244bcf litepcie: the card's idle checks see either driver's nodes (flash_jtag.sh, the offload sessions hostr21 / mtps: /dev/otpu0_* beside /dev/xdma0_*), ld_host.py's --dev the LitePCIe node when it is there; docs/litepcie.md: the builds' timing (407a035b .. 72da3027, f5267ed6 pending) and the area against XDMA's",
+        "1c7f0cf47037cafb2d8496cf6e5bf01e4f057fd0 litepcie host: card_transport opens whichever driver has the card (LitePcieTransport on /dev/otpuN: XDMA's calls, 16-byte DMA alignment, no in-run H2C limit), card_dev / card_nodes / card_sysfs for every tool and the server, setup_pcie.sh installs and checks both drivers (otpu_pcie by DKMS, version 1.<source hash>; --rescan binds either), udev for the otpu nodes, tests/test_card_dev.py; tools/litepcie/check_core.sh and core.json (the pinned migen / LiteX / LitePCIe; the committed core matches gen_core.py); docs/litepcie.md"
+      ],
+      "calibration_source_tree_sha256": "f791f36a1e2df4577af85eb4e48e4cf9483dca547f4525e72952deff007b0374"
+    },
+    {
+      "branch": "live-card-waits",
+      "head": "ee092cab090aae015603ff3756c60c194b2fa0e4",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "logits-fill",
+      "head": "eab571e22eeee03fa468061b7c242ee601ea1303",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "main",
+      "head": "f237dab2f196855a59a083b1454786df8f01291f",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": true
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "f791f36a1e2df4577af85eb4e48e4cf9483dca547f4525e72952deff007b0374"
+    },
+    {
+      "branch": "mark-in-run",
+      "head": "2cf1ab658e3a320e268c715253c5e86379fb8873",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "memch-mut8",
+      "head": "8575b2160660fc0b682369ccde92c511690fe6fe",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [
+        "31e928bc1151f828bd7622a22a94823a19d1b5e2 Merge ld-fmax2 (63fbb5f) into fused-133: the LiteDRAM core's three sys-domain families of the 812bb01 full build (the CSR bus's register stage per channel's banks, csr_pipe.py; the CRG's registered reset; the ECC counters a cycle late), on ld-2port eb5beed",
+        "f321f99ee6e175437669829609692ec6b9c4e0f4 Merge ld-2port (eb5beed) into main + waitw-main: the board's STATUS keeps both WAIT_TO (bit8, waitw) and AXI_ERR from the channels' bridges (otpu_mem_ch n_err, ld-2port); otpu_board passes .wait_to and .axi_err(|n_err)"
+      ],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "memeff",
+      "head": "eb9845825e01716f931bdf7710b6f18961452974",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [
+        "eb9845825e01716f931bdf7710b6f18961452974 memeff: the adapter's A runs of 32 beats, and the controller's refresh postponing 8 and read / write times 256 / 128, the three low-risk fixes from the whole-model co-simulation's breakdown of the two-port controller's cycles (docs/litedram.md section 11, \"What is left in the controller, and three fixes\"). Decode -1.3 to -2.5% cycles per token."
+      ],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "memeff2",
+      "head": "2c1547df3bc717831d86bc7b921d2d5619567740",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "merge-wave",
+      "head": "1be55aa6251703976175650eae2fced077d572d8",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5940e98a34adfb3734effe7424d8657b9dde43afea1225b28e9e957ff07b30e5"
+    },
+    {
+      "branch": "mmio-note",
+      "head": "09b4d396a010858f71d9dfd6bc1a96cd006b4d62",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "models3",
+      "head": "95f6cc59467faed377863f9c03f0faebe702616d",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "moe-pair",
+      "head": "52687317478745d481263ad79bdbeabc23984788",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "moe-prefill",
+      "head": "1a5a5dcddd24f4d7b75b9c615f0f28b93e5a371e",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "moe-prefill-35b",
+      "head": "2840c9322997427094908c42ae8acdfa32895dff",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "moe-prefill-pool",
+      "head": "7c0a2965afdcf8818f2ac964dc8c565dc2654a3b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "mtp-card",
+      "head": "ee4bf7fcc5b82b45ee187c468611461d22fdc257",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "mtp-docs",
+      "head": "b193b4bfcda6d26deded37a50817f1007ab7aa86",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "mtp-gen",
+      "head": "ca5f7e44bbfb6576816c4542372d080641ac88f4",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "mtp-isa",
+      "head": "2a199e88e87e955a674a167775abf5eee7e75919",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "mtp-note",
+      "head": "f60eb26342692632a3bb4a9e533f009bdfb00639",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "mtp-phase4",
+      "head": "970e2672472fc237f7c8833c5ca4025679f4b6a8",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "mtp-sampled",
+      "head": "d4f359f9786381fd8b0fdd227131fc96f467d1ec",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "mtp-study",
+      "head": "f18e3907e1c1bd6ede57ec34ee3952df07bcb490",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "native-mem-split",
+      "head": "2af38c3228f04e165f0f8cb4767551b108479b1f",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "nmem-gw",
+      "head": "5c4a12402470652b35b81fdd02ac52011aee52d8",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "nmem-rb",
+      "head": "1afdfdd8b57d826381b0b811d4ceb3705380a02f",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "offload",
+      "head": "29fb9d92dac46b68eb9f98604e4fe0b897d26fb5",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "offload-ahead",
+      "head": "665b8a0fdc84a0dc493772392c5f2b9c467d7faa",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-ahint",
+      "head": "bcf64b95ab03569c21cfa4136daa719637be8ff7",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-card",
+      "head": "1259bacd3bd2bc9dd36d029e43e6377a1fc6f36b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "offload-dma",
+      "head": "0ee5ecfdec1eeb248647b121ff74464dc62e83be",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-emu",
+      "head": "50abff6225fb3e37e4d3e1fdfd8f0af551c36d23",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-engrel",
+      "head": "3581282d317941713eb57c02d924a0ddeec16100",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-fresh",
+      "head": "f8b91760c3c5ea2bb1874867a704bf8264cc0086",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-g26",
+      "head": "2c57dc29e7553b423b37d5e493265f2cbcb5efa7",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-gen2",
+      "head": "45220316540446b4ddf17ca85c76f80cb4943ee7",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-head",
+      "head": "8f7c75420b14ccb3d29a094bb17e581d7ec2ee74",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-hint",
+      "head": "7a048e5477ed52c5d9429c64eea307ddf4698b08",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-hintcap",
+      "head": "84295071c6be258b2e06c75388f4b7735b56479d",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-hold",
+      "head": "9d5fa39ea93d2a3cddaa8d3a9a1d55ac0e550bc7",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-host2",
+      "head": "843ecdd141b9794b829ddfc868c37c59ebdb32b6",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-mglru",
+      "head": "b3bcf4edb7df328dec0b389aa52b344239d294a8",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-need",
+      "head": "f0454136dd6e1c77b86e0bad0725a2f9c08ea0d6",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-onecall",
+      "head": "d8aa25ee431a82ddf31364e64b82a8c96bc2c4c9",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-p2",
+      "head": "1a0fe12d53f8ca54a24cec8567cd4c3ca459d1c1",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "offload-parts",
+      "head": "69d29bd8521b1b0c4d5d46602936d379b0184acb",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-pitch",
+      "head": "f51346f9073faf495a72a39efb1340b7e22d67c8",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-pool",
+      "head": "131af6198c8ab0d76aad5fdd5e0bcf53b71c7b4b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-relmem",
+      "head": "89f455e9386e09e004b15d7891e8e77490d57358",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-s10",
+      "head": "be0681e530834f830b48e3934b54159eb59ed541",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-s12",
+      "head": "664a1dc9dbbb52c420201c8215e107b301c65e7f",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-s17",
+      "head": "f1e39cbfb859356e1b7a598ea9ab97d9015ab30b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-s9",
+      "head": "92934250decd61368ba4e8ffcb500eeb0ab7659b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-serve",
+      "head": "ed001be64bf6c9ad05d57ed6d5c299aa69941082",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-sessions",
+      "head": "15054e5f4eead834023dd0f374ff474403502ace",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "offload-stage",
+      "head": "3928028ee22c701e7ca22bdcd30465bf085599fd",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "path-fixes",
+      "head": "0c24ba645f89802d11459a4c82fbf74120f2bc5e",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "pcie-gen2",
+      "head": "0410b0f8f7150abfc2668c4dd5eefcb2337f56f4",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "perfddr-full",
+      "head": "03a1256efcb6f612317e7f55bcc254b7de1c7da8",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "place-bench",
+      "head": "33fc0957b75987ac7e22b1765fbd7aa5aed8e8f4",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "porta-flush",
+      "head": "257a071d6693728a86a92d4e252d47f985406937",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "prebuild-quiet",
+      "head": "e521a7988b06841eda70903d750e1c80a9c97bb7",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "prebuild-sweep",
+      "head": "b4ce3bef40477ef404f3a44d5d1004ec4ac9282c",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "prefill-amask",
+      "head": "9c46b189381ad94a45d253d02ffa2610f82b30f2",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "prefill-models",
+      "head": "690959847fe4414d142ed040b253bde95ccf3f66",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "prefill-notes",
+      "head": "2f4a8093535decb050bc8b0811c5f409cab8a478",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "prefill-rt",
+      "head": "5624b91a94a79f8c805a9777ba384bcfb5c9585f",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "prefill-trace",
+      "head": "f6e99e97734dbf7f0261216c42c59bdc619f3dd2",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "prefill-wholepass",
+      "head": "68dddd3e6f9a54ae2fcf6a5170fc18186b11a869",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "prog-cache",
+      "head": "a4ddac85dbeeedd8bdcaa0698a221e70decce2ab",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "q35-pairloop",
+      "head": "337fa01c0f090942236065df60d18e742ecb192b",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "q35-qkshare",
+      "head": "07a80ab0ba492d766c6db1480f8f001b48d63c0e",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "q35-qkshare2",
+      "head": "cffda9c7365966f6f8472affcb303da3924f8273",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "qual-harden",
+      "head": "3815b9e5d0d6cf470d6ec5117a7abfa5a5d128f9",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "revert-mark-in-run",
+      "head": "01a82ebadbd30c1c2c10d6a3127a2408ab079dbe",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "rtw-chooser",
+      "head": "65717da193224a5d99e3adf182e4498ce61aa6aa",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "rx-notes",
+      "head": "fdde7498ae60ab01aa69aef2478bb9bddcc60656",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "se-cand",
+      "head": "44dfeb20796c3cabf7e805741ad2a117f8a2770a",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "se-cand2",
+      "head": "0d1f3ed3c4126c9a73965b5b16dd23274a1265db",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "se-cand3",
+      "head": "02569bc64647902f96485751722b32bda84ae7de",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "se-int",
+      "head": "8f67e9b49f934ec108be7b0cb062863f568c7000",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "se-main",
+      "head": "7e0b5eab46ac9dacd7f5b2321b0c9e3dd5154cfb",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "se-merge",
+      "head": "5fca9c9a695b085a22065de330e9b9f9a354110a",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "se-sys2",
+      "head": "d79c12e1b93867f33f2e9ed8eaab09d346a5e177",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "se-sys3",
+      "head": "ad4c516289faff81ac6daa6e41eebd1b62bcb831",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "se-v1-drop",
+      "head": "44765169c2f10ef9a72aaca26e5ced3b5f6eda33",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "seq-9pairs",
+      "head": "5c665428fb6d6dc3a1ec7f6bc7ff4306d61e0902",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "sim-tmp",
+      "head": "6ea380761b8f99a42c061df746aaa5116aca64e5",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "stream",
+      "head": "e97e3fc10dc615c53cfa8637b6dab26038f10603",
+      "fix_ancestry": {
+        "static_read_clocks": false,
+        "per_bit_framing": false,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "branch": "tourney-seq-9pairs",
+      "head": "b080b26b3b8e56702f866653b3bc081669488650",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "tourney-units-state",
+      "head": "b4ec252497268aa0aef471e39d985b056fe3b5d8",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "tv-keepdcp",
+      "head": "2862908717fa9b4102b826b7bccd0b8263acfb12",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": false,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "836241c5d3ab92b076121f850b2817735f17b9a36ce6bcab5b56b24f3742f3f6"
+    },
+    {
+      "branch": "unit-fp-fadd",
+      "head": "b16b26e6244e78ca8e1971fff28b3f11ed04dc10",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "vop-fuse",
+      "head": "26df34bab7e472de7f901fdf338b4b70d0b220da",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "vpu-first",
+      "head": "ed66aba66b0d38f7f12c8050b23495d828dd646a",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "waitw",
+      "head": "3f51c1ed4e6d5774c6e7107f2cab0141c44e2ce3",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "waitw-main",
+      "head": "3f51c1ed4e6d5774c6e7107f2cab0141c44e2ce3",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "5b276d65054f16fc4768bcaa4f7234c9823018da70474f13e83fed0dfee529bc"
+    },
+    {
+      "branch": "xdma-fix",
+      "head": "7225607484aa2d794ffdc491eb67fc792f9808c9",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "xdma-rids",
+      "head": "ed9bddf6abf9387486e37c8251f884470a76882c",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    },
+    {
+      "branch": "xmon",
+      "head": "f3919c6a2670a26445e43ea6a64f85928f7dcd0e",
+      "fix_ancestry": {
+        "static_read_clocks": true,
+        "per_bit_framing": true,
+        "read_register": true,
+        "serializer_reset_stage": false
+      },
+      "unmerged_ddr_commits": [],
+      "calibration_source_tree_sha256": "ef7815b949818a9a323fccc31d8bc4cc24a165eb61f3da6d365755fb22efc1ca"
+    }
+  ]
+}

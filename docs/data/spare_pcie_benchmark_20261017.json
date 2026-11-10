@@ -1,0 +1,550 @@
+{
+  "updated_utc": "2026-10-17T08:19:28.061445+00:00",
+  "scope": "Observed c0172080 spare-lane 4 GiB FPGA through Chestnut; single physical Qwen3.5-2B run",
+  "original_receipt": {
+    "path": "build/mac-spare4gb-qwen35-2b-streamed-20261017/manifest.json",
+    "sha256": "6d915116554364a779d76404e4372c47d378ab7660e6a799f1935368474b9d8a"
+  },
+  "method": {
+    "prompt_tokens": 512,
+    "decode_steps": 32,
+    "kv_capacity": 4096,
+    "repeats": 1,
+    "sampling": "host argmax; EOS does not end the fixed benchmark",
+    "correctness": "Eight chat tokens compared exactly against the ISA simulator; physical matmul and four image readback samples",
+    "wall_includes": "program compilation, transfers, polling, full-vocabulary logits readback and host argmax",
+    "wall_excludes": "checkpoint verification/loading, quantization, upload, memory initialization and correctness check",
+    "decode_bandwidth": "(DRAM_RD + DRAM_WR) * 64 / (RUNNING / 100000000); aggregate payload peak is 12.8e9 bytes/s across two x64 DDR800 channels",
+    "memory": "Image includes weights, norms, embedding/lookup tables, I/O and allocated 4096-token KV/conv/DeltaNet state; program space reserved separately",
+    "source_script": "build/mac-spare4gb-qwen35-2b-streamed-20261017/run_model.py"
+  },
+  "usb_link_observation": {
+    "vendor_id": "3801",
+    "product_id": "0001",
+    "bcdUSB": "0x0320",
+    "libusb_speed_enum": 5,
+    "libusb_speed_name": "LIBUSB_SPEED_SUPER_PLUS",
+    "negotiated_mbit_s": 10000,
+    "scope": "Live descriptor/speed query during this session; no USB4 link observed"
+  },
+  "cases": [
+    {
+      "status": "PASS_PHYSICAL_SPARE4GB_QWEN35_2B_REFERENCE_AND_BENCHMARK",
+      "physical": true,
+      "model": "Qwen/Qwen3.5-2B",
+      "wformat": "int8",
+      "resident": true,
+      "cap": 4096,
+      "prompt_tokens": 512,
+      "decode_steps": 32,
+      "started_utc": "2026-10-17T08:03:55.170740+00:00",
+      "finished_utc": "2026-10-17T08:14:51.083905+00:00",
+      "repository_revision": "32c76020135d939f2c79abe1945e6d5a21154b73",
+      "package": {
+        "manifest_sha256": "ad824db1cd0b8b5ed0204b643f80d3b5b1ebda1431ef05f804e6db7c4838b933",
+        "bitstream_sha256": "19730b4708653c428cf388999c4d49b7437648dd27d358028999ee98c380a425"
+      },
+      "sources": {
+        "build/mac-spare4gb-qwen35-2b-streamed-20261017/run_model.py": "64247b4c959100f366e3e440229a45bc610b97b3851196ec374f37489110fcf3",
+        "opentpu/host/spare_pcie.py": "8f1107cda3a7843565901b8f416e3c71b6f4a51aa9f243452a610c14a98f021e",
+        "opentpu/host/chestnut.py": "adff0a8aca884cb5001005477ddf3a87e3deaab5f75360934c665978aa1ea7df",
+        "opentpu/llm/qwen35.py": "b164471b232b4a06e7499df5247aaed865883579e0f221d2dc1aa8aca305cf1b",
+        "opentpu/llm/qwen3.py": "13f2bdf480de7797d22c202527d9f5c75bb1a6a239a48d948fc93445e00c871f",
+        "opentpu/host/board.py": "bcf2ae64544443ec4249bef82ab745b5a799cadaa2f681dfb13d8e20cbc4787b"
+      },
+      "checkpoint_revision": "15852e8c16360a2fea060d615a32b45270f8a8fc",
+      "checkpoint": [
+        {
+          "name": "model.safetensors-00001-of-00001.safetensors",
+          "bytes": 4548221488,
+          "sha256": "aa33250c4fc64891ddfaba3a314fd9542ea371843c387178b425fbcc5ed680b1"
+        }
+      ],
+      "identity": {
+        "D": 128,
+        "MCOLS": 4,
+        "LANES": 8,
+        "status": 104,
+        "calib": [
+          true,
+          true
+        ],
+        "calibrated": true,
+        "running": false,
+        "regmap": 3,
+        "caps": {
+          "trace": true,
+          "temp": true,
+          "i2c": true,
+          "ddr": true,
+          "w4": true,
+          "pair": true,
+          "dstep": true,
+          "chash": true,
+          "act_rows": true,
+          "args": true,
+          "stream": true,
+          "hostcal": true,
+          "gen": true,
+          "waitw": true,
+          "trace_depth": 16384,
+          "pq_window": 1024
+        },
+        "core_khz": 100000,
+        "build_id": 3222741120,
+        "temp_c": 55.12,
+        "ddr_mts": 800,
+        "act_rows": 4
+      },
+      "config": {
+        "S": 1,
+        "D": 128,
+        "MCOLS": 4,
+        "ACT_BLOCKS": 128,
+        "TMEM_WORDS": 65536,
+        "DRAM_BYTES": 4294967296,
+        "IMEM_WORDS": 32768,
+        "LANES": 8,
+        "PAIR": true,
+        "DSTEP": true,
+        "STREAM": true,
+        "ACT_ROWS": 0
+      },
+      "memory": {
+        "total": 4294967296,
+        "image": 4044054400,
+        "weights": 3998097280,
+        "kv_capacity": 45957120,
+        "kv_used": 0,
+        "program": 131072,
+        "free": 250781696,
+        "allocated_percent": 94.1610336303711
+      },
+      "compile_checks": [
+        {
+          "bucket": 1,
+          "instructions": [
+            1729
+          ]
+        },
+        {
+          "bucket": 16,
+          "instructions": [
+            1884
+          ]
+        }
+      ],
+      "upload_readback": [
+        {
+          "address": 0,
+          "bytes": 4096,
+          "expected_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+          "actual_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+          "exact_match": true
+        },
+        {
+          "address": 2147479552,
+          "bytes": 4096,
+          "expected_sha256": "8d425a219f37f1cf1f9957d702e55eff93ae36df09b8852846dff1ebc1affddc",
+          "actual_sha256": "8d425a219f37f1cf1f9957d702e55eff93ae36df09b8852846dff1ebc1affddc",
+          "exact_match": true
+        },
+        {
+          "address": 2147483648,
+          "bytes": 4096,
+          "expected_sha256": "230b0f21ead0ba08d1408d1ec510db897b0eb6231c18eb5197bb035dea0c5acf",
+          "actual_sha256": "230b0f21ead0ba08d1408d1ec510db897b0eb6231c18eb5197bb035dea0c5acf",
+          "exact_match": true
+        },
+        {
+          "address": 4044050304,
+          "bytes": 4096,
+          "expected_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+          "actual_sha256": "ad7facb2586fc6e966c004d7d1d16b024f5805ff7cb47c7a85dabd8b48892ca7",
+          "exact_match": true
+        }
+      ],
+      "upload_chunk_bytes": 4194304,
+      "correctness": {
+        "prompt_token_ids": [
+          248045,
+          846,
+          198,
+          3710,
+          369,
+          279,
+          6511,
+          314,
+          9338,
+          30,
+          21134,
+          303,
+          799,
+          11316,
+          13,
+          248046,
+          198,
+          248045,
+          74455,
+          198,
+          248068,
+          271,
+          248069,
+          271
+        ],
+        "actual_token_ids": [
+          760,
+          6511,
+          314,
+          9338,
+          369,
+          11751,
+          13,
+          248046
+        ],
+        "text": "The capital of France is Paris.",
+        "exact_match": true,
+        "expected_token_ids": [
+          760,
+          6511,
+          314,
+          9338,
+          369,
+          11751,
+          13,
+          248046
+        ]
+      },
+      "prefill": {
+        "tokens": 512,
+        "runs": 128,
+        "cycles": 22446281986,
+        "device_seconds": 224.46281986,
+        "wall_seconds": 250.3664618749899,
+        "device_tok_s": 2.2810013717164392,
+        "wall_tok_s": 2.0450023384347937
+      },
+      "decode": {
+        "tokens": 32,
+        "runs": 32,
+        "cycles": 7168829388,
+        "device_seconds": 71.68829388,
+        "wall_seconds": 121.3459715420031,
+        "device_tok_s": 0.44637692248005273,
+        "wall_tok_s": 0.26370879554846544,
+        "token_ids": [
+          524,
+          748,
+          42327,
+          430,
+          866,
+          314,
+          1070,
+          1149,
+          271,
+          1,
+          11861,
+          488,
+          1902,
+          708,
+          11,
+          321,
+          353,
+          668,
+          3502,
+          488,
+          539,
+          5941,
+          1149,
+          271,
+          6825,
+          1044,
+          524,
+          2019,
+          310,
+          443,
+          2636,
+          2482
+        ],
+        "text": " not so handsome as any of them.\"\n\n\"Then you must go, and I will send you by yourself.\"\n\n\"I am not going to Netherfield",
+        "counters": {
+          "UPTIME": 12134684679,
+          "RUNNING": 7168829388,
+          "MXU_BUSY": 7168734620,
+          "MXU_MAC": 471498752,
+          "VPU_BUSY": 22783811,
+          "QNT_BUSY": 5846752,
+          "DMA_BUSY": 198458550,
+          "TMEM_DENY": 3181391,
+          "DRAM_RD": 984093280,
+          "DRAM_WR": 10699520,
+          "DRAM_WAIT": 118801192,
+          "INSTR": 326496,
+          "MXU_STARVE": 312791104
+        }
+      },
+      "ecc_before": {
+        "0": {
+          "ecc_enable": 0,
+          "ecc_sec_errors": 0,
+          "ecc_ded_errors": 0
+        },
+        "1": {
+          "ecc_enable": 1,
+          "ecc_sec_errors": 0,
+          "ecc_ded_errors": 0
+        }
+      },
+      "ecc_after": {
+        "0": {
+          "ecc_enable": 0,
+          "ecc_sec_errors": 0,
+          "ecc_ded_errors": 0
+        },
+        "1": {
+          "ecc_enable": 1,
+          "ecc_sec_errors": 0,
+          "ecc_ded_errors": 0
+        }
+      },
+      "identity_after": {
+        "D": 128,
+        "MCOLS": 4,
+        "LANES": 8,
+        "status": 104,
+        "calib": [
+          true,
+          true
+        ],
+        "calibrated": true,
+        "running": false,
+        "regmap": 3,
+        "caps": {
+          "trace": true,
+          "temp": true,
+          "i2c": true,
+          "ddr": true,
+          "w4": true,
+          "pair": true,
+          "dstep": true,
+          "chash": true,
+          "act_rows": true,
+          "args": true,
+          "stream": true,
+          "hostcal": true,
+          "gen": true,
+          "waitw": true,
+          "trace_depth": 16384,
+          "pq_window": 1024
+        },
+        "core_khz": 100000,
+        "build_id": 3222741120,
+        "temp_c": 56.85,
+        "ddr_mts": 800,
+        "act_rows": 4
+      },
+      "channel_io": {
+        "0": {
+          "written": 2026826880,
+          "read": 20382464,
+          "max_write_end": 2022066176,
+          "write_seconds": 17.816637853975408
+        },
+        "1": {
+          "written": 2026826880,
+          "read": 20382464,
+          "max_write_end": 2022066176,
+          "write_seconds": 18.370082710142015
+        }
+      },
+      "temporary_pci_configuration_restored": true,
+      "physical_memory_channels": [
+        0,
+        1
+      ],
+      "logical_capacity_bytes": 4294967296,
+      "fpga_programmed": false,
+      "flash_written": false,
+      "recalibrated": false,
+      "ecc_counters_cleared": false,
+      "full_memory_qualification": false,
+      "upload": {
+        "bytes": 4044054400,
+        "seconds": 82.37190566699428,
+        "effective_mb_s": 49.095069092476
+      },
+      "metrics": {
+        "decode_mcycles_per_token": 224.025918375,
+        "decode_traffic_bytes_per_token": 1989585600.0,
+        "decode_memory_gb_s": 0.8881050971386292,
+        "decode_mac_cycles_per_token": 14734336.0,
+        "decode_mac_utilization_percent": 6.577067558467051,
+        "decode_host_seconds_per_token": 1.5518024269375967
+      },
+      "initialization_reused": {
+        "receipt": "build/mac-spare4gb-lfm-20261017T0742/lfm/manifest.json",
+        "sha256": "9b665f0f3af9e119ee08bce55eb33746541191789ec61be87650b598c6b4f093",
+        "live_marker": 1546382592,
+        "status": "PASS_OBSERVED_SPARE_PCIE_MATMUL_LFM2_FULL_MEMORY_QUALIFICATION_PENDING",
+        "chunks": 2048,
+        "chunk_payload_bytes": 4194304,
+        "coverage": [
+          {
+            "channel": 0,
+            "mode": 0,
+            "operation": "zero_write",
+            "chunks": 512,
+            "unique_payload_bytes": 2147483648,
+            "compare_errors": 0
+          },
+          {
+            "channel": 0,
+            "mode": 1,
+            "operation": "zero_readback",
+            "chunks": 512,
+            "unique_payload_bytes": 2147483648,
+            "compare_errors": 0
+          },
+          {
+            "channel": 1,
+            "mode": 0,
+            "operation": "zero_write",
+            "chunks": 512,
+            "unique_payload_bytes": 2147483648,
+            "compare_errors": 0
+          },
+          {
+            "channel": 1,
+            "mode": 1,
+            "operation": "zero_readback",
+            "chunks": 512,
+            "unique_payload_bytes": 2147483648,
+            "compare_errors": 0
+          }
+        ],
+        "scope": "Full-address-range raw zero initialization/readback; distinct native payload patterns and repeatability are separate qualification"
+      },
+      "calibration_unchanged": true,
+      "matmul": {
+        "physical": true,
+        "operation": "MM int8 weights with QACT",
+        "output_shape": [
+          2,
+          16
+        ],
+        "reduction": 256,
+        "bytes_compared": 128,
+        "expected_instructions": 5,
+        "actual_instructions": 5,
+        "cycles": 1259,
+        "exact_match": true,
+        "actual_words": [
+          1106311348,
+          1078740312,
+          3256988193,
+          1068449824,
+          3227944614,
+          1101052092,
+          1101496660,
+          1105193614,
+          3244967774,
+          1093543234,
+          1092960390,
+          1104932818,
+          1096995774,
+          1088653733,
+          3237401432,
+          1092886436,
+          1091795845,
+          1081543176,
+          3250676561,
+          3256533735,
+          3248873799,
+          3245134754,
+          3231887644,
+          1103229758,
+          1107168013,
+          1061270128,
+          1082773638,
+          3239923403,
+          1079531372,
+          3217569008,
+          3244942805,
+          1086764266
+        ],
+        "expected_words": [
+          1106311348,
+          1078740312,
+          3256988193,
+          1068449824,
+          3227944614,
+          1101052092,
+          1101496660,
+          1105193614,
+          3244967774,
+          1093543234,
+          1092960390,
+          1104932818,
+          1096995774,
+          1088653733,
+          3237401432,
+          1092886436,
+          1091795845,
+          1081543176,
+          3250676561,
+          3256533735,
+          3248873799,
+          3245134754,
+          3231887644,
+          1103229758,
+          1107168013,
+          1061270128,
+          1082773638,
+          3239923403,
+          1079531372,
+          3217569008,
+          3244942805,
+          1086764266
+        ]
+      }
+    }
+  ],
+  "comparison": {
+    "baseline_receipt": "docs/data/chestnut_ch1_20261016.json",
+    "baseline_model": "qwen35-2b",
+    "baseline_build_id": "0x5b1e646c",
+    "baseline_profile": {
+      "wformat": "int8",
+      "head_format": null,
+      "resident": false,
+      "image_bytes": 1976970368,
+      "program_bytes": 131072,
+      "expert_slots": null,
+      "ple_host": false
+    },
+    "baseline_cap": 1024,
+    "baseline_decode_steps": 64,
+    "baseline_metrics": {
+      "decode_mcycles_per_token": 32.5743779375,
+      "decode_traffic_bytes_per_token": 1988527360.0,
+      "decode_memory_gb_s": 6.1045750860242345,
+      "decode_mac_cycles_per_token": 14725900.0,
+      "decode_mac_utilization_percent": 45.207002964889696,
+      "decode_host_seconds_per_token": 1.570050492765634
+    },
+    "device_decode_slowdown": 6.87736597164911,
+    "traffic_ratio": 1.000532172712977,
+    "caveat": "Baseline used cap=1024 and nonresident decode; new run used cap=4096 and resident decode. This is not a controlled bitstream A/B. MAC cycles/token are equal and traffic/token differs by 0.053%."
+  },
+  "diagnosis": {
+    "kind": "Measured counters plus packaged RTL/source analysis; no alternative FPGA image was built or tested",
+    "primary": "CH0 NativePortsNoECC serializes all native requests: a read must pass IDLE -> READ_COMMAND -> READ_DATA -> RESPONSE -> IDLE before the next command is accepted; one raw port is disabled. Interleaved 128-byte operands need a 64-byte half from each channel, so CH0 throttles the paired stream.",
+    "source": "bitstreams/ramtest-litedram-ddr800-spare8/evidence/generation-source/tools/litedram/spare_native.py",
+    "source_sha256": "3ca6b34b9d2fbaa34a4477a8371b041630b8e0ecf7af8c72cf12df44e55ef443",
+    "packaged_rtl": "bitstreams/spare-pcie-4gb-ddr800/core/otpu_litedram.v",
+    "packaged_rtl_sha256": "335bfdd0560dfb57d6e77121e499dc1bcec958b4c0cca76214941082db2aa2e3",
+    "host": "Full logits readback and host work add 1.55 s/decode token, almost unchanged from 1.57 s on CH1. Upload is timed separately; it does not explain the 6.88x device-cycle slowdown.",
+    "next_change": "Pipeline ordinary CH0 reads and full writes while preserving ordering and atomicity for partial read/merge/write operations; requires a separately validated FPGA build.",
+    "qualification": "CH0 has no ECC, CH1 has zero corrected/uncorrectable errors. Full native payload coverage, retention and cold/warm repeatability remain unqualified."
+  }
+}

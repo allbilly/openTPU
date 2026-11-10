@@ -1,0 +1,255 @@
+{
+  "status": "CH1_PCIE_IMAGE_CDC_BUS_SKEW_REVIEW_PASS",
+  "qualification": {
+    "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-image-qualification-20261014T113000Z/manifest.json",
+    "bytes": 2829,
+    "sha256": "23d860a71cf759e1d21e9dc2928d4c872ee212a96bb50f517dfde84826e6409b"
+  },
+  "clock_review": {
+    "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-pcie-oob-clock-model-pass-20261014T131900Z.json",
+    "bytes": 3432,
+    "sha256": "d5d5dbd648ed5e0fe350bec9b9c081d782eb9cb7099c3b0342357d3610c94f3f"
+  },
+  "partial_review": {
+    "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-pcie-cdc-reset-review-20261014T132900Z.json",
+    "bytes": 4362,
+    "sha256": "1fc8d16e8dc82f9278ef1622b35467adb416cf898b088d61057fbba46fa40689"
+  },
+  "physical_compute_proof": {
+    "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-lfm2-physical-pass-current.json",
+    "bytes": 5086,
+    "sha256": "7882a9aa367fef80a0305f2c6564d67e8e2d2d7d19d2ecafbea195f4705a6177"
+  },
+  "common_compute_memory_sources": [
+    {
+      "name": "otpu_litedram.v",
+      "sha256": "4a8f2c883d3f4e84103f00e6b7cb0bb139ff20cfe631a9994d5b5f6a29c61d72",
+      "pcie": {
+        "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/source/boards/ypcb-00338/litedram/otpu_litedram.v",
+        "bytes": 8180418,
+        "sha256": "4a8f2c883d3f4e84103f00e6b7cb0bb139ff20cfe631a9994d5b5f6a29c61d72"
+      },
+      "jtag": {
+        "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-jtag-resume-20261014T105300Z/source/boards/ypcb-00338/litedram/otpu_litedram.v",
+        "bytes": 8180418,
+        "sha256": "4a8f2c883d3f4e84103f00e6b7cb0bb139ff20cfe631a9994d5b5f6a29c61d72"
+      }
+    },
+    {
+      "name": "otpu_board.sv",
+      "sha256": "ce801c1791cbf6ece3626562ad391228fe1a3821f4dfeaf18c036b6a474d6046",
+      "pcie": {
+        "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/source/rtl/boards/ypcb-00338/otpu_board.sv",
+        "bytes": 11549,
+        "sha256": "ce801c1791cbf6ece3626562ad391228fe1a3821f4dfeaf18c036b6a474d6046"
+      },
+      "jtag": {
+        "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-jtag-resume-20261014T105300Z/source/rtl/boards/ypcb-00338/otpu_board.sv",
+        "bytes": 11549,
+        "sha256": "ce801c1791cbf6ece3626562ad391228fe1a3821f4dfeaf18c036b6a474d6046"
+      }
+    },
+    {
+      "name": "otpu_native_sys.sv",
+      "sha256": "19cf7ce46c538bbc3dafb4b66a811b7c4e93f9a05393da935c6281c08cc78727",
+      "pcie": {
+        "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/source/rtl/boards/ypcb-00338/otpu_native_sys.sv",
+        "bytes": 9645,
+        "sha256": "19cf7ce46c538bbc3dafb4b66a811b7c4e93f9a05393da935c6281c08cc78727"
+      },
+      "jtag": {
+        "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-jtag-resume-20261014T105300Z/source/rtl/boards/ypcb-00338/otpu_native_sys.sv",
+        "bytes": 9645,
+        "sha256": "19cf7ce46c538bbc3dafb4b66a811b7c4e93f9a05393da935c6281c08cc78727"
+      }
+    },
+    {
+      "name": "otpu_native_dram.sv",
+      "sha256": "ca414740cf4bbc3d18d3aa65e993bbc8c61d38159552f2a8250df4bdeb2003c2",
+      "pcie": {
+        "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/source/rtl/mem/otpu_native_dram.sv",
+        "bytes": 49144,
+        "sha256": "ca414740cf4bbc3d18d3aa65e993bbc8c61d38159552f2a8250df4bdeb2003c2"
+      },
+      "jtag": {
+        "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-jtag-resume-20261014T105300Z/source/rtl/mem/otpu_native_dram.sv",
+        "bytes": 49144,
+        "sha256": "ca414740cf4bbc3d18d3aa65e993bbc8c61d38159552f2a8250df4bdeb2003c2"
+      }
+    },
+    {
+      "name": "otpu_mem_ch.sv",
+      "sha256": "e6c63765384ba8c9574dc8c9a7acae14254e0ac9736eb6e7fb3dbbcb341b0077",
+      "pcie": {
+        "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/source/rtl/boards/ypcb-00338/otpu_mem_ch.sv",
+        "bytes": 35727,
+        "sha256": "e6c63765384ba8c9574dc8c9a7acae14254e0ac9736eb6e7fb3dbbcb341b0077"
+      },
+      "jtag": {
+        "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-jtag-resume-20261014T105300Z/source/rtl/boards/ypcb-00338/otpu_mem_ch.sv",
+        "bytes": 35727,
+        "sha256": "e6c63765384ba8c9574dc8c9a7acae14254e0ac9736eb6e7fb3dbbcb341b0077"
+      }
+    },
+    {
+      "name": "otpu_ctrl.sv",
+      "sha256": "97b03812f54f7a37f9cf4fff4cb480ef356ba2b0b8c123295e4da3aa17b596e3",
+      "pcie": {
+        "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/source/rtl/boards/ypcb-00338/otpu_ctrl.sv",
+        "bytes": 13559,
+        "sha256": "97b03812f54f7a37f9cf4fff4cb480ef356ba2b0b8c123295e4da3aa17b596e3"
+      },
+      "jtag": {
+        "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-jtag-resume-20261014T105300Z/source/rtl/boards/ypcb-00338/otpu_ctrl.sv",
+        "bytes": 13559,
+        "sha256": "97b03812f54f7a37f9cf4fff4cb480ef356ba2b0b8c123295e4da3aa17b596e3"
+      }
+    }
+  ],
+  "mcs": {
+    "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/project/otpu.mcs",
+    "bytes": 34300540,
+    "sha256": "101178a32024ba416f90813afe7672b80e26fb154982d7fec85209bbab2e5f77"
+  },
+  "bus_skew_constraints": 39,
+  "reviewed_reset_scope": "Configuration startup and normal PCIe/model operation. External LD reset tied low; default global reset CSR is zero and never written by supported host tools. Eight-stage management reset crossings do not carry normal data or PCIe reset.",
+  "operating_limitations": [
+    "Do not write the LiteX global SoC reset CSR. Its pulse capture/reset duration is unqualified. Use configuration reload or cold power cycle instead."
+  ],
+  "qualified_host_files": [
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/__init__.py",
+      "bytes": 965,
+      "sha256": "79a1d7ad85b43cec3aa02841948d2ed3d0901f8bcaf9cceddbf76265ae491012"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/board.py",
+      "bytes": 77294,
+      "sha256": "71922976adf3195f32255fb06b002ce486604d50972e2000b7c15d599e08d000"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/bpi_image.py",
+      "bytes": 7668,
+      "sha256": "6ffcace0e83d01448fb9104d94757483eee53cd8943c82608c806865a1279afc"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/chat.py",
+      "bytes": 41217,
+      "sha256": "b46b1d14874c0faea2c875989f8968ce206f28f95babf0f3203c1c3260c9446e"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/chat_tui.py",
+      "bytes": 26957,
+      "sha256": "7914cb6644c1527e028948a6339223cf1b33fccf53b139c68733aefe11f243ad"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/checks.py",
+      "bytes": 29466,
+      "sha256": "27cdc41d1a6066aa6b30b86884df7e167ad5b2f9044fa3fdacba7e914db110da"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/ddrcal.py",
+      "bytes": 37575,
+      "sha256": "75a6d8ba03d31baf86bb11092dccc5e2eac54ce3b7994b5c4690c5924a94062f"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/diag.py",
+      "bytes": 35407,
+      "sha256": "da28509c977c7b5bdfeaad6592b99fdaee324ea170b710826ec1f175615f5151"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/fake.py",
+      "bytes": 11087,
+      "sha256": "da5750977e580112dec9d94321628432fae57228883791405e570f8bd4dc73d0"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/fake_i2c.py",
+      "bytes": 8458,
+      "sha256": "2ccca9aacb31608f7ef95201727e02e435a0c706a59039ad0428f1059b00002c"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/hwlens.py",
+      "bytes": 15098,
+      "sha256": "ef6f83840a94a233f1421a3fc800794f752eb752559a814d98edbc65a072da32"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/i2c.py",
+      "bytes": 30581,
+      "sha256": "f87c928a693688738754d7029621d5161b2cd014eaebb18cb166d1f6cfce8eac"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/jtag.py",
+      "bytes": 10419,
+      "sha256": "2222ec690dee09208d873d3001e8d779bb8a1de1652dbdb179861fc967b6db2a"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/memcal.py",
+      "bytes": 11631,
+      "sha256": "7776f37f9e7b3034a532aa71390bb608775353f38632f68d95536dc8ee786c8d"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/memtest.py",
+      "bytes": 8431,
+      "sha256": "4b1ed5f49bb17500202ad6ca028827d04024ca33a4437bfd3860f6edb6dd61de"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/offload.py",
+      "bytes": 98078,
+      "sha256": "3ff1e293e6b578c133916a0a39dae8c3825d60712131db137b65856bd81e5cba"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/opchecks.py",
+      "bytes": 13835,
+      "sha256": "1720b907b132dd0c4e1e6a11d031f10115c484e05310b813968d38efd90da948"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/pcie_pio.py",
+      "bytes": 7463,
+      "sha256": "22a1363d3d1ad2912b1a9f706811d78f0111bf15f74ca8f0a1931d9df1fc5e38"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/pcie_setup.py",
+      "bytes": 677,
+      "sha256": "8f2662fba6864ec035cf0efc7d25e313fb4b0619c95b01a9e0712ce3eaef7088"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/power.py",
+      "bytes": 8783,
+      "sha256": "6003a95828f74b962e5afe1cfb72b14efd8112ca27a8099a9640c4a162db6aa5"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/prebuild.py",
+      "bytes": 9123,
+      "sha256": "bfaaf02a22eed69d49abbae16ca3b64463b38cf6fc2e5c252967236a421f0f81"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/regs.py",
+      "bytes": 6065,
+      "sha256": "c46f5b31b278d071353ca911d54e83282257592e2b17405bc44a6f45c0112997"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/runstate.py",
+      "bytes": 11993,
+      "sha256": "506194486d8158987773aeaf0eb583457c084385ffa69990701509180ae7b4ac"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/selfcal.py",
+      "bytes": 8503,
+      "sha256": "08b5e1c9b0cbf6a9463aeb4e1a451fe6f320295a7336e79de4bc20ac5df1f823"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/selftest.py",
+      "bytes": 13745,
+      "sha256": "06b578aad65ce36c4762c6689be0e1764642ed8ee83aa612fc6e1ea60abcf1ce"
+    },
+    {
+      "path": "/home/fedora/ypcb_ref/openTPU/opentpu/host/smi.py",
+      "bytes": 19216,
+      "sha256": "218025b8b41fd56b21ca8a66a2b3fb37d253f518ad6ff0bb730efe0583bb73af"
+    }
+  ],
+  "hardware_accessed": false,
+  "pci_endpoint_physically_tested": false,
+  "flash_written": false,
+  "observed_utc": "2026-10-14T18:33:04.949376+00:00"
+}

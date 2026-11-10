@@ -1,0 +1,322 @@
+{
+  "status": "CDC_EVIDENCE_COLLECTED_REVIEW_PENDING",
+  "hardware_accessed": false,
+  "flash_written": false,
+  "scope": "Additional CDC evidence only; manual review and physical qualification remain required",
+  "updated_utc": "2026-10-17T04:18:41.510286+00:00",
+  "qualification": {
+    "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/manifest.json",
+    "bytes": 28763,
+    "sha256": "e10ce7dad066866bce3f13057e1ccc0b9a0adb85d2742c016e399b16cbafe26c"
+  },
+  "bitstream": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/project/otpu.bit",
+    "bytes": 12735199,
+    "sha256": "19730b4708653c428cf388999c4d49b7437648dd27d358028999ee98c380a425"
+  },
+  "routed_checkpoint": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/project/final-routed.dcp",
+    "bytes": 123287811,
+    "sha256": "8e98e9f89124bf897765a496ce2c4bfd76e53aa16783ca376bd628e6ebbf72a9"
+  },
+  "collector": {
+    "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/source/fedora_collect_pcie_cdc.py",
+    "bytes": 7334,
+    "sha256": "179e4753fd0b1b1c12ebc8081fc9ce93f5046266c54e4a34f94b50b86757cfb2"
+  },
+  "reference_cdc": {
+    "path": "/home/fedora/openTPU/bitstreams/dual-pcie-4gb-ddr800-reset/evidence/oob-cdc.rpt.gz",
+    "bytes": 4510,
+    "sha256": "78edd4d1b98d7bdb0e7fd2cdf46355b28749cf55e8e7ffa415c1d9733b7befd4"
+  },
+  "vivado_exit": 0,
+  "original_clock_inventory": [
+    {
+      "kind": "CDC-10",
+      "severity": "Critical",
+      "description": "Combinational logic detected before a synchronizer",
+      "depth": "8",
+      "exception": "False Path",
+      "count": 2
+    },
+    {
+      "kind": "CDC-11",
+      "severity": "Critical",
+      "description": "Fan-out from launch flop to destination clock",
+      "depth": "5",
+      "exception": "False Path",
+      "count": 3
+    },
+    {
+      "kind": "CDC-13",
+      "severity": "Critical",
+      "description": "1-bit CDC path on a non-FD primitive",
+      "depth": "0",
+      "exception": "False Path",
+      "count": 2
+    },
+    {
+      "kind": "CDC-26",
+      "severity": "Warning",
+      "description": "LUTRAM read/write potential collision",
+      "depth": "0",
+      "exception": "Max Delay Datapath Only",
+      "count": 96
+    },
+    {
+      "kind": "CDC-6",
+      "severity": "Warning",
+      "description": "Multi-bit synchronized with ASYNC_REG property",
+      "depth": "2",
+      "exception": "False Path",
+      "count": 13
+    }
+  ],
+  "oob_inventory": [
+    {
+      "kind": "CDC-10",
+      "severity": "Critical",
+      "description": "Combinational logic detected before a synchronizer",
+      "depth": "8",
+      "exception": "False Path",
+      "count": 2
+    },
+    {
+      "kind": "CDC-11",
+      "severity": "Critical",
+      "description": "Fan-out from launch flop to destination clock",
+      "depth": "5",
+      "exception": "False Path",
+      "count": 3
+    },
+    {
+      "kind": "CDC-13",
+      "severity": "Critical",
+      "description": "1-bit CDC path on a non-FD primitive",
+      "depth": "0",
+      "exception": "False Path",
+      "count": 2
+    },
+    {
+      "kind": "CDC-26",
+      "severity": "Warning",
+      "description": "LUTRAM read/write potential collision",
+      "depth": "0",
+      "exception": "Max Delay Datapath Only",
+      "count": 96
+    },
+    {
+      "kind": "CDC-6",
+      "severity": "Warning",
+      "description": "Multi-bit synchronized with ASYNC_REG property",
+      "depth": "2",
+      "exception": "False Path",
+      "count": 13
+    }
+  ],
+  "reference_inventory": [
+    {
+      "kind": "CDC-10",
+      "severity": "Critical",
+      "description": "Combinational logic detected before a synchronizer",
+      "depth": "8",
+      "exception": "False Path",
+      "count": 2
+    },
+    {
+      "kind": "CDC-11",
+      "severity": "Critical",
+      "description": "Fan-out from launch flop to destination clock",
+      "depth": "5",
+      "exception": "False Path",
+      "count": 3
+    },
+    {
+      "kind": "CDC-13",
+      "severity": "Critical",
+      "description": "1-bit CDC path on a non-FD primitive",
+      "depth": "0",
+      "exception": "False Path",
+      "count": 2
+    },
+    {
+      "kind": "CDC-26",
+      "severity": "Warning",
+      "description": "LUTRAM read/write potential collision",
+      "depth": "0",
+      "exception": "Max Delay Datapath Only",
+      "count": 96
+    },
+    {
+      "kind": "CDC-6",
+      "severity": "Warning",
+      "description": "Multi-bit synchronized with ASYNC_REG property",
+      "depth": "2",
+      "exception": "False Path",
+      "count": 13
+    }
+  ],
+  "added_paths": [],
+  "removed_paths": [],
+  "facts": [
+    [
+      "FANIN",
+      "u_ld/FDCE/D",
+      "u_ld/reset_storage_reg[0]/C"
+    ],
+    [
+      "FANIN",
+      "u_ld/FDCE/D",
+      "u_ld/reset_wr_stb_reg/C"
+    ],
+    [
+      "CELL",
+      "u_ld/FDCE/D",
+      "FDCE",
+      ""
+    ],
+    [
+      "CLOCK",
+      "u_ld/FDCE/D",
+      "sys_clk_50",
+      "20.000"
+    ],
+    [
+      "FANIN",
+      "u_ld/FDCE_8/D",
+      "u_ld/reset_storage_reg[0]/C"
+    ],
+    [
+      "FANIN",
+      "u_ld/FDCE_8/D",
+      "u_ld/reset_wr_stb_reg/C"
+    ],
+    [
+      "CELL",
+      "u_ld/FDCE_8/D",
+      "FDCE",
+      ""
+    ],
+    [
+      "CLOCK",
+      "u_ld/FDCE_8/D",
+      "sys_clk_50",
+      "20.000"
+    ],
+    [
+      "FANIN",
+      "u_sys/u_board/cal_s1_reg[0]/D",
+      "u_ld/cal0_storage_reg/C"
+    ],
+    [
+      "CELL",
+      "u_sys/u_board/cal_s1_reg[0]/D",
+      "FDRE",
+      "1"
+    ],
+    [
+      "CLOCK",
+      "u_sys/u_board/cal_s1_reg[0]/D",
+      "core_clk_otpu_bd_clk_wiz_0_0",
+      "10.000"
+    ],
+    [
+      "FANIN",
+      "u_sys/u_board/cal_s1_reg[1]/D",
+      "u_ld/cal1_storage_reg/C"
+    ],
+    [
+      "CELL",
+      "u_sys/u_board/cal_s1_reg[1]/D",
+      "FDRE",
+      "1"
+    ],
+    [
+      "CLOCK",
+      "u_sys/u_board/cal_s1_reg[1]/D",
+      "core_clk_otpu_bd_clk_wiz_0_0",
+      "10.000"
+    ],
+    [
+      "FANIN",
+      "u_sys/u_board/cal_s2_reg[0]/D",
+      "u_sys/u_board/cal_s1_reg[0]/C"
+    ],
+    [
+      "CELL",
+      "u_sys/u_board/cal_s2_reg[0]/D",
+      "FDRE",
+      "1"
+    ],
+    [
+      "CLOCK",
+      "u_sys/u_board/cal_s2_reg[0]/D",
+      "core_clk_otpu_bd_clk_wiz_0_0",
+      "10.000"
+    ],
+    [
+      "FANIN",
+      "u_sys/u_board/cal_s2_reg[1]/D",
+      "u_sys/u_board/cal_s1_reg[1]/C"
+    ],
+    [
+      "CELL",
+      "u_sys/u_board/cal_s2_reg[1]/D",
+      "FDRE",
+      "1"
+    ],
+    [
+      "CLOCK",
+      "u_sys/u_board/cal_s2_reg[1]/D",
+      "core_clk_otpu_bd_clk_wiz_0_0",
+      "10.000"
+    ]
+  ],
+  "evidence": [
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/collection/audit.log",
+      "bytes": 7073,
+      "sha256": "584905173db082945230b364a646ed40fbe3141a35f87b6ac0158ce232da11b6"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/collection/audit.tcl",
+      "bytes": 1093,
+      "sha256": "b5bcaf6126f7cfa7779c0f267e0f458f438cf89dcbdebdef072ce6b2d336baae"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/collection/cdc.rpt",
+      "bytes": 72810,
+      "sha256": "6fa290acf98fed8fc0c8b0f326c237bb336a01def7dd32d1a4459e7057764099"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/collection/collector-at-launch.py",
+      "bytes": 7334,
+      "sha256": "179e4753fd0b1b1c12ebc8081fc9ce93f5046266c54e4a34f94b50b86757cfb2"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/collection/command.json",
+      "bytes": 427,
+      "sha256": "b9d8cd30dc26684558f4cde86cd2eaccd7f19ad7278fe0277562ff520782b9d9"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/collection/exceptions.rpt",
+      "bytes": 126918,
+      "sha256": "9fc7a209bb8482db2c2d1d2fce59fe5d4fa88fbde90b90330b2203d1e757fda4"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/collection/facts.tsv",
+      "bytes": 1010,
+      "sha256": "13298655c327bf2a2fd14ceae2aee5d2ea120d3c631694b200e44c49391573ab"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/collection/pad-coverage.rpt",
+      "bytes": 6509,
+      "sha256": "da4dae1f322c392fe03d70974fa66ad3cf01efd8e9b53a15f07e098556cc64b6"
+    }
+  ],
+  "limitations": [
+    "No CDC approval is implied by an unchanged report inventory.",
+    "External DDR pad timing is not established by internal timing.",
+    "No hardware was programmed or tested."
+  ]
+}

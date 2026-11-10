@@ -1,0 +1,22 @@
+{
+  "status": "SPARE_DDR1066_CH0_FIRMWARE_HOST_MODEL_REVIEWED_IMAGE_BOUND",
+  "required_build_id": "c0182863",
+  "required_bitstream_sha256": "03b513a44544009afff9dfb82515bf84c5df84ac6a63673a0882308ce8a323ae",
+  "firmware_id": "c0172168",
+  "startup_firmware_id": "c0172160",
+  "channel_mask": 1,
+  "modules": 8,
+  "binary_sha256": "0ade05b57f78c3a62a171ef179d0af46a519900067fc5378ed647376c127775a",
+  "matched_core_files": {
+    "otpu_litedram.v": "92b252b3473638ccb4ebe221e6e7c15481144c013326b1e36af759b1d73c0d06",
+    "csr.csv": "8dfc3d309199470d435e51c5553c34090f634aaaf424ef47fb6619cbc0260349",
+    "sdram_init.py": "02b588d2cac8f5f31feab7a305784d519fc268d5c588178bfb07f6e29b75177c",
+    "sdram_init_ch0.py": "e6a6955ac24ce0af7ee797d9172b727878eece9cd69743c8104de0f841007797",
+    "otpu_litedram_mem.init": "3539495b12fca557dbbe9fb3252bbb64acfe31c06f69ef5a810ac76b70da5cc5"
+  },
+  "model_review_sha256": "94856a07319e60db065c51242b459d051453090408ccf3ce3a36c49beeaa12c2",
+  "physical_calibration_verified": false,
+  "adapter_model_sha256": "6a94841f32bd16c1952a19fd795c30a0b133f109516002eefee8067f4e0434cd",
+  "bridge_model_sha256": "03b4c6c992fdf9cdc74b98b76c7f1c3c1ba49149caa199635497612dc4116b33",
+  "controller_model_sha256": "7cdd8d9291a61f464f983dba2c2f65fa07063c8691ab88aa2108ca5633931d99"
+}

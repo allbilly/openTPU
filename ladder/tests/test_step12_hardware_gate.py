@@ -175,5 +175,5 @@ def test_step12_build_and_sram_self_test(ready):
       * keep both JTAG and PCIe runtime interfaces in the image.
     """
     pytest.skip("TODO(step 12): ladder build + SRAM programming + on-card self-test "
-                "wait for the DLC10 cable and card; see docs/fpga-flow.md and "
+                "wait for the DLC10 cable and card; see ladder/docs/fpga-flow.md and "
                 "ladder/hardware/README.md")

@@ -1,0 +1,20 @@
+--- a/mig_7series_v4_2_cmd_gen.v
++++ b/mig_7series_v4_2_cmd_gen.v
+@@ -1097,7 +1097,7 @@
+ if (instr_mode_i == 4 && mem_init_done)
+     gen_bl_larger <=     1'b0;
+ 
+-else if ( calc_end_addr >= end_addr_i[31:8] )
++else if (({1'b0,addr_out} + (33'd8 * bl_out)) > ({1'b0,end_addr_i} + 33'd1))
+     gen_bl_larger <=     1'b1;
+ else
+     gen_bl_larger <=     1'b0;
+@@ -1605,7 +1605,7 @@
+     force_bl1 = 1'b0;
+     if (rst_i[6] || (mem_init_done && instr_mode_i == 4))
+         force_bl1 = 1'b0;
+-    else if ((dummy_sub[32] == 0) || (buf_avail_r <= 50 && PORT_MODE == "RD_MODE"))
++    else if ((({1'b0,addr_out} + (33'd8 * bl_out)) > ({1'b0,end_addr_i} + 33'd1)) || (buf_avail_r <= 50 && PORT_MODE == "RD_MODE"))
+         force_bl1 = 1'b1;
+ 
+ end

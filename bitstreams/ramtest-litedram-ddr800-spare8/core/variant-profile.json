@@ -1,0 +1,123 @@
+{
+  "status": "EXPERIMENTAL_VARIANT_GENERATED_IMPLEMENTATION_PENDING",
+  "variant": "spare8",
+  "part": "xc7k480tffg1156-2",
+  "parameters": {
+    "CORE_KHZ": 100000,
+    "DDR_MTS": 800
+  },
+  "sys_hz": 100000000.0,
+  "actual_ddr_mts": 800.0,
+  "phy": {
+    "sys_hz": 100000000.0,
+    "nphases": 4,
+    "rdphase": 3,
+    "wrphase": 3,
+    "databits": 72,
+    "dfi_databits": 144,
+    "modules": 9,
+    "delays": 32,
+    "bitslips": 8,
+    "cl": 6,
+    "cwl": 5,
+    "read_latency": 8,
+    "write_latency": 1,
+    "vco_hz": 800000000.0,
+    "dqs_phase": 90.0,
+    "channels": [
+      0,
+      1
+    ],
+    "phy": "wl",
+    "groups": {
+      "0": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "1": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "group1_deg": {
+      "0": 0.0,
+      "1": 0.0
+    },
+    "ps_moves": "ck"
+  },
+  "physical_databits": [
+    64,
+    72
+  ],
+  "physical_user_channels": [
+    0,
+    1
+  ],
+  "ecc_channels": [
+    1
+  ],
+  "automatic_calibration_channels": [
+    1
+  ],
+  "calibration_cpu": {
+    "status": "REFERENCE_CPU_RETAINED",
+    "reference_core": "/home/fedora/openTPU/boards/ypcb-00338/litedram/otpu_litedram.v",
+    "reference_core_sha256": "efd976a5a087f793fd49557ae3d95cc5569b3d8ff67f7b482c6eb18ce011f610",
+    "embedded_cpu_sha256": "983f1daf7058c72fc50ff44d92cc5ccd60e24864bcfc6767661799783b70fa3a",
+    "original_generator_output_sha256": "d359b098bddcad0f7dd95a91dcb6d95dd9a46f74905d60c0b5cb70dcee813d35",
+    "port_abi": "MATCH",
+    "hardware": "NOT_RUN"
+  },
+  "files": {
+    "verilog": {
+      "name": "otpu_litedram.v",
+      "sha256": "335bfdd0560dfb57d6e77121e499dc1bcec958b4c0cca76214941082db2aa2e3",
+      "bytes": 4942172
+    },
+    "xdc": {
+      "name": "otpu_litedram.xdc",
+      "sha256": "91991c2b6b41b9d98579d8b9515b634cdb9028a51dfa6f2e6ab608772a1b122e",
+      "bytes": 56328
+    },
+    "rom": {
+      "name": "otpu_litedram_mem.init",
+      "sha256": "3539495b12fca557dbbe9fb3252bbb64acfe31c06f69ef5a810ac76b70da5cc5",
+      "bytes": 51
+    },
+    "csr": {
+      "name": "csr.csv",
+      "sha256": "1d2d600f7596ff7677c7a2521afd91664d637a9e05edf60743578364abca167c",
+      "bytes": 9578
+    },
+    "init": {
+      "name": "sdram_init.py",
+      "sha256": "f2a5791a48df4a37fa59e04efe34c7c1e8c8f689482ad601e38a31878e3c3629",
+      "bytes": 1520
+    }
+  },
+  "ch0_physical_lanes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    7
+  ],
+  "ch0_init_sha256": "889ccf54e8bad7a04c212cdabb6e895a8d16f8fa9ebae1a64e76b25eff948833",
+  "partial_write_path": "Serialized full-word read/merge/write; raw BIST must be idle during native traffic"
+}

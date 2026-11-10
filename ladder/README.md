@@ -24,6 +24,29 @@ Both ends exist. **The ladder is the sequence of intermediate machines that
 connect them**, each a real, self-contained, testable design — not a copy of
 the end state.
 
+
+## Where the files live (from step 16)
+
+The branch tip is the product tree at `ca05e24f` (the parent commit that runs LLMs on the YPCB
+card) byte for byte. Everything the ladder adds is under `ladder/`:
+
+- `ladder/toy/` - the imported tiny-tpu tree (`src/`, `test/`, `Makefile`, `README.md`,
+  `uv.lock`, `verible.rules`); the rung tests run it with `make -C ladder/toy` through the
+  cocotb-venv detection (`LADDER_TOY_PY`), because the product's `pyproject.toml` is now the
+  root one;
+- `ladder/mini-core/` - the step-4..8 mini-core RTL and testbench (`rtl/`, `sim/`);
+- `ladder/docs/` - this branch's own documentation (`toy-isa.md`, `toy-to-isa.md`,
+  `mini-core.md`, `production-stack.md`, `board-interface.md`, `fpga-flow.md`,
+  `oncard-jtag.md`, `oncard-llm.md`, `llm-sim.md`);
+- `ladder/examples/` - the operator examples imported at step 10 (untracked in the product
+  tree, so kept as ladder-only copies; provenance in `ladder/docs/production-stack.md`);
+- `ladder/{tests,harness,bench,evidence,hardware}/` - the rung tests, harnesses, evidence
+  receipts and the hardware gate.
+
+Product paths cited in the per-step specifications below are the paths a rung used *when it was
+built* (e.g. `src/` became `ladder/toy/src/` at step 16). They are historical records; the
+current layout is the one above.
+
 ## Ground rules
 
 1. **One commit = one step = one feature.** The commit message starts
@@ -83,7 +106,7 @@ Status: ✅ done · 🔨 in progress · ⏳ planned · 🚫 blocked on hardware
 | 13 | [on-card kernel over JTAG](#step-13--on-card-kernel-over-jtag-hardware) | image upload + matmul on the real card | on-card result == simulator | 🚫 |
 | 14 | [LLM layer in simulation](#step-14--llm-layer-in-simulation) | model pipeline, kernels, tiny fixtures | token-for-token ISA↔RTL | ✅ |
 | 15 | [LLM inference on the card](#step-15--llm-inference-on-the-card-hardware) | TinyStories int8 on YPCB, exact tokens | full JTAG acceptance receipt | 🚫 |
-| 16 | [convergence](#step-16--convergence-on-the-production-tree) | tree == product tree + `ladder/` | parity check + production fast suite | ⏳ |
+| 16 | [convergence](#step-16--convergence-on-the-production-tree) | tree == product tree + `ladder/` | parity check + production fast suite | ✅ |
 
 Steps 9–11, 14 and 16 import production openTPU code from the parent commit
 (`git checkout <parent> -- <paths>`), so the branch converges on the real
@@ -269,7 +292,7 @@ the software side of this step is committed and the hardware assertion waits.
 Fedora DLC10/XVC bring-up helpers are imported byte-identically from
 `ca05e24f` (95 files, hashes in [`ladder/hardware/import-provenance.json`](hardware/import-provenance.json));
 the build flow, exact commands, dual-interface rule and known gaps are in
-[`docs/fpga-flow.md`](../docs/fpga-flow.md); the read-only probe and the
+[`ladder/docs/fpga-flow.md`](docs/fpga-flow.md); the read-only probe and the
 acceptance plan are [`ladder/hardware/`](hardware/). The gate test runs the
 probe, skips on a blocked host and records verdict `BLOCKED` (runner exit 5) —
 see `ladder/evidence/step12.json` and `ladder/evidence/hardware/probe-step12.json`.
@@ -292,7 +315,7 @@ byte-identically from `ca05e24f` (hashes in
 [`ladder/hardware/import-provenance.json`](hardware/import-provenance.json)),
 with `ladder/harness/hardware.py` as the gate/command helper. The exact
 acceptance recipe, criteria, historical PASS and known gaps are in
-[`docs/oncard-jtag.md`](../docs/oncard-jtag.md). Gate verdict `BLOCKED`
+[`ladder/docs/oncard-jtag.md`](docs/oncard-jtag.md). Gate verdict `BLOCKED`
 (runner exit 5) in `ladder/evidence/step13.json`.
 
 ### step 14 — LLM layer in simulation
@@ -342,7 +365,7 @@ environment it would use. Nothing is installed by the runner.
 
 | tool | used by | requirement |
 | --- | --- | --- |
-| Python 3.11–3.13 | steps 0–2 | `cocotb>=1.9,<2`, `numpy>=2,<3` (the imported `pyproject.toml`/`uv.lock` restore it with `uv sync`) |
+| Python 3.11–3.13 | steps 0–2 | `cocotb>=1.9,<2`, `numpy>=2,<3` (the relocated `ladder/toy/uv.lock` restores it for the toy tree; the root `pyproject.toml` is the product's) |
 | Python 3.10+ with numpy, pytest | steps 3–16 | the openTPU golden stack is pure Python + numpy |
 | Icarus Verilog 13 | steps 4–8 | `iverilog -g2012` |
 | Verilator 5.x | steps 9–11, 14, 16 | production RTL simulation (`-j 2` on this host) |
@@ -687,3 +710,47 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   `10ee` PCIe, no `/dev/xdma*`; receipt `BLOCKED` (exit 5, 7 skipped) with the
   probe JSON committed. Nothing was programmed, flashed or reset. Roadmap row
   15 stays 🚫 until the probe exits 0.
+
+## Definition of done (step 16)
+
+- `git diff --stat ca05e24f -- . ':(exclude)ladder'` is empty: the tip *is* the product tree.
+- Every tracked path that is not in `ca05e24f` starts with `ladder/`;
+  `ladder/tests/test_step16_parity.py` proves both, byte for byte (blob sha per product path),
+  and checks the relocated trees, the 17-row roadmap, the evidence receipts and the hardware
+  probe JSONs.
+- All non-hardware rungs are green through `ladder/run.py`; the hardware rungs 12/13/15 are
+  honestly BLOCKED with their read-only probe receipts (no DLC10 cable, no card, no PCIe
+  endpoint were attached while this branch was built).
+- The final tree still contains every rung's code, tests and evidence receipt, so the story is
+  reproducible end to end from `ladder/README.md`.
+
+## How to verify this branch
+
+```sh
+git log --oneline                  # 17 rungs, steps 0..16
+python3 ladder/run.py evidence-check          # all committed receipts validate
+python3 -m pytest ladder/tests/test_step16_parity.py   # product-tree parity + roadmap/evidence
+python3 ladder/run.py step 0                   # and the other light rungs: 1..8
+LADDER_PY=/usr/bin/python3 python3 ladder/run.py step 9   # heavy: Verilator (shared-host gate)
+git diff --stat ca05e24f -- . ':(exclude)ladder'          # must print nothing
+python3 -m pytest tests/test_isa.py tests/test_fp.py -q   # product tests run from this tree
+```
+
+Hardware rungs record BLOCKED: `python3 ladder/hardware/probe.py --json` exits 3 while the
+cable/card are absent. The step-14 heavy receipt is finalized by the Lead's step-14 amendment
+(the `step 14 wip:` commit is in this branch history; the rung's own tests and the parity check
+are unaffected). Heavy builds are serialized with the sibling session on this laptop through
+`/tmp/rknpu-heavy.lock`; every heavy run in this branch waited for the lock rather than
+bypassing it.
+
+
+- 2026-11-10: step 16 committed - convergence. Relocated the imported material under `ladder/`
+  (`toy/` for the step-0 tiny-tpu tree incl. its Makefile/README/uv.lock, `mini-core/` for the
+  step-4..8 RTL+testbench, `docs/` for this branch's own documentation, `examples/` for the
+  step-10 operator examples) and bulk-imported the product tree from `ca05e24f`
+  (`git checkout ca05e24f -- .`). The tip now equals the product tree byte for byte
+  (0 missing / 0 mismatched / 0 non-ladder extras), the new
+  `ladder/tests/test_step16_parity.py` proves it, all light rungs re-ran green through the
+  relocated paths (steps 0-8), steps 9-11 re-ran on the warm Verilator caches, and the
+  hardware rungs stay BLOCKED with their probe receipts. The step-14 heavy receipt is the
+  Lead's final amendment.

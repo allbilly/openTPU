@@ -38,11 +38,11 @@ from ladder.harness.hardware import (
 
 XVC_TEST = ROOT / "tests/test_xvc_transport.py"
 XVC_BENCH = ROOT / "tests/tb_xpcu_xvc.cpp"
-ONCARD_DOC = ROOT / "docs/oncard-jtag.md"
+ONCARD_DOC = ROOT / "ladder/docs/oncard-jtag.md"
 
 # The c0182902 acceptance drivers imported at this step (stdlib-importable at
 # module level; their host-tree/runtime closure is documented in
-# docs/oncard-jtag.md).
+# ladder/docs/oncard-jtag.md).
 EXACT_IMAGE_TOOLS = [
     "tools/run_tinystories_shared_jtag.py",
     "tools/repeat_tinystories_shared_jtag.py",
@@ -125,13 +125,13 @@ def test_step13_image_and_model_identity(ready):
 
 
 def test_step13_oncard_recipe_is_documented(ready):
-    """docs/oncard-jtag.md is the executable acceptance recipe for the on-card run."""
+    """ladder/docs/oncard-jtag.md is the executable acceptance recipe for the on-card run."""
     text = ONCARD_DOC.read_text()
     for needle in ("tools/fedora_bringup.sh program", "tools/fedora_bringup.sh jtag-server",
                    "--xvc-port 3721", "run_tinystories_shared_jtag.py",
                    "repeat_tinystories_shared_jtag.py", "flash_written: false",
                    "c0182902", "once upon a time"):
-        assert needle in text, f"docs/oncard-jtag.md does not document {needle!r}"
+        assert needle in text, f"ladder/docs/oncard-jtag.md does not document {needle!r}"
 
 
 def test_step13_oncard_matmul_equals_isasim(ready):
@@ -148,4 +148,4 @@ def test_step13_oncard_matmul_equals_isasim(ready):
         and ``flash_written: false`` in ladder/evidence/step13.json.
     """
     pytest.skip("TODO(step 13): on-card matmul vs isasim waits for the step-12 image "
-                "and the DLC10 cable; see docs/oncard-jtag.md")
+                "and the DLC10 cable; see ladder/docs/oncard-jtag.md")

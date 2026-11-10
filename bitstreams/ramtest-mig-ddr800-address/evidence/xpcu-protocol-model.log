@@ -1,0 +1,9 @@
+firmware_file : protocol-model.hex
+FX2 version:    0000
+CPLD version:   0000
+Const0 version: 0000
+Const1 version: 0000
+Const2 version: 0000
+status 40 connected: yes
+Jtag frequency : requested 6000000 Hz -> real 6000000 Hz
+PASS: XPCU mixed TMS/TDI, partial bytes, 640-bit mailbox, multi-buffer reads and USB failure

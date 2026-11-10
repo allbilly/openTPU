@@ -32,7 +32,7 @@ RTL_SOURCES = [
 
 
 # Verilator's flags (in the build cache's key, with its version and the sources' names)
-VFLAGS = ["--binary", "-j", "2", "-Wno-fatal", "-Wno-WIDTHEXPAND", "-Wno-WIDTHTRUNC",
+VFLAGS = ["--binary", "-j", "0", "-Wno-fatal", "-Wno-WIDTHEXPAND", "-Wno-WIDTHTRUNC",
           "-Wno-UNUSEDSIGNAL", "-Wno-UNUSEDPARAM", "-O3", "--x-assign", "0", "--x-initial", "0"]
 _VERSION: str | None = None
 

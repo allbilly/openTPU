@@ -1,0 +1,98 @@
+{
+  "status": "OFFLINE_ADDRESS_IMAGE_CHECKS_PASS_PHYSICAL_TESTS_PENDING",
+  "physical_hardware_test": "NOT_RUN",
+  "build_id": "c0161001",
+  "bitstream_sha256": "812322919ed3c6a592abe2b13acdf066e77625c3698bf524b3bbf36dfb621f58",
+  "pins_checked": 242,
+  "packet_check": {
+    "header": {
+      "a": "ypcb_ramtest_mig;UserID=0XFFFFFFFF;COMPRESS=FALSE;Version=2026.1;SW_CRC=afb70cfe;SW_HDR_SHA256=f3cff446a33b0a5b63e1646ebeee5079e3c7712f2cf8485ff746f4241224e57d",
+      "b": "7k480tffg1156",
+      "c": "2026/10/16",
+      "d": "17:26:09"
+    },
+    "target_part": "xc7k480tffg1156-2",
+    "package_device_match": true,
+    "speed_grade_evidence": "NOT_ENCODED_IN_BIT_HEADER",
+    "payload_offset": 224,
+    "payload_bytes": 18735004,
+    "sync_offset": 48,
+    "idcode": "0x3751093",
+    "fdri_words": 4683168,
+    "packet_count": 544,
+    "commands": [
+      18,
+      0,
+      7,
+      9,
+      1,
+      10,
+      3,
+      5,
+      13
+    ]
+  },
+  "crc": {
+    "status": "ALL_PRESENT_CRC_CHECKPOINTS_MATCH",
+    "crc_checkpoints": 2,
+    "fdri_words": 4683168,
+    "register_data_words": 4683194,
+    "known_answer_vectors": 4,
+    "resets": [
+      {
+        "header_file_offset": 328,
+        "value_file_offset": 332,
+        "computed_crc_before_reset": 2448563865,
+        "fdri_words_since_reset": 0
+      }
+    ],
+    "checkpoints": [
+      {
+        "value_file_offset": 18733156,
+        "crc": 784045736
+      },
+      {
+        "value_file_offset": 18733628,
+        "crc": 3819798181
+      }
+    ]
+  },
+  "timing": {
+    "WNS": 0.905,
+    "TNS": 0.0,
+    "setup_failing": 0.0,
+    "setup_total": 92533.0,
+    "WHS": 0.049,
+    "THS": 0.0,
+    "hold_failing": 0.0,
+    "hold_total": 92401.0,
+    "WPWS": 0.143,
+    "TPWS": 0.0,
+    "pulse_failing": 0.0,
+    "pulse_total": 33788.0
+  },
+  "route": {
+    "routable": 50301,
+    "fully_routed": 50301,
+    "routing_errors": 0
+  },
+  "bus_skew": {
+    "constraints": 4,
+    "minimum_slack_ns": 15.889
+  },
+  "cdc_critical_paths": [
+    "  2  CDC-10  Critical  Combinational logic detected before a synchronizer     12  False Path  startup_reg[12]/C                   u_otpu_mig_ddr3/u_otpu_mig_ddr3_mig/c0_u_ddr3_infrastructure/rstdiv0_sync_r_reg[0]/PRE",
+    "  2  CDC-10  Critical  Combinational logic detected before a synchronizer     12  False Path  startup_reg[12]/C                   u_otpu_mig_ddr3/u_otpu_mig_ddr3_mig/c1_u_ddr3_infrastructure/rstdiv0_sync_r_reg[0]/PRE"
+  ],
+  "cdc_review": {
+    "vendor_resets": "Two MIG asynchronous reset combiners feed vendor synchronized deassertion chains. Startup releases once; clock/delay lock inputs retain vendor behavior. CDC-8 also flags the 15-stage reference reset chain without ASYNC_REG.",
+    "temperature": "Vendor external temperature bus uses five ASYNC_REG stages, equality/stability checking and a saturating 4-bit counter before output capture.",
+    "mailbox_snapshot": "Held request/response payloads use toggle synchronizers and four explicit max-delay/bus-skew constraints; snapshot payload remains held until the next request. Request while busy is rejected.",
+    "scope": "Review of this experimental diagnostic for SRAM testing. Residual vendor CDC reports are retained; this is not a claim of an empty CDC report or physical qualification."
+  },
+  "limitations": [
+    "Vendor first-error address/data record is pipeline-misaligned and unverified; use sticky byte-lane/cycle/ECC counts.",
+    "Address pattern only; other patterns, channel isolation, warm/cold and matched LiteDRAM tests remain.",
+    "Mac cable programming and USER2 status readback remain unverified."
+  ]
+}

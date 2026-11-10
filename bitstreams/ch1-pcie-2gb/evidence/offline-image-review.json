@@ -1,0 +1,92 @@
+{
+  "status": "CH1_PCIE_IMAGE_PACKET_CRC_PINS_ROUTE_TIMING_PASS_CDC_REVIEW_PENDING",
+  "hardware_accessed": false,
+  "physical_model_verified": false,
+  "flash_written": false,
+  "started_utc": "2026-10-14T11:30:02.603953+00:00",
+  "ecc": {
+    "log": {
+      "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-recovery-prepare-20261014T075931Z/four-port-ecc.log",
+      "bytes": 75,
+      "sha256": "a1af23e2af504a4f41fd41d90c0a5770c84d73fbf2e8e157d6a040a059b1e723"
+    },
+    "exit": {
+      "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/ch1-recovery-prepare-20261014T075931Z/four-port-ecc.exit",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "scope": "Full four-port stock comparison"
+  },
+  "bitstream": {
+    "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/project/otpu.bit",
+    "bytes": 12472031,
+    "sha256": "c7d3891b58d65ba72a3fc67c27c63c8dca3246db55d6504f7a63b636c876d1cf"
+  },
+  "crc": {
+    "status": "ALL_PRESENT_CRC_CHECKPOINTS_MATCH",
+    "crc_checkpoints": 2,
+    "fdri_words": 2943645,
+    "register_data_words": 3031778,
+    "known_answer_vectors": 4,
+    "resets": [
+      {
+        "header_file_offset": 327,
+        "value_file_offset": 331,
+        "computed_crc_before_reset": 2448563865,
+        "fdri_words_since_reset": 0
+      }
+    ],
+    "checkpoints": [
+      {
+        "value_file_offset": 12469943,
+        "crc": 3501563662
+      },
+      {
+        "value_file_offset": 12470431,
+        "crc": 1632635302
+      }
+    ]
+  },
+  "timing": {
+    "WNS": 0.015,
+    "TNS": 0.0,
+    "setup_failing": 0.0,
+    "setup_total": 573193.0,
+    "WHS": 0.013,
+    "THS": 0.0,
+    "hold_failing": 0.0,
+    "hold_total": 572903.0,
+    "WPWS": 0.0,
+    "TPWS": 0.0,
+    "pulse_failing": 0.0,
+    "pulse_total": 178339.0
+  },
+  "route": {
+    "routable": 321303,
+    "fully_routed": 321303,
+    "routing_errors": 0
+  },
+  "pins_checked": 278,
+  "gt_sites": [
+    "GTXE2_CHANNEL_X0Y23",
+    "GTXE2_CHANNEL_X0Y22",
+    "GTXE2_CHANNEL_X0Y21",
+    "GTXE2_CHANNEL_X0Y20",
+    "GTXE2_CHANNEL_X0Y19",
+    "GTXE2_CHANNEL_X0Y18",
+    "GTXE2_CHANNEL_X0Y17",
+    "GTXE2_CHANNEL_X0Y16"
+  ],
+  "cdc_scope": "Fresh cdc.rpt and bus-skew.rpt require review before programming",
+  "build_manifest": {
+    "path": "/home/fedora/ypcb_ref/openTPU/build/fedora-vivado/pcie-ch1-recovery-overlap-20261014T085912Z/manifest.json",
+    "bytes": 17122,
+    "sha256": "e9d5412c1dc8fb2159b727422e72342ad1b2a510aaa8c76f64dde983b32651d8"
+  },
+  "checker": {
+    "path": "/home/fedora/ypcb_ref/openTPU/tools/fedora_qualify_ch1_image.py",
+    "bytes": 11696,
+    "sha256": "c5bb8cede2c2d3715ada43f28975c625a8952f853d9b6571509439f415f6a52e"
+  },
+  "finished_utc": "2026-10-14T11:35:40.785862+00:00"
+}

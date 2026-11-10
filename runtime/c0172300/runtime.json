@@ -1,0 +1,124 @@
+{
+  "kind": "C0172300_ALREADY_FLASHED_RUNTIME_FILES",
+  "build_id": "c0172300",
+  "bitstream_sha256": "669a7382ff9f9f1391b163ff0fcd5971ded8e378d7668c737c1692819a1323aa",
+  "original_image_manifest_sha256": "0353630aa96b1de734f9712af0140d6c7a2faeda809add9f9cd6aaa0b46be624",
+  "configuration": {
+    "variant": "spare8-pipelined",
+    "parameters": {
+      "CORE_KHZ": 100000,
+      "DDR_MTS": 800
+    },
+    "physical_databits": [
+      64,
+      72
+    ],
+    "ecc_channels": [
+      1
+    ],
+    "ch0_physical_lanes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      7
+    ],
+    "automatic_calibration_channels": [
+      1
+    ],
+    "host_calibration_channels": [
+      0
+    ],
+    "native_read_depth_per_port": 32,
+    "native_raw_ports_used": 2,
+    "masked_writes_globally_exclusive": true
+  },
+  "reviews": {
+    "offline-image-review": {
+      "source_sha256": "88e99113b0738e54043cae7698a5f27769cc0d0561ae8ae36d1745388292dedf",
+      "status": "SPARE_PIPELINED_ARTIFACT_CHECKS_PASS_CDC_AND_RUNTIME_PENDING",
+      "bitstream_sha256": "669a7382ff9f9f1391b163ff0fcd5971ded8e378d7668c737c1692819a1323aa"
+    },
+    "cdc-review": {
+      "source_sha256": "58e17b9d153519e78bdee6093ac4f977e168cf93949cc77ccdaf2ecf88931783",
+      "status": "SPARE_PIPELINED_CDC_REVIEW_PASS_EXTERNAL_DDR_TIMING_AND_PHYSICAL_PENDING",
+      "bitstream_sha256": "669a7382ff9f9f1391b163ff0fcd5971ded8e378d7668c737c1692819a1323aa"
+    },
+    "csr-gray-review": {
+      "source_sha256": "0b6a4710060d9d09536beff5ff147916d7a60c7cf183f6535ea0179ea4e7aea8",
+      "status": "PASS_ROUTED_CSR_GRAY_SKEW_AND_SYNCHRONIZERS_PHYSICAL_PENDING",
+      "bitstream_sha256": "669a7382ff9f9f1391b163ff0fcd5971ded8e378d7668c737c1692819a1323aa"
+    },
+    "adapter-model": {
+      "source_sha256": "fc4e76b7eda8b9f21e879acf28151e46e2ad63296051b27b99cdf43981d9ae36",
+      "status": "PASS_SPARE_PIPELINED_NATIVE_TWO_PORT_READS_AND_EXCLUSIVE_RMW",
+      "report_count": 8
+    }
+  },
+  "programming": {
+    "source_receipt_sha256": "72cd35d365b2ce106325721300472b360385c97a21746644ffa5130cff0e5bd9",
+    "status": "PASS_SPARE_PCIE_PERMANENT_FLASH_VERIFY_JTAG_BOOT_MAC_RUNTIME_PENDING",
+    "finished_utc": "2026-10-17T14:39:39.154226+00:00",
+    "flash_written": true,
+    "flash_verified": true,
+    "jtag_boot_from_flash_verified": true,
+    "cold_boot_verified": false,
+    "physical_pcie_verified": false
+  },
+  "limitations": [
+    "No bitstream, checkpoint or generated netlist is distributed here.",
+    "Runtime validation checks these small files and live register identity; it does not rehash flash or omitted build outputs.",
+    "The original manifest describes offline review before programming; the programming summary is a later observation.",
+    "External DDR pad timing, cold power-cycle and Mac inference/bandwidth qualification remain separate."
+  ],
+  "files": [
+    {
+      "name": "core/csr.csv",
+      "bytes": 9578,
+      "sha256": "f3095c87916c1e15e599962bc02fabc1514585607e762dae9f6bfaeba81da891"
+    },
+    {
+      "name": "core/sdram_init.py",
+      "bytes": 1520,
+      "sha256": "f2a5791a48df4a37fa59e04efe34c7c1e8c8f689482ad601e38a31878e3c3629"
+    },
+    {
+      "name": "core/sdram_init_ch0.py",
+      "bytes": 1515,
+      "sha256": "889ccf54e8bad7a04c212cdabb6e895a8d16f8fa9ebae1a64e76b25eff948833"
+    },
+    {
+      "name": "core/otpu_litedram_mem.init",
+      "bytes": 51,
+      "sha256": "3539495b12fca557dbbe9fb3252bbb64acfe31c06f69ef5a810ac76b70da5cc5"
+    },
+    {
+      "name": "calibration/selfcal.bin",
+      "bytes": 9156,
+      "sha256": "fe4fc9caba63e8b97ac1ce978dd0b67d9c532ce154f57a3582fb6228c4686e8e"
+    },
+    {
+      "name": "calibration/pipeline-binding.json",
+      "bytes": 1485,
+      "sha256": "dab3268184a8452cbeb6dbd66a77c30288436f4a5762581475af807bcf7fb352"
+    },
+    {
+      "name": "calibration/bundle.json",
+      "bytes": 459,
+      "sha256": "89beccb507b5743cb429c78e88a6268e9c37b8f35041f16395f037840adb1a19"
+    },
+    {
+      "name": "calibration/host-model-review.json",
+      "bytes": 1457,
+      "sha256": "92df8258b2f19ad64eb09eafc97eb8be674ec249b9f9d47c27c3d0cf2d792895"
+    },
+    {
+      "name": "reviewed-image.json",
+      "bytes": 17115,
+      "sha256": "0353630aa96b1de734f9712af0140d6c7a2faeda809add9f9cd6aaa0b46be624"
+    }
+  ]
+}

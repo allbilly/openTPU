@@ -1,0 +1,20 @@
+FANIN	u_ld/FDCE/D	u_ld/reset_storage_reg[0]/C
+FANIN	u_ld/FDCE/D	u_ld/reset_wr_stb_reg/C
+CELL	u_ld/FDCE/D	FDCE	
+CLOCK	u_ld/FDCE/D	sys_clk_50	20.000
+FANIN	u_ld/FDCE_8/D	u_ld/reset_storage_reg[0]/C
+FANIN	u_ld/FDCE_8/D	u_ld/reset_wr_stb_reg/C
+CELL	u_ld/FDCE_8/D	FDCE	
+CLOCK	u_ld/FDCE_8/D	sys_clk_50	20.000
+FANIN	u_sys/u_board/cal_s1_reg[0]/D	u_ld/cal0_storage_reg/C
+CELL	u_sys/u_board/cal_s1_reg[0]/D	FDRE	1
+CLOCK	u_sys/u_board/cal_s1_reg[0]/D	core_clk_otpu_bd_clk_wiz_0_0	10.000
+FANIN	u_sys/u_board/cal_s1_reg[1]/D	u_ld/cal1_storage_reg/C
+CELL	u_sys/u_board/cal_s1_reg[1]/D	FDRE	1
+CLOCK	u_sys/u_board/cal_s1_reg[1]/D	core_clk_otpu_bd_clk_wiz_0_0	10.000
+FANIN	u_sys/u_board/cal_s2_reg[0]/D	u_sys/u_board/cal_s1_reg[0]/C
+CELL	u_sys/u_board/cal_s2_reg[0]/D	FDRE	1
+CLOCK	u_sys/u_board/cal_s2_reg[0]/D	core_clk_otpu_bd_clk_wiz_0_0	10.000
+FANIN	u_sys/u_board/cal_s2_reg[1]/D	u_sys/u_board/cal_s1_reg[1]/C
+CELL	u_sys/u_board/cal_s2_reg[1]/D	FDRE	1
+CLOCK	u_sys/u_board/cal_s2_reg[1]/D	core_clk_otpu_bd_clk_wiz_0_0	10.000

@@ -1,0 +1,12 @@
+[
+  "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "-mode",
+  "batch",
+  "-nojournal",
+  "-nolog",
+  "-source",
+  "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/collection/audit.tcl",
+  "-tclargs",
+  "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/project/final-routed.dcp",
+  "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/collection"
+]

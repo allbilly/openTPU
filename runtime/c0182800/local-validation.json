@@ -1,0 +1,77 @@
+{
+  "status": "PASS_LOCAL_JTAG_TINYSTORIES_INT8_EXACT_ISA",
+  "build_id": "c0182800",
+  "bitstream_sha256": "df2521d80de1d69ea4ca758821dc67a814b95d67ac851b78727c9154a3104bf2",
+  "package_manifest_sha256": "1c936f343bda648b4120e65bf1507999129c8b9bed67e8bab1e457828e161c3d",
+  "observed_utc": "2026-10-17T21:38:51.773231+00:00",
+  "test_receipt_sha256": "810353b873d19b48e72cbf501b2e1c2a5cfc229bc4ffc39d779984e2cd9a2fc5",
+  "compute_mhz": 100,
+  "ddr_mts": 800,
+  "capacity_bytes": 4294967296,
+  "ecc_channels": [
+    1
+  ],
+  "ch0_physical_lanes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    7
+  ],
+  "interfaces": [
+    "jtag",
+    "pcie"
+  ],
+  "physical_transport": "JTAG USER2 with PCIe absent",
+  "sram_init_done_idcode_verified": true,
+  "calibration_unchanged": true,
+  "required_zero_initialization_chunks": 2048,
+  "program_fetch": {
+    "instructions": 1371,
+    "words_compared": 65,
+    "cycles": 1496,
+    "exact_match": true
+  },
+  "matmul": {
+    "words_compared": 32,
+    "cycles": 333,
+    "exact_match": true
+  },
+  "model": "sdobson/tinystories-llama-15m with verified tile padding",
+  "weight_format": "int8",
+  "uploaded_and_verified_image_bytes": 28909056,
+  "uploaded_image_readback_sha256": "74facccd6c0e3f7e76676617a3b7a4074c1efb784d675ac1b5bdb08dca980950",
+  "programs_readback_exact_and_loaded": 15,
+  "expected_token_ids": [
+    29892,
+    727,
+    471,
+    263,
+    2217,
+    7826,
+    4257,
+    365
+  ],
+  "actual_token_ids": [
+    29892,
+    727,
+    471,
+    263,
+    2217,
+    7826,
+    4257,
+    365
+  ],
+  "decoded": "Once upon a time, there was a little girl named L",
+  "permanent_flash_written": false,
+  "physical_pcie_verified": false,
+  "original_lfm230m_mac_verified": false,
+  "limitations": [
+    "One small trained-model prompt; original Mac LFM230M acceptance remains pending.",
+    "JTAG wall time does not qualify PCIe or device bandwidth.",
+    "Offline DDR pad timing and broad physical reliability remain unqualified."
+  ]
+}

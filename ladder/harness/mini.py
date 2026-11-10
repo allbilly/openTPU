@@ -1,6 +1,6 @@
 """Ladder step 4 — the mini-core harness: build the RTL, run a program, compare with isasim.
 
-The mini-core (rtl/ladder/mini_*.sv, sim/ladder/tb_mini.sv) implements the step-4 subset of the
+The mini-core (ladder/mini-core/rtl/mini_*.sv, ladder/mini-core/sim/tb_mini.sv) implements the step-4 subset of the
 openTPU ISA serially.  This module is the only Python glue the step tests (and later rungs) use:
 
     from ladder.harness import mini
@@ -24,8 +24,8 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
-RTL_DIR = ROOT / "rtl/ladder"
-TB_FILE = ROOT / "sim/ladder/tb_mini.sv"
+RTL_DIR = ROOT / "ladder/mini-core/rtl"
+TB_FILE = ROOT / "ladder/mini-core/sim/tb_mini.sv"
 ARTIFACTS = ROOT / "ladder/artifacts/iverilog"
 RUNS = ROOT / "ladder/artifacts/mini-runs"
 

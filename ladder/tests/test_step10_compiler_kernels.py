@@ -2,7 +2,7 @@
 production RTL.
 
 The product's language/compiler/runtime/kernels/examples are imported byte-identically from the
-parent commit `ca05e24f` (see `docs/production-stack.md`).  This suite is the ladder's step-10
+parent commit `ca05e24f` (see `ladder/docs/production-stack.md`).  This suite is the ladder's step-10
 contract:
 
 * a compiled kernel end-to-end on the bit-exact ISA simulator against its numpy reference
@@ -134,7 +134,7 @@ def test_compiled_simple_add_exact():
 def test_examples_run_all_isa(tmp_path):
     """`examples/run_all.py --backend isa` over every example case (the production CLI)."""
     out = tmp_path / "examples"
-    r = subprocess.run([sys.executable, "-B", str(ROOT / "examples/run_all.py"),
+    r = subprocess.run([sys.executable, "-B", str(ROOT / "ladder/examples/run_all.py"),
                         "--backend", "isa", "--seed", "3", "--out", str(out)],
                        cwd=ROOT, capture_output=True, text=True, timeout=600,
                        env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})

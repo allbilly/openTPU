@@ -1,0 +1,400 @@
+{
+  "status": "FULL_NATIVE_VIVADO_PCIE_SPARE8_BUILD_PASS_IMAGE_AND_HARDWARE_REVIEW_PENDING",
+  "started_utc": "2026-10-17T02:17:36.241832+00:00",
+  "profile": {
+    "MCOLS": 4,
+    "ACT_ROWS": 4,
+    "LANES": 8,
+    "VPU_CL": 2,
+    "MXU_IMPL": 2,
+    "CORE_KHZ": 100000,
+    "DDR_MTS": 800
+  },
+  "compute_clock": {
+    "requested_mhz": 100.0,
+    "actual_mhz": 100.0,
+    "actual_hz": 100000000,
+    "core_khz": 100000,
+    "vco_mhz": 800,
+    "output_divide": 8.0
+  },
+  "memory_clock": {
+    "sys_hz": 100000000,
+    "ddr_clock_hz": 400000000,
+    "ddr_mts": 800
+  },
+  "pcie": "XDMA Gen2 x8",
+  "top": "otpu_fpga_top_ld",
+  "hardware_accessed": false,
+  "flash_written": false,
+  "hardware_ready": false,
+  "build_id": "c0172080",
+  "core": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/core",
+  "physical_user_channels": [
+    0,
+    1
+  ],
+  "usable_logical_bytes": 4294967296,
+  "virtual_channel_bytes": 2147483648,
+  "calibration_mask": 3,
+  "user_address_mapping": null,
+  "memory_profile_register": "0x5c: 0x10000203",
+  "ch0_lane_map_register": "0x60: 0x78543210",
+  "ecc_mask_register": "0x64: 2",
+  "ecc_channels": [
+    1
+  ],
+  "automatic_calibration_channels": [
+    1
+  ],
+  "host_calibration_channels": [
+    0
+  ],
+  "threads_requested": 2,
+  "repository_revision": "75fecaefda640c435e4a18ba164d2f64be960f64",
+  "reference_calibration_profile": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/core/variant-profile.json",
+    "bytes": 2857,
+    "sha256": "256474136ba1b346c96d8f7db5f0ac1b4eb978a05dd9d18ecd2fac313576ae7f"
+  },
+  "adaptations": [
+    "Pinned generated DDR800 core replaces the default DDR1066 core",
+    "Snapshot project guard selects DDR800; compute clock is independently selected",
+    "2 native workers and strict setup/hold/pulse/route/DRC pre-bit gates"
+  ],
+  "mcs_scope": "Prospective 64 MiB BPI x16 file; physical chip and boot verification still required",
+  "sources": [
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/constraints/ddr3_ch0.pins.xdc",
+      "bytes": 14880,
+      "sha256": "ce55a79ed4dfb4a135c31eedcf4aec4cf1698031d50239fb8356f16d59d5b4b7"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/constraints/ddr3_ch1.pins.xdc",
+      "bytes": 14606,
+      "sha256": "50c17eff1b75e869765af5bf59ca70a858091a908b7294ce3a5d04a1b7b36ce5"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/constraints/otpu_mem_ch.tcl",
+      "bytes": 13500,
+      "sha256": "36f475ac17b1ad22cad7b75e2f3e9d381ac377643e5bd0493bd6fad17ce7ed1e"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/constraints/otpu_top_ld.xdc",
+      "bytes": 6303,
+      "sha256": "b70db3b943d074776dc053f6c622316b84dddf98206f83181f4cfd4961880a13"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/constraints/otpu_top_native.tcl",
+      "bytes": 8280,
+      "sha256": "aeb6898dc16b98ffbcc7722dff389a9e500240ef6454af8ca2763af525adb66b"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/constraints/vendor_ypcb003381p1.xdc",
+      "bytes": 8294,
+      "sha256": "b0bf5794e87a01c0aefcf64300488cdbe871753aa52cbecadab7b8ab6341878a"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/litedram/csr.csv",
+      "bytes": 9578,
+      "sha256": "1d2d600f7596ff7677c7a2521afd91664d637a9e05edf60743578364abca167c"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/litedram/openxc7-profile.json",
+      "bytes": 2857,
+      "sha256": "256474136ba1b346c96d8f7db5f0ac1b4eb978a05dd9d18ecd2fac313576ae7f"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/litedram/otpu_litedram.v",
+      "bytes": 4942172,
+      "sha256": "335bfdd0560dfb57d6e77121e499dc1bcec958b4c0cca76214941082db2aa2e3"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/litedram/otpu_litedram.xdc",
+      "bytes": 56328,
+      "sha256": "bb27574cf95490e041e935b575a4fc0220d0345963d9f80240eb99e44c1b52d0"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/litedram/otpu_litedram_mem.init",
+      "bytes": 51,
+      "sha256": "3539495b12fca557dbbe9fb3252bbb64acfe31c06f69ef5a810ac76b70da5cc5"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/litedram/sdram_init.py",
+      "bytes": 1520,
+      "sha256": "f2a5791a48df4a37fa59e04efe34c7c1e8c8f689482ad601e38a31878e3c3629"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/litedram/sdram_init_ch0.py",
+      "bytes": 1515,
+      "sha256": "889ccf54e8bad7a04c212cdabb6e895a8d16f8fa9ebae1a64e76b25eff948833"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/litedram/variant-profile.json",
+      "bytes": 2857,
+      "sha256": "256474136ba1b346c96d8f7db5f0ac1b4eb978a05dd9d18ecd2fac313576ae7f"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/vivado/bd_native.tcl",
+      "bytes": 13019,
+      "sha256": "0e0eb51118c0ce25553dcd102bfe9d2e5e5e769774c70318e1ec08cd1ed4880f"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/vivado/build.tcl",
+      "bytes": 6733,
+      "sha256": "7ecb871d24e2cf7c1e7798fe42d60256db3627297702d27c15367671edf2d8ed"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/vivado/check_native.tcl",
+      "bytes": 4472,
+      "sha256": "24232f969cda2a5d206cef12ac2e0614a32bf8072ece1491da75140eb4367aff"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/vivado/create_project.tcl",
+      "bytes": 6922,
+      "sha256": "53f184b361d05a6313fa2ea35fd63e0463ff85465f512f060f1951096ff60430"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/vivado/impl_directives.tcl",
+      "bytes": 522,
+      "sha256": "965b2acc0d22362c20ba0aca0439b9aecfbd2db5a5027f1cdff0319bb856c913"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/vivado/review_oob_clocks.tcl",
+      "bytes": 2292,
+      "sha256": "126c3da4a45a1dc6677b2ad593c29f53a74a2a2c29eadebf7cd3d11e5f3711d3"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/boards/ypcb-00338/vivado/userclk1_reroute.tcl",
+      "bytes": 3198,
+      "sha256": "930ae3a2ee21a3882624e1803223bb5655b8d6055b295b82ee49653dc811f716"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_afifo.sv",
+      "bytes": 5281,
+      "sha256": "6d0a75772d4ea94c966218824b50d935221a03aa1a707d9307884e0a0ab8eeb1"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_axi_split2.sv",
+      "bytes": 16483,
+      "sha256": "35f5a5d296bdc7cc46095e0f6cfeac78582350186b23e500cdc17947b1d1b527"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_board.sv",
+      "bytes": 11549,
+      "sha256": "ce801c1791cbf6ece3626562ad391228fe1a3821f4dfeaf18c036b6a474d6046"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_ctrl.sv",
+      "bytes": 13697,
+      "sha256": "6c4a0dc52902280dab434107b7be335d4558bd50390a0bf803e0398a898a4f63"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_fpga_top_ld.sv",
+      "bytes": 15247,
+      "sha256": "d463a461247c2db82c54e31324c4cf5ba31e5434ae49ad173a37473c1566110e"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_fpga_top_openxc7_jtag.sv",
+      "bytes": 13132,
+      "sha256": "fb2f20c05a07c8dd43849d40d16d644a61449bb6251367fe88dc4dd621c55818"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_fpga_top_openxc7_pcie.sv",
+      "bytes": 14493,
+      "sha256": "f2aa5b79e60a61d98a96f634557909ca1e0a6d1f9da120bcfbefde4f7fcedbff"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_jtag_axi.sv",
+      "bytes": 5269,
+      "sha256": "7ba88b00e0151c7a735fd50c0566c978bb7d1db2d82ec342dbdf7a998d80709d"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_jtag_mailbox.sv",
+      "bytes": 2322,
+      "sha256": "46f4a1148419279262fd274726eba0ab1f35285b91bf58138bc1997e692aeec9"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_mem_ch.sv",
+      "bytes": 35727,
+      "sha256": "e6c63765384ba8c9574dc8c9a7acae14254e0ac9736eb6e7fb3dbbcb341b0077"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_native_sys.sv",
+      "bytes": 9645,
+      "sha256": "19cf7ce46c538bbc3dafb4b66a811b7c4e93f9a05393da935c6281c08cc78727"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_pcie_mailbox.sv",
+      "bytes": 5020,
+      "sha256": "1d56aafe068c638fb71144e78c7fe7ca31a9db21cb3bc8fc4e6026d02345dbbe"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/boards/ypcb-00338/otpu_trace.sv",
+      "bytes": 10715,
+      "sha256": "2fde8c6db4a3583ed7c7f84158b5ff47f34b8641fb3a75dd9887386c0a9f1434"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/dma/otpu_dma.sv",
+      "bytes": 42359,
+      "sha256": "896600a1b84e115f2309a2b7a3934a547aaad2c94c1c7723a87d8773f1a8a47d"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/mem/otpu_actram.sv",
+      "bytes": 9790,
+      "sha256": "2a7eb4ffc5e2e23b47c260459fc92906c149ab8235bbcdc36bb3a6db273df2c9"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/mem/otpu_dram.sv",
+      "bytes": 4428,
+      "sha256": "df7f8be4ab5154f19e78879dc4c263a459bbc0f209f1fe3921755a53bf342686"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/mem/otpu_native_dram.sv",
+      "bytes": 49144,
+      "sha256": "ca414740cf4bbc3d18d3aa65e993bbc8c61d38159552f2a8250df4bdeb2003c2"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/mem/otpu_tmem.sv",
+      "bytes": 16127,
+      "sha256": "de76decb002e08ab7129e6433cc512dfd4f934835bf3380761fb8044e17e0380"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/mxu/otpu_mxu.sv",
+      "bytes": 84158,
+      "sha256": "1dc441258b6b41b9871d183a38f487d5dbe75cc22d6386b7bc61ce95bc89b031"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/seq/otpu_seq.sv",
+      "bytes": 33312,
+      "sha256": "b97bd4b4decbf69fe2a1df73a0ef26678f7d26d3cf4a35191755c0212c7b5a9a"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/top/otpu_coll.sv",
+      "bytes": 7133,
+      "sha256": "acac74a71410a7c0bc1eafb954d3e77dfce1e0b3df35bab8f6a4f523c514eb51"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/top/otpu_pkg.sv",
+      "bytes": 17336,
+      "sha256": "1142e2c57f3fef54bc70c8bc78398aa4d6e998eda446ff43df3282f012970db4"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/top/otpu_slice.sv",
+      "bytes": 30722,
+      "sha256": "5f507f2e9ec17687d30153707751d7a91b4a70fae6d7b69130f689a5100fd8a9"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/top/otpu_top.sv",
+      "bytes": 6761,
+      "sha256": "17e3d7cd8b9a8256ce3f6514642cc834cca90dbbcc75d5e9549eee0d96d725a7"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/vpu/otpu_fp.sv",
+      "bytes": 18018,
+      "sha256": "dbdcf217284eedbbee26ae1318c28844bd73069b80fc3467866d549b6e14a35f"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/vpu/otpu_fpipe.sv",
+      "bytes": 3771,
+      "sha256": "50d13a22ce78a2e02f9e92a301e6626696dd8adbb88362960dd1385e34634cee"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/vpu/otpu_quant.sv",
+      "bytes": 27731,
+      "sha256": "8386c40c76abd78e9d24b6ecfddc9b264dc656d8b71e07f585cfb5f0f2aff15c"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/vpu/otpu_se_comp.sv",
+      "bytes": 22118,
+      "sha256": "27f1aa5632f7fc66fa96f90136ed173714871ffb1fb3986e88354681e11d2a49"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/vpu/otpu_se_tail.sv",
+      "bytes": 16558,
+      "sha256": "4953ebb81fa537109c1a6e9e3ff6573a5f8bf1196621ab2b488ca659b9f1c2b7"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/vpu/otpu_vpu.sv",
+      "bytes": 64921,
+      "sha256": "22131901b7688bcb838b427b7ec2bfe057848f0049be4dccf27223ea2b7cb300"
+    },
+    {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/source/rtl/vpu/otpu_vtree.sv",
+      "bytes": 10786,
+      "sha256": "3dcf05fe7f7a22e54ab821834a3b380d9934b0d22ef855a74689ca3399e826d2"
+    }
+  ],
+  "gate": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/pre_bit_gate.py",
+    "bytes": 1810,
+    "sha256": "b6abc75027e883bf8e5c37651890f07a6649b63f192086b9e162a2dd78e2e0c6"
+  },
+  "parser_source": {
+    "path": "/home/fedora/openTPU/tools/openxc7_mapped_route_review.py",
+    "bytes": 9699,
+    "sha256": "6ee7681f69f93e93516dccb84f51fa7bc9e4dea0e7620a87fe8e4ed904eea4fd"
+  },
+  "tool": {
+    "path": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+    "bytes": 1422,
+    "sha256": "121b8c468f96f7ee750fc8f7d2386c54d047b204a5b8b7a5dada85f04997302d"
+  },
+  "builder_source": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/build-spare-pcie.py",
+    "bytes": 13257,
+    "sha256": "b5bac2a1c4dee551220bc8edbb2d0170584717fda39c846ec3fe5d206e468512"
+  },
+  "frozen_builder": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/builder-at-launch.py",
+    "bytes": 13257,
+    "sha256": "b5bac2a1c4dee551220bc8edbb2d0170584717fda39c846ec3fe5d206e468512"
+  },
+  "repository_diff": "diff --git a/tools/fedora_build_vivado_pcie_ddr800.py b/tools/fedora_build_vivado_pcie_ddr800.py\nindex 8d522295..d5640374 100644\n--- a/tools/fedora_build_vivado_pcie_ddr800.py\n+++ b/tools/fedora_build_vivado_pcie_ddr800.py\n@@ -14,6 +14,7 @@ import ast\n from datetime import datetime, timezone\n import hashlib\n import json\n+import math\n import os\n from pathlib import Path\n import re\n@@ -30,6 +31,22 @@ SETTINGS = Path(expand_paths('@VIVADO_ROOT@/settings64.sh'))\n VIVADO = Path(expand_paths('@VIVADO_BIN@/vivado'))\n \n \n+def compute_clock(requested_mhz):\n+    \"\"\"Mirror the board Tcl's 800 MHz VCO and 1/8 output-divider steps.\"\"\"\n+    if not math.isfinite(requested_mhz) or requested_mhz <= 0:\n+        raise ValueError('--core-mhz must be a finite positive frequency')\n+    if not 800.0 / 128 <= requested_mhz <= 800.0:\n+        raise ValueError('--core-mhz is outside the MMCM output-divider range')\n+    divide = math.floor(800.0 / requested_mhz * 8 + 0.5) / 8\n+    if not 1 <= divide <= 128:\n+        raise ValueError('--core-mhz is outside the MMCM output-divider range')\n+    actual_mhz = 800.0 / divide\n+    return dict(requested_mhz=requested_mhz, actual_mhz=actual_mhz,\n+                actual_hz=math.floor(actual_mhz * 1e6),\n+                core_khz=math.floor(actual_mhz * 1000 + 0.5),\n+                vco_mhz=800, output_divide=divide)\n+\n+\n def main():\n     ap = argparse.ArgumentParser(description=__doc__)\n     ap.add_argument('--out', required=True, type=Path)\n@@ -37,11 +54,22 @@ def main():\n                     help='Checked DDR800 core; use bitstreams/ch1-pcie-2gb/core for the release')\n     ap.add_argument('--build-id', default='5b1e646c',\n                     help='One to eight hexadecimal digits exposed in the BUILD_ID register')\n+    ap.add_argument('--core-mhz', type=float, default=100.0,\n+                    help='Compute clock request; RAM stays DDR800 at a separate 100 MHz user clock')\n+    ap.add_argument('--threads', type=int, default=8,\n+                    help='Vivado worker/job limit, 1 to 8; lower this for concurrent builds')\n     ap.add_argument('--prepare-only', action='store_true',\n                     help='Write and check the source snapshot without running Vivado')\n     args = ap.parse_args()\n+    if not 1 <= args.threads <= 8:\n+        ap.error('--threads must be between 1 and 8')\n     if not re.fullmatch(r'[0-9a-fA-F]{1,8}', args.build_id):\n         ap.error('--build-id must contain one to eight hexadecimal digits')\n+    try:\n+        clock = compute_clock(args.core_mhz)\n+    except ValueError as error:\n+        ap.error(str(error))\n+    compute_profile = dict(PROFILE, CORE_KHZ=clock['core_khz'])\n     core = args.core.resolve()\n     out = args.out.resolve()\n     if out.exists():\n@@ -58,6 +86,7 @@ def main():\n     }.items()):\n         raise ValueError('CH1 recovery core has inconsistent capacity, calibration or mapping')\n     out.mkdir(parents=True)\n+    shutil.copy2(Path(__file__), out/'builder-at-launch.py')\n     src = out/'source'\n     shutil.copytree(ROOT/'rtl', src/'rtl')\n     board = src/'boards/ypcb-00338'\n@@ -80,7 +109,7 @@ def main():\n     old = 'if {$DDR_SPEED != 1066} { error \"DDR3-$DDR_SPEED: the LiteDRAM core is generated for DDR3-1066\" }'\n     if original.count(old) != 1:\n         raise ValueError('Unexpected project speed guard')\n-    create.write_text('set_param general.maxThreads 8\\n'+original.replace(old,\n+    create.write_text(f'set_param general.maxThreads {args.threads}\\n'+original.replace(old,\n                       'if {$DDR_SPEED != 800} {error \"Requires the pinned DDR800 core\"}'))\n     # Reuse the established timing/route parsers in a standalone frozen gate.\n     parser = ROOT/'tools/openxc7_mapped_route_review.py'\n@@ -113,9 +142,11 @@ foreach item [get_drc_violations -quiet] {\n if {[llength $failures]} {error \"DRC errors/critical warnings: $failures\"}\n exec python3 $::env(OTPU_PRE_BIT_GATE) $out/reports/timing_summary.rpt $out/reports/route-status.rpt $out/pre-bit-gates.json\n '''\n-    build.write_text('set_param general.maxThreads 8\\n'+text.replace(marker,strict+'\\n'+marker))\n+    build.write_text(f'set_param general.maxThreads {args.threads}\\n'+text.replace(marker,strict+'\\n'+marker))\n     record = dict(status='PREPARED', started_utc=datetime.now(timezone.utc).isoformat(),\n-                  profile=PROFILE, pcie='XDMA Gen2 x8', top='otpu_fpga_top_ld',\n+                  profile=compute_profile, compute_clock=clock,\n+                  memory_clock=dict(sys_hz=100000000, ddr_clock_hz=400000000, ddr_mts=800),\n+                  pcie='XDMA Gen2 x8', top='otpu_fpga_top_ld',\n                   hardware_accessed=False, flash_written=False, hardware_ready=False,\n                   build_id=args.build_id, core=str(core),\n                   physical_user_channels=[1] if ch1 else [0, 1],\n@@ -124,15 +155,21 @@ exec python3 $::env(OTPU_PRE_BIT_GATE) $out/reports/timing_summary.rpt $out/repo\n                   calibration_mask=2 if ch1 else 3,\n                   user_address_mapping=memory.get('user_address_mapping'),\n                   memory_profile_register='0x5c: 0x08000102' if ch1 else None,\n-                  threads_requested=8, repository_revision=subprocess.check_output(\n+                  threads_requested=args.threads, repository_revision=subprocess.check_output(\n                       ['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),\n                   reference_calibration_profile=describe(checked['manifest']),\n                   adaptations=['Pinned generated DDR800 core replaces the default DDR1066 core',\n-                               'Snapshot project guard selects DDR800, core remains 100 MHz',\n-                               'Eight native workers and strict setup/hold/pulse/route/DRC pre-bit gates'],\n+                               'Snapshot project guard selects DDR800; compute clock is independently selected',\n+                               f'{args.threads} native workers and strict setup/hold/pulse/route/DRC pre-bit gates'],\n                   mcs_scope='Prospective 64 MiB BPI x16 file; physical chip and boot verification still required',\n                   sources=[describe(p) for p in sorted(src.rglob('*')) if p.is_file()],\n-                  gate=describe(gate), parser_source=describe(parser), tool=describe(VIVADO))\n+                  gate=describe(gate), parser_source=describe(parser), tool=describe(VIVADO),\n+                  builder_source=describe(Path(__file__)),\n+                  frozen_builder=describe(out/'builder-at-launch.py'),\n+                  repository_diff=subprocess.check_output(\n+                      ['git','diff','HEAD','--','tools/fedora_build_vivado_pcie_ddr800.py',\n+                       'rtl','boards/ypcb-00338/vivado','boards/ypcb-00338/constraints'],\n+                      cwd=ROOT,text=True))\n     def save():\n         tmp=out/'manifest.json.tmp'\n         tmp.write_text(json.dumps(record,indent=2)+'\\n')\n@@ -151,9 +188,9 @@ exec python3 $::env(OTPU_PRE_BIT_GATE) $out/reports/timing_summary.rpt $out/repo\n     try:\n         stages=[\n             ('create',[str(VIVADO),'-mode','batch','-nojournal','-nolog','-source',str(create),\n-                       '-tclargs','800',str(project),'4','100',args.build_id,'2','8','4','1','systolic']),\n+                       '-tclargs','800',str(project),'4',str(args.core_mhz),args.build_id,'2','8','4','1','systolic']),\n             ('build',[str(VIVADO),'-mode','batch','-nojournal','-nolog','-source',str(build),\n-                      '-tclargs',str(project),'8','full',''])]\n+                      '-tclargs',str(project),str(args.threads),'full',''])]\n         for name, command in stages:\n             record['status']=name.upper()+'_RUNNING'\n             (out/(name+'.command.json')).write_text(json.dumps(command,indent=2)+'\\n')\n",
+  "create_exit": 0,
+  "build_exit": 0,
+  "gates": {
+    "status": "FULL_NATIVE_PCIE_ROUTE_AND_NUMERICAL_TIMING_PASS_HARDWARE_PENDING",
+    "timing": {
+      "wns_ns": 0.039,
+      "tns_ns": 0.0,
+      "setup_failing_endpoints": 0,
+      "setup_total_endpoints": 577499,
+      "whs_ns": 0.012,
+      "ths_ns": 0.0,
+      "hold_failing_endpoints": 0,
+      "hold_total_endpoints": 577209,
+      "wpws_ns": 0.0,
+      "tpws_ns": 0.0,
+      "pulse_failing_endpoints": 0,
+      "pulse_total_endpoints": 178880
+    },
+    "route": {
+      "logical nets": 429524,
+      "nets not needing routing": 109946,
+      "internally routed nets": 101452,
+      "nets with no loads": 8494,
+      "routable nets": 319578,
+      "fully routed nets": 319578,
+      "nets with routing errors": 0
+    }
+  },
+  "outputs": {
+    "otpu.bit": {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/project/otpu.bit",
+      "bytes": 12735199,
+      "sha256": "19730b4708653c428cf388999c4d49b7437648dd27d358028999ee98c380a425"
+    },
+    "otpu.mcs": {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/project/otpu.mcs",
+      "bytes": 35024316,
+      "sha256": "9448f6323a6763da6c9c5d9cb5731f2a43c4d85e1db88c8236009be3ff6db031"
+    },
+    "final-routed.dcp": {
+      "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/project/final-routed.dcp",
+      "bytes": 123287811,
+      "sha256": "8e98e9f89124bf897765a496ce2c4bfd76e53aa16783ca376bd628e6ebbf72a9"
+    }
+  },
+  "finished_utc": "2026-10-17T04:03:14.564921+00:00"
+}

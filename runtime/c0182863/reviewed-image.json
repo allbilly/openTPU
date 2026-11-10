@@ -1,0 +1,1099 @@
+{
+  "status": "EXPERIMENTAL_SPARE_DUAL_HOST_OFFLINE_REVIEW_PASS_EXTERNAL_DDR_TIMING_AND_PHYSICAL_PENDING",
+  "created_utc": "2026-10-18T04:12:49.505033+00:00",
+  "build_id_register": "0xc0182863",
+  "part": "xc7k480tffg1156-2",
+  "compute": {
+    "MCOLS": 4,
+    "ACT_ROWS": 4,
+    "LANES": 8,
+    "VPU_CL": 2,
+    "MXU_IMPL": 2,
+    "CORE_KHZ": 148837,
+    "DDR_MTS": 1066
+  },
+  "compute_clock": {
+    "requested_mhz": 150.0,
+    "actual_mhz": 148.8372093023256,
+    "actual_hz": 148837209,
+    "core_khz": 148837,
+    "vco_mhz": 800,
+    "output_divide": 5.375
+  },
+  "memory_clock": {
+    "sys_hz": 133333333.33333333,
+    "ddr_clock_hz": 533333333.3333333,
+    "ddr_mts": 1066,
+    "actual_ddr_mts": 1066.6666666666665
+  },
+  "memory": {
+    "physical_user_channels": [
+      0,
+      1
+    ],
+    "logical_capacity_bytes": 4294967296,
+    "virtual_channel_bytes": 2147483648,
+    "calibration_mask": 3,
+    "ddr_mts": 1066,
+    "ecc_channels": [
+      1
+    ],
+    "ch0_physical_lanes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      8,
+      7
+    ],
+    "automatic_calibration_channels": [
+      1
+    ],
+    "host_calibration_channels": [
+      0
+    ]
+  },
+  "host": {
+    "interfaces": [
+      "pcie",
+      "jtag"
+    ],
+    "jtag_chain": 2,
+    "jtag_max_hz": 6000000,
+    "host_dma_hz": 250000000
+  },
+  "pcie": "XDMA Gen2 x8",
+  "hardware_accessed": false,
+  "flash_written": false,
+  "physical_ch0_repair_verified": false,
+  "physical_model_verified": false,
+  "external_ddr_pad_timing_qualified": false,
+  "timing": {
+    "WNS": 0.004,
+    "TNS": 0.0,
+    "setup_failing": 0.0,
+    "setup_total": 612751.0,
+    "WHS": 0.012,
+    "THS": 0.0,
+    "hold_failing": 0.0,
+    "hold_total": 611197.0,
+    "WPWS": 0.0,
+    "TPWS": 0.0,
+    "pulse_failing": 0.0,
+    "pulse_total": 191696.0
+  },
+  "route": {
+    "routable": 334799,
+    "fully_routed": 334799,
+    "routing_errors": 0
+  },
+  "oob_clock_review": {
+    "timing": {
+      "WNS": 0.004,
+      "TNS": 0.0,
+      "setup_failing": 0.0,
+      "setup_total": 612751.0,
+      "WHS": 0.012,
+      "THS": 0.0,
+      "hold_failing": 0.0,
+      "hold_total": 611197.0,
+      "WPWS": 0.0,
+      "TPWS": 0.0,
+      "pulse_failing": 0.0,
+      "pulse_total": 191696.0
+    },
+    "route": {
+      "routable": 334799,
+      "fully_routed": 334799,
+      "routing_errors": 0
+    },
+    "coverage": {
+      "no_clock": 0,
+      "constant_clock": 0,
+      "pulse_width_clock": 0,
+      "unconstrained_internal_endpoints": 0,
+      "no_input_delay": 142,
+      "no_output_delay": 212,
+      "multiple_clock": 0,
+      "generated_clocks": 0,
+      "loops": 0,
+      "partial_input_delay": 0,
+      "partial_output_delay": 0,
+      "latch_loops": 0
+    },
+    "generated_clocks": 32,
+    "bus_skew_constraints": 62,
+    "minimum_bus_skew_slack_ns": 3.271,
+    "netlist_placement_routing_modified": false,
+    "cdc_review": "PENDING"
+  },
+  "files": [
+    {
+      "name": "README.md",
+      "bytes": 1145,
+      "sha256": "e6e31e8f5bd0ff8c8693298cf324dc47c501bf89e9052c8a8c25333e024f12b4"
+    },
+    {
+      "name": "calibration/build-manifest.json",
+      "bytes": 1691,
+      "sha256": "9949713b6b7bf69ceaaa752c1884bb61bf19fcbe322995800d3055fff9821763"
+    },
+    {
+      "name": "calibration/bundle.json",
+      "bytes": 1304,
+      "sha256": "bb15126874c37134c2ada113a89b78fdc2947a00255b0dc334612df0387f1b91"
+    },
+    {
+      "name": "calibration/core/csr.csv",
+      "bytes": 9578,
+      "sha256": "12fde5e4ce22779fc0114aaa60e2642d81a3eccfe0a94b133348171c12bc605f"
+    },
+    {
+      "name": "calibration/core/sdram_init.py",
+      "bytes": 1529,
+      "sha256": "e6a6955ac24ce0af7ee797d9172b727878eece9cd69743c8104de0f841007797"
+    },
+    {
+      "name": "calibration/host-model-review.json",
+      "bytes": 2671,
+      "sha256": "94856a07319e60db065c51242b459d051453090408ccf3ce3a36c49beeaa12c2"
+    },
+    {
+      "name": "calibration/reference_ddrcal.py",
+      "bytes": 37555,
+      "sha256": "6a7baa1c8fdac5460fe39c58b4e78d1af29c78bb9036ca9c22c69420d4fcd74a"
+    },
+    {
+      "name": "calibration/selfcal.bin",
+      "bytes": 9152,
+      "sha256": "0ade05b57f78c3a62a171ef179d0af46a519900067fc5378ed647376c127775a"
+    },
+    {
+      "name": "calibration/selfcal.elf",
+      "bytes": 14800,
+      "sha256": "75ee5725b1aea2313f6c5848753ff9efc8234da20a9334ec625f01f87837fd1c"
+    },
+    {
+      "name": "calibration/selfcal.lst",
+      "bytes": 97929,
+      "sha256": "49bf296765325f09fefa799a1ed9280ea435f19c8c3ad96498db37a692dac746"
+    },
+    {
+      "name": "calibration/selfcal.map",
+      "bytes": 8408,
+      "sha256": "54a4dd3b2e989b296e70791823a0c7a77936677764ba46f681f6e3a8ba5efcf1"
+    },
+    {
+      "name": "calibration/selfcal_cfg.h",
+      "bytes": 3313,
+      "sha256": "5eaa1691c7521b62e96b675e200d0b6f3a144ce962aa3e6100ca0fa989751740"
+    },
+    {
+      "name": "calibration/source/opentpu/host/ddrcal.py",
+      "bytes": 37575,
+      "sha256": "75a6d8ba03d31baf86bb11092dccc5e2eac54ce3b7994b5c4690c5924a94062f"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/cal.c",
+      "bytes": 22349,
+      "sha256": "afc0e27011799f15afcde8ed86a7bf69fa13df64654670bf851fa91f2908ae2d"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/cal.h",
+      "bytes": 3124,
+      "sha256": "5b33911451cfc0b316adffd72ef90d11e7c9d721143e33713aef7462c8db0b4e"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/crt0.S",
+      "bytes": 332,
+      "sha256": "ebcbcb876af5b0a1e85826b689c281a04e402ea2bebae8f8245fe50958fea026"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/fw.py",
+      "bytes": 11847,
+      "sha256": "311d73a6f3cded0437f10878de9ef3c4741bc9303d2aba4a9a697f62c9e5de96"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/host.c",
+      "bytes": 422,
+      "sha256": "3137a4142a229044330fa826a30ed72decba0c18b8018d9cacc17a3fa6f76c93"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/hw.h",
+      "bytes": 2172,
+      "sha256": "e458d8c22623c2f10278b19d8f05e199059c1ecdea4ffc0bf296ac6e8bc7c770"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/link.ld",
+      "bytes": 893,
+      "sha256": "bb897e8fab88f1b852c92e383469ffc62ffcab2dfa77cd5c20a4505667e651ee"
+    },
+    {
+      "name": "calibration/source/tools/litedram/selfcal_fw/main.c",
+      "bytes": 572,
+      "sha256": "e49dcc49481186eeb8f934245cd092928d73abc2762c2c73cf4f33074d9630e7"
+    },
+    {
+      "name": "core/csr.csv",
+      "bytes": 9578,
+      "sha256": "8dfc3d309199470d435e51c5553c34090f634aaaf424ef47fb6619cbc0260349"
+    },
+    {
+      "name": "core/openxc7-profile.json",
+      "bytes": 3207,
+      "sha256": "2e641e9584e10374b3e6e618e7c0e569242d1fe401975fddd256d0549a47a6cb"
+    },
+    {
+      "name": "core/otpu_litedram.v",
+      "bytes": 5024140,
+      "sha256": "92b252b3473638ccb4ebe221e6e7c15481144c013326b1e36af759b1d73c0d06"
+    },
+    {
+      "name": "core/otpu_litedram.xdc",
+      "bytes": 56328,
+      "sha256": "91991c2b6b41b9d98579d8b9515b634cdb9028a51dfa6f2e6ab608772a1b122e"
+    },
+    {
+      "name": "core/otpu_litedram_mem.init",
+      "bytes": 51,
+      "sha256": "3539495b12fca557dbbe9fb3252bbb64acfe31c06f69ef5a810ac76b70da5cc5"
+    },
+    {
+      "name": "core/sdram_init.py",
+      "bytes": 1534,
+      "sha256": "02b588d2cac8f5f31feab7a305784d519fc268d5c588178bfb07f6e29b75177c"
+    },
+    {
+      "name": "core/sdram_init_ch0.py",
+      "bytes": 1529,
+      "sha256": "e6a6955ac24ce0af7ee797d9172b727878eece9cd69743c8104de0f841007797"
+    },
+    {
+      "name": "core/variant-profile.json",
+      "bytes": 3207,
+      "sha256": "2e641e9584e10374b3e6e618e7c0e569242d1fe401975fddd256d0549a47a6cb"
+    },
+    {
+      "name": "evidence/adapter-model.json",
+      "bytes": 9714,
+      "sha256": "6a94841f32bd16c1952a19fd795c30a0b133f109516002eefee8067f4e0434cd"
+    },
+    {
+      "name": "evidence/adapter-source.py",
+      "bytes": 8451,
+      "sha256": "af39e864b751cf4ec8849d962c245d4d3dcaa63de8dd608c1dbf617069de2689"
+    },
+    {
+      "name": "evidence/artifact/audit.command.json",
+      "bytes": 480,
+      "sha256": "61d9cc32b9c491129e6d128d3917eb855e46d08fceadcabdec225834ee27a99b"
+    },
+    {
+      "name": "evidence/artifact/audit.log.gz",
+      "bytes": 10726,
+      "sha256": "31bf8a5195bdcf4732ec324557f080929d30b91b783aa5ec4c2c7140d613628c"
+    },
+    {
+      "name": "evidence/artifact/audit.tcl",
+      "bytes": 175625,
+      "sha256": "7065d3064cc492ccc4b2b97a87afa595d8bb95132503a50faee4eaaf80dfacd7"
+    },
+    {
+      "name": "evidence/artifact/bus-skew.rpt.gz",
+      "bytes": 35154,
+      "sha256": "0e695c800d09ebb7b00ce8dd13e6ae625ad553cd832e070c69e5ba63fc0bda96"
+    },
+    {
+      "name": "evidence/artifact/cdc.rpt.gz",
+      "bytes": 26550,
+      "sha256": "cb57c7d77a325c45db7246aea773bdc6c987f8ca01e04f5beea8982b95bb6c4d"
+    },
+    {
+      "name": "evidence/artifact/checkpoint.tsv",
+      "bytes": 31678,
+      "sha256": "7f6bb157148829ef897ee1ca8cf7f36056878b2a5d77fe42fc53d7d08e9fed88"
+    },
+    {
+      "name": "evidence/artifact/clocks.rpt.gz",
+      "bytes": 1767,
+      "sha256": "6c066ea7d3f042a205529bb42b1d568daa8e423f5e2a3c6604fa908928f12a5d"
+    },
+    {
+      "name": "evidence/artifact/crc.json",
+      "bytes": 512,
+      "sha256": "fde45d7f923dca6c4ff2d3e19192636e0ccd1b49ade1453fd08d2414c66e6c27"
+    },
+    {
+      "name": "evidence/artifact/drc.rpt.gz",
+      "bytes": 10597,
+      "sha256": "258d5c0a1518832d4ecfcd0fecb2c3d9ff4113ec1673401eadb2738acf0fa610"
+    },
+    {
+      "name": "evidence/artifact/dual-host-facts.tsv",
+      "bytes": 1368,
+      "sha256": "5714b2832258962f709daec2fb4220ace22847627314734b5192b527ab98ba6b"
+    },
+    {
+      "name": "evidence/artifact/mailbox-held-timing.rpt.gz",
+      "bytes": 4080,
+      "sha256": "080cc07bd2b59a2d97d30f4af232922488ba30d548aeb479d8307da0712f6e3a"
+    },
+    {
+      "name": "evidence/artifact/mailbox-response-timing.rpt.gz",
+      "bytes": 4103,
+      "sha256": "b3572468998036bf4fb5f114c7fbc6e0590d88dac310efbf7865f10b577530ee"
+    },
+    {
+      "name": "evidence/artifact/oob-bus-skew.rpt.gz",
+      "bytes": 35157,
+      "sha256": "4a9167cbcd4a4342f48d58943f92eac3b1e90e49dd3744868010658a9450a84c"
+    },
+    {
+      "name": "evidence/artifact/oob-cdc.rpt.gz",
+      "bytes": 26552,
+      "sha256": "657ed1687016a26fdaa29eabdc16f1d0584d2e13f9fc2aaf749cc78301836acc"
+    },
+    {
+      "name": "evidence/artifact/oob-clocks.rpt.gz",
+      "bytes": 2318,
+      "sha256": "66339c827ce2ddd3d05639ec7532cc5c3e11fd203f6c1bacdb3802f33d4bea84"
+    },
+    {
+      "name": "evidence/artifact/oob-clocks.tsv",
+      "bytes": 7736,
+      "sha256": "eea530f701026f6884579c6bbffae9c17be73b99519d2cdd77d7a7785bbd4c9f"
+    },
+    {
+      "name": "evidence/artifact/oob-generated.xdc",
+      "bytes": 15584,
+      "sha256": "b4febc8463c299f0785b5498dbf5a79d20732f906bf8fc43a24dcf8e5be4624a"
+    },
+    {
+      "name": "evidence/artifact/oob-pulse-clock-pins.rpt.gz",
+      "bytes": 519,
+      "sha256": "16de4588ade5142a3504902e002c5429ff2864d3d8d6190bf2ff932f5e236e98"
+    },
+    {
+      "name": "evidence/artifact/oob-route.rpt.gz",
+      "bytes": 210,
+      "sha256": "36e4880e2b44f044f6db490bd490e9e510719aa6c02ea3d2f93c9b3a13cf8448"
+    },
+    {
+      "name": "evidence/artifact/oob-timing.rpt.gz",
+      "bytes": 56826,
+      "sha256": "ecfc12b5b16addadbf37b45a4ac21a53848a65cb857a533ae01b4134dfd00a51"
+    },
+    {
+      "name": "evidence/artifact/packets.json",
+      "bytes": 5440,
+      "sha256": "926b79259de75ac577c7cfd7e9e8c240284e2c091010aaffb6d1c9dd380121f8"
+    },
+    {
+      "name": "evidence/artifact/pad-groups.tsv",
+      "bytes": 6664,
+      "sha256": "9feb96d0f182e0c446c6106c18c0ad8b4ab28dad8a200fa81d586e74da7b41d1"
+    },
+    {
+      "name": "evidence/artifact/pads.command.json",
+      "bytes": 440,
+      "sha256": "c4931104fc742c0501559155e9b5aea00359bbb465cd87f7392cad5febb04454"
+    },
+    {
+      "name": "evidence/artifact/pads.log.gz",
+      "bytes": 5855,
+      "sha256": "74f5149fbb4db3f03b71c64c960f0f789275f1a02f3a1cb036cb4d995e452fcc"
+    },
+    {
+      "name": "evidence/artifact/pads.tcl",
+      "bytes": 80545,
+      "sha256": "9efa07a37ff50ff3be705a4e989a02be979918217922b50923eb2fc274f51a0f"
+    },
+    {
+      "name": "evidence/artifact/phase-query.tsv",
+      "bytes": 330,
+      "sha256": "e981c21b855fcb73d328641923d4a0320e4715c8f9a9b7816b06b35fd7f7be68"
+    },
+    {
+      "name": "evidence/artifact/reset-source-facts.json",
+      "bytes": 26762,
+      "sha256": "0afa6692f0257f9599ba8ac59bbf3757da9800c6f43ac05b0074866de12a6c80"
+    },
+    {
+      "name": "evidence/artifact/review_oob_clocks.tcl",
+      "bytes": 2292,
+      "sha256": "126c3da4a45a1dc6677b2ad593c29f53a74a2a2c29eadebf7cd3d11e5f3711d3"
+    },
+    {
+      "name": "evidence/artifact/route.rpt.gz",
+      "bytes": 210,
+      "sha256": "36e4880e2b44f044f6db490bd490e9e510719aa6c02ea3d2f93c9b3a13cf8448"
+    },
+    {
+      "name": "evidence/artifact/timing.rpt.gz",
+      "bytes": 53568,
+      "sha256": "04d2b44d6c51e4f14cfbc8d1ff284e425c8ae16a76871aec85dfce8998032489"
+    },
+    {
+      "name": "evidence/bridge-model.json",
+      "bytes": 7471,
+      "sha256": "03b4c6c992fdf9cdc74b98b76c7f1c3c1ba49149caa199635497612dc4116b33"
+    },
+    {
+      "name": "evidence/build-manifest.json",
+      "bytes": 29578,
+      "sha256": "ec98aecb3cf7881a92abd0481818e8cbb1881e926c87c3a88031ce18bc6e4d75"
+    },
+    {
+      "name": "evidence/cdc/audit.log.gz",
+      "bytes": 2637,
+      "sha256": "fbebf139ef53c6a6fc43edff79ac6c991b2593095ae9197a58f1e5c40f1f8361"
+    },
+    {
+      "name": "evidence/cdc/audit.tcl",
+      "bytes": 1093,
+      "sha256": "b5bcaf6126f7cfa7779c0f267e0f458f438cf89dcbdebdef072ce6b2d336baae"
+    },
+    {
+      "name": "evidence/cdc/cdc.rpt.gz",
+      "bytes": 26541,
+      "sha256": "cc03c32bb5cdb6d8bc062fc0e3620683f484102881fc9d90746958da22f67109"
+    },
+    {
+      "name": "evidence/cdc/collector-at-launch.py",
+      "bytes": 7756,
+      "sha256": "dfc92c1044e8ffaea538efbdbe9136a0110b8b0a678fd806f0f4641af6c2c8af"
+    },
+    {
+      "name": "evidence/cdc/command.json",
+      "bytes": 454,
+      "sha256": "a40d29ad33de60642b1e22d1899c6c1864f3e3bc0767188ad6125206ba0f10a8"
+    },
+    {
+      "name": "evidence/cdc/exceptions.rpt.gz",
+      "bytes": 13408,
+      "sha256": "5c870bba418b296673bee2cb507e54b169a863e18080d1388219d3c5dc1c9e72"
+    },
+    {
+      "name": "evidence/cdc/facts.tsv",
+      "bytes": 1006,
+      "sha256": "b579231d6348f9f3e65a0d3f54971ecd955d6bba5219982a55f3eb51a77b5957"
+    },
+    {
+      "name": "evidence/cdc/pad-coverage.rpt.gz",
+      "bytes": 1277,
+      "sha256": "a587a0fb7bfcf809dd15cfbba5194eda488940281805609f447033e8803a9e33"
+    },
+    {
+      "name": "evidence/cdc-collection.json",
+      "bytes": 926746,
+      "sha256": "e02c3a243a7cf0e99442556e794eb8b1c6540106ff224a4af24ff54ad983f468"
+    },
+    {
+      "name": "evidence/cdc-review.json",
+      "bytes": 1650311,
+      "sha256": "6e84e35f862f5fb76dbbccddf885be4b0ffd9aabcb019cac014b5d7737778ff4"
+    },
+    {
+      "name": "evidence/cdc-source-comparison.json",
+      "bytes": 89128,
+      "sha256": "d25a81cba9eb951c35017f4d25eea83757e79793ae051ff46053e48a52a3eee1"
+    },
+    {
+      "name": "evidence/controller-model.json",
+      "bytes": 4880,
+      "sha256": "7cdd8d9291a61f464f983dba2c2f65fa07063c8691ab88aa2108ca5633931d99"
+    },
+    {
+      "name": "evidence/csr-gray-review.json",
+      "bytes": 20744,
+      "sha256": "381b046d61cf99be1f766c8765bae4bdaf5f8cf21f36971b8a4afeded8c6311d"
+    },
+    {
+      "name": "evidence/dual-host/bd_native.tcl",
+      "bytes": 16937,
+      "sha256": "428eefc45b9ba4f7594482f2e143854ffe142546ffe828ddbdb3cda58d5bbcdb"
+    },
+    {
+      "name": "evidence/dual-host/otpu_dual_host.tcl",
+      "bytes": 1671,
+      "sha256": "ad6d98db73104ded02c2bec864b2cd68d77ab787d05bd8276b98ddea9888e80c"
+    },
+    {
+      "name": "evidence/dual-host/otpu_fpga_top_ld.sv",
+      "bytes": 22071,
+      "sha256": "1316a95b28c3cd23d18156e42665d0002cc390919caf36db03c73cc7ace8e5b8"
+    },
+    {
+      "name": "evidence/dual-host/otpu_host_reset.sv",
+      "bytes": 1256,
+      "sha256": "517b7c49b2755aa2150b1dfaadca74a4af0efcb3117e6a5b9aad4839b1a53538"
+    },
+    {
+      "name": "evidence/dual-host/otpu_jtag_axi_abort.sv",
+      "bytes": 5881,
+      "sha256": "e7aa0ac11acf004eb52ffa9fe552e77e3b5de07ec304de362b52f8ff1b29029e"
+    },
+    {
+      "name": "evidence/dual-host/otpu_jtag_mailbox.sv",
+      "bytes": 2322,
+      "sha256": "46f4a1148419279262fd274726eba0ab1f35285b91bf58138bc1997e692aeec9"
+    },
+    {
+      "name": "evidence/dual-host-model.json",
+      "bytes": 2733,
+      "sha256": "200fbeb16429d3dfe7685e9808fbb94436942d4cbe3b5e25f7b3e0ff241d193a"
+    },
+    {
+      "name": "evidence/gray/audit.log.gz",
+      "bytes": 2936,
+      "sha256": "536c4b2bc6d4eac861ecc7d9f169f8e0f589b1697255051e671083c329f4b209"
+    },
+    {
+      "name": "evidence/gray/audit.tcl",
+      "bytes": 3055,
+      "sha256": "b6daa8444d52c29af29a765230253d5502c9e82e1ce3d436c7dcc324d402b185"
+    },
+    {
+      "name": "evidence/gray/bus-skew.rpt.gz",
+      "bytes": 39002,
+      "sha256": "f7175f5b3b75be5d9e72f05439ad3b75cac96f9d31b7385be95f0f7b4c257fdf"
+    },
+    {
+      "name": "evidence/gray/checker-at-launch.py",
+      "bytes": 9430,
+      "sha256": "5e987a33c0805d2bd58388ebe7a651cc8a6015debd23089b69538686c0969fdc"
+    },
+    {
+      "name": "evidence/gray/command.json",
+      "bytes": 456,
+      "sha256": "284a7f245ade69587daf82929898bb6c9a61a930c6ad881ad8f2c0439fd6c833"
+    },
+    {
+      "name": "evidence/gray/facts.tsv",
+      "bytes": 9430,
+      "sha256": "afbc55680287a4d1b365b2ef09694dac187e3725362db9ab11bb35075e41ba92"
+    },
+    {
+      "name": "evidence/gray/route.rpt.gz",
+      "bytes": 210,
+      "sha256": "36e4880e2b44f044f6db490bd490e9e510719aa6c02ea3d2f93c9b3a13cf8448"
+    },
+    {
+      "name": "evidence/host-preparation.json",
+      "bytes": 9520,
+      "sha256": "7e1b42e6759ff8247b6d68bd39484ad94bfcdee2b52ffc4839fc4a3fb8e3fd0b"
+    },
+    {
+      "name": "evidence/offline-image-review.json",
+      "bytes": 33714,
+      "sha256": "71be001071754bdb713de274008334dcf3e66cb40a2fb4cf9193e36713e941ab"
+    },
+    {
+      "name": "evidence/packager.py",
+      "bytes": 35909,
+      "sha256": "05b27c371a3dcbe5cf303d7427e85e205d0852cf96d9702590cccddb15e8ff8e"
+    },
+    {
+      "name": "evidence/reference-preparation.json",
+      "bytes": 8637,
+      "sha256": "8d2a494245cf13bb6af7530319beae614a5c3bccf13cfb83dde0ef4b06a015f5"
+    },
+    {
+      "name": "host/calibrate_spare_c0182863.patch",
+      "bytes": 7006,
+      "sha256": "d4b76f87881e1e03a36416376f07d88750c83b274773d11495fcc692fcc92071"
+    },
+    {
+      "name": "host/calibrate_spare_c0182863.py.help.log",
+      "bytes": 853,
+      "sha256": "c51a70ba9c86d1c7ed2effca32067f035ca356ad84b97c055539dfca9ed5c12a"
+    },
+    {
+      "name": "host/controller-model.json",
+      "bytes": 4880,
+      "sha256": "7cdd8d9291a61f464f983dba2c2f65fa07063c8691ab88aa2108ca5633931d99"
+    },
+    {
+      "name": "host/host-preparation.json",
+      "bytes": 9520,
+      "sha256": "7e1b42e6759ff8247b6d68bd39484ad94bfcdee2b52ffc4839fc4a3fb8e3fd0b"
+    },
+    {
+      "name": "host/mac_spare_c0182863.patch",
+      "bytes": 3197,
+      "sha256": "e2434758891afce6c6b45b4fec6bbbd57e6830baa12be8c9b608ad56a784d695"
+    },
+    {
+      "name": "host/opentpu/__init__.py",
+      "bytes": 143,
+      "sha256": "61aed8b1d8520b9e1f033fd9b83878abea3e12592a8f6a3d1c4932a0b9ca01ff"
+    },
+    {
+      "name": "host/opentpu/compiler.py",
+      "bytes": 76293,
+      "sha256": "3fbc9582388e7c243a0e585ebcbb996f45b046811649c11d85c8aa9e386113f3"
+    },
+    {
+      "name": "host/opentpu/fp32.py",
+      "bytes": 8583,
+      "sha256": "e6d3796c0cd6e08da8b1fbbd77cec8eea82322d418f816a8d50159dbaec2f34e"
+    },
+    {
+      "name": "host/opentpu/host/__init__.py",
+      "bytes": 965,
+      "sha256": "79a1d7ad85b43cec3aa02841948d2ed3d0901f8bcaf9cceddbf76265ae491012"
+    },
+    {
+      "name": "host/opentpu/host/board.py",
+      "bytes": 77355,
+      "sha256": "bcf2ae64544443ec4249bef82ab745b5a799cadaa2f681dfb13d8e20cbc4787b"
+    },
+    {
+      "name": "host/opentpu/host/bpi_image.py",
+      "bytes": 7668,
+      "sha256": "6ffcace0e83d01448fb9104d94757483eee53cd8943c82608c806865a1279afc"
+    },
+    {
+      "name": "host/opentpu/host/chat.py",
+      "bytes": 41217,
+      "sha256": "b46b1d14874c0faea2c875989f8968ce206f28f95babf0f3203c1c3260c9446e"
+    },
+    {
+      "name": "host/opentpu/host/chat_tui.py",
+      "bytes": 26957,
+      "sha256": "7914cb6644c1527e028948a6339223cf1b33fccf53b139c68733aefe11f243ad"
+    },
+    {
+      "name": "host/opentpu/host/checks.py",
+      "bytes": 29466,
+      "sha256": "27cdc41d1a6066aa6b30b86884df7e167ad5b2f9044fa3fdacba7e914db110da"
+    },
+    {
+      "name": "host/opentpu/host/chestnut.py",
+      "bytes": 17097,
+      "sha256": "adff0a8aca884cb5001005477ddf3a87e3deaab5f75360934c665978aa1ea7df"
+    },
+    {
+      "name": "host/opentpu/host/ddrcal.py",
+      "bytes": 37575,
+      "sha256": "75a6d8ba03d31baf86bb11092dccc5e2eac54ce3b7994b5c4690c5924a94062f"
+    },
+    {
+      "name": "host/opentpu/host/diag.py",
+      "bytes": 35407,
+      "sha256": "da28509c977c7b5bdfeaad6592b99fdaee324ea170b710826ec1f175615f5151"
+    },
+    {
+      "name": "host/opentpu/host/dual_pcie.py",
+      "bytes": 7506,
+      "sha256": "c53083a11244a061a3db9094c926a2745c8196d5425fc63b385ea1d56a08e335"
+    },
+    {
+      "name": "host/opentpu/host/fake.py",
+      "bytes": 11087,
+      "sha256": "da5750977e580112dec9d94321628432fae57228883791405e570f8bd4dc73d0"
+    },
+    {
+      "name": "host/opentpu/host/fake_i2c.py",
+      "bytes": 8458,
+      "sha256": "2ccca9aacb31608f7ef95201727e02e435a0c706a59039ad0428f1059b00002c"
+    },
+    {
+      "name": "host/opentpu/host/hwlens.py",
+      "bytes": 15098,
+      "sha256": "ef6f83840a94a233f1421a3fc800794f752eb752559a814d98edbc65a072da32"
+    },
+    {
+      "name": "host/opentpu/host/i2c.py",
+      "bytes": 30581,
+      "sha256": "f87c928a693688738754d7029621d5161b2cd014eaebb18cb166d1f6cfce8eac"
+    },
+    {
+      "name": "host/opentpu/host/jtag.py",
+      "bytes": 10419,
+      "sha256": "2222ec690dee09208d873d3001e8d779bb8a1de1652dbdb179861fc967b6db2a"
+    },
+    {
+      "name": "host/opentpu/host/litedram/csr.csv",
+      "bytes": 8998,
+      "sha256": "d087582b543430f089909f703af4c2ce0e3085c934fec5157356b19b6c8463d5"
+    },
+    {
+      "name": "host/opentpu/host/litedram/sdram_init.py",
+      "bytes": 1527,
+      "sha256": "740c7fa49dcc6f3a3b8ab973f0e0e1cd3c2da29ec58971227ae8aa8f1bd45b03"
+    },
+    {
+      "name": "host/opentpu/host/memcal.py",
+      "bytes": 11631,
+      "sha256": "7776f37f9e7b3034a532aa71390bb608775353f38632f68d95536dc8ee786c8d"
+    },
+    {
+      "name": "host/opentpu/host/memtest.py",
+      "bytes": 8431,
+      "sha256": "4b1ed5f49bb17500202ad6ca028827d04024ca33a4437bfd3860f6edb6dd61de"
+    },
+    {
+      "name": "host/opentpu/host/offload.py",
+      "bytes": 98078,
+      "sha256": "3ff1e293e6b578c133916a0a39dae8c3825d60712131db137b65856bd81e5cba"
+    },
+    {
+      "name": "host/opentpu/host/opchecks.py",
+      "bytes": 13835,
+      "sha256": "1720b907b132dd0c4e1e6a11d031f10115c484e05310b813968d38efd90da948"
+    },
+    {
+      "name": "host/opentpu/host/pcie/59-otpu-xdma.rules",
+      "bytes": 698,
+      "sha256": "d8977f5548163da038d04cd2d21a5b7a9d799abbb2b44d44b9aecc69cf1f1c7a"
+    },
+    {
+      "name": "host/opentpu/host/pcie/60-otpu.rules",
+      "bytes": 674,
+      "sha256": "f32f1392f677f869e53c5b02ba267e2931c1dcfe12e2128c818de11ada8962ed"
+    },
+    {
+      "name": "host/opentpu/host/pcie/dkms.conf",
+      "bytes": 517,
+      "sha256": "3cdae4705e37c5073f8f7cb1822eb3dcbcb4e6936ed5c785d68ce84fd729fc37"
+    },
+    {
+      "name": "host/opentpu/host/pcie/relink.sh",
+      "bytes": 5922,
+      "sha256": "236eb0883d5cc3e39e4c6b8f6635860a7cd3e2eaeb3865736a73948de5dac337"
+    },
+    {
+      "name": "host/opentpu/host/pcie/xdma-otpu.patch",
+      "bytes": 1332,
+      "sha256": "f9c837fe02c2bb43a24d634c5dd3449e5e01acb048d2de9e75be6b0e75a03794"
+    },
+    {
+      "name": "host/opentpu/host/pcie_pio.py",
+      "bytes": 7463,
+      "sha256": "22a1363d3d1ad2912b1a9f706811d78f0111bf15f74ca8f0a1931d9df1fc5e38"
+    },
+    {
+      "name": "host/opentpu/host/pcie_setup.py",
+      "bytes": 677,
+      "sha256": "8f2662fba6864ec035cf0efc7d25e313fb4b0619c95b01a9e0712ce3eaef7088"
+    },
+    {
+      "name": "host/opentpu/host/power.py",
+      "bytes": 8783,
+      "sha256": "6003a95828f74b962e5afe1cfb72b14efd8112ca27a8099a9640c4a162db6aa5"
+    },
+    {
+      "name": "host/opentpu/host/prebuild.py",
+      "bytes": 9123,
+      "sha256": "bfaaf02a22eed69d49abbae16ca3b64463b38cf6fc2e5c252967236a421f0f81"
+    },
+    {
+      "name": "host/opentpu/host/program_verify.py",
+      "bytes": 4267,
+      "sha256": "5bb150e929cc8e40c7fbcdaec7e10089f12a8de197893138f9d3cae6a6768556"
+    },
+    {
+      "name": "host/opentpu/host/regs.py",
+      "bytes": 6065,
+      "sha256": "c46f5b31b278d071353ca911d54e83282257592e2b17405bc44a6f45c0112997"
+    },
+    {
+      "name": "host/opentpu/host/runstate.py",
+      "bytes": 11993,
+      "sha256": "506194486d8158987773aeaf0eb583457c084385ffa69990701509180ae7b4ac"
+    },
+    {
+      "name": "host/opentpu/host/selfcal.py",
+      "bytes": 8503,
+      "sha256": "08b5e1c9b0cbf6a9463aeb4e1a451fe6f320295a7336e79de4bc20ac5df1f823"
+    },
+    {
+      "name": "host/opentpu/host/selftest.py",
+      "bytes": 13745,
+      "sha256": "06b578aad65ce36c4762c6689be0e1764642ed8ee83aa612fc6e1ea60abcf1ce"
+    },
+    {
+      "name": "host/opentpu/host/setup_pcie.sh",
+      "bytes": 22206,
+      "sha256": "37711f64a236c072a53f2d125ce8b50ae52e32dbc55d016fb86d8ac5857d5ae4"
+    },
+    {
+      "name": "host/opentpu/host/smi.py",
+      "bytes": 19216,
+      "sha256": "218025b8b41fd56b21ca8a66a2b3fb37d253f518ad6ff0bb730efe0583bb73af"
+    },
+    {
+      "name": "host/opentpu/host/spare_c0172300.py",
+      "bytes": 11541,
+      "sha256": "8151700fe1987d556a5a8b8acf0e472d14e1976adc0bf8d389e3ca680cbf5669"
+    },
+    {
+      "name": "host/opentpu/host/spare_c0182863.py",
+      "bytes": 12394,
+      "sha256": "4dca73b1bfde7528b9a3f70f4755bd4ef608c87f9bbe5a220e911840d6423ea3"
+    },
+    {
+      "name": "host/opentpu/host/spare_pcie.py",
+      "bytes": 8469,
+      "sha256": "8f1107cda3a7843565901b8f416e3c71b6f4a51aa9f243452a610c14a98f021e"
+    },
+    {
+      "name": "host/opentpu/hwtrace.py",
+      "bytes": 5046,
+      "sha256": "57de1697c691b9c87caeae3b7e4b8fc355a04d445da952ea97a78e3f75acbd5a"
+    },
+    {
+      "name": "host/opentpu/isa.py",
+      "bytes": 21945,
+      "sha256": "416124fc385abd6a9352397d15beb012fbc3d636be7a7f0503192981d2ba79b8"
+    },
+    {
+      "name": "host/opentpu/isasim.py",
+      "bytes": 37295,
+      "sha256": "46166cc6bfd24afe037e20759428ef964a8e5e4a3b15192711602d92a2778076"
+    },
+    {
+      "name": "host/opentpu/kernels/__init__.py",
+      "bytes": 106,
+      "sha256": "b94e2b05a22069885ef32ee1ba2e6d6f637ad9bd665904f1f83dfe0f96c5befe"
+    },
+    {
+      "name": "host/opentpu/kernels/attention.py",
+      "bytes": 14035,
+      "sha256": "53d7c48f787ef9759b73c5d724f9ef6a3184bc89c436e01fc0962307e9a1746d"
+    },
+    {
+      "name": "host/opentpu/kernels/deltanet.py",
+      "bytes": 4353,
+      "sha256": "06679f92d12f46ae1908658cef11b748b21855771685f4e775b0ca924b9ce837"
+    },
+    {
+      "name": "host/opentpu/kernels/gather.py",
+      "bytes": 10194,
+      "sha256": "580ca5070a74947340b8a328b75a397a752ee1d623d59b8a0230703d0746d78d"
+    },
+    {
+      "name": "host/opentpu/kernels/layouts.py",
+      "bytes": 933,
+      "sha256": "21a6a8f829dd0b09bdfdca7654bf81c6d99a09552ced6ae7d4034664475b7dd9"
+    },
+    {
+      "name": "host/opentpu/kernels/lib.py",
+      "bytes": 2410,
+      "sha256": "b5a1f136c6d1ac9169539c97d6b55b9f95d6340065cddcf43307324ee77d9502"
+    },
+    {
+      "name": "host/opentpu/kernels/mailbox.py",
+      "bytes": 1700,
+      "sha256": "2c84d18cbd0b665c709b11b2d679fd9e103a731b725b898036b047cbf181ee6f"
+    },
+    {
+      "name": "host/opentpu/kernels/mlp.py",
+      "bytes": 5828,
+      "sha256": "14086f2d16780edd668373cc23afd8942177a7016e5d631f1aa1c81dbde42140"
+    },
+    {
+      "name": "host/opentpu/language.py",
+      "bytes": 14142,
+      "sha256": "befc55120161020959f7a5ab61c06a06e120caa1325442203276dbf2ab53a11c"
+    },
+    {
+      "name": "host/opentpu/lens.py",
+      "bytes": 28912,
+      "sha256": "31a83b37e42d7a1a9c6f45448eec5ec003e81696a99353a6574c1b95e015256a"
+    },
+    {
+      "name": "host/opentpu/lens_app.html",
+      "bytes": 98355,
+      "sha256": "0adb4464d32a9007399d24dc99cfe0078d2ba830ee72323245d8c56bb9d9690a"
+    },
+    {
+      "name": "host/opentpu/llm/__init__.py",
+      "bytes": 1698,
+      "sha256": "e364c22b510731a5a3ed2fa4c6dce45649e98da5d895b712ac214097508cb7fe"
+    },
+    {
+      "name": "host/opentpu/llm/formats.py",
+      "bytes": 5952,
+      "sha256": "16324f30744c8095b3013907c0b3074e7c2aa7d5354a1b15a5126566ebc587f4"
+    },
+    {
+      "name": "host/opentpu/llm/gemma4.py",
+      "bytes": 101198,
+      "sha256": "b54eb1528eed02301be1b007a10f3a13a6c94740097035c62056cf0135a6c8b7"
+    },
+    {
+      "name": "host/opentpu/llm/generate.py",
+      "bytes": 34953,
+      "sha256": "6218430cb67096e5c5ade989bf8c49d36736866ccb53d431d585cd4ddafee846"
+    },
+    {
+      "name": "host/opentpu/llm/lfm2.py",
+      "bytes": 50231,
+      "sha256": "2955c569ffcf2e810ccf8d3dcbda69a2fe5bbdb4fd5aac886a990baa8c4e6800"
+    },
+    {
+      "name": "host/opentpu/llm/llama.py",
+      "bytes": 4419,
+      "sha256": "6a97d03b0ff10a17fdb00c82c4ec3d89cc55a68a2f39a695cf5969937617ed44"
+    },
+    {
+      "name": "host/opentpu/llm/moe.py",
+      "bytes": 50014,
+      "sha256": "a1575b10a158127090cada61d27a14962dfe6a27139c75033d7c8b3e76002c25"
+    },
+    {
+      "name": "host/opentpu/llm/mtp.py",
+      "bytes": 31143,
+      "sha256": "5f92d89cd6829cc31e37d56f6f91cb98b512e5c34a9dbb55c3436ff5e0c983e4"
+    },
+    {
+      "name": "host/opentpu/llm/prefill.py",
+      "bytes": 16009,
+      "sha256": "f298411f7c3c30717dc694b447c43976d82352a9dd5f3f78a4f7a1b61d32cebc"
+    },
+    {
+      "name": "host/opentpu/llm/qwen3.py",
+      "bytes": 148049,
+      "sha256": "13f2bdf480de7797d22c202527d9f5c75bb1a6a239a48d948fc93445e00c871f"
+    },
+    {
+      "name": "host/opentpu/llm/qwen35.py",
+      "bytes": 126456,
+      "sha256": "b164471b232b4a06e7499df5247aaed865883579e0f221d2dc1aa8aca305cf1b"
+    },
+    {
+      "name": "host/opentpu/llm/rtl_backend.py",
+      "bytes": 1603,
+      "sha256": "2e6beb382061bc73fcd93fa992f4688ef78d0493382da0bfa97fb47868ac35d9"
+    },
+    {
+      "name": "host/opentpu/profile.py",
+      "bytes": 18142,
+      "sha256": "e5290c09052e2a51c4e4ac45284c0c025c12e0047565e461f5890e6880ea6c69"
+    },
+    {
+      "name": "host/opentpu/progcache.py",
+      "bytes": 8890,
+      "sha256": "4fe4546d66e645470aa3cf1eb769b67f4173fb298032f3cb42732818442a5753"
+    },
+    {
+      "name": "host/opentpu/qcache.py",
+      "bytes": 5003,
+      "sha256": "159e37d617d8792899048112a7f7c81ef98e8fd8c8faa96f539421d6af0b1d1f"
+    },
+    {
+      "name": "host/opentpu/quant.py",
+      "bytes": 15959,
+      "sha256": "292416a2dfb65e5f963a35fecae91c27cacc2ac11b9c5b54f8cfcd167a8f6f7d"
+    },
+    {
+      "name": "host/opentpu/reference.py",
+      "bytes": 2473,
+      "sha256": "e0454770a4af3496e37c90fe11500cd7dd98873bf612b18cc7d090fd7b949687"
+    },
+    {
+      "name": "host/opentpu/rtlsim.py",
+      "bytes": 17368,
+      "sha256": "f4b336605b20e3849fdd676f820034abb83722c416f9a7fedc05757d2bdd152c"
+    },
+    {
+      "name": "host/opentpu/runtime.py",
+      "bytes": 10956,
+      "sha256": "1a20d09270bd7b781ef1e91ec0a263872f227ac739597fc9efffe70e70c2d8c4"
+    },
+    {
+      "name": "host/opentpu/simtmp.py",
+      "bytes": 6124,
+      "sha256": "67dc58fcb441b283a238822ed49470d65d614905cace9b6e48452f9f9e1c6402"
+    },
+    {
+      "name": "host/run_dma_spare_c0182863.patch",
+      "bytes": 619,
+      "sha256": "91ee2f4e782e7ca61f4cbed3a7ff61050b11d385b821963f482e39e340d71257"
+    },
+    {
+      "name": "host/run_dma_spare_c0182863.py.help.log",
+      "bytes": 720,
+      "sha256": "275de1d85e8a898ca74c2240dceade660abc3424da38cc9b208fdb40c45ceda3"
+    },
+    {
+      "name": "host/run_lfm_spare_c0182863.patch",
+      "bytes": 2827,
+      "sha256": "ad7068fc323374b207cd26460765b9bb726b67ed73cd7e92b085c7c5f15cf863"
+    },
+    {
+      "name": "host/run_lfm_spare_c0182863.py.help.log",
+      "bytes": 1023,
+      "sha256": "dc7d6cc37f040249870bf12525d115a10bb8c988fe156f0043a70484c36e0ae8"
+    },
+    {
+      "name": "host/spare_c0182863.patch",
+      "bytes": 4490,
+      "sha256": "7db3e762f161c9f1aa9900159fef6f49deb4d36b08f4cb79ee13a394952934d6"
+    },
+    {
+      "name": "host/spare_runtime_c0182863.patch",
+      "bytes": 622,
+      "sha256": "f61bfaa0a12af2c46e733929dad22a2a8509788b7a0d261cdfea66b11ea5b996"
+    },
+    {
+      "name": "host/tools/calibrate_spare_c0182863.py",
+      "bytes": 9655,
+      "sha256": "37251940a64bb6841edc1cb79f08eccdfb766bf8585bdf3c143131ca8d267870"
+    },
+    {
+      "name": "host/tools/fedora_matmul_check.py",
+      "bytes": 1832,
+      "sha256": "c8255fe5daa6142e2d201c79ddbebbc8c75c18830b4e34122e9959f0f643aa9f"
+    },
+    {
+      "name": "host/tools/fedora_prepare_litedram.py",
+      "bytes": 13195,
+      "sha256": "e30fe0989e85d1211dbb9ac13f4bedd9decf9457df347e6b1221e01ddbd83bb8"
+    },
+    {
+      "name": "host/tools/mac_spare_c0182863.sh",
+      "bytes": 2558,
+      "sha256": "2c5c435ee26eddda7f8ac5ed2f99267a18aebd58e70c675ec0b874f922847e87"
+    },
+    {
+      "name": "host/tools/probe_ramtest_spare_calibration.py",
+      "bytes": 7950,
+      "sha256": "ec858b3926353ca464f5f10a053d033a6e85c57c62eca9bf927f3ed53226eb49"
+    },
+    {
+      "name": "host/tools/run_dma_spare_c0182863.py",
+      "bytes": 9726,
+      "sha256": "4bb11b879f4c73464a3900707dbd5f94a9f25837d6b8b71b054399fe21ed2783"
+    },
+    {
+      "name": "host/tools/run_lfm_spare_c0182863.py",
+      "bytes": 15318,
+      "sha256": "569a347c80a639180cf689841f89a8c20847b56b021642f57dc0b00eb1ce404e"
+    },
+    {
+      "name": "host/tools/spare_range_program.py",
+      "bytes": 2988,
+      "sha256": "cdeaa69d546d4f9bf3890f1c66514632712a48c3fc965eb20b229444bcf025a5"
+    },
+    {
+      "name": "host/tools/spare_runtime_c0182863.py",
+      "bytes": 5340,
+      "sha256": "c48b6ec2e28fdc86885fe3c8b4d8ecc5eadcfcacefab82523a855816893ecc20"
+    },
+    {
+      "name": "host/tools/workspace_paths.py",
+      "bytes": 2294,
+      "sha256": "c0ffce56fe526a144bf63e55b9ffcdf3acb26f27946017fba501fba1e9fb5386"
+    },
+    {
+      "name": "otpu.bit",
+      "bytes": 13163043,
+      "sha256": "03b513a44544009afff9dfb82515bf84c5df84ac6a63673a0882308ce8a323ae"
+    }
+  ]
+}

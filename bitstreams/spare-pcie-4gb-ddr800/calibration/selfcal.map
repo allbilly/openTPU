@@ -1,0 +1,131 @@
+Archive member included to satisfy reference by file (symbol)
+
+/home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(modsi3.o)
+                              /tmp/ccYEftcl.o (__modsi3)
+/home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(mulsi3.o)
+                              /tmp/ccYEftcl.o (__mulsi3)
+/home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(divsi3.o)
+                              /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(modsi3.o) (__divsi3)
+/home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(udivsi3.o)
+                              /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(divsi3.o) (__udivsi3)
+/home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(clzsi2.o)
+                              /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(udivsi3.o) (__clzsi2)
+
+Discarded input sections
+
+ .riscv.attributes
+                0x00000000       0x1a /tmp/cc8bC1le.o
+ .comment       0x00000000       0x1a /tmp/ccYEftcl.o
+ .note.GNU-stack
+                0x00000000        0x0 /tmp/ccYEftcl.o
+ .riscv.attributes
+                0x00000000       0x1c /tmp/ccYEftcl.o
+ .comment       0x00000000       0x1a /tmp/cccrEuQ1.o
+ .note.GNU-stack
+                0x00000000        0x0 /tmp/cccrEuQ1.o
+ .riscv.attributes
+                0x00000000       0x1c /tmp/cccrEuQ1.o
+ .comment       0x00000000       0x1a /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(modsi3.o)
+ .note.GNU-stack
+                0x00000000        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(modsi3.o)
+ .riscv.attributes
+                0x00000000       0x1c /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(modsi3.o)
+ .comment       0x00000000       0x1a /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(mulsi3.o)
+ .note.GNU-stack
+                0x00000000        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(mulsi3.o)
+ .riscv.attributes
+                0x00000000       0x1c /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(mulsi3.o)
+ .comment       0x00000000       0x1a /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(divsi3.o)
+ .note.GNU-stack
+                0x00000000        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(divsi3.o)
+ .riscv.attributes
+                0x00000000       0x1c /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(divsi3.o)
+ .comment       0x00000000       0x1a /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(udivsi3.o)
+ .note.GNU-stack
+                0x00000000        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(udivsi3.o)
+ .riscv.attributes
+                0x00000000       0x1c /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(udivsi3.o)
+ .comment       0x00000000       0x1a /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(clzsi2.o)
+ .note.GNU-stack
+                0x00000000        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(clzsi2.o)
+ .riscv.attributes
+                0x00000000       0x1c /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(clzsi2.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+mem              0x00000000         0x00004000
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x00004000                        MEM_BYTES = 0x4000
+LOAD /tmp/cc8bC1le.o
+LOAD /tmp/ccYEftcl.o
+LOAD /tmp/cccrEuQ1.o
+LOAD /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a
+
+.text           0x00000000     0x2140
+ *(.text.start)
+ .text.start    0x00000000       0x34 /tmp/cc8bC1le.o
+                0x00000000                _start
+ *(.text .text.*)
+ .text          0x00000034        0x0 /tmp/cc8bC1le.o
+ .text          0x00000034     0x1e7c /tmp/ccYEftcl.o
+                0x000014c0                selfcal_run
+ .text          0x00001eb0        0x0 /tmp/cccrEuQ1.o
+ .text.startup  0x00001eb0       0x64 /tmp/cccrEuQ1.o
+                0x00001eb0                main
+ .text          0x00001f14       0x3c /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(modsi3.o)
+                0x00001f14                __modsi3
+ .text          0x00001f50       0x50 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(mulsi3.o)
+                0x00001f50                __mulsi3
+ .text          0x00001fa0       0x48 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(divsi3.o)
+                0x00001fa0                __divsi3
+ .text          0x00001fe8       0xc8 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(udivsi3.o)
+                0x00001fe8                __udivsi3
+ .text          0x000020b0       0x90 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(clzsi2.o)
+                0x000020b0                __clzsi2
+
+.rodata         0x00002140      0x284
+ *(.rodata .rodata.* .srodata .srodata.*)
+ .rodata        0x00002140      0x284 /tmp/ccYEftcl.o
+
+.rela.dyn       0x000023c4        0x0
+ .rela.text.start
+                0x000023c4        0x0 /tmp/cc8bC1le.o
+
+.data           0x000023c4        0x0
+ *(.data .data.* .sdata .sdata.*)
+ .data          0x000023c4        0x0 /tmp/cc8bC1le.o
+ .data          0x000023c4        0x0 /tmp/ccYEftcl.o
+ .data          0x000023c4        0x0 /tmp/cccrEuQ1.o
+ .data          0x000023c4        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(modsi3.o)
+ .data          0x000023c4        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(mulsi3.o)
+ .data          0x000023c4        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(divsi3.o)
+ .data          0x000023c4        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(udivsi3.o)
+ .data          0x000023c4        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(clzsi2.o)
+                0x00000001                        ASSERT ((SIZEOF (.data) == 0x0), initialised writable data: the CPU restarts without reloading it)
+
+.bss            0x000023c4      0xbd8
+                0x000023c4                        _bss_start = .
+ *(.bss .bss.* .sbss .sbss.* COMMON)
+ .bss           0x000023c4        0x0 /tmp/cc8bC1le.o
+ .bss           0x000023c4      0xbd8 /tmp/ccYEftcl.o
+ .bss           0x00002f9c        0x0 /tmp/cccrEuQ1.o
+ .bss           0x00002f9c        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(modsi3.o)
+ .bss           0x00002f9c        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(mulsi3.o)
+ .bss           0x00002f9c        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(divsi3.o)
+ .bss           0x00002f9c        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(udivsi3.o)
+ .bss           0x00002f9c        0x0 /home/fedora/openTPU/build/fedora-openxc7/litedram-environment/rv32-runtime/libgcc.a(clzsi2.o)
+                0x00002f9c                        . = ALIGN (0x4)
+                0x00002f9c                        _bss_end = .
+                0x00004000                        _stack_top = (ORIGIN (mem) + LENGTH (mem))
+                0x00000001                        ASSERT (((_stack_top - _bss_end) >= 0x400), less than 1 KiB left for the stack)
+
+/DISCARD/
+ *(.comment)
+ *(.riscv.attributes)
+ *(.note*)
+ *(.eh_frame*)
+OUTPUT(/home/fedora/openTPU/build/fedora-vivado/ramtest-spare8-background-20261017-v2/calibration8-hostload-v2-20261017/target/selfcal.elf elf32-littleriscv)

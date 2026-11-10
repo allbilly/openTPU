@@ -87,10 +87,10 @@ def test_makefile_targets_are_honest():
         if target == "test":
             continue
         module = target[len("test_"):]
-        if not (ROOT / f"test/{target}.py").is_file():
+        if not (ROOT / f"ladder/toy/test/{target}.py").is_file():
             bad.append(f"{target}: missing test/{target}.py")
         for path in re.findall(r"test/(dump_[A-Za-z0-9_]+\.sv)", recipe):
-            if not (ROOT / "test" / path.split("test/")[-1]).is_file():
+            if not (ROOT / "ladder/toy/test" / path.split("test/")[-1]).is_file():
                 bad.append(f"{target}: missing {path}")
         if not re.search(r"-s\s+" + re.escape(module) + r"\b", recipe):
             bad.append(f"{target}: recipe does not instantiate module {module}")
@@ -98,7 +98,7 @@ def test_makefile_targets_are_honest():
 
 
 def test_make_aggregate_target(make_env, make_bin):
-    r = subprocess.run([make_bin, "-n", "test"], cwd=ROOT, env=make_env,
+    r = subprocess.run([make_bin, "-n", "test"], cwd=ROOT / "ladder/toy", env=make_env,
                        capture_output=True, text=True, timeout=120)
     assert r.returncode == 0, r.stderr[-2000:]
     for target in EXPECTED_TARGETS:

@@ -1,0 +1,8 @@
+# Release checksums require byte-for-byte preservation on every host.
+bitstreams/** -text
+bitstreams/**/*.bit -diff
+bitstreams/**/*.mcs -diff linguist-generated=true
+bitstreams/**/core/otpu_litedram.v -diff linguist-generated=true
+bitstreams/**/core/otpu_litedram.xdc -diff linguist-generated=true
+# Blank context lines in an upstream unified diff contain a literal space.
+boards/ypcb-00338/experiments/*.patch -text whitespace=-blank-at-eol,-blank-at-eof

@@ -36,7 +36,7 @@ from ladder.harness.hardware import (
     unexpected_detail,
 )
 
-ONCARD_DOC = ROOT / "docs/oncard-llm.md"
+ONCARD_DOC = ROOT / "ladder/docs/oncard-llm.md"
 HISTORICAL = ROOT / LLM_ACCEPTANCE["historical_evidence"]
 
 PROMPT = "Once upon a time"
@@ -135,7 +135,7 @@ def test_step15_historical_acceptance_record(ready):
 
 
 def test_step15_llm_recipe_is_documented(ready):
-    """docs/oncard-llm.md is the executable end-to-end acceptance recipe."""
+    """ladder/docs/oncard-llm.md is the executable end-to-end acceptance recipe."""
     text = ONCARD_DOC.read_text()
     for needle in ("/home/fedora/ypcb/dlc10-init.sh", "tools/fedora_bringup.sh program",
                    "tools/fedora_bringup.sh jtag-server", "calibrate_spare_c0182902.py",
@@ -143,7 +143,7 @@ def test_step15_llm_recipe_is_documented(ready):
                    "repeat_tinystories_shared_jtag.py", "verify_tinystories_shared_jtag.py",
                    "Once upon a time", "29892", "d32fd284", "warm repeat",
                    "flash_written: false", "blocker"):
-        assert needle in text, f"docs/oncard-llm.md does not document {needle!r}"
+        assert needle in text, f"ladder/docs/oncard-llm.md does not document {needle!r}"
 
 
 def test_step15_live_model_run_expected_tokens(ready):
@@ -165,7 +165,7 @@ def test_step15_live_model_run_expected_tokens(ready):
         ladder/evidence/hardware/ with flash_written: false.
     """
     pytest.skip("TODO(step 15): live TinyStories model run waits for the DLC10 "
-                "cable and card; see docs/oncard-llm.md")
+                "cable and card; see ladder/docs/oncard-llm.md")
 
 
 def test_step15_warm_repeat_and_optional_evidence(ready):
@@ -179,4 +179,4 @@ def test_step15_warm_repeat_and_optional_evidence(ready):
     exact-token acceptance.
     """
     pytest.skip("TODO(step 15): warm repeat / optional readback+bandwidth wait for "
-                "the DLC10 cable and card; see docs/oncard-llm.md")
+                "the DLC10 cable and card; see ladder/docs/oncard-llm.md")

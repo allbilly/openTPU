@@ -1,0 +1,2175 @@
+{
+  "status": "SPARE_PCIE_CDC_REVIEW_PASS_EXTERNAL_DDR_TIMING_AND_PHYSICAL_PENDING",
+  "updated_utc": "2026-10-17T04:21:33.647303+00:00",
+  "qualification": {
+    "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-review-v3-20261017/manifest.json",
+    "bytes": 28763,
+    "sha256": "e10ce7dad066866bce3f13057e1ccc0b9a0adb85d2742c016e399b16cbafe26c"
+  },
+  "collection": {
+    "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/collection/manifest.json",
+    "bytes": 8702,
+    "sha256": "0d20c7caf70c7eb21b09f9f0961921e4031e024e70db233b27e00911fa6becc5"
+  },
+  "csr_gray_review": {
+    "path": "/home/fedora/openTPU/build/checks/spare-full-pcie-crossings-v3-20261017/gray/manifest.json",
+    "bytes": 20590,
+    "sha256": "11ac0487bc947271c73d3bf61d4b4e2ddfab18a4b53f847afc9ea6a460684a8a"
+  },
+  "source_comparison": {
+    "path": "/home/fedora/openTPU/build/checks/spare-cdc-source-v2-20261017/manifest.json",
+    "bytes": 42746,
+    "sha256": "5164d06b3f0a8bb2d8cfb72d78edbd2b7d195b520ad93c926e03661ced9ac084"
+  },
+  "bitstream": {
+    "path": "/home/fedora/openTPU/build/fedora-vivado/spare-full-pcie-20261017/implementation/project/otpu.bit",
+    "bytes": 12735199,
+    "sha256": "19730b4708653c428cf388999c4d49b7437648dd27d358028999ee98c380a425"
+  },
+  "reviewed_scope": "Configuration startup and normal traffic in exact c0172080, excluding the unused global management reset. All 116 non-information CDC paths are accounted for under the recorded generated-IP and FIFO contracts.",
+  "reviewed_non_info_rows": [
+    [
+      "CDC-13",
+      "Critical",
+      "1-bit CDC path on a non-FD primitive",
+      "0",
+      "False Path",
+      "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_clock_int.pipe_clock_i/pclk_sel_reg/C",
+      "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_clock_int.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/S1"
+    ],
+    [
+      "CDC-13",
+      "Critical",
+      "1-bit CDC path on a non-FD primitive",
+      "0",
+      "False Path",
+      "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_clock_int.pipe_clock_i/pclk_sel_reg/C",
+      "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_clock_int.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/S1"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_0_5/RAMA/CLK",
+      "u_ld/storage_20_dat1_reg[2]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_0_5/RAMA_D1/CLK",
+      "u_ld/storage_20_dat1_reg[3]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_0_5/RAMB/CLK",
+      "u_ld/storage_20_dat1_reg[4]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_0_5/RAMB_D1/CLK",
+      "u_ld/storage_20_dat1_reg[5]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_6_11/RAMA/CLK",
+      "u_ld/storage_20_dat1_reg[6]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_6_11/RAMA_D1/CLK",
+      "u_ld/storage_20_dat1_reg[7]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_6_11/RAMB/CLK",
+      "u_ld/storage_20_dat1_reg[8]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_6_11/RAMB_D1/CLK",
+      "u_ld/storage_20_dat1_reg[9]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_6_11/RAMC/CLK",
+      "u_ld/storage_20_dat1_reg[10]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_6_11/RAMC_D1/CLK",
+      "u_ld/storage_20_dat1_reg[11]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_12_17/RAMA/CLK",
+      "u_ld/storage_20_dat1_reg[12]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_12_17/RAMA_D1/CLK",
+      "u_ld/storage_20_dat1_reg[13]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_12_17/RAMB/CLK",
+      "u_ld/storage_20_dat1_reg[14]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_12_17/RAMB_D1/CLK",
+      "u_ld/storage_20_dat1_reg[15]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_12_17/RAMC/CLK",
+      "u_ld/storage_20_dat1_reg[16]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_12_17/RAMC_D1/CLK",
+      "u_ld/storage_20_dat1_reg[17]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_18_23/RAMA/CLK",
+      "u_ld/storage_20_dat1_reg[18]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_18_23/RAMA_D1/CLK",
+      "u_ld/storage_20_dat1_reg[19]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_18_23/RAMB/CLK",
+      "u_ld/storage_20_dat1_reg[20]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_18_23/RAMB_D1/CLK",
+      "u_ld/storage_20_dat1_reg[21]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_18_23/RAMC/CLK",
+      "u_ld/storage_20_dat1_reg[22]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_18_23/RAMC_D1/CLK",
+      "u_ld/storage_20_dat1_reg[23]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_24_29/RAMA/CLK",
+      "u_ld/storage_20_dat1_reg[24]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_24_29/RAMA_D1/CLK",
+      "u_ld/storage_20_dat1_reg[25]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_24_29/RAMB/CLK",
+      "u_ld/storage_20_dat1_reg[26]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_24_29/RAMB_D1/CLK",
+      "u_ld/storage_20_dat1_reg[27]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_24_29/RAMC/CLK",
+      "u_ld/storage_20_dat1_reg[28]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_24_29/RAMC_D1/CLK",
+      "u_ld/storage_20_dat1_reg[29]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_30_33/RAMA/CLK",
+      "u_ld/storage_20_dat1_reg[30]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_30_33/RAMA_D1/CLK",
+      "u_ld/storage_20_dat1_reg[31]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_30_33/RAMB/CLK",
+      "u_ld/storage_20_dat1_reg[32]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_20_reg_0_3_30_33/RAMB_D1/CLK",
+      "u_ld/storage_20_dat1_reg[33]/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_ld/aw_cdc_cdc_graycounter1_q_reg[2:0]/C",
+      "u_ld/xilinxmultiregimpl1_regs0_reg[2:0]/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_ld/w_cdc_cdc_graycounter1_q_reg[2:0]/C",
+      "u_ld/xilinxmultiregimpl3_regs0_reg[2:0]/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_ld/b_cdc_cdc_graycounter0_q_reg[2:0]/C",
+      "u_ld/xilinxmultiregimpl4_regs0_reg[2:0]/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_ld/ar_cdc_cdc_graycounter1_q_reg[2:0]/C",
+      "u_ld/xilinxmultiregimpl7_regs0_reg[2:0]/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_ld/r_cdc_cdc_graycounter0_q_reg[2:0]/C",
+      "u_ld/xilinxmultiregimpl8_regs0_reg[2:0]/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_bd/otpu_bd_i/xdma_0/inst/udma_wrapper/dma_top/axi4mm_bridge_top_inst/axi4mm_axi_mm_master_top_inst/axi4mm_axi_mm_master_wr_inst/m_axi_litex_wdata_ff_reg[31:0]/C",
+      "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[0].mi_cdc.m_cdc_inst/gen_async_conv.gen_write.wdata_async_cdc/syncstages_ff_reg[0][31:0]/D"
+    ],
+    [
+      "CDC-11",
+      "Critical",
+      "Fan-out from launch flop to destination clock",
+      "5",
+      "False Path",
+      "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/user_reset_out_reg/C",
+      "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[0].mi_cdc.m_psr/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/syncstages_ff_reg[0]/D"
+    ],
+    [
+      "CDC-11",
+      "Critical",
+      "Fan-out from launch flop to destination clock",
+      "5",
+      "False Path",
+      "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/user_reset_out_reg/C",
+      "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[1].mi_cdc.m_psr/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/syncstages_ff_reg[0]/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_bd/otpu_bd_i/xdma_0/inst/udma_wrapper/dma_top/axi4mm_bridge_top_inst/axi4mm_axi_mm_master_top_inst/axi4mm_axi_mm_master_wr_inst/m_axi_litex_wdata_ff_reg[31:0]/C",
+      "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[2].mi_cdc.m_cdc_inst/gen_async_conv.gen_write.wdata_async_cdc/syncstages_ff_reg[0][31:0]/D"
+    ],
+    [
+      "CDC-11",
+      "Critical",
+      "Fan-out from launch flop to destination clock",
+      "5",
+      "False Path",
+      "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/user_reset_out_reg/C",
+      "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[2].mi_cdc.m_psr/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/syncstages_ff_reg[0]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_0_5/RAMA/CLK",
+      "u_ld/storage_16_dat1_reg[0]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_0_5/RAMA_D1/CLK",
+      "u_ld/storage_16_dat1_reg[1]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_0_5/RAMB/CLK",
+      "u_ld/storage_16_dat1_reg[2]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_0_5/RAMB_D1/CLK",
+      "u_ld/storage_16_dat1_reg[3]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_0_5/RAMC/CLK",
+      "u_ld/storage_16_dat1_reg[4]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_0_5/RAMC_D1/CLK",
+      "u_ld/storage_16_dat1_reg[5]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_6_11/RAMA/CLK",
+      "u_ld/storage_16_dat1_reg[6]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_6_11/RAMA_D1/CLK",
+      "u_ld/storage_16_dat1_reg[7]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_6_11/RAMB/CLK",
+      "u_ld/storage_16_dat1_reg[8]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_6_11/RAMB_D1/CLK",
+      "u_ld/storage_16_dat1_reg[9]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_6_11/RAMC/CLK",
+      "u_ld/storage_16_dat1_reg[10]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_6_11/RAMC_D1/CLK",
+      "u_ld/storage_16_dat1_reg[11]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_12_17/DP/CLK",
+      "u_ld/storage_16_dat1_reg[12]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_16_reg_0_3_12_17__0/DP/CLK",
+      "u_ld/storage_16_dat1_reg[13]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_0_5/RAMA/CLK",
+      "u_ld/storage_17_dat1_reg[0]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_0_5/RAMA_D1/CLK",
+      "u_ld/storage_17_dat1_reg[1]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_0_5/RAMB/CLK",
+      "u_ld/storage_17_dat1_reg[2]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_0_5/RAMB_D1/CLK",
+      "u_ld/storage_17_dat1_reg[3]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_0_5/RAMC/CLK",
+      "u_ld/storage_17_dat1_reg[4]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_0_5/RAMC_D1/CLK",
+      "u_ld/storage_17_dat1_reg[5]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_6_11/RAMA/CLK",
+      "u_ld/storage_17_dat1_reg[6]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_6_11/RAMA_D1/CLK",
+      "u_ld/storage_17_dat1_reg[7]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_6_11/RAMB/CLK",
+      "u_ld/storage_17_dat1_reg[8]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_6_11/RAMB_D1/CLK",
+      "u_ld/storage_17_dat1_reg[9]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_6_11/RAMC/CLK",
+      "u_ld/storage_17_dat1_reg[10]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_6_11/RAMC_D1/CLK",
+      "u_ld/storage_17_dat1_reg[11]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_12_17/RAMA/CLK",
+      "u_ld/storage_17_dat1_reg[12]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_12_17/RAMA_D1/CLK",
+      "u_ld/storage_17_dat1_reg[13]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_12_17/RAMB/CLK",
+      "u_ld/storage_17_dat1_reg[14]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_12_17/RAMB_D1/CLK",
+      "u_ld/storage_17_dat1_reg[15]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_12_17/RAMC/CLK",
+      "u_ld/storage_17_dat1_reg[16]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_12_17/RAMC_D1/CLK",
+      "u_ld/storage_17_dat1_reg[17]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_18_23/RAMA/CLK",
+      "u_ld/storage_17_dat1_reg[18]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_18_23/RAMA_D1/CLK",
+      "u_ld/storage_17_dat1_reg[19]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_18_23/RAMB/CLK",
+      "u_ld/storage_17_dat1_reg[20]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_18_23/RAMB_D1/CLK",
+      "u_ld/storage_17_dat1_reg[21]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_18_23/RAMC/CLK",
+      "u_ld/storage_17_dat1_reg[22]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_18_23/RAMC_D1/CLK",
+      "u_ld/storage_17_dat1_reg[23]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_24_29/RAMA/CLK",
+      "u_ld/storage_17_dat1_reg[24]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_24_29/RAMA_D1/CLK",
+      "u_ld/storage_17_dat1_reg[25]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_24_29/RAMB/CLK",
+      "u_ld/storage_17_dat1_reg[26]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_24_29/RAMB_D1/CLK",
+      "u_ld/storage_17_dat1_reg[27]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_24_29/RAMC/CLK",
+      "u_ld/storage_17_dat1_reg[28]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_24_29/RAMC_D1/CLK",
+      "u_ld/storage_17_dat1_reg[29]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_30_35/RAMA/CLK",
+      "u_ld/storage_17_dat1_reg[30]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_30_35/RAMA_D1/CLK",
+      "u_ld/storage_17_dat1_reg[31]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_30_35/RAMB/CLK",
+      "u_ld/storage_17_dat1_reg[32]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_30_35/RAMB_D1/CLK",
+      "u_ld/storage_17_dat1_reg[33]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_30_35/RAMC/CLK",
+      "u_ld/storage_17_dat1_reg[34]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_17_reg_0_3_30_35/RAMC_D1/CLK",
+      "u_ld/storage_17_dat1_reg[35]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_0_5/RAMA/CLK",
+      "u_ld/storage_19_dat1_reg[0]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_0_5/RAMA_D1/CLK",
+      "u_ld/storage_19_dat1_reg[1]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_0_5/RAMB/CLK",
+      "u_ld/storage_19_dat1_reg[2]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_0_5/RAMB_D1/CLK",
+      "u_ld/storage_19_dat1_reg[3]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_0_5/RAMC/CLK",
+      "u_ld/storage_19_dat1_reg[4]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_0_5/RAMC_D1/CLK",
+      "u_ld/storage_19_dat1_reg[5]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_6_11/RAMA/CLK",
+      "u_ld/storage_19_dat1_reg[6]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_6_11/RAMA_D1/CLK",
+      "u_ld/storage_19_dat1_reg[7]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_6_11/RAMB/CLK",
+      "u_ld/storage_19_dat1_reg[8]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_6_11/RAMB_D1/CLK",
+      "u_ld/storage_19_dat1_reg[9]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_6_11/RAMC/CLK",
+      "u_ld/storage_19_dat1_reg[10]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_6_11/RAMC_D1/CLK",
+      "u_ld/storage_19_dat1_reg[11]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_12_17/DP/CLK",
+      "u_ld/storage_19_dat1_reg[12]/D"
+    ],
+    [
+      "CDC-26",
+      "Warning",
+      "LUTRAM read/write potential collision",
+      "0",
+      "Max Delay Datapath Only",
+      "u_ld/storage_19_reg_0_3_12_17__0/DP/CLK",
+      "u_ld/storage_19_dat1_reg[13]/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_ld/aw_cdc_cdc_graycounter0_q_reg[2:0]/C",
+      "u_ld/xilinxmultiregimpl0_regs0_reg[2:0]/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_ld/w_cdc_cdc_graycounter0_q_reg[2:0]/C",
+      "u_ld/xilinxmultiregimpl2_regs0_reg[2:0]/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_ld/b_cdc_cdc_graycounter1_q_reg[2:0]/C",
+      "u_ld/xilinxmultiregimpl5_regs0_reg[2:0]/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_ld/ar_cdc_cdc_graycounter0_q_reg[2:0]/C",
+      "u_ld/xilinxmultiregimpl6_regs0_reg[2:0]/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_ld/r_cdc_cdc_graycounter1_q_reg[2:0]/C",
+      "u_ld/xilinxmultiregimpl9_regs0_reg[2:0]/D"
+    ],
+    [
+      "CDC-10",
+      "Critical",
+      "Combinational logic detected before a synchronizer",
+      "8",
+      "False Path",
+      "u_ld/reset_storage_reg[0]/C",
+      "u_ld/FDCE/D"
+    ],
+    [
+      "CDC-10",
+      "Critical",
+      "Combinational logic detected before a synchronizer",
+      "8",
+      "False Path",
+      "u_ld/reset_storage_reg[0]/C",
+      "u_ld/FDCE_8/D"
+    ],
+    [
+      "CDC-6",
+      "Warning",
+      "Multi-bit synchronized with ASYNC_REG property",
+      "2",
+      "False Path",
+      "u_sys/u_board/u_ctrl/s_rdata_reg[31:0]/C",
+      "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[0].mi_cdc.m_cdc_inst/gen_async_conv.gen_read.rdata_async_cdc/syncstages_ff_reg[0][31:0]/D"
+    ]
+  ],
+  "finding_groups": [
+    {
+      "name": "Vendor PCIe clock selection",
+      "reason": "Two mode-specific reports of the generated PCIe PIPE BUFGCTRL clock selector. Generated source has two ASYNC_REG request stages, changes pclk_sel only when every lane agrees, complementary S0/S1, CE0/CE1 asserted and IGNORE0/IGNORE1 deasserted. Independent review includes both 125 and 250 MHz OOB clock modes and passing timing/skew. Accepted within generated vendor clock-switching architecture; physical PCIe retraining remains untested.",
+      "rows": [
+        [
+          "CDC-13",
+          "Critical",
+          "1-bit CDC path on a non-FD primitive",
+          "0",
+          "False Path",
+          "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_clock_int.pipe_clock_i/pclk_sel_reg/C",
+          "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_clock_int.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/S1"
+        ],
+        [
+          "CDC-13",
+          "Critical",
+          "1-bit CDC path on a non-FD primitive",
+          "0",
+          "False Path",
+          "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_clock_int.pipe_clock_i/pclk_sel_reg/C",
+          "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_clock_int.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/S1"
+        ]
+      ]
+    },
+    {
+      "name": "Vendor SmartConnect reset distribution",
+      "reason": "Three destinations are generated per-interface m_psr reset synchronizers on M_AXI0/1/2, driven by the same vendor user_reset_out. Integrated clocks and reset wiring reviewed, no added crossing relative to reference, OOB timing passed. SmartConnect implementation is encrypted; acceptance relies on vendor IP reset semantics and supplied constraints, not a claimed source-level or formal proof. Do not reset individual live domains or change clock topology.",
+      "rows": [
+        [
+          "CDC-11",
+          "Critical",
+          "Fan-out from launch flop to destination clock",
+          "5",
+          "False Path",
+          "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/user_reset_out_reg/C",
+          "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[0].mi_cdc.m_psr/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/syncstages_ff_reg[0]/D"
+        ],
+        [
+          "CDC-11",
+          "Critical",
+          "Fan-out from launch flop to destination clock",
+          "5",
+          "False Path",
+          "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/user_reset_out_reg/C",
+          "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[1].mi_cdc.m_psr/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/syncstages_ff_reg[0]/D"
+        ],
+        [
+          "CDC-11",
+          "Critical",
+          "Fan-out from launch flop to destination clock",
+          "5",
+          "False Path",
+          "u_bd/otpu_bd_i/xdma_0/inst/otpu_bd_xdma_0_0_pcie2_to_pcie3_wrapper_i/pcie2_ip_i/inst/inst/user_reset_out_reg/C",
+          "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[2].mi_cdc.m_psr/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/syncstages_ff_reg[0]/D"
+        ]
+      ]
+    },
+    {
+      "name": "Unused global management reset",
+      "reason": "Both paths enter the 50 MHz MMCM/PLL reset chains. Routed fanin evidence explicitly identifies reset_storage[0] and reset_wr_stb; frozen source initializes both to zero and asserts soc_rst only on a reset CSR write. Normal operation does not write this CSR; guarded spare host rejects R_MEMCAL+0x2000. Accepted ONLY with this operational exclusion. This does not qualify arbitrary management reset pulses; recover by full configuration reload or power cycle.",
+      "rows": [
+        [
+          "CDC-10",
+          "Critical",
+          "Combinational logic detected before a synchronizer",
+          "8",
+          "False Path",
+          "u_ld/reset_storage_reg[0]/C",
+          "u_ld/FDCE/D"
+        ],
+        [
+          "CDC-10",
+          "Critical",
+          "Combinational logic detected before a synchronizer",
+          "8",
+          "False Path",
+          "u_ld/reset_storage_reg[0]/C",
+          "u_ld/FDCE_8/D"
+        ]
+      ]
+    },
+    {
+      "name": "CSR FIFO gray pointers",
+      "reason": "Ten registered binary-to-Gray pointer groups for AW/W/B/AR/R. Selected counter and synchronizer source matches the reviewed reference. The exact routed audit checks thirty source bits, both ASYNC_REG stages, direct fanins and clock domains; its facts match the reference. All 49 original plus analysis-only skew assertions pass with minimum slack 2.878 ns. The stored checkpoint and constraints are unchanged.",
+      "rows": [
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_ld/aw_cdc_cdc_graycounter1_q_reg[2:0]/C",
+          "u_ld/xilinxmultiregimpl1_regs0_reg[2:0]/D"
+        ],
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_ld/w_cdc_cdc_graycounter1_q_reg[2:0]/C",
+          "u_ld/xilinxmultiregimpl3_regs0_reg[2:0]/D"
+        ],
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_ld/b_cdc_cdc_graycounter0_q_reg[2:0]/C",
+          "u_ld/xilinxmultiregimpl4_regs0_reg[2:0]/D"
+        ],
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_ld/ar_cdc_cdc_graycounter1_q_reg[2:0]/C",
+          "u_ld/xilinxmultiregimpl7_regs0_reg[2:0]/D"
+        ],
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_ld/r_cdc_cdc_graycounter0_q_reg[2:0]/C",
+          "u_ld/xilinxmultiregimpl8_regs0_reg[2:0]/D"
+        ],
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_ld/aw_cdc_cdc_graycounter0_q_reg[2:0]/C",
+          "u_ld/xilinxmultiregimpl0_regs0_reg[2:0]/D"
+        ],
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_ld/w_cdc_cdc_graycounter0_q_reg[2:0]/C",
+          "u_ld/xilinxmultiregimpl2_regs0_reg[2:0]/D"
+        ],
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_ld/b_cdc_cdc_graycounter1_q_reg[2:0]/C",
+          "u_ld/xilinxmultiregimpl5_regs0_reg[2:0]/D"
+        ],
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_ld/ar_cdc_cdc_graycounter0_q_reg[2:0]/C",
+          "u_ld/xilinxmultiregimpl6_regs0_reg[2:0]/D"
+        ],
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_ld/r_cdc_cdc_graycounter1_q_reg[2:0]/C",
+          "u_ld/xilinxmultiregimpl9_regs0_reg[2:0]/D"
+        ]
+      ]
+    },
+    {
+      "name": "Vendor SmartConnect payload crossing",
+      "reason": "Three paths terminate in generated async-converter write/read payload synchronization banks. These are AXI transactions held by the vendor asynchronous conversion protocol, not arbitrary independently changing payload bits. Accepted as generated SmartConnect IP with supplied constraints, reviewed interface clock/reset wiring and passing independent OOB timing. Implementation is encrypted; no source-level handshake proof is claimed. Physical PCIe and resets remain qualification tasks.",
+      "rows": [
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_bd/otpu_bd_i/xdma_0/inst/udma_wrapper/dma_top/axi4mm_bridge_top_inst/axi4mm_axi_mm_master_top_inst/axi4mm_axi_mm_master_wr_inst/m_axi_litex_wdata_ff_reg[31:0]/C",
+          "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[0].mi_cdc.m_cdc_inst/gen_async_conv.gen_write.wdata_async_cdc/syncstages_ff_reg[0][31:0]/D"
+        ],
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_bd/otpu_bd_i/xdma_0/inst/udma_wrapper/dma_top/axi4mm_bridge_top_inst/axi4mm_axi_mm_master_top_inst/axi4mm_axi_mm_master_wr_inst/m_axi_litex_wdata_ff_reg[31:0]/C",
+          "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[2].mi_cdc.m_cdc_inst/gen_async_conv.gen_write.wdata_async_cdc/syncstages_ff_reg[0][31:0]/D"
+        ],
+        [
+          "CDC-6",
+          "Warning",
+          "Multi-bit synchronized with ASYNC_REG property",
+          "2",
+          "False Path",
+          "u_sys/u_board/u_ctrl/s_rdata_reg[31:0]/C",
+          "u_bd/otpu_bd_i/sc_ctl/inst/sc_ul/inst/M_AXI[0].mi_cdc.m_cdc_inst/gen_async_conv.gen_read.rdata_async_cdc/syncstages_ff_reg[0][31:0]/D"
+        ]
+      ]
+    },
+    {
+      "name": "CSR AsyncFIFO storage",
+      "reason": "96 warnings cover distributed storage_16/17/19/20 payload read/write crossings for AW/W/AR/R. Frozen generated source gates writes and reads with FIFO full/empty, transfers registered Gray pointers through two stages, and holds stored words until consumption. Constraint file bounds payload paths by destination period; independent timing passed. Additional routed Gray-skew review bounds pointer propagation. Under this FIFO protocol a valid consumed word is stable; warnings about possible unconstrained RAM collision are reviewed within that operating protocol, not waived for raw direct RAM access.",
+      "rows": [
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_0_5/RAMA/CLK",
+          "u_ld/storage_20_dat1_reg[2]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_0_5/RAMA_D1/CLK",
+          "u_ld/storage_20_dat1_reg[3]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_0_5/RAMB/CLK",
+          "u_ld/storage_20_dat1_reg[4]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_0_5/RAMB_D1/CLK",
+          "u_ld/storage_20_dat1_reg[5]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_6_11/RAMA/CLK",
+          "u_ld/storage_20_dat1_reg[6]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_6_11/RAMA_D1/CLK",
+          "u_ld/storage_20_dat1_reg[7]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_6_11/RAMB/CLK",
+          "u_ld/storage_20_dat1_reg[8]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_6_11/RAMB_D1/CLK",
+          "u_ld/storage_20_dat1_reg[9]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_6_11/RAMC/CLK",
+          "u_ld/storage_20_dat1_reg[10]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_6_11/RAMC_D1/CLK",
+          "u_ld/storage_20_dat1_reg[11]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_12_17/RAMA/CLK",
+          "u_ld/storage_20_dat1_reg[12]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_12_17/RAMA_D1/CLK",
+          "u_ld/storage_20_dat1_reg[13]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_12_17/RAMB/CLK",
+          "u_ld/storage_20_dat1_reg[14]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_12_17/RAMB_D1/CLK",
+          "u_ld/storage_20_dat1_reg[15]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_12_17/RAMC/CLK",
+          "u_ld/storage_20_dat1_reg[16]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_12_17/RAMC_D1/CLK",
+          "u_ld/storage_20_dat1_reg[17]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_18_23/RAMA/CLK",
+          "u_ld/storage_20_dat1_reg[18]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_18_23/RAMA_D1/CLK",
+          "u_ld/storage_20_dat1_reg[19]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_18_23/RAMB/CLK",
+          "u_ld/storage_20_dat1_reg[20]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_18_23/RAMB_D1/CLK",
+          "u_ld/storage_20_dat1_reg[21]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_18_23/RAMC/CLK",
+          "u_ld/storage_20_dat1_reg[22]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_18_23/RAMC_D1/CLK",
+          "u_ld/storage_20_dat1_reg[23]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_24_29/RAMA/CLK",
+          "u_ld/storage_20_dat1_reg[24]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_24_29/RAMA_D1/CLK",
+          "u_ld/storage_20_dat1_reg[25]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_24_29/RAMB/CLK",
+          "u_ld/storage_20_dat1_reg[26]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_24_29/RAMB_D1/CLK",
+          "u_ld/storage_20_dat1_reg[27]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_24_29/RAMC/CLK",
+          "u_ld/storage_20_dat1_reg[28]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_24_29/RAMC_D1/CLK",
+          "u_ld/storage_20_dat1_reg[29]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_30_33/RAMA/CLK",
+          "u_ld/storage_20_dat1_reg[30]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_30_33/RAMA_D1/CLK",
+          "u_ld/storage_20_dat1_reg[31]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_30_33/RAMB/CLK",
+          "u_ld/storage_20_dat1_reg[32]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_20_reg_0_3_30_33/RAMB_D1/CLK",
+          "u_ld/storage_20_dat1_reg[33]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_0_5/RAMA/CLK",
+          "u_ld/storage_16_dat1_reg[0]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_0_5/RAMA_D1/CLK",
+          "u_ld/storage_16_dat1_reg[1]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_0_5/RAMB/CLK",
+          "u_ld/storage_16_dat1_reg[2]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_0_5/RAMB_D1/CLK",
+          "u_ld/storage_16_dat1_reg[3]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_0_5/RAMC/CLK",
+          "u_ld/storage_16_dat1_reg[4]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_0_5/RAMC_D1/CLK",
+          "u_ld/storage_16_dat1_reg[5]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_6_11/RAMA/CLK",
+          "u_ld/storage_16_dat1_reg[6]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_6_11/RAMA_D1/CLK",
+          "u_ld/storage_16_dat1_reg[7]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_6_11/RAMB/CLK",
+          "u_ld/storage_16_dat1_reg[8]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_6_11/RAMB_D1/CLK",
+          "u_ld/storage_16_dat1_reg[9]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_6_11/RAMC/CLK",
+          "u_ld/storage_16_dat1_reg[10]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_6_11/RAMC_D1/CLK",
+          "u_ld/storage_16_dat1_reg[11]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_12_17/DP/CLK",
+          "u_ld/storage_16_dat1_reg[12]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_16_reg_0_3_12_17__0/DP/CLK",
+          "u_ld/storage_16_dat1_reg[13]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_0_5/RAMA/CLK",
+          "u_ld/storage_17_dat1_reg[0]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_0_5/RAMA_D1/CLK",
+          "u_ld/storage_17_dat1_reg[1]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_0_5/RAMB/CLK",
+          "u_ld/storage_17_dat1_reg[2]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_0_5/RAMB_D1/CLK",
+          "u_ld/storage_17_dat1_reg[3]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_0_5/RAMC/CLK",
+          "u_ld/storage_17_dat1_reg[4]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_0_5/RAMC_D1/CLK",
+          "u_ld/storage_17_dat1_reg[5]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_6_11/RAMA/CLK",
+          "u_ld/storage_17_dat1_reg[6]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_6_11/RAMA_D1/CLK",
+          "u_ld/storage_17_dat1_reg[7]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_6_11/RAMB/CLK",
+          "u_ld/storage_17_dat1_reg[8]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_6_11/RAMB_D1/CLK",
+          "u_ld/storage_17_dat1_reg[9]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_6_11/RAMC/CLK",
+          "u_ld/storage_17_dat1_reg[10]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_6_11/RAMC_D1/CLK",
+          "u_ld/storage_17_dat1_reg[11]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_12_17/RAMA/CLK",
+          "u_ld/storage_17_dat1_reg[12]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_12_17/RAMA_D1/CLK",
+          "u_ld/storage_17_dat1_reg[13]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_12_17/RAMB/CLK",
+          "u_ld/storage_17_dat1_reg[14]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_12_17/RAMB_D1/CLK",
+          "u_ld/storage_17_dat1_reg[15]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_12_17/RAMC/CLK",
+          "u_ld/storage_17_dat1_reg[16]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_12_17/RAMC_D1/CLK",
+          "u_ld/storage_17_dat1_reg[17]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_18_23/RAMA/CLK",
+          "u_ld/storage_17_dat1_reg[18]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_18_23/RAMA_D1/CLK",
+          "u_ld/storage_17_dat1_reg[19]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_18_23/RAMB/CLK",
+          "u_ld/storage_17_dat1_reg[20]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_18_23/RAMB_D1/CLK",
+          "u_ld/storage_17_dat1_reg[21]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_18_23/RAMC/CLK",
+          "u_ld/storage_17_dat1_reg[22]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_18_23/RAMC_D1/CLK",
+          "u_ld/storage_17_dat1_reg[23]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_24_29/RAMA/CLK",
+          "u_ld/storage_17_dat1_reg[24]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_24_29/RAMA_D1/CLK",
+          "u_ld/storage_17_dat1_reg[25]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_24_29/RAMB/CLK",
+          "u_ld/storage_17_dat1_reg[26]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_24_29/RAMB_D1/CLK",
+          "u_ld/storage_17_dat1_reg[27]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_24_29/RAMC/CLK",
+          "u_ld/storage_17_dat1_reg[28]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_24_29/RAMC_D1/CLK",
+          "u_ld/storage_17_dat1_reg[29]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_30_35/RAMA/CLK",
+          "u_ld/storage_17_dat1_reg[30]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_30_35/RAMA_D1/CLK",
+          "u_ld/storage_17_dat1_reg[31]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_30_35/RAMB/CLK",
+          "u_ld/storage_17_dat1_reg[32]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_30_35/RAMB_D1/CLK",
+          "u_ld/storage_17_dat1_reg[33]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_30_35/RAMC/CLK",
+          "u_ld/storage_17_dat1_reg[34]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_17_reg_0_3_30_35/RAMC_D1/CLK",
+          "u_ld/storage_17_dat1_reg[35]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_0_5/RAMA/CLK",
+          "u_ld/storage_19_dat1_reg[0]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_0_5/RAMA_D1/CLK",
+          "u_ld/storage_19_dat1_reg[1]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_0_5/RAMB/CLK",
+          "u_ld/storage_19_dat1_reg[2]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_0_5/RAMB_D1/CLK",
+          "u_ld/storage_19_dat1_reg[3]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_0_5/RAMC/CLK",
+          "u_ld/storage_19_dat1_reg[4]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_0_5/RAMC_D1/CLK",
+          "u_ld/storage_19_dat1_reg[5]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_6_11/RAMA/CLK",
+          "u_ld/storage_19_dat1_reg[6]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_6_11/RAMA_D1/CLK",
+          "u_ld/storage_19_dat1_reg[7]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_6_11/RAMB/CLK",
+          "u_ld/storage_19_dat1_reg[8]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_6_11/RAMB_D1/CLK",
+          "u_ld/storage_19_dat1_reg[9]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_6_11/RAMC/CLK",
+          "u_ld/storage_19_dat1_reg[10]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_6_11/RAMC_D1/CLK",
+          "u_ld/storage_19_dat1_reg[11]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_12_17/DP/CLK",
+          "u_ld/storage_19_dat1_reg[12]/D"
+        ],
+        [
+          "CDC-26",
+          "Warning",
+          "LUTRAM read/write potential collision",
+          "0",
+          "Max Delay Datapath Only",
+          "u_ld/storage_19_reg_0_3_12_17__0/DP/CLK",
+          "u_ld/storage_19_dat1_reg[13]/D"
+        ]
+      ]
+    }
+  ],
+  "reviewer": {
+    "path": "/home/fedora/openTPU/tools/review_spare_pcie_cdc.py",
+    "bytes": 5766,
+    "sha256": "674f33f3b1465c7a523b8ce229694834dd05820025d90c3855f738f7858fb218"
+  },
+  "calibration_flag_review": "Exact routed fanin, independent cal0/cal1 two-stage ASYNC_REG chains and 100 MHz destination clocks match the reviewed reference.",
+  "operating_limitations": [
+    "Do not write the unused global SoC reset CSR at R_MEMCAL+0x2000; supported transports reject it.",
+    "Keep the supplied clock topology and generated IP; use full configuration reload or power cycle for whole-design reset.",
+    "Vendor SmartConnect internals are encrypted; acceptance relies on the generated IP integration contract, not source-level or formal proof.",
+    "CH0 has no ECC. External DDR pad timing, supply margin, cold starts and runtime reliability remain unqualified.",
+    "RAM-only passes do not qualify this full implementation; PCIe DMA, matmul and inference still need physical tests."
+  ],
+  "external_ddr_pad_timing_qualified": false,
+  "physical_operation_verified": false,
+  "hardware_accessed": false,
+  "flash_written": false
+}

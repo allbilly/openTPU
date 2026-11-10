@@ -1,0 +1,66 @@
+{
+  "status": "PASS_C0182863_LOCAL_JTAG_TINYSTORIES_AND_NATIVE_READ_BENCHMARK_MAC_LFM_PENDING",
+  "utc": "2026-10-18T06:01:25.292164+00:00",
+  "build_id": "c0182863",
+  "bitstream_sha256": "03b513a44544009afff9dfb82515bf84c5df84ac6a63673a0882308ce8a323ae",
+  "package_manifest_sha256": "143554ed99423f024344a916e5b6c7ee1e53d210a78bfa5d9b534762bd1dbdfb",
+  "compute_mhz": 148.8372093023256,
+  "ddr_mts": 1066.6666666666667,
+  "capacity_bytes": 4294967296,
+  "ch0_physical_lanes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    7
+  ],
+  "ecc_channels": [
+    1
+  ],
+  "interfaces": [
+    "jtag",
+    "pcie"
+  ],
+  "physical_transport": "jtag",
+  "startup_firmware": "c0172160",
+  "ch0_firmware": "c0172168",
+  "model_bytes_verified": 28909056,
+  "model_readback_sha256": "74facccd6c0e3f7e76676617a3b7a4074c1efb784d675ac1b5bdb08dca980950",
+  "actual_token_ids": [
+    29892,
+    727,
+    471,
+    263,
+    2217,
+    7826,
+    4257,
+    365
+  ],
+  "calibration_unchanged": true,
+  "program_load_readbacks": 15,
+  "native_read_median_gbs": 4.452532692590897,
+  "evidence": {
+    "tinystories": {
+      "path": "build/hardware/tinystories-c0182863-20261018-v1/manifest.json",
+      "sha256": "6c697924e50b74952f92b43badf7532a44d4b810f639f2f62d1670b92f886244"
+    },
+    "native_bandwidth": {
+      "path": "build/hardware/native-bandwidth-c0182863-20261018-v1/manifest.json",
+      "sha256": "a29585bf93b00e81099b27c74f244959a655e6f42e5b678e5d14c3b7275ac4f5"
+    },
+    "closure": {
+      "path": "build/hardware/xvc-c0182863-20261018-v1/shutdown.json",
+      "sha256": "e468d82b0c32620591b38f2249771d9f2de4eae2174905f781245f0ecfaf99b4"
+    }
+  },
+  "flash_written": false,
+  "mac_lfm230m_verified": false,
+  "pcie_bandwidth_verified": false,
+  "limitations": [
+    "Native benchmark is synthetic combined-channel read throughput with final-chunk comparisons; no PCIe bandwidth or LFM speedup claim.",
+    "Original LFM230M acceptance remains for the Mac."
+  ]
+}

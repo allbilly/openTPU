@@ -1,0 +1,42 @@
+{
+  "status": "PASS_SPARE_CH0_FIRMWARE_HOST_EQUIVALENCE",
+  "hardware_accessed": false,
+  "build_manifest_sha256": "a3af5bf729b82e61e1b0f79ee42d48bde979e06b42a781f5937f33ef8aaee8cf",
+  "binary_sha256": "fe4fc9caba63e8b97ac1ce978dd0b67d9c532ce154f57a3582fb6228c4686e8e",
+  "reports": [
+    {
+      "case": "ordinary",
+      "state": "ok",
+      "error": "",
+      "csr_writes": 531219,
+      "bist_length_writes": 30,
+      "simulated_cycles": 16720688,
+      "exact_reference_trace_match": true
+    },
+    {
+      "case": "per-bit-frame",
+      "state": "ok",
+      "error": "",
+      "csr_writes": 531315,
+      "bist_length_writes": 30,
+      "simulated_cycles": 16721456,
+      "exact_reference_trace_match": true
+    },
+    {
+      "case": "missing-lane-window",
+      "state": "failed",
+      "error": "no CK phase common to every lane",
+      "csr_writes": 449823,
+      "bist_length_writes": 30,
+      "simulated_cycles": 14758019,
+      "exact_reference_trace_match": true
+    }
+  ],
+  "reference_sha256": "6a7baa1c8fdac5460fe39c58b4e78d1af29c78bb9036ca9c22c69420d4fcd74a",
+  "checker_sha256": "1e51d2f780347be3e77f04c7e3236a039b801472cac7381eee067cc6062645cd",
+  "host_library_sha256": "3304005230363fb00d218e6f4c09e19ae19591820b66e622bbbeaed9d0f9d0c5",
+  "limitations": [
+    "Host compilation exercises C algorithms and CSR accesses, not RV32 instruction execution",
+    "Firmware upload and physical eight-lane calibration remain pending"
+  ]
+}

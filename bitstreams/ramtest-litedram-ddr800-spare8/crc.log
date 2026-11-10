@@ -1,0 +1,1 @@
+{"status":"ALL_PRESENT_CRC_CHECKPOINTS_MATCH","crc_checkpoints":2,"fdri_words":1075549,"register_data_words":1256632,"known_answer_vectors":4,"resets":[{"header_file_offset":312,"value_file_offset":316,"computed_crc_before_reset":1296001820,"fdri_words_since_reset":0}],"checkpoints":[{"value_file_offset":5710584,"crc":3679657118},{"value_file_offset":5711072,"crc":1632635302}]}

@@ -1,0 +1,17 @@
+{
+  "status": "BUILT_DIAGNOSTIC_FIRMWARE_CH0_REPAIR_NOT_VERIFIED",
+  "fw_id": 3491037186,
+  "firmware_relative": "selfcal.bin",
+  "bytes": 11536,
+  "sha256": "b8fd98378d630ad4b9dc8bb2bb54276e80593d46044c2277ce765013cfabc2c8",
+  "core_config_sha256": "f0f39eb7976199c724503b2990d998397c2420a905c38c96b578d665372187d5",
+  "traffic_diagnostic": true,
+  "purpose": "Diagnostic only: 1024 common lane-6 framing/tap combinations at CK phase 45; never asserts CH0 ready. Historical test found no passing combination.",
+  "compatible_profile": "CH1 recovery DDR800 with retained physical CH0 CSRs",
+  "firmware_is_fpga_bitstream": false,
+  "algorithm_changed_from_historical_build": false,
+  "historical_sha256": "b8fd98378d630ad4b9dc8bb2bb54276e80593d46044c2277ce765013cfabc2c8",
+  "build_receipt": "build-receipt.json",
+  "build_tool": "tools/fedora_prepare_ddr_recovery_firmware.py",
+  "physical_result_after_this_packaging": "NOT_RUN"
+}

@@ -1,0 +1,1437 @@
+[
+  {
+    "serializer": "OSERDESE2",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_1",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_1",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_2",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_3",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_4",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_5",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_6",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_7",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_8",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_9",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_2",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_10",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_2",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_11",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_2",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_12",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_2",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_13",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_2",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_14",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_2",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_15",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_2",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_16",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_2",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_17",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_3",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_18",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_3",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_19",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_3",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_20",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_3",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_21",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_3",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_22",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_3",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_23",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_3",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_24",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_3",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_25",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_4",
+    "clock": "sysc0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_26",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_5",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_27",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_6",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_28",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_7",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_29",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_8",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_30",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_9",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_31",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_10",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_32",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_11",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_33",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_12",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_34",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_13",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_35",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_14",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_36",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_15",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_37",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_16",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_38",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_17",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_39",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_18",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_40",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_19",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_41",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_20",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_42",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_21",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_43",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_22",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_44",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_23",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_45",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_24",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_46",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_25",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_47",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_26",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_48",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_27",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_49",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_28",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_50",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_29",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_51",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_30",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_52",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_31",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_53",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_32",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_54",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_33",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_55",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_34",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_56",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_35",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_57",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_36",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_58",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_37",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_59",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_38",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_60",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_39",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_61",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_40",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_62",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_41",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_63",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_42",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_64",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_43",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_65",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_44",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_66",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_45",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_67",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_46",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_68",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_47",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_69",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_48",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_70",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_49",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_71",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_50",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_72",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_51",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_73",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_52",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_74",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_53",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_75",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_54",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_76",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_55",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_77",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_56",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_78",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_57",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_79",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_58",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_80",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_59",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_81",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_60",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_82",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_61",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_83",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_62",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_84",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_63",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_85",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_64",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_86",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_65",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_87",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_66",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_88",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_67",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_89",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_68",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_90",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_69",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_91",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_70",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_92",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_71",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_93",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_72",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_94",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_73",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_95",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_74",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_96",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_75",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_97",
+    "channel": 0,
+    "kind": "FDRE",
+    "name": "wlrst_76",
+    "clock": "sysw0_clk"
+  },
+  {
+    "serializer": "OSERDESE2_98",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_77",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_99",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_78",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_100",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_77",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_101",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_77",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_102",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_77",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_103",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_77",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_104",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_77",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_105",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_77",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_106",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_77",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_107",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_79",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_108",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_79",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_109",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_79",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_110",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_79",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_111",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_79",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_112",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_79",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_113",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_79",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_114",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_79",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_115",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_80",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_116",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_80",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_117",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_80",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_118",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_80",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_119",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_80",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_120",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_80",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_121",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_80",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_122",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_80",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_123",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_81",
+    "clock": "sysc1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_124",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_82",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_125",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_83",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_126",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_84",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_127",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_85",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_128",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_86",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_129",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_87",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_130",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_88",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_131",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_89",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_132",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_90",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_133",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_91",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_134",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_92",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_135",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_93",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_136",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_94",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_137",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_95",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_138",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_96",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_139",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_97",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_140",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_98",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_141",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_99",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_142",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_100",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_143",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_101",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_144",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_102",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_145",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_103",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_146",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_104",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_147",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_105",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_148",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_106",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_149",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_107",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_150",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_108",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_151",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_109",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_152",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_110",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_153",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_111",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_154",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_112",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_155",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_113",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_156",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_114",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_157",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_115",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_158",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_116",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_159",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_117",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_160",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_118",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_161",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_119",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_162",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_120",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_163",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_121",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_164",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_122",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_165",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_123",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_166",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_124",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_167",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_125",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_168",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_126",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_169",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_127",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_170",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_128",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_171",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_129",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_172",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_130",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_173",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_131",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_174",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_132",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_175",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_133",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_176",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_134",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_177",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_135",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_178",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_136",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_179",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_137",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_180",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_138",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_181",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_139",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_182",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_140",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_183",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_141",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_184",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_142",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_185",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_143",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_186",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_144",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_187",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_145",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_188",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_146",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_189",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_147",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_190",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_148",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_191",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_149",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_192",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_150",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_193",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_151",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_194",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_152",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_195",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_153",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_196",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_154",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_197",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_155",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_198",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_156",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_199",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_157",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_200",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_158",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_201",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_159",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_202",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_160",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_203",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_161",
+    "clock": "sysw1_clk"
+  },
+  {
+    "serializer": "OSERDESE2_204",
+    "channel": 1,
+    "kind": "FDRE",
+    "name": "wlrst_162",
+    "clock": "sysw1_clk"
+  }
+]

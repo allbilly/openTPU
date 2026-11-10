@@ -1,0 +1,12 @@
+{
+  "status": "EXPERIMENTAL_FIRMWARE_HOST_MODEL_REVIEWED_PHYSICAL_PENDING",
+  "firmware_id": "c0172068",
+  "binary_sha256": "fe4fc9caba63e8b97ac1ce978dd0b67d9c532ce154f57a3582fb6228c4686e8e",
+  "required_bitstream_sha256": "171d2c94edd75d2041ebeeada6dd8896c9771423c27fe103f044dd35e1cdca2b",
+  "required_build_id": "c0172060",
+  "channel_mask": 1,
+  "modules": 8,
+  "calibration_bist_words_per_phase": 1,
+  "flash_written": false,
+  "hardware_tested": false
+}

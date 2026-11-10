@@ -1,0 +1,93 @@
+{
+ "schema": 1,
+ "step": 16,
+ "title": "convergence on the production tree",
+ "heavy": false,
+ "hardware": false,
+ "utc": "2026-11-10T04:28:22Z",
+ "duration_s": 5.56,
+ "command": "python3 ladder/run.py step 16 --no-heavy",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/tmp/ladder-work16/ladder/tests/test_step16_parity.py"
+ ],
+ "git": {
+  "commit": "46a7f7a8dd4ee8c6a7ef2d0c1967fdb3afaceaa6",
+  "short": "46a7f7a8",
+  "branch": "ladder/work-step16",
+  "dirty": false
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "46a7f7a8",
+  "thermal_c": 76.625,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": false,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "attempts": 1,
+ "killed_by_signals": [],
+ "warm_run": false,
+ "tests": [
+  {
+   "test": "ladder/tests/test_step16_parity.py::test_every_product_path_is_byte_identical",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step16_parity.py::test_extras_are_only_under_ladder",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step16_parity.py::test_git_diff_against_the_product_is_empty",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step16_parity.py::test_relocated_trees_are_present",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step16_parity.py::test_roadmap_is_complete_and_honest",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step16_parity.py::test_evidence_receipts_are_present_and_honest",
+   "status": "PASSED"
+  }
+ ],
+ "passed": 6,
+ "failed": 0,
+ "skipped": 0,
+ "skipped_tests": [],
+ "allow_skips": false,
+ "pytest_summary": {
+  "passed": 6,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "deselected": 0
+ },
+ "test_durations_s": {
+  "ladder/tests/test_step16_parity.py::test_every_product_path_is_byte_identical": 5.18,
+  "ladder/tests/test_step16_parity.py::test_evidence_receipts_are_present_and_honest": 0.06,
+  "ladder/tests/test_step16_parity.py::test_extras_are_only_under_ladder": 0.01
+ },
+ "summary": "PASS",
+ "stdout_tail": "============================================================================================================================================================================================= test session starts ==============================================================================================================================================================================================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /tmp/ladder-work16\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 6 items\n\nladder/tests/test_step16_parity.py::test_every_product_path_is_byte_identical PASSED                                                                                                                                                                                                                                                                                                                     [ 16%]\nladder/tests/test_step16_parity.py::test_extras_are_only_under_ladder PASSED                                                                                                                                                                                                                                                                                                                             [ 33%]\nladder/tests/test_step16_parity.py::test_git_diff_against_the_product_is_empty PASSED                                                                                                                                                                                                                                                                                                                    [ 50%]\nladder/tests/test_step16_parity.py::test_relocated_trees_are_present PASSED                                                                                                                                                                                                                                                                                                                              [ 66%]\nladder/tests/test_step16_parity.py::test_roadmap_is_complete_and_honest PASSED                                                                                                                                                                                                                                                                                                                           [ 83%]\nladder/tests/test_step16_parity.py::test_evidence_receipts_are_present_and_honest PASSED                                                                                                                                                                                                                                                                                                                 [100%]\n\n============================================================================================================================================================================================== slowest durations ===============================================================================================================================================================================================\n5.18s call     ladder/tests/test_step16_parity.py::test_every_product_path_is_byte_identical\n0.06s call     ladder/tests/test_step16_parity.py::test_evidence_receipts_are_present_and_honest\n0.01s call     ladder/tests/test_step16_parity.py::test_extras_are_only_under_ladder\n\n(15 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================================================================================================================================================================================== 6 passed in 5.27s ===============================================================================================================================================================================================\n",
+ "stderr_tail": "",
+ "notes": "step 16: convergence parity+relocation; light acceptance, no cold builds"
+}

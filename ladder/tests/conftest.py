@@ -17,6 +17,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
 LADDER = ROOT / "ladder"
+TOY = LADDER / "toy"          # the imported tiny-tpu tree (step 16 relocation)
 
 # Step 3 imports the openTPU golden software contract as `opentpu/` at the repository root
 # (docs/isa.md is the contract).  The ladder runner already puts ROOT on PYTHONPATH; this makes
@@ -76,12 +77,13 @@ def make_bin() -> str:
 
 
 def run_make(target: str, env: dict, *, timeout: int = 600, extra: list[str] | None = None):
+    """Run a toy-tree make target (the toy Makefile lives at ladder/toy/Makefile)."""
     cmd = [shutil.which("make") or "make", "-s", target, *(extra or [])]
-    return subprocess.run(cmd, cwd=ROOT, env=env, capture_output=True, text=True, timeout=timeout)
+    return subprocess.run(cmd, cwd=TOY, env=env, capture_output=True, text=True, timeout=timeout)
 
 
 def read_makefile() -> str:
-    return (ROOT / "Makefile").read_text()
+    return (TOY / "Makefile").read_text()
 
 
 def makefile_test_targets() -> dict[str, str]:

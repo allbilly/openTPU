@@ -24,7 +24,7 @@ import numpy as np
 import pytest
 
 ROOT = Path(__file__).resolve().parents[2]   # ladder tests live one level deeper
-EXAMPLES = ROOT / 'examples'
+EXAMPLES = ROOT / 'ladder/examples'
 
 def invoke(script, *arguments, cwd=None):
     return subprocess.run([sys.executable, '-B', str(EXAMPLES / script), *map(str, arguments)],
