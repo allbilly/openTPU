@@ -1,0 +1,164 @@
+{
+ "schema": 1,
+ "step": 11,
+ "title": "board shell and host interface (simulation)",
+ "heavy": true,
+ "hardware": false,
+ "utc": "2026-11-10T03:25:08Z",
+ "duration_s": 20.838,
+ "command": "python3 ladder/run.py step 11 --warm",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/tmp/ldr/ladder/tests/test_step11_board.py"
+ ],
+ "git": {
+  "commit": "cfaac19dbc5576fab420104c0cbc2680d7591d89",
+  "short": "cfaac19d",
+  "branch": "HEAD",
+  "dirty": true
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "cfaac19d",
+  "thermal_c": 88.75,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": true,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "attempts": 1,
+ "killed_by_signals": [],
+ "warm_run": true,
+ "tests": [
+  {
+   "test": "ladder/tests/test_step11_board.py::test_split_matches_the_rtl_interleave",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_split_hashed_interleave",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_unaligned_read_modify_write[0-128-False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_unaligned_read_modify_write[0-128-True]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_unaligned_read_modify_write[4-8-False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_unaligned_read_modify_write[4-8-True]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_unaligned_read_modify_write[60-8-False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_unaligned_read_modify_write[60-8-True]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_unaligned_read_modify_write[100-300-False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_unaligned_read_modify_write[100-300-True]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_unaligned_read_modify_write[127-1-False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_unaligned_read_modify_write[127-1-True]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_writes_during_a_run_move_h2c_per_call[0-65536-False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_writes_during_a_run_move_h2c_per_call[0-65536-True]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_writes_during_a_run_move_h2c_per_call[4160-20000-False]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_writes_during_a_run_move_h2c_per_call[4160-20000-True]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_channel_map_from_the_cfg_registers",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_two_slices_on_a_fake_card",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_board_model_identity",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_board_model_refuses_a_mismatched_bitstream",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_board_model_program_matches_isasim",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_board_model_partial_beats_and_counters",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step11_board.py::test_board_model_load_run_counters",
+   "status": "PASSED"
+  }
+ ],
+ "passed": 23,
+ "failed": 0,
+ "skipped": 0,
+ "skipped_tests": [],
+ "allow_skips": false,
+ "pytest_summary": {
+  "passed": 23,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "deselected": 0
+ },
+ "test_durations_s": {
+  "ladder/tests/test_step11_board.py::test_board_model_identity": 8.14,
+  "ladder/tests/test_step11_board.py::test_board_model_refuses_a_mismatched_bitstream": 4.04,
+  "ladder/tests/test_step11_board.py::test_board_model_program_matches_isasim": 3.07,
+  "ladder/tests/test_step11_board.py::test_board_model_partial_beats_and_counters": 3.05,
+  "ladder/tests/test_step11_board.py::test_board_model_load_run_counters": 2.03,
+  "ladder/tests/test_step11_board.py::test_unaligned_read_modify_write[0-128-False]": 0.01
+ },
+ "summary": "PASS",
+ "stdout_tail": "                                                                                                            [ 52%]\nladder/tests/test_step11_board.py::test_writes_during_a_run_move_h2c_per_call[0-65536-False] PASSED                                                                                                                                                                                                                                                                                                      [ 56%]\nladder/tests/test_step11_board.py::test_writes_during_a_run_move_h2c_per_call[0-65536-True] PASSED                                                                                                                                                                                                                                                                                                       [ 60%]\nladder/tests/test_step11_board.py::test_writes_during_a_run_move_h2c_per_call[4160-20000-False] PASSED                                                                                                                                                                                                                                                                                                   [ 65%]\nladder/tests/test_step11_board.py::test_writes_during_a_run_move_h2c_per_call[4160-20000-True] PASSED                                                                                                                                                                                                                                                                                                    [ 69%]\nladder/tests/test_step11_board.py::test_channel_map_from_the_cfg_registers PASSED                                                                                                                                                                                                                                                                                                                        [ 73%]\nladder/tests/test_step11_board.py::test_two_slices_on_a_fake_card PASSED                                                                                                                                                                                                                                                                                                                                 [ 78%]\nladder/tests/test_step11_board.py::test_board_model_identity PASSED                                                                                                                                                                                                                                                                                                                                      [ 82%]\nladder/tests/test_step11_board.py::test_board_model_refuses_a_mismatched_bitstream PASSED                                                                                                                                                                                                                                                                                                                [ 86%]\nladder/tests/test_step11_board.py::test_board_model_program_matches_isasim PASSED                                                                                                                                                                                                                                                                                                                        [ 91%]\nladder/tests/test_step11_board.py::test_board_model_partial_beats_and_counters PASSED                                                                                                                                                                                                                                                                                                                    [ 95%]\nladder/tests/test_step11_board.py::test_board_model_load_run_counters PASSED                                                                                                                                                                                                                                                                                                                             [100%]\n\n============================================================================================================================================================================================== slowest durations ===============================================================================================================================================================================================\n5.05s call     ladder/tests/test_step11_board.py::test_board_model_identity\n4.04s call     ladder/tests/test_step11_board.py::test_board_model_refuses_a_mismatched_bitstream\n3.09s setup    ladder/tests/test_step11_board.py::test_board_model_identity\n3.07s call     ladder/tests/test_step11_board.py::test_board_model_program_matches_isasim\n3.05s call     ladder/tests/test_step11_board.py::test_board_model_partial_beats_and_counters\n2.03s call     ladder/tests/test_step11_board.py::test_board_model_load_run_counters\n0.01s call     ladder/tests/test_step11_board.py::test_unaligned_read_modify_write[0-128-False]\n\n(62 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================================================================================================================================================================================= 23 passed in 20.49s ==============================================================================================================================================================================================\n",
+ "stderr_tail": "",
+ "notes": "23 tests: 18 pure-Python host/address-map cases + 5 tb_board cases (register identity incl. CFG_HASH/numerics refusal; demo program load->run with every DRAM byte below PROG_AT equal to isasim and exact ICOUNT; partial beats/counters; loader/run/counters). Warm tb_board cache (key tb_board_a77dbb6d33e3; the harness builds tb_board with a documented -j1 thermal adaptation that is part of the cache key); thermal-gated warm run, no flock. Receipt generated in an identical detached checkout at /tmp/ldr because the sibling session's foreign_hold pauses processes whose path matches the main worktree during its verification windows; same commit/tree/cache."
+}

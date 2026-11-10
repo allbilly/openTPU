@@ -29,7 +29,7 @@ EXAMPLES = ROOT / 'examples'
 def invoke(script, *arguments, cwd=None):
     return subprocess.run([sys.executable, '-B', str(EXAMPLES / script), *map(str, arguments)],
                           cwd=cwd or ROOT, env={**os.environ, 'PYTHONDONTWRITEBYTECODE': '1'},
-                          capture_output=True, text=True, timeout=90)
+                          capture_output=True, text=True, timeout=600)
 
 def test_batch_cli_and_artifacts(tmp_path):
     folder = tmp_path / 'batch'

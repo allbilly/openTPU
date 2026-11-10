@@ -99,7 +99,8 @@ def python_candidates() -> list[Path]:
     env = os.environ.get("LADDER_PY")
     if env:
         out.append(Path(env))
-    out += [ROOT / ".venv/bin/python", LADDER / ".venv/bin/python", Path(sys.executable)]
+    out += [ROOT / ".venv/bin/python", LADDER / ".venv/bin/python",
+            Path("/usr/bin/python3"), Path(sys.executable)]
     seen, uniq = set(), []
     for p in out:
         try:
@@ -270,7 +271,19 @@ def git_state() -> dict:
 
 # pytest -v prints one line per test; long ids may be wrapped unless COLUMNS is wide (the runner
 # sets COLUMNS below), and the path may be absolute when the tests are passed by absolute path.
-TEST_LINE = re.compile(r"^(\S*?ladder/tests/\S+?::\S+?)\s+(PASSED|FAILED|SKIPPED|ERROR)", re.M)
+TEST_LINE = re.compile(r"^(\S*?ladder/tests/\S+?::.+?)\s+(PASSED|FAILED|SKIPPED|ERROR)", re.M)
+
+
+SUMMARY_LINE = re.compile(r"^(?:=+ )?.*? in [\d.]+s", re.M)
+
+
+def _summary_counts(line: str) -> dict:
+    """pytest's final line, in whatever order it lists the outcomes."""
+    def n(kind: str) -> int:
+        m = re.search(r"(\d+) " + kind, line)
+        return int(m.group(1)) if m else 0
+    return {"passed": n("passed"), "failed": n("failed"), "errors": n("error"),
+            "skipped": n("skipped"), "deselected": n("deselected")}
 
 
 def parse_pytest(stdout: str) -> dict:
@@ -289,9 +302,12 @@ def parse_pytest(stdout: str) -> dict:
         if m:
             durations.setdefault(m.group(3), 0.0)
             durations[m.group(3)] += float(m.group(1))
+    summary = None
+    for m in SUMMARY_LINE.finditer(stdout):
+        summary = _summary_counts(m.group(0))
     return {"verdicts": verdicts, "passed": passed, "failed": failed, "skipped": skipped,
             "skipped_tests": [v["test"] for v in verdicts if v["status"] == "SKIPPED"],
-            "durations_s": durations}
+            "durations_s": durations, "pytest_summary": summary}
 
 
 def warm_cache_ready(n: int) -> tuple[bool, str]:
@@ -313,6 +329,25 @@ def warm_cache_ready(n: int) -> tuple[bool, str]:
             return exe.exists(), f"tb_top build {d.name} present={exe.exists()}"
     except Exception as e:  # noqa: BLE001 - any import/build-dir failure means "not warm"
         return bool(os.environ.get("LADDER_WARM_OK")), f"preflight error: {e}"
+    # step 11 has its own harness (tb_board); use its probe when the import is present
+    if n == 11:
+        try:
+            from ladder.harness import board as board_h
+
+            if hasattr(board_h, "warm_ready"):
+                res = board_h.warm_ready()
+                ready, why = res if isinstance(res, tuple) else (bool(res), "warm")
+                return bool(ready), f"step-11 board.warm_ready(): {why}"
+        except Exception:  # noqa: BLE001 - fall through to the LADDER_WARM_OK path
+            pass
+    # step 14 has its own Config (D=128); its harness came with the step-14 import
+    if n == 14:
+        try:
+            from ladder.harness import llm
+
+            return bool(llm.warm_ready()), "step-14 llm.warm_ready()"
+        except Exception as e:  # noqa: BLE001
+            return bool(os.environ.get("LADDER_WARM_OK")), f"step-14 preflight error: {e}"
     return bool(os.environ.get("LADDER_WARM_OK")), "step has no built-in cache probe; LADDER_WARM_OK required"
 
 
@@ -324,6 +359,7 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
         return 2
     tests = step_tests(n)
     meta = STEPS[n]
+    need = ("pytest", "numpy") if meta["heavy"] else ("pytest",)
     if not tests:
         print(f"[ladder] step {n} ({meta['title']}) has no tests yet: "
               f"expected ladder/tests/test_step{n:02d}_*.py", file=sys.stderr)
@@ -441,7 +477,7 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
         "hardware": meta["hardware"],
         "utc": utc(),
         "duration_s": round(duration, 3),
-        "command": (f"python3 ladder/run.py step {n}"
+        "command": (f"python3 ladder/run.py step {n}" + (" --allow-skips" if allow_skips else "")
                     + (" --warm" if (meta["heavy"] and warm)
                        else " --heavy" if (meta["heavy"] and heavy)
                        else " --no-heavy" if (meta["heavy"] and not heavy)
@@ -458,6 +494,8 @@ def run_step(n: int, extra: list[str], *, heavy: bool | None = None, quiet: bool
         "failed": parsed["failed"],
         "skipped": parsed["skipped"],
         "skipped_tests": parsed["skipped_tests"],
+        "allow_skips": bool(allow_skips),
+        "pytest_summary": parsed["pytest_summary"],
         "test_durations_s": {k: round(v, 3) for k, v in parsed["durations_s"].items()},
         "summary": verdict,
         "stdout_tail": stdout[-6000:],
@@ -511,6 +549,13 @@ def evidence_check(before: int | None = None) -> int:
         # a software receipt marked green must not hide skipped tests (a missing toolchain):
         # silently-accepted skips are only allowed when the runner was told --allow-skips, and
         # then the summary says "PASS (with skips)".
+        ps = d.get("pytest_summary")
+        if ps:
+            if (int(d.get("passed", 0)) != ps["passed"] or int(d.get("failed", 0))
+                    != ps["failed"] + ps.get("errors", 0)
+                    or int(d.get("skipped", 0)) != ps["skipped"]):
+                bad.append(f"{out.name}: parsed counts {d.get('passed')}/{d.get('failed')}/"
+                           f"{d.get('skipped')} disagree with pytest's summary {ps}")
         skipped = int(d.get("skipped", 0) or 0)
         if verdict == "PASS" and skipped and "with skips" not in summary and not hardware_rung:
             bad.append(f"{out.name}: {skipped} skipped test(s) under a plain PASS summary "

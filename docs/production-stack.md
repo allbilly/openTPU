@@ -47,9 +47,11 @@ a8cf9473c4723c3610f78960b6d1ef07904d1716debc30a8126ed61a9130fe70  examples/simpl
 3087f00690589d054f2a0edea9de5ef31f9bd15fba3391fcdbfed8027216032b  examples/softmax.py
 796c8fdafcdb1a1f827b9a6c4cdccd04f96f6e5d90eb7a0ab83db7d81df38131  examples/README.md
 ```
-At step 16 the convergence check compares against the *tracked* `ca05e24f` tree; these files are
-ladder-only copies and the Lead must decide whether to keep them (`ladder/examples/`) or drop
-them from the product-layout parity set. The step-10 contract does not depend on that choice.
+Decision (recorded at integration): these files are ladder-only copies, not product code. At
+step 16 the convergence check compares against the *tracked* `ca05e24f` tree, so `examples/` is
+relocated to `ladder/examples/` (and the ported cases stay in `ladder/tests/`); the parity rule
+is therefore exactly "every `ca05e24f` path byte-identical at the tip, extras only under
+`ladder/`". The step-10 contract does not depend on that choice.
 
 ## Test contract (`ladder/tests/test_step10_*`)
 

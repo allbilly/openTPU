@@ -4,8 +4,8 @@
  "title": "openTPU ISA contract",
  "heavy": false,
  "hardware": false,
- "utc": "2026-11-10T01:19:42Z",
- "duration_s": 25.862,
+ "utc": "2026-11-10T02:35:29Z",
+ "duration_s": 1156.362,
  "command": "python3 ladder/run.py step 3",
  "command_argv": [
   "/usr/bin/python3",
@@ -22,8 +22,8 @@
   "/home/fedora/openTPU-ladder/ladder/tests/test_step03_quant.py"
  ],
  "git": {
-  "commit": "9e960c0329c8487e3eb4a530b444dd74f8e79a70",
-  "short": "9e960c03",
+  "commit": "cfaac19dbc5576fab420104c0cbc2680d7591d89",
+  "short": "cfaac19d",
   "branch": "ladder/tiny-tpu-to-opentpu",
   "dirty": true
  },
@@ -37,10 +37,10 @@
   "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
   "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
   "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
-  "git": "9e960c03",
-  "thermal_c": 89.5,
+  "git": "cfaac19d",
+  "thermal_c": 81.125,
   "heavy_lock": "/tmp/rknpu-heavy.lock",
-  "heavy_lock_held": true,
+  "heavy_lock_held": false,
   "nproc": 8
  },
  "returncode": 0,
@@ -297,22 +297,29 @@
  "failed": 0,
  "skipped": 0,
  "skipped_tests": [],
+ "allow_skips": false,
+ "pytest_summary": {
+  "passed": 61,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "deselected": 0
+ },
  "test_durations_s": {
-  "ladder/tests/test_step03_fp32.py::test_exp2_exact_at_integers_and_monotone": 8.81,
-  "ladder/tests/test_step03_fp32.py::test_exp2_error_bound": 8.13,
-  "ladder/tests/test_step03_fp32.py::test_rsqrt_error_bound": 3.27,
-  "ladder/tests/test_step03_fp32.py::test_recip_error_bound": 2.46,
-  "ladder/tests/test_step03_fp32.py::test_mm_partials_have_no_pad_terms": 1.09,
-  "ladder/tests/test_step03_fp32.py::test_recip_rsqrt_every_exponent": 0.59,
-  "ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[nvfp4]": 0.39,
-  "ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[fp4]": 0.32,
+  "ladder/tests/test_step03_fp32.py::test_exp2_exact_at_integers_and_monotone": 1139.29,
+  "ladder/tests/test_step03_fp32.py::test_exp2_error_bound": 8.35,
+  "ladder/tests/test_step03_fp32.py::test_rsqrt_error_bound": 3.22,
+  "ladder/tests/test_step03_fp32.py::test_recip_error_bound": 2.39,
+  "ladder/tests/test_step03_fp32.py::test_mm_partials_have_no_pad_terms": 1.06,
+  "ladder/tests/test_step03_fp32.py::test_recip_rsqrt_every_exponent": 0.57,
+  "ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[nvfp4]": 0.38,
+  "ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[fp4]": 0.31,
   "ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[int4]": 0.14,
   "ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[int8]": 0.03,
-  "ladder/tests/test_step03_isa.py::test_qst_data_and_scale_overlap_is_refused": 0.01,
-  "ladder/tests/test_step03_quant.py::test_import_mxfp4_exact": 0.01
+  "ladder/tests/test_step03_isa.py::test_qst_data_and_scale_overlap_is_refused": 0.01
  },
  "summary": "PASS",
- "stdout_tail": "                                                                                       [ 83%]\nladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[int8] PASSED                                                                                                                                                                                                                                                                                                              [ 85%]\nladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[int4] PASSED                                                                                                                                                                                                                                                                                                              [ 86%]\nladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[fp4] PASSED                                                                                                                                                                                                                                                                                                               [ 88%]\nladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[nvfp4] PASSED                                                                                                                                                                                                                                                                                                             [ 90%]\nladder/tests/test_step03_quant.py::test_column_parts_are_the_whole_rows[int8] PASSED                                                                                                                                                                                                                                                                                                                     [ 91%]\nladder/tests/test_step03_quant.py::test_column_parts_are_the_whole_rows[int4] PASSED                                                                                                                                                                                                                                                                                                                     [ 93%]\nladder/tests/test_step03_quant.py::test_column_parts_are_the_whole_rows[fp4] PASSED                                                                                                                                                                                                                                                                                                                      [ 95%]\nladder/tests/test_step03_quant.py::test_column_parts_are_the_whole_rows[nvfp4] PASSED                                                                                                                                                                                                                                                                                                                    [ 96%]\nladder/tests/test_step03_quant.py::test_import_mxfp4_exact PASSED                                                                                                                                                                                                                                                                                                                                        [ 98%]\nladder/tests/test_step03_quant.py::test_import_nvfp4_exact PASSED                                                                                                                                                                                                                                                                                                                                        [100%]\n\n============================================================================================================================================================================================== slowest durations ===============================================================================================================================================================================================\n8.81s call     ladder/tests/test_step03_fp32.py::test_exp2_exact_at_integers_and_monotone\n8.13s call     ladder/tests/test_step03_fp32.py::test_exp2_error_bound\n3.27s call     ladder/tests/test_step03_fp32.py::test_rsqrt_error_bound\n2.46s call     ladder/tests/test_step03_fp32.py::test_recip_error_bound\n1.09s call     ladder/tests/test_step03_fp32.py::test_mm_partials_have_no_pad_terms\n0.59s call     ladder/tests/test_step03_fp32.py::test_recip_rsqrt_every_exponent\n0.39s call     ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[nvfp4]\n0.32s call     ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[fp4]\n0.14s call     ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[int4]\n0.03s call     ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[int8]\n0.01s call     ladder/tests/test_step03_isa.py::test_qst_data_and_scale_overlap_is_refused\n0.01s call     ladder/tests/test_step03_quant.py::test_import_mxfp4_exact\n\n(171 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================================================================================================================================================================================= 61 passed in 25.52s ==============================================================================================================================================================================================\n",
+ "stdout_tail": "                                                                                                                                                              [ 83%]\nladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[int8] PASSED                                                                                                                                                                                                                                                                                                              [ 85%]\nladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[int4] PASSED                                                                                                                                                                                                                                                                                                              [ 86%]\nladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[fp4] PASSED                                                                                                                                                                                                                                                                                                               [ 88%]\nladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[nvfp4] PASSED                                                                                                                                                                                                                                                                                                             [ 90%]\nladder/tests/test_step03_quant.py::test_column_parts_are_the_whole_rows[int8] PASSED                                                                                                                                                                                                                                                                                                                     [ 91%]\nladder/tests/test_step03_quant.py::test_column_parts_are_the_whole_rows[int4] PASSED                                                                                                                                                                                                                                                                                                                     [ 93%]\nladder/tests/test_step03_quant.py::test_column_parts_are_the_whole_rows[fp4] PASSED                                                                                                                                                                                                                                                                                                                      [ 95%]\nladder/tests/test_step03_quant.py::test_column_parts_are_the_whole_rows[nvfp4] PASSED                                                                                                                                                                                                                                                                                                                    [ 96%]\nladder/tests/test_step03_quant.py::test_import_mxfp4_exact PASSED                                                                                                                                                                                                                                                                                                                                        [ 98%]\nladder/tests/test_step03_quant.py::test_import_nvfp4_exact PASSED                                                                                                                                                                                                                                                                                                                                        [100%]\n\n============================================================================================================================================================================================== slowest durations ===============================================================================================================================================================================================\n1139.29s call     ladder/tests/test_step03_fp32.py::test_exp2_exact_at_integers_and_monotone\n8.35s call     ladder/tests/test_step03_fp32.py::test_exp2_error_bound\n3.22s call     ladder/tests/test_step03_fp32.py::test_rsqrt_error_bound\n2.39s call     ladder/tests/test_step03_fp32.py::test_recip_error_bound\n1.06s call     ladder/tests/test_step03_fp32.py::test_mm_partials_have_no_pad_terms\n0.57s call     ladder/tests/test_step03_fp32.py::test_recip_rsqrt_every_exponent\n0.38s call     ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[nvfp4]\n0.31s call     ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[fp4]\n0.14s call     ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[int4]\n0.03s call     ladder/tests/test_step03_quant.py::test_quantize_mxu_in_row_pieces_is_the_same[int8]\n0.01s call     ladder/tests/test_step03_isa.py::test_qst_data_and_scale_overlap_is_refused\n\n(172 durations < 0.005s hidden.  Use -vv to show these durations.)\n======================================================================================================================================================================================= 61 passed in 1156.03s (0:19:16) ========================================================================================================================================================================================\n",
  "stderr_tail": "",
  "notes": ""
 }
