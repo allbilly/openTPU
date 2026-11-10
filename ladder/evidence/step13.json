@@ -1,0 +1,98 @@
+{
+ "schema": 1,
+ "step": 13,
+ "title": "on-card kernel over JTAG (hardware)",
+ "heavy": false,
+ "hardware": true,
+ "utc": "2026-11-10T03:27:00Z",
+ "duration_s": 0.547,
+ "command": "python3 ladder/run.py step 13 --no-heavy",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/tmp/ldr/ladder/tests/test_step13_hardware_gate.py"
+ ],
+ "git": {
+  "commit": "cfaac19dbc5576fab420104c0cbc2680d7591d89",
+  "short": "cfaac19d",
+  "branch": "HEAD",
+  "dirty": true
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "cfaac19d",
+  "thermal_c": 71.5,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": true,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "attempts": 1,
+ "killed_by_signals": [],
+ "warm_run": false,
+ "tests": [
+  {
+   "test": "ladder/tests/test_step13_hardware_gate.py::test_step13_jtag_runtime_imports_are_byte_identical",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step13_hardware_gate.py::test_step13_xvc_protocol_evidence_passes",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step13_hardware_gate.py::test_step13_exact_image_tools_present",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step13_hardware_gate.py::test_step13_image_and_model_identity",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step13_hardware_gate.py::test_step13_oncard_recipe_is_documented",
+   "status": "SKIPPED"
+  },
+  {
+   "test": "ladder/tests/test_step13_hardware_gate.py::test_step13_oncard_matmul_equals_isasim",
+   "status": "SKIPPED"
+  }
+ ],
+ "passed": 0,
+ "failed": 0,
+ "skipped": 6,
+ "skipped_tests": [
+  "ladder/tests/test_step13_hardware_gate.py::test_step13_jtag_runtime_imports_are_byte_identical",
+  "ladder/tests/test_step13_hardware_gate.py::test_step13_xvc_protocol_evidence_passes",
+  "ladder/tests/test_step13_hardware_gate.py::test_step13_exact_image_tools_present",
+  "ladder/tests/test_step13_hardware_gate.py::test_step13_image_and_model_identity",
+  "ladder/tests/test_step13_hardware_gate.py::test_step13_oncard_recipe_is_documented",
+  "ladder/tests/test_step13_hardware_gate.py::test_step13_oncard_matmul_equals_isasim"
+ ],
+ "allow_skips": false,
+ "pytest_summary": {
+  "passed": 0,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 6,
+  "deselected": 0
+ },
+ "test_durations_s": {
+  "ladder/tests/test_step13_hardware_gate.py::test_step13_jtag_runtime_imports_are_byte_identical": 0.21
+ },
+ "summary": "BLOCKED",
+ "stdout_tail": "============================================================================================================================================================================================= test session starts ==============================================================================================================================================================================================\nplatform linux -- Python 3.14.8, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3\nrootdir: /tmp/ldr\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 6 items\n\nladder/tests/test_step13_hardware_gate.py::test_step13_jtag_runtime_imports_are_byte_identical SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                          [ 16%]\nladder/tests/test_step13_hardware_gate.py::test_step13_xvc_protocol_evidence_passes SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                                     [ 33%]\nladder/tests/test_step13_hardware_gate.py::test_step13_exact_image_tools_present SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                                        [ 50%]\nladder/tests/test_step13_hardware_gate.py::test_step13_image_and_model_identity SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                                         [ 66%]\nladder/tests/test_step13_hardware_gate.py::test_step13_oncard_recipe_is_documented SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                                      [ 83%]\nladder/tests/test_step13_hardware_gate.py::test_step13_oncard_matmul_equals_isasim SKIPPED (hardware absent: jtag_cable_absent: no 03fd:* DLC10 / 0403:6014 FT232H device in lsusb)                                                                                                                                                                                                                      [100%]\n\n============================================================================================================================================================================================== slowest durations ===============================================================================================================================================================================================\n0.21s setup    ladder/tests/test_step13_hardware_gate.py::test_step13_jtag_runtime_imports_are_byte_identical\n\n(11 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================================================================================================================================================================================== 6 skipped in 0.24s ==============================================================================================================================================================================================\n",
+ "stderr_tail": "",
+ "notes": ""
+}

@@ -150,12 +150,21 @@ def find_product_root(explicit: str | None) -> tuple[Path, str]:
     if len(here.parents) >= 3:
         candidates.append((here.parents[2], "probe-file"))
     candidates.append((PRODUCT_ROOT_FALLBACK, "fallback"))
+    # Prefer a tree that actually carries the reviewed artifacts (`bitstreams/`).
+    # A ladder worktree can have the historical `docs/` evidence imported while
+    # the untracked bitstreams/models still live in the product checkout; in
+    # that case keep looking for the product tree.
+    doc_fallback: tuple[Path, str] | None = None
     for path, source in candidates:
         try:
-            if (path / "bitstreams").is_dir() or (path / "docs" / "tinystories_jtag_c0182902.md").is_file():
+            if (path / "bitstreams").is_dir():
                 return path.resolve(), source
+            if doc_fallback is None and (path / "docs" / "tinystories_jtag_c0182902.md").is_file():
+                doc_fallback = (path.resolve(), source)
         except OSError:
             continue
+    if doc_fallback is not None:
+        return doc_fallback
     # nothing matched: report the first candidate so the JSON says what was tried
     first = candidates[0][0] if candidates else PRODUCT_ROOT_FALLBACK
     return first, "missing"

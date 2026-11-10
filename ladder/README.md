@@ -285,6 +285,15 @@ real silicon.
 registers match the oracle; receipt records `flash_written: false`.
 **Evidence:** `ladder/evidence/step13.json`.
 **Blocker:** same hardware absence as step 12.
+**Software side (committed):** the JTAG/XVC runtime evidence
+(`tests/test_xvc_transport.py`, `tests/tb_xpcu_xvc.cpp`), the c0182902
+acceptance drivers and the historical evidence record are imported
+byte-identically from `ca05e24f` (hashes in
+[`ladder/hardware/import-provenance.json`](hardware/import-provenance.json)),
+with `ladder/harness/hardware.py` as the gate/command helper. The exact
+acceptance recipe, criteria, historical PASS and known gaps are in
+[`docs/oncard-jtag.md`](../docs/oncard-jtag.md). Gate verdict `BLOCKED`
+(runner exit 5) in `ladder/evidence/step13.json`.
 
 ### step 14 — LLM layer in simulation
 
@@ -607,3 +616,30 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   programming, flash or reset was performed. `rtl/boards/ypcb-00338/` and
   `sim/verilator/tb_board.sv` were already imported byte-identically at step 9
   (verified, not duplicated).
+
+- 2026-11-10: step 13 committed (hardware rung, software side + honest BLOCKED
+  receipt). Imported the JTAG/XVC runtime evidence and the c0182902 acceptance
+  drivers byte-identically from `ca05e24f`:
+  `tests/test_xvc_transport.py` (real XVC TCP client against a local
+  USER2/IDCODE endpoint), `tests/tb_xpcu_xvc.cpp` (XPCU encoder/decoder vs an
+  FX2 USB protocol model), `tools/{run,repeat,verify}_tinystories_shared_jtag.py`,
+  `tools/check_tinystories_c0182902_model.py`,
+  `tools/run_spare_c0182902_bandwidth.py`, `tools/fedora_matmul_check.py`, and
+  the recorded historical acceptance (`docs/tinystories_jtag_c0182902.md`,
+  `docs/data/c0182902-tinystories-jtag-20261107.json`; c0182902 PASS
+  2026-11-07/08, exact 8 tokens, image sha `d32fd284…`). Added
+  `ladder/harness/hardware.py` (probe gate, pinned acceptance constants and
+  the exact command set), the step-13 gate test (6 tests: imported JTAG/XVC
+  byte-identity, XVC protocol evidence, exact-image tools, image/model
+  identity, documented on-card recipe, on-card matmul TODO) and
+  `docs/oncard-jtag.md` with the full acceptance recipe, criteria, historical
+  evidence and known gaps (host-tree/package/model/calibration/oracle are
+  untracked local artifacts; the `spare_runtime`/`spare_c0182902`/`waits`/LLM
+  closure arrives with steps 10/11/14/16 and is executed against the prepared
+  host tree until then). The probe's product-root selection now prefers a tree
+  that actually carries `bitstreams/`, so a ladder worktree with the imported
+  docs still finds the product checkout's artifacts. Hardware assertion
+  BLOCKED (no DLC10 cable/card): runner verdict `BLOCKED` (exit 5, 6 skipped)
+  in `ladder/evidence/step13.json` with the probe JSON in
+  `ladder/evidence/hardware/probe-step13.json`. No hardware access, no Vivado
+  run, no programming/flash/reset.

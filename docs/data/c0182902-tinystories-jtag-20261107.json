@@ -1,0 +1,294 @@
+{
+  "status": "PASS_PHYSICAL_JTAG_TINYSTORIES_INT8_EXACT_ISA_TOKENS",
+  "scope": "Small trained TinyStories-15M int8 end-to-end JTAG inference plus a native-read benchmark on the exact reviewed c0182902 dual-interface image",
+  "hardware_accessed": true,
+  "flash_written": false,
+  "programming_performed": false,
+  "fpga_reconfigured": false,
+  "build_id": "c0182902",
+  "package_sha256": "72193faf07305e45503b11331e698b9fd46a86199d4486e250975cc3fb1737be",
+  "bitstream_sha256": "3b804b81456f7c075a83e965bd012ec84865293a0ea18e1d55746c1ed79838cf",
+  "interfaces": [
+    "pcie",
+    "jtag"
+  ],
+  "compute": {
+    "core_khz": 133333,
+    "ddr_mts": 1066,
+    "S": 1,
+    "D": 128,
+    "MCOLS": 4,
+    "ACT_BLOCKS": 128,
+    "TMEM_WORDS": 65536,
+    "IMEM_WORDS": 32768,
+    "LANES": 8,
+    "PAIR": true,
+    "DSTEP": true,
+    "STREAM": true,
+    "ACT_ROWS": 0,
+    "SEQ_WC": true
+  },
+  "model": {
+    "path": "build/models/TinyStories-Llama-15M-tiles128-20261018-v2",
+    "model_sha256": "9f74baf73f258f040f0994b9fb67da17eb92cf56b2214f309b5d037c82e1da8b",
+    "quantization": "int8",
+    "prompt": "Once upon a time"
+  },
+  "tokens": {
+    "expected_token_ids": [
+      29892,
+      727,
+      471,
+      263,
+      2217,
+      7826,
+      4257,
+      365
+    ],
+    "actual_token_ids": [
+      29892,
+      727,
+      471,
+      263,
+      2217,
+      7826,
+      4257,
+      365
+    ],
+    "exact_match": true
+  },
+  "image_transfer": {
+    "image_bytes": 29226624,
+    "full_write_seconds": 15488.89,
+    "upload_bytes_written_this_attempt": 0,
+    "upload_bytes_reused_from_prior_attempt": 29226624,
+    "full_image_readback_sha256": "d32fd2844e1f5330bfa36bfd43374516fee7b141aefd731ad58eecb0e130e993",
+    "offline_image_sha256": "d32fd2844e1f5330bfa36bfd43374516fee7b141aefd731ad58eecb0e130e993",
+    "full_image_checksum_verified": true,
+    "verified_image_bytes": 29226624,
+    "prefix_verified_bytes": 15728640,
+    "suffix_verified_bytes": 13497984,
+    "runtime_written_max_end": 14050304,
+    "note": "The authorized skip during the passing run was closed afterwards without inference: the 1,371-instruction stages and the run left every inference-written byte (I/O area and all six KV slots) below 14,050,304, inside the 15,728,640 bytes already read back, so the untouched suffix could be read and combined with the prefix to one full-image hash."
+  },
+  "program_readback": {
+    "count": 13,
+    "all_pass": true,
+    "sha256": [
+      "87d871133ba7ea0bcb2cec5249d327fbdda58f8c661245b3975619c588818c24",
+      "5b0f1f116bf4ed5d9867f5fa6a4860e4e4b5c2cb17bded7da2a35352c8cfe15e",
+      "c3d5b22029e72ea0105edea0ef96877446b9418950c758a0985cb4069efba86c",
+      "cad27e7b071ad469c345b531d6944b15a7dea2fa177e12185812534ff91d2232",
+      "34a898e3724b6986e4b730028c106c4964944d344c7d0b39c3a35527de3c3242",
+      "e2da06516379b5775f76a4d0320e32b1bc1edde17bd77c789acd5ba6581c3165",
+      "df5fbe91bfa1753447411785d4a2c67692ecb4abd552890a498e1f00f8c3f0f3",
+      "af820ad63450598951cc780470fa0c174e8077a22565331c5433511548484ecf",
+      "838abffac20cd4a4d60cf4273bdbbf9633fe53da743af6601a7640e10126d9f7",
+      "d8a8e30b409add443576280c7a807f988f24b101a69f5c026a0a38990f4a48f3",
+      "5a2a0a04e5f275e3152f133047cb5d64dfcce05d7e9367e2986bd826173474de",
+      "770bb08d7ff738298bc1cb9663256bc495016d37e93194d9d775c71a84f8367e",
+      "46d3c05048831b5dfb6df435752252c76daeba2c7b42814fb058c2ac398a0f42"
+    ]
+  },
+  "calibration_unchanged": true,
+  "ecc": {
+    "warm_repeat_ecc_before": {
+      "0": {
+        "ecc_enable": 0,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      },
+      "1": {
+        "ecc_enable": 1,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      }
+    },
+    "warm_repeat_ecc_after": {
+      "0": {
+        "ecc_enable": 0,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      },
+      "1": {
+        "ecc_enable": 1,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      }
+    },
+    "coverage_ecc_before": {
+      "0": {
+        "ecc_enable": 0,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      },
+      "1": {
+        "ecc_enable": 1,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      }
+    },
+    "coverage_ecc_after": {
+      "0": {
+        "ecc_enable": 0,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      },
+      "1": {
+        "ecc_enable": 1,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      }
+    }
+  },
+  "prior_stage_receipts": {
+    "physical_preflight_sha256": "e03cd1be21f42a6edd3946b1545f561f7be3a7423445131b675d9e2c277cf0cd",
+    "calibration_receipt_sha256": "39827b92b7f06bb05e0fa975a884604b9ee19905262ed09e46a673e5b84f2baa",
+    "primary_full_upload_receipt_sha256": "867bebb6fbd9750c0a1182f7cd3d54318279118f9149d46e8ca4b85d5502d6b4",
+    "cancelled_readback_receipt_sha256": "6c2e826e9ad3aa6fe357fe23f0d01cf1648a4868e37b92589a48f60d793943fb"
+  },
+  "limitations": [
+    "Synthetic 1371-instruction fetch and matmul regressions passed earlier on the same image; those are not model-runtime results.",
+    "PCIe runtime, 4 GiB bandwidth and the original LFM230M Mac regression remain separate and outside this receipt.",
+    "The model image was written in one attempt and its full contents verified in a later read-only pass; inference and verification ran on the same configured image but not in the same process.",
+    "The native-read benchmark compares only its final 16 KiB chunk and reads a 64 MiB span, so full-range arbitrary-payload and retention qualification remain pending."
+  ],
+  "physical_run_receipt": {
+    "path": "/tmp/opencode/c0182902-tinystories-physical-20261107-attempt-13-skip-readback-execute/manifest.json",
+    "sha256": "ea80f2991ab8dedb97aee88d67613e6b35c3e3f4c93d005967b357240f660c12"
+  },
+  "warm_repeat": {
+    "status": "PASS_WARM_REPEAT_PHYSICAL_JTAG_TINYSTORIES_EXACT_ISA_TOKENS",
+    "actual_token_ids": [
+      29892,
+      727,
+      471,
+      263,
+      2217,
+      7826,
+      4257,
+      365
+    ],
+    "exact_match": true,
+    "image_upload_bytes_written_this_attempt": 0,
+    "image_bytes_reused_from_prior_run": 29226624,
+    "image_not_rewritten": true,
+    "calibration_unchanged": true,
+    "ecc_before": {
+      "0": {
+        "ecc_enable": 0,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      },
+      "1": {
+        "ecc_enable": 1,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      }
+    },
+    "ecc_after": {
+      "0": {
+        "ecc_enable": 0,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      },
+      "1": {
+        "ecc_enable": 1,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      }
+    },
+    "physical_run_receipt": {
+      "path": "/tmp/opencode/c0182902-tinystories-warm-repeat-20261107-attempt-02/manifest.json",
+      "sha256": "333217a839581f107405df30cf8d63dbadd1c17d7185690a77a344c1b2567299"
+    }
+  },
+  "image_coverage_verification": {
+    "status": "PASS_FULL_TINYSTORIES_IMAGE_COVERAGE_VERIFIED",
+    "full_image_sha256": "d32fd2844e1f5330bfa36bfd43374516fee7b141aefd731ad58eecb0e130e993",
+    "full_image_bytes_matched": 29226624,
+    "prefix_from_prior_receipt": 15728640,
+    "suffix_read_this_attempt": 13497984,
+    "runtime_written_max_end": 14050304,
+    "calibration_unchanged": true,
+    "ecc_before": {
+      "0": {
+        "ecc_enable": 0,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      },
+      "1": {
+        "ecc_enable": 1,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      }
+    },
+    "ecc_after": {
+      "0": {
+        "ecc_enable": 0,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      },
+      "1": {
+        "ecc_enable": 1,
+        "ecc_sec_errors": 0,
+        "ecc_ded_errors": 0
+      }
+    },
+    "physical_receipt": {
+      "path": "/tmp/opencode/c0182902-tinystories-suffix-verify-20261107/manifest.json",
+      "sha256": "058c08d01c941e1e8835a517f3a7196045cd4bb0e53ddf26722b43a7dbadbf4a"
+    }
+  },
+  "native_read_bandwidth": {
+    "status": "PASS_OBSERVED_NATIVE_READ_BANDWIDTH_FULL_RANGE_PENDING",
+    "transport": "jtag",
+    "span_bytes": 67108864,
+    "repeats": 3,
+    "median_logical_read_gbs": 3.9814,
+    "per_repeat_logical_read_gbs": [
+      3.9815,
+      3.9814,
+      3.9814
+    ],
+    "per_repeat_counter_total_gbs": [
+      3.9825,
+      3.9824,
+      3.9824
+    ],
+    "per_repeat_device_seconds": [
+      0.016855,
+      0.016856,
+      0.016855
+    ],
+    "exact_final_chunk_all_repeats": true,
+    "program_area": 29229056,
+    "output_address": 78643200,
+    "memory_initialized_before": true,
+    "image_region_read_only": true,
+    "image_spotcheck_after": "PASS_IMAGE_UNCHANGED_AFTER_BANDWIDTH",
+    "image_spotcheck_samples": [
+      {
+        "offset": 29210240,
+        "bytes": 16384,
+        "matched": true
+      },
+      {
+        "offset": 29193856,
+        "bytes": 16384,
+        "matched": true
+      }
+    ],
+    "calibration_unchanged": true,
+    "ecc_clean_before_and_after": true,
+    "temperature_after_c": 56.23,
+    "physical_receipt": {
+      "path": "/tmp/opencode/c0182902-native-bandwidth-20261108-attempt-03/manifest.json",
+      "sha256": "1cfab01f8bcd839859dd95d106116ef699e8cb683ba53e6b44f2f13d40d6d013"
+    },
+    "image_spotcheck_receipt": {
+      "path": "/tmp/opencode/c0182902-post-benchmark-image-spotcheck-20261108/manifest.json",
+      "sha256": "d31a5d91c3eba5b456b47210463be2d1efcc4e377128fb9a16adb142ba4df45c"
+    }
+  }
+}

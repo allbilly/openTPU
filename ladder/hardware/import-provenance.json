@@ -102,6 +102,20 @@
     "tools/litedram/ypcb_platform.py": "35be75733097fd7bcff7fdbb115cd02e3ab7a904651f80a148788a660182168f",
     "tools/workspace_paths.py": "c0ffce56fe526a144bf63e55b9ffcdf3acb26f27946017fba501fba1e9fb5386"
    }
+  },
+  "13": {
+   "files": {
+    "tests/tb_xpcu_xvc.cpp": "3662e6b913882f4831a250b7b915479e36d1a1dea8c6111752a944d09e1a4e54",
+    "tests/test_xvc_transport.py": "316a5a83ed019ac567e986524e52f8200ad1e86ab1931133d7c39e1abf1360d2",
+    "tools/run_tinystories_shared_jtag.py": "59fd25f37167dc164f3549188c313bd415b9e45106e328ddead0461ee1859530",
+    "tools/repeat_tinystories_shared_jtag.py": "2b70c935a4feda18a273a8d34bc91c71bd422ca1ac34ebd504359697af06550e",
+    "tools/verify_tinystories_shared_jtag.py": "a3cb69083e8939dcb7e597bd0d1303d907636d1338b6389d9d02e128afd88bcb",
+    "tools/check_tinystories_c0182902_model.py": "f4cb222fc57e86b3c28adacd4bc770ef2fe278c976c4c2ba1e45ebae20aeb40e",
+    "tools/run_spare_c0182902_bandwidth.py": "3712eeff7ac8ca102621e379949399e9303b662236b783f856d54a6189f87912",
+    "tools/fedora_matmul_check.py": "6b7dd5c6446c458e00d28319612e300f66e581533b178c2cf26b68a67eeee489",
+    "docs/tinystories_jtag_c0182902.md": "6dd6dc856cd3463ba404afa14a0259d8ea6040b8ab234a21935bb0fa65e038b0",
+    "docs/data/c0182902-tinystories-jtag-20261107.json": "b75635750f4010138d1ed13b68a85ed8a47aa6ab553cc24c5761454e3d1e2f5e"
+   }
   }
  }
 }
