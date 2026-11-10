@@ -102,7 +102,8 @@ module mini_top #(
     ST_ERROR  = 4'd5,
     ST_VOP    = 4'd6,
     ST_QUANT  = 4'd7,
-    ST_MM     = 4'd8
+    ST_MM     = 4'd8,
+    ST_REDUCE = 4'd9
   } state_t;
   state_t st;
 
@@ -114,6 +115,12 @@ module mini_top #(
   logic [31:0] vpu_raddr0, vpu_raddr1, vpu_waddr, vpu_wdata;
   logic        vpu_we, vpu_busy, vpu_done, vpu_err;
   logic [2:0]  vpu_err_code;
+
+  // VOP reductions / ARGMAX / OUTER (step 8), a separate unit from the elementwise VPU
+  logic        r_start, r_busy, r_done, r_err;
+  logic [3:0]  r_err_code;
+  logic [31:0] r_raddr0, r_rdata0, r_raddr1, r_rdata1, r_waddr, r_wdata;
+  logic        r_we;
 
   // QACT/QST quantizer + ACT RAM (step 6)
   logic        q_start, q_is_qst, q_busy, q_done, q_err;
@@ -157,11 +164,13 @@ module mini_top #(
   // both read ports and the write port while it runs; the quantizer owns both read ports
   // (port 0 row data, port 1 the CSCALE factors) while QACT/QST run.
   assign tmem_raddr0 = (st == ST_VOP) ? vpu_raddr0
+                     : (st == ST_REDUCE) ? r_raddr0
                      : (st == ST_MM) ? m_tmem_raddr
                      : (st == ST_QUANT) ? q_raddr0
                      : ((st == ST_LDST) && !ldst_ld) ? (ldst_t + ldst_i)
                      : (rget(ra) + w1);
   assign tmem_raddr1 = (st == ST_VOP) ? vpu_raddr1
+                     : (st == ST_REDUCE) ? r_raddr1
                      : (st == ST_QUANT) ? q_raddr1 : 32'd0;
   assign dram_raddr = (st == ST_MM) ? m_dram_raddr
                     : ((st == ST_LDST) && ldst_ld) ? (ldst_d + (ldst_i << 2)) : 32'd0;
@@ -169,10 +178,13 @@ module mini_top #(
   assign dram_wdata = tmem_rdata0;
   assign dram_we    = (st == ST_LDST) && !ldst_ld && (ldst_i < ldst_n);
   assign tmem_waddr = (st == ST_VOP) ? vpu_waddr
+                    : (st == ST_REDUCE) ? r_waddr
                     : (st == ST_MM) ? m_tmem_waddr : (ldst_t + ldst_i);
   assign tmem_wdata = (st == ST_VOP) ? vpu_wdata
+                    : (st == ST_REDUCE) ? r_wdata
                     : (st == ST_MM) ? m_tmem_wdata : dram_rdata;
   assign tmem_we    = (st == ST_VOP) ? vpu_we
+                    : (st == ST_REDUCE) ? r_we
                     : (st == ST_MM) ? m_tmem_we
                     : (st == ST_LDST) && ldst_ld && (ldst_i < ldst_n);
 
@@ -308,9 +320,12 @@ module mini_top #(
   // A VOP whose shape is zero or whose function is not elementwise (the reductions, ARGMAX,
   // OUTER: step 8) is an illegal instruction for this rung.  isa.vop() refuses a zero shape
   // too, so no compiled program can reach it.
-  logic vop_ok;
-  assign vop_ok = (w4[15:0] != 16'd0) && (w4[31:16] != 16'd0) && is_elementwise(w6[23:16]);
-  assign vpu_start = (st == ST_EXEC) && (op == OP_VOP) && vop_ok;
+  logic vop_ok, vop_elem, vop_red;
+  assign vop_ok   = (w4[15:0] != 16'd0) && (w4[31:16] != 16'd0);
+  assign vop_elem = vop_ok && is_elementwise(w6[23:16]);
+  assign vop_red  = vop_ok && is_reduce(w6[23:16]);
+  assign vpu_start = (st == ST_EXEC) && (op == OP_VOP) && vop_elem;
+  assign r_start   = (st == ST_EXEC) && (op == OP_VOP) && vop_red;
 
   mini_vpu #(.TMEM_WORDS(TMEM_WORDS)) vpu (
     .clk(clk), .rst(rst), .start(vpu_start),
@@ -321,6 +336,22 @@ module mini_top #(
     .raddr0(vpu_raddr0), .rdata0(tmem_rdata0),
     .raddr1(vpu_raddr1), .rdata1(tmem_rdata1),
     .we(vpu_we), .waddr(vpu_waddr), .wdata(vpu_wdata)
+  );
+
+  // The reduction/ARGMAX/OUTER unit: the VPU's operand fields plus the raw w7 word (`v_imm`),
+  // which each function interprets differently (fp32 bits / int32 base / TMEM address).
+  assign r_rdata0 = tmem_rdata0;
+  assign r_rdata1 = tmem_rdata1;
+
+  mini_reduce #(.TMEM_WORDS(TMEM_WORDS)) reduce (
+    .clk(clk), .rst(rst), .start(r_start),
+    .func(v_func), .dst(v_dst), .a(v_a), .b(v_b), .imm(v_imm),
+    .rows(v_rows), .cols(v_cols), .drs(v_drs), .ars(v_ars), .brs(v_brs),
+    .bmode(v_bmode), .flags(fl),
+    .busy(r_busy), .done(r_done), .err(r_err), .err_code(r_err_code),
+    .raddr0(r_raddr0), .rdata0(r_rdata0),
+    .raddr1(r_raddr1), .rdata1(r_rdata1),
+    .we(r_we), .waddr(r_waddr), .wdata(r_wdata)
   );
 
   // ------------------------------------------------------------------ MM operands (step 7)
@@ -488,13 +519,16 @@ module mini_top #(
             end
 
             OP_VOP: begin
-              if (!vop_ok) begin
+              if (vop_elem) begin
+                // vpu_start was high this cycle: the VPU latched the operands
+                st <= ST_VOP;
+              end else if (vop_red) begin
+                // r_start was high this cycle: the reduce unit latched the operands
+                st <= ST_REDUCE;
+              end else begin
                 err   <= 1'b1;
                 ecode <= ERR_ILLEGAL;
                 st    <= ST_ERROR;
-              end else begin
-                // vpu_start was high this cycle: the VPU latched the operands
-                st <= ST_VOP;
               end
             end
 
@@ -539,6 +573,17 @@ module mini_top #(
               st    <= ST_ERROR;
             end
           endcase
+        end
+
+        // ---- VOP reductions: the mini_reduce unit runs; wait for its done or its error
+        ST_REDUCE: begin
+          if (r_err) begin
+            err   <= 1'b1;
+            ecode <= r_err_code;
+            st    <= ST_ERROR;
+          end else if (r_done) begin
+            st <= ST_ADV;
+          end
         end
 
         // ---- VOP: the VPU runs one element per cycle; wait for its done or its error

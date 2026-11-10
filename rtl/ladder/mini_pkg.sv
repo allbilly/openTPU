@@ -46,6 +46,7 @@ package mini_pkg;
   // step 7 (the error-code output is 4 bits from step 7 on: 8/9 do not fit the old 3)
   localparam logic [3:0] ERR_MM_UNSUP  = 4'd8;  // MM flag/format the mini-core does not implement
   localparam logic [3:0] ERR_MM_BOUNDS = 4'd9;  // MM bounds/alignment/scale-row/Sa consistency
+  localparam logic [3:0] ERR_VOP_SHAPE = 4'd10; // VOP shape/flag isasim rejects (step 8)
 
   // VOP functions the step-5 VPU implements (docs/isa.md "VOP"); the reductions / ARGMAX /
   // OUTER are step 8, anything else is an illegal instruction for this rung.
@@ -58,6 +59,23 @@ package mini_pkg;
     case (f)
       V_ADD, V_SUB, V_RSUB, V_MUL, V_MAX, V_MIN, V_COPY, V_EXP2, V_RECIP, V_RSQRT, V_ABS,
       V_FILL, V_EXP2SUB, V_LOG2: return 1'b1;
+      default: return 1'b0;
+    endcase
+  endfunction
+
+  // step-8 VOP functions (isa.py V_OUTER/V_RSUM/...); the elementwise set is above.
+  localparam logic [7:0] V_OUTER = 8'd6;
+  localparam logic [7:0] V_RSUM  = 8'd16, V_RMAX = 8'd17, V_RSSQ = 8'd18,
+                         V_RDOT  = 8'd19, V_ARGMAX = 8'd20;
+
+  // VOP OUTER flags (isa.F_DSCALAR / isa.F_DONE)
+  localparam logic [7:0] F_DSCALAR = 8'h01;   // OUTER: Dv = T[a], one scalar for the tile
+  localparam logic [7:0] F_DONE    = 8'h02;   // OUTER: Dv = 1.0
+
+  // The reduction family the step-8 unit implements (mini_top dispatches on this).
+  function automatic logic is_reduce(input logic [7:0] f);
+    case (f)
+      V_OUTER, V_RSUM, V_RMAX, V_RSSQ, V_RDOT, V_ARGMAX: return 1'b1;
       default: return 1'b0;
     endcase
   endfunction

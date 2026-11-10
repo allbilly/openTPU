@@ -300,12 +300,9 @@ def test_range_errors_are_code_4():
 
 
 def test_unimplemented_vop_is_illegal():
-    """The reductions/ARGMAX/OUTER are step 8; isasim runs them, the mini-core rejects (code 1)."""
-    rsum = I.vop(I.V_RSUM, DST_T, A_T, B_T, 1, 4, 1, 4, 4)
-    out = mini.run([I.ld(A_DRAM, A_T, 4), rsum, I.halt()], params_=SMALL)
-    assert out["error"] and out["code"] == 1
-    assert not mini.run_isasim([I.ld(A_DRAM, A_T, 4), rsum, I.halt()],
-                               params_=SMALL)["error"]
-    # a zero shape is not a VOP (isa.vop() refuses it; a raw word must be rejected, not hang)
+    """A zero-shape VOP word is not an instruction (isa.vop() refuses it; the raw word errors).
+
+    (Step 5 also asserted the reductions/ARGMAX/OUTER were illegal; step 8 implements them, so
+    that one assertion moved to ladder/tests/test_step08_reduce.py.)"""
     out = mini.run([I.Instr(0x30), I.halt()], params_=SMALL)
     assert out["error"] and out["code"] == 1

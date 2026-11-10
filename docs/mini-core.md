@@ -418,3 +418,58 @@ dump it: `act [ACT_ROWS][ACT_BLOCKS*D]` int8 bytes, `ascale [ACT_ROWS][ACT_BLOCK
 `tb_mini` now also dumps `act.hex`, `ascale.hex` and `adoff.hex`, and `ladder/harness/mini.py`
 compares all three against `isasim`'s `Slice.act/ascale/adoff` on every run (the step-4/5
 programs simply leave them all zero).
+
+## Step 8 — reductions, ARGMAX and OUTER (VOP 6, 16–20)
+
+Step 8 adds the reduction family to the mini-core in a separate unit,
+`rtl/ladder/mini_reduce.sv`; `mini_vpu.sv` (step 5) is unchanged and the elementwise functions
+stay there.  `mini_top` dispatches `VOP` at decode: `is_elementwise(func)` → `mini_vpu`,
+`is_reduce(func)` → `mini_reduce` (`func` 6 OUTER, 16 RSUM, 17 RMAX, 18 RSSQ, 19 RDOT,
+20 ARGMAX), anything else → error 1, exactly like `isasim._vop`'s `ops` table fall-through.
+The trailing `VOP` sub-family is still the serializer: one element (or one folding-tree add) per
+cycle, and the state left in TMEM/DRAM is bit-identical to `opentpu/isasim.py` (the oracle).
+
+### Semantics implemented
+
+* **RSUM** = `fp32.interleaved_sum(A, 64)`: 64 partial chains started at `+0`, taking elements in
+  steps of 64 left to right; the row is padded to a multiple of 64 with **`+0` terms that are
+  added**; then the folding tree `x[i] = fp_add(x[i], x[i+n])` for `n = 32,16,8,4,2,1` (63 adds
+  per row).  A row of `-0`s therefore sums to `+0x00000000`; a flat sum would not be bit-exact.
+* **RSSQ** = `interleaved_sum(fp_mul(A, A), 64)`; **RDOT** = `interleaved_sum(fp_mul(A, B), 64)`
+  with B read in its bmode (FULL/ROW/COL, or the `w7` fp32 bits for SCALAR, no TMEM read).
+  Products are rounded by `fp_mul` before the sum (never fused); RSUM/RMAX/RSSQ do not read B.
+* **RMAX** = `chain_max` under `otpu_fp`'s `fp_gt`/`fkey` total order
+  (`-NaN < -inf < ... < -0 < +0 < ... < +inf < +NaN`): `-0 < +0` are distinct, NaN payload bits
+  are preserved, and the fold starts from the first element (not from -inf).
+* **ARGMAX** = per row the max (same key order) plus `otpu_fp::i2f` of the int32
+  `(first index + sign-extended w7 base)`, first-column tie-break, two words per row
+  (`dst[r*drs]`, `dst[r*drs]+1`).
+* **OUTER** = `dst = old * Dv + B(r) * Cv` (two rounded `fp_mul`s, one rounded `fp_add`); `Cv`
+  (`T[w7 + c]`) and `Dv` (`flags[0]` DSCALAR: `T[a]` scalar; `flags[1]` DONE: 1.0; else `T[a+c]`)
+  are buffered **before any write** because they may overlap the destination; `B(r) = T[b + r*brs]`
+  is read per element and the old destination word is read in place.  `bmode` must be ROW and
+  `cols <= 256` (code 10).
+
+### Hazard model (the part that is easy to get wrong)
+
+`isasim._check_hazard` models the serialized RTL: a read may not hit a word written *earlier* in
+the element stream.  For reductions and ARGMAX the writes happen at the **end of each row** (they
+are `_check_hazard(..., reduce_cols=cols)`); ARGMAX's two writes share that position.  The unit
+therefore does an `(earlier write row, later read row)` precheck over 64-bit addresses (A always;
+B only for RDOT per bmode; ARGMAX checks both destination words).  OUTER keeps an elementwise
+written bitmap: the old destination and `B(r)` are checked against it element by element
+(`drs = 0` with `rows > 1` is therefore always a hazard).
+
+### Errors and integration
+
+New error code (the `ecode` output is `logic [3:0]` from step 7 on):
+**10 `ERR_VOP_SHAPE`** — "VOP shape/flag the simulator rejects" (ARGMAX `rows > 1` needs
+`drs >= 2`; OUTER `bmode` must be ROW and `cols <= 256`).  Codes 4 (TMEM range), 5
+(read-after-write hazard) and 1 (illegal function) keep their meaning.  Error-check order
+mirrors isasim: shape/flag checks where `_vop`/`_outer` place them, A/B read range first for
+ARGMAX, hazard before the write range, and every failure leaves the memories unchanged for the
+reduce/ARGMAX path.  A zero `rows`/`cols` VOP is still rejected as error 1 by the mini-core
+(the ISA's own builder rejects it too; only raw instructions could carry it).
+
+TMEM ports: the unit owns read ports 0 and 1 (A / B or old destination) and the write port while
+`ST_REDUCE` runs, the same muxing pattern as the VPU's `ST_VOP`.

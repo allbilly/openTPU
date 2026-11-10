@@ -1,0 +1,222 @@
+{
+ "schema": 1,
+ "step": 8,
+ "title": "mini-core reductions and ARGMAX",
+ "heavy": false,
+ "hardware": false,
+ "utc": "2026-11-10T00:32:00Z",
+ "duration_s": 3.957,
+ "command": "python3 ladder/run.py step 8",
+ "command_argv": [
+  "/usr/bin/python3",
+  "-m",
+  "pytest",
+  "-v",
+  "-p",
+  "no:cacheprovider",
+  "--durations=0",
+  "/home/fedora/openTPU-ladder/ladder/tests/test_step08_reduce.py"
+ ],
+ "git": {
+  "commit": "56c8337c93a3396dfe6143f00fe3c87ff7aff2e7",
+  "short": "56c8337c",
+  "branch": "ladder/tiny-tpu-to-opentpu",
+  "dirty": true
+ },
+ "toolchain": {
+  "python": "/usr/bin/python3",
+  "python_version": "Python 3.14.8",
+  "pytest": "9.0.3",
+  "numpy": "2.4.6",
+  "toy_python": "/home/fedora/tiny-tpu/.venv/bin/python",
+  "cocotb": "1.9.2",
+  "iverilog": "Icarus Verilog version 13.0 (stable) (v13_0)",
+  "verilator": "Verilator 5.048 2026-04-26 rev vUNKNOWN-built20260426",
+  "vivado": "/home/fedora/vivado/2026.1/Vivado/bin/vivado",
+  "git": "56c8337c",
+  "thermal_c": 94.25,
+  "heavy_lock": "/tmp/rknpu-heavy.lock",
+  "heavy_lock_held": true,
+  "nproc": 8
+ },
+ "returncode": 0,
+ "attempts": 1,
+ "killed_by_signals": [],
+ "tests": [
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_rsum_fixed_vectors",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_rmax_total_order_and_payloads",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-1-0-8-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-63-0-8-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-64-0-8-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-65-0-8-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-127-0-8-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-128-0-8-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-129-0-8-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[2-3-4-8-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[3-1-0-8-0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_rssq_and_rdot_fixed",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[0]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[1]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[2]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[3]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[4]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[5]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[6]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[7]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[8]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[9]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[10]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[11]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_negative_cases[argmax_short_drs-prog0-10]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_negative_cases[outer_bmode-prog1-10]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_negative_cases[outer_cols-prog2-10]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_negative_cases[rsum_hazard-prog3-5]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_negative_cases[argmax_hazard-prog4-5]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_negative_cases[outer_hazard-prog5-5]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_negative_cases[rsum_out_range-prog6-4]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_negative_cases[rdot_b_range-prog7-4]",
+   "status": "PASSED"
+  },
+  {
+   "test": "ladder/tests/test_step08_reduce.py::test_negative_cases[bad_func-prog8-1]",
+   "status": "PASSED"
+  }
+ ],
+ "passed": 33,
+ "failed": 0,
+ "skipped": 0,
+ "skipped_tests": [],
+ "test_durations_s": {
+  "ladder/tests/test_step08_reduce.py::test_rsum_fixed_vectors": 0.38,
+  "ladder/tests/test_step08_reduce.py::test_rssq_and_rdot_fixed": 0.21,
+  "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[9]": 0.13,
+  "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[4]": 0.11,
+  "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[6]": 0.1,
+  "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[1]": 0.1,
+  "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[3]": 0.1,
+  "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-129-0-8-0]": 0.1,
+  "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[2]": 0.1,
+  "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-128-0-8-0]": 0.1,
+  "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-127-0-8-0]": 0.1,
+  "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[3-1-0-8-0]": 0.1,
+  "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[11]": 0.1,
+  "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-1-0-8-0]": 0.1,
+  "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-65-0-8-0]": 0.09,
+  "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[2-3-4-8-0]": 0.09,
+  "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-64-0-8-0]": 0.09,
+  "ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-63-0-8-0]": 0.09,
+  "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[10]": 0.09,
+  "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[8]": 0.09,
+  "ladder/tests/test_step08_reduce.py::test_rmax_total_order_and_payloads": 0.09,
+  "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[7]": 0.09,
+  "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[5]": 0.09,
+  "ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[0]": 0.09,
+  "ladder/tests/test_step08_reduce.py::test_negative_cases[argmax_hazard-prog4-5]": 0.08,
+  "ladder/tests/test_step08_reduce.py::test_negative_cases[outer_hazard-prog5-5]": 0.08,
+  "ladder/tests/test_step08_reduce.py::test_negative_cases[outer_cols-prog2-10]": 0.08,
+  "ladder/tests/test_step08_reduce.py::test_negative_cases[argmax_short_drs-prog0-10]": 0.08,
+  "ladder/tests/test_step08_reduce.py::test_negative_cases[rdot_b_range-prog7-4]": 0.08,
+  "ladder/tests/test_step08_reduce.py::test_negative_cases[bad_func-prog8-1]": 0.08,
+  "ladder/tests/test_step08_reduce.py::test_negative_cases[rsum_out_range-prog6-4]": 0.08,
+  "ladder/tests/test_step08_reduce.py::test_negative_cases[rsum_hazard-prog3-5]": 0.08,
+  "ladder/tests/test_step08_reduce.py::test_negative_cases[outer_bmode-prog1-10]": 0.08
+ },
+ "summary": "PASS",
+ "stdout_tail": "dora/openTPU-ladder\nconfigfile: pyproject.toml\nplugins: anyio-4.13.0\ncollecting ... collected 33 items\n\nladder/tests/test_step08_reduce.py::test_rsum_fixed_vectors PASSED       [  3%]\nladder/tests/test_step08_reduce.py::test_rmax_total_order_and_payloads PASSED [  6%]\nladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-1-0-8-0] PASSED [  9%]\nladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-63-0-8-0] PASSED [ 12%]\nladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-64-0-8-0] PASSED [ 15%]\nladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-65-0-8-0] PASSED [ 18%]\nladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-127-0-8-0] PASSED [ 21%]\nladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-128-0-8-0] PASSED [ 24%]\nladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-129-0-8-0] PASSED [ 27%]\nladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[2-3-4-8-0] PASSED [ 30%]\nladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[3-1-0-8-0] PASSED [ 33%]\nladder/tests/test_step08_reduce.py::test_rssq_and_rdot_fixed PASSED      [ 36%]\nladder/tests/test_step08_reduce.py::test_fuzz_random_programs[0] PASSED  [ 39%]\nladder/tests/test_step08_reduce.py::test_fuzz_random_programs[1] PASSED  [ 42%]\nladder/tests/test_step08_reduce.py::test_fuzz_random_programs[2] PASSED  [ 45%]\nladder/tests/test_step08_reduce.py::test_fuzz_random_programs[3] PASSED  [ 48%]\nladder/tests/test_step08_reduce.py::test_fuzz_random_programs[4] PASSED  [ 51%]\nladder/tests/test_step08_reduce.py::test_fuzz_random_programs[5] PASSED  [ 54%]\nladder/tests/test_step08_reduce.py::test_fuzz_random_programs[6] PASSED  [ 57%]\nladder/tests/test_step08_reduce.py::test_fuzz_random_programs[7] PASSED  [ 60%]\nladder/tests/test_step08_reduce.py::test_fuzz_random_programs[8] PASSED  [ 63%]\nladder/tests/test_step08_reduce.py::test_fuzz_random_programs[9] PASSED  [ 66%]\nladder/tests/test_step08_reduce.py::test_fuzz_random_programs[10] PASSED [ 69%]\nladder/tests/test_step08_reduce.py::test_fuzz_random_programs[11] PASSED [ 72%]\nladder/tests/test_step08_reduce.py::test_negative_cases[argmax_short_drs-prog0-10] PASSED [ 75%]\nladder/tests/test_step08_reduce.py::test_negative_cases[outer_bmode-prog1-10] PASSED [ 78%]\nladder/tests/test_step08_reduce.py::test_negative_cases[outer_cols-prog2-10] PASSED [ 81%]\nladder/tests/test_step08_reduce.py::test_negative_cases[rsum_hazard-prog3-5] PASSED [ 84%]\nladder/tests/test_step08_reduce.py::test_negative_cases[argmax_hazard-prog4-5] PASSED [ 87%]\nladder/tests/test_step08_reduce.py::test_negative_cases[outer_hazard-prog5-5] PASSED [ 90%]\nladder/tests/test_step08_reduce.py::test_negative_cases[rsum_out_range-prog6-4] PASSED [ 93%]\nladder/tests/test_step08_reduce.py::test_negative_cases[rdot_b_range-prog7-4] PASSED [ 96%]\nladder/tests/test_step08_reduce.py::test_negative_cases[bad_func-prog8-1] PASSED [100%]\n\n============================== slowest durations ===============================\n0.38s call     ladder/tests/test_step08_reduce.py::test_rsum_fixed_vectors\n0.21s call     ladder/tests/test_step08_reduce.py::test_rssq_and_rdot_fixed\n0.13s call     ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[9]\n0.11s call     ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[4]\n0.10s call     ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[6]\n0.10s call     ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[1]\n0.10s call     ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[3]\n0.10s call     ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-129-0-8-0]\n0.10s call     ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[2]\n0.10s call     ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-128-0-8-0]\n0.10s call     ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-127-0-8-0]\n0.10s call     ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[3-1-0-8-0]\n0.10s call     ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[11]\n0.10s call     ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-1-0-8-0]\n0.09s call     ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-65-0-8-0]\n0.09s call     ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[2-3-4-8-0]\n0.09s call     ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-64-0-8-0]\n0.09s call     ladder/tests/test_step08_reduce.py::test_rsum_cols_boundaries[1-63-0-8-0]\n0.09s call     ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[10]\n0.09s call     ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[8]\n0.09s call     ladder/tests/test_step08_reduce.py::test_rmax_total_order_and_payloads\n0.09s call     ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[7]\n0.09s call     ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[5]\n0.09s call     ladder/tests/test_step08_reduce.py::test_fuzz_random_programs[0]\n0.08s call     ladder/tests/test_step08_reduce.py::test_negative_cases[argmax_hazard-prog4-5]\n0.08s call     ladder/tests/test_step08_reduce.py::test_negative_cases[outer_hazard-prog5-5]\n0.08s call     ladder/tests/test_step08_reduce.py::test_negative_cases[outer_cols-prog2-10]\n0.08s call     ladder/tests/test_step08_reduce.py::test_negative_cases[argmax_short_drs-prog0-10]\n0.08s call     ladder/tests/test_step08_reduce.py::test_negative_cases[rdot_b_range-prog7-4]\n0.08s call     ladder/tests/test_step08_reduce.py::test_negative_cases[bad_func-prog8-1]\n0.08s call     ladder/tests/test_step08_reduce.py::test_negative_cases[rsum_out_range-prog6-4]\n0.08s call     ladder/tests/test_step08_reduce.py::test_negative_cases[rsum_hazard-prog3-5]\n0.08s call     ladder/tests/test_step08_reduce.py::test_negative_cases[outer_bmode-prog1-10]\n\n(66 durations < 0.005s hidden.  Use -vv to show these durations.)\n============================== 33 passed in 3.62s ==============================\n",
+ "stderr_tail": "",
+ "notes": "33 tests: 10 research vectors hand-asserted, independent fp32 re-derivations, 12 random programs vs isasim whole-state, boundary and negative cases (error 10); end-of-row hazard model; OUTER Cv/Dv buffering."
+}

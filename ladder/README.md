@@ -75,7 +75,7 @@ Status: ✅ done · 🔨 in progress · ⏳ planned · 🚫 blocked on hardware
 | 5 | [mini-core VPU (elementwise fp32)](#step-5--mini-core-vpu-elementwise-fp32) | fp32 ADD/SUB/RSUB/MUL/MIN/MAX/ABS/COPY/FILL, all B modes | bit-exact vs `isasim`, fp32 corners | ✅ |
 | 6 | [mini-core quantizer + ACT RAM](#step-6--mini-core-quantizer--act-ram) | QACT/QST, int8 blocks + scales | bit-exact vs `isasim`/`quant.py` | ✅ |
 | 7 | [mini-core MXU (int8 MM)](#step-7--mini-core-mxu-int8-mm) | systolic int8 matmul, MX scales, fp32 epilogue | bit-exact vs `isasim`, matmul vs numpy | ✅ |
-| 8 | [mini-core reductions](#step-8--mini-core-reductions-and-argmax) | RSUM/RMAX/RSSQ/RDOT/ARGMAX | bit-exact vs `isasim` | ⏳ |
+| 8 | [mini-core reductions](#step-8--mini-core-reductions-and-argmax) | RSUM/RMAX/RSSQ/RDOT/ARGMAX | bit-exact vs `isasim` | ✅ |
 | 9 | [production core adoption](#step-9--production-core-adoption) | production RTL supersedes the mini-core | production RTL↔ISA tests (selected, then wide) | ⏳ |
 | 10 | [production software stack](#step-10--compiler-language-kernels-runtime) | `ol` language, compiler, kernels, runtime, targets | `examples/` + kernels ISA↔RTL bit-exact | ⏳ |
 | 11 | [board shell + host interface](#step-11--board-shell-and-host-interface-simulation) | control regs, memory channels, TX/RX, JTAG + PCIe paths | `tb_board` sims, Fake transport runs | ⏳ |
@@ -486,3 +486,19 @@ aborted above 97 C. Light rungs (steps 0-8) run without the gate.
   findings: the harness `compare()` now also asserts ACT bytes/Sa/da against
   isasim's Slice state (previously computed but unasserted), and
   `killed_by_signals` records every killed attempt of an ABORTED run.
+- 2026-11-10: step 8 committed - the mini-core reductions: `mini_reduce`
+  implements OUTER (6) and RSUM/RMAX/RSSQ/RDOT/ARGMAX (16-20). Sums are the
+  `fp32.interleaved_sum` contract (start `+0`, 64 interleaved partials,
+  `+0`-padded rows, 63-add folding tree); RSSQ/RDOT round their products first
+  and RDOT takes B in all four modes; RMAX follows the `_key` total order with
+  NaN payloads and -0 < +0; ARGMAX writes (max, i2f of the int32-wrapped
+  index+base) with the first-column tie-break; hazard positions are
+  end-of-row as in `isasim`; a new error code 10 rejects bad shapes. 33 tests:
+  the 10 research vectors hand-asserted, independent `fp32` re-derivations,
+  cols 1/63/64/65/127/128/129 boundaries, 12 random programs vs isasim
+  whole-state and the 9 negative cases. 4 s. Receipt:
+  `ladder/evidence/step08.json`. This completes the mini-core: steps 4-8 are a
+  small, readable machine that runs the openTPU ISA subset bit-exactly and is
+  retired when the production RTL is adopted at step 9.
+- 2026-11-10: mini-core complete (steps 4-8, all bit-exact vs `isasim`):
+  7+22+27+31+33 = 120 mini-core tests, plus the 94 earlier fast-tier tests.
