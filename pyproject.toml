@@ -17,6 +17,7 @@ testpaths = ["tests"]
 pythonpath = ["."]
 
 [project.scripts]
+otpu-train = "opentpu.train.cli:main"
 otpu-lens = "opentpu.host.hwlens:main"
 otpu-smi = "opentpu.host.smi:main"
 otpu-lock = "opentpu.host.runstate:hold_main"

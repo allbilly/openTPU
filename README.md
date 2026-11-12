@@ -128,7 +128,7 @@ ahead of the card.
 
 ```
   Kernels in ol              mlp, attention, full model layers
-        |  @ol.jit
+        |  @ol.jit              (and opentpu/train: the same block's backward pass)
   Language + compiler        layouts, affine loop addressing, fusion
         |
   ISA                        8 x 32-bit words per instruction
@@ -138,7 +138,7 @@ ahead of the card.
                             |  Vivado bitstream
                            FPGA card    Kintex-7 xc7k480t
                             |  PCIe
-                           Host         otpu-chat, otpu-smi, otpu-lens
+                           Host         otpu-chat, otpu-smi, otpu-lens, otpu-train
 ```
 
 The machine is deliberately simple. A sequencer issues one instruction per cycle to a few
@@ -201,6 +201,77 @@ RTL → synthesis → floorplan → macro placement → place / CTS / route → 
 loop step by step, includes a ready-to-fill prompt that hands the whole loop to a coding agent (any
 design, any node), and records the openTPU run and the pitfalls met on the way.
 
+## Training
+
+The accelerator's datapath was built for inference, and training on it needs no new instruction:
+the forward's `MM` streamed backwards is a `dX`, and a weight gradient is one `VOP OUTER` pass a
+token, in fp32 (`docs/train.md`). `opentpu/train/` trains `kernels/mlp.py`'s SwiGLU block -- with an
+RMSNorm and a tied head -- by manual backpropagation: closed-form backward formulas, no autograd.
+The device runs the matmuls and the elementwise passes; the host runs the loss, AdamW on the fp32
+master weights, and the re-quantization of the updated weights into the image, which is the split
+that keeps a step's device work proportional to the batch and its host work to the parameters.
+
+```python
+from opentpu import Config
+from opentpu.train.loop import Trainer
+from opentpu.train.params import AdamW, Shapes
+
+tr = Trainer(shapes=Shapes(vocab=32, hidden=32, interm=32, batch=4),
+             cfg=Config(S=1, D=32, ACT_BLOCKS=64, ACT_ROWS=64, IMEM_WORDS=1 << 16),
+             optimizer=AdamW(lr=0.05))
+losses = [r["loss"] for r in tr.run(x, targets, steps=25)]
+```
+
+```sh
+otpu-train --steps 30 --text tools/data/austen_pp_ch1.txt --seq 32 --vocab 256
+# step    1  loss 5.095184
+# step   30  loss 0.000334
+
+otpu-train --lora 8 --steps 30 --lr 0.05           # a LoRA adapter on a frozen base
+otpu-train --qlora 8 --base-fmt nvfp4 --steps 30   # QLoRA: the base at 4.25 bits a weight
+otpu-train --layer --steps 25 --lr 0.02 --hidden 32 --interm 64 --batch 32
+# a whole transformer layer: attention, an MLP, and every parameter
+otpu-train --stack 2 --steps 25 --lr 0.02 --hidden 32 --interm 64 --batch 32
+# a whole model: two layers chained end to end, plus an LM head
+```
+
+Four things train. The **block** (no flags) is a `RMSNorm`, a SwiGLU MLP, a residual and a tied
+head, all parameters; `--text` makes it a byte-level next-byte model.
+
+**LoRA** (`--lora RANK`) freezes the base and trains two small adapters, so the gradients that
+cost the OUTER passes are `r x K + N x r` elements a row instead of `N x K`. The rank is padded
+to a whole `D`-block (it is a reduction dim), and the gate checks that the base's fp32 copy and
+every byte of its image rows are unchanged over a run.
+
+**QLoRA** (`--qlora RANK --base-fmt nvfp4|fp4|int4`) puts the frozen base in a 4-bit format --
+4.25 to 4.5 bits a weight instead of int8's 8.25 -- with the adapters still int8, because the
+device's own quantizer `QST` writes int8 only. The two are separate streamed operands, so the
+MM reads each at its own stride; every 4-bit format is gated.
+
+**Full training** is a whole transformer layer (`--layer`): attention, an MLP, and nine
+trainable parameter groups. `--stack N` chains N of them into a whole model -- each layer's `dX`
+feeds the one below it, with an LM head on top -- and every matrix in every layer trains.
+
+The attention's backward pass is the part an inference datapath does not have: `P^T` and `dS^T`
+are transposed in TMEM (there is no transpose instruction), `v^T`/`dO^T`/`q^T`/`k^T` are
+transposed and `QST`'d into DRAM so the MM can stream them, and the softmax's backward is
+`P * (dP - rowsum(P*dP))` in `RSUM`, `MUL` and `SUB`. Every one of the layer's ten gradients
+lands within 1.0% to 2.8% of the float64 reference, and a 25-step run takes the cross-entropy
+from 4.1084 to 0.0001 (`--layer` pads the token count to `D`; at `T = 32` exactly the same run
+starts at 3.8151 -- `T` is an attention reduction dim, docs/train.md 8). A `--stack 2` model
+reaches 0.0000 from 4.0844 in 40 steps, its whole graph within 1.9% to 3.0% of
+`torch.autograd`, on one DRAM image holding every layer.
+
+The gradients are checked against a float64 model of the same computation (`opentpu/train/ref.py`
+and `opentpu/train/layers.py`'s `layer_ref`) and against PyTorch's autograd -- the layer's own
+reference matches `torch.autograd` to ~1e-16 -- and the gate runs a real descent: 78 tests across
+`tests/test_train.py`, `tests/test_train_ref.py`, `tests/test_train_lora.py`,
+`tests/test_train_layers.py` and `tests/test_train_stack.py`. Every gradient comparison lands
+within 0.3% to 2.8% of the float64 reference -- the int8 operands' noise.
+Measured on the ISA simulator at `D = 32`. Cards are not trained yet: a card-sized block's
+gradient accumulators are larger than its TMEM, and the card's protocol is the next rung --
+`docs/train.md` 5, 8 and 10 say what that takes.
+
 ## Try it
 
 Everything except the card runs on a laptop.
@@ -212,6 +283,7 @@ python3 -m pytest -q          # RTL tests also need Verilator 5
 
 hf download LiquidAI/LFM2.5-230M --local-dir models/LFM2.5-230M
 otpu-chat --model lfm2 --backend isa    # chat on the simulator
+otpu-train --steps 30 --text tools/data/austen_pp_ch1.txt --seq 32 --vocab 256   # train
 ```
 
 With a card, build the bitstream (`make bit` in [`boards/ypcb-00338`](boards/ypcb-00338)), load
@@ -223,6 +295,7 @@ it over JTAG, then run `sudo otpu-setup` and `otpu-chat --backend board`.
 | `otpu-chat` | chat with Qwen3-0.6B, LFM2.5-230M (`--model lfm2`), Qwen3.5-0.8B (`--model qwen35`), LFM2-2.6B (`lfm2-2.6b`), SmolLM3-3B (`smollm3`), Phi-4-mini (`phi4-mini`) or Qwen3.5-2B / 4B (`qwen35-2b`, `qwen35-4b`), Gemma 4 E2B / E4B (`gemma4`, `gemma4-e4b`: the instruct checkpoints, gemma-4-E2B-it / E4B-it); MoE models bigger than the card with their experts streamed: LFM2.5-8B-A1B (`lfm2-8b`), Qwen3.5-35B-A3B (`qwen35-35b`), gemma-4-26B-A4B-it (`gemma4-26b`); a checkpoint without a chat template (a base model) only with `--raw` |
 | `otpu-serve` | an OpenAI-style API server (`/v1/chat/completions`, `/v1/completions`, streamed or not; SGLang's `/generate`) for many clients at once: their contexts kept on the card and in host RAM / on disk (a prompt continuing a saved one feeds only the rest), their decode steps batched on the card for Qwen3 and the Llama-likes, every token picked on the card (Qwen3-0.6B: 78 tok/s with 4 clients, 25 alone); [docs/serve.md](docs/serve.md) |
 | `otpu-smi` | temperature, power, DRAM bandwidth and per-unit utilization; `-l --csv` logs a time series |
+| `otpu-train` | train on the ISA simulator or the RTL model: the small SwiGLU block, a LoRA / QLoRA adapter on a frozen base (`--lora` / `--qlora RANK`), a whole transformer layer (`--layer`), or a stack of them, a whole model (`--stack N`); `--steps`, `--lr`, `--text` for a byte-level next-byte task, `--checkpoint` / `--resume`. A card run is docs/train.md 8's next rung |
 | `otpu-lens` | record a run and open it in the profiler (`summary` prints the overview in the terminal) |
 | `otpu-selftest`, `otpu-diag` | check that the card works |
 
@@ -345,10 +418,13 @@ the card went from 0.052 (build 84989047, before K smoothing) to 0.012.
    [docs/bend.md](docs/bend.md): the same simulator in Bend, with laws about its arithmetic
    and 10-15x isasim's speed.
 4. [`rtl/`](rtl): the hardware, starting from [`rtl/top/otpu_top.sv`](rtl/top/otpu_top.sv).
-5. [docs/lfm2.md](docs/lfm2.md), [docs/qwen35.md](docs/qwen35.md), [docs/llama.md](docs/llama.md),
+5. [docs/train.md](docs/train.md): training on the same datapath -- the backward pass's
+   instructions, the straight-through estimator for the quantized weights, and the device/host
+   split. [`opentpu/train`](opentpu/train) is the code.
+6. [docs/lfm2.md](docs/lfm2.md), [docs/qwen35.md](docs/qwen35.md), [docs/llama.md](docs/llama.md),
    [docs/benchmarks.md](docs/benchmarks.md): whole models and where their cycles go.
-6. [docs/board.md](docs/board.md): the physical card, from clocks to PCIe.
-7. [docs/targets.md](docs/targets.md): how one design builds for several boards and chips (a
+7. [docs/board.md](docs/board.md): the physical card, from clocks to PCIe.
+8. [docs/targets.md](docs/targets.md): how one design builds for several boards and chips (a
    target file per build: `targets/*.toml`).
 
 ## What's next
@@ -361,6 +437,9 @@ the card went from 0.052 (build 84989047, before K smoothing) to 0.012.
 - **Faster prefill.** The four-column systolic matrix unit is in the production image; prefill is
   still limited by the matrix unit's multiply rate.
 
+- **Training.** A fine-tuning step runs on the ISA simulator today (docs/train.md 8); the next
+  rungs are the loss and the head's gradient on the device, a LoRA-able layer, a row-grouped
+  gradient accumulator that fits the card's TMEM at `D = 128`, then attention's backward.
 - **More targets.** The design builds from target files (`targets/*.toml`,
   [docs/targets.md](docs/targets.md)): the YPCB-00338 in production, the BCU1525 (Virtex
   UltraScale+ VU9P, four DDR4 DIMMs) being brought up, and ASICs, starting with NanGate45 and
